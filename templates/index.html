@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>وجهة السعودية</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8f4ec;
+            text-align: center;
+            direction: rtl;
+            color: #1c3b2e;
+        }
+        .logo {
+            margin-top: 30px;
+        }
+        .promo {
+            font-size: 26px;
+            margin-top: 20px;
+            color: #3d5a40;
+            font-weight: bold;
+        }
+        #counter {
+            font-size: 22px;
+            margin-top: 15px;
+            color: #2c6e49;
+        }
+    </style>
+    <script>
+        let count = 2000;
+        window.onload = () => {
+            document.getElementById('counter').innerText = count + " زائر";
+        };
+    </script>
+</head>
+<body>
+    <img src="/static/images/logo.png" alt="شعار وجهة السعودية" class="logo" width="180">
+    <h1>مرحباً بكم في وجهة السعودية</h1>
+    <div class="promo">وجهتك…بخبرة سعودية وموثوقية كاملة</div>
+    <div id="counter"></div>
+</body>
+</html>
