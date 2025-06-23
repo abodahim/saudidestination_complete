@@ -1,44 +1,48 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>وجهة السعودية</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-    <style>
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #f8f4ec;
-            text-align: center;
-            direction: rtl;
-            color: #1c3b2e;
-        }
-        .logo {
-            margin-top: 30px;
-        }
-        .promo {
-            font-size: 26px;
-            margin-top: 20px;
-            color: #3d5a40;
-            font-weight: bold;
-        }
-        #counter {
-            font-size: 22px;
-            margin-top: 15px;
-            color: #2c6e49;
-        }
-    </style>
-    <script>
-        let count = 2000;
-        window.onload = () => {
-            document.getElementById('counter').innerText = count + " زائر";
-        };
-    </script>
+  <meta charset="UTF-8">
+  <title>وجهة السعودية</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      background-image: url("{{ url_for('static', filename='images/background_saudidest.jpg') }}");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: 'Tajawal', sans-serif;
+      color: #1b3d2f;
+      text-align: center;
+      padding: 50px;
+    }
+    .banner {
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    .banner img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    h1 {
+      font-size: 32px;
+      margin-top: 30px;
+    }
+    p {
+      font-size: 20px;
+      color: #444;
+    }
+  </style>
 </head>
 <body>
-    <img src="/static/images/logo.png" alt="شعار وجهة السعودية" class="logo" width="180">
-    <h1>مرحباً بكم في وجهة السعودية</h1>
-    <div class="promo">وجهتك…بخبرة سعودية وموثوقية كاملة</div>
-    <div id="counter"></div>
+
+  <div class="banner">
+    <img src="{{ url_for('static', filename='images/banner_saudidest.jpg') }}" alt="بنر موقع وجهة السعودية">
+  </div>
+
+  <h1>مرحباً بكم في وجهة السعودية</h1>
+  <p>وجهتك...بخبرة سعودية وموثوقية كاملة</p>
+  <p>عدد الزوار: <strong>2000</strong> زائر</p>
+
 </body>
 </html>
