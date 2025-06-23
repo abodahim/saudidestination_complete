@@ -1,1 +1,1 @@
-web: gunicorn saudidestination_complete.main:app
+web: gunicorn main:app
