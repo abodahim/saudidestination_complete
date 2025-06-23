@@ -1,8 +1,37 @@
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
 
 body {
-    font-family: 'Tajawal', sans-serif;
-    direction: rtl;
-    background-color: #f9f9f9;
-    text-align: right;
-    padding: 2rem;
+  font-family: 'Tajawal', sans-serif;
+  background-color: #f3efe4; /* بيج رملي */
+  color: #1b3d2f; /* أخضر غامق */
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.banner {
+  margin: 40px auto;
+  max-width: 800px;
+}
+
+.banner img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  font-size: 32px;
+  margin-top: 20px;
+  color: #1b3d2f;
+}
+
+p {
+  font-size: 18px;
+  color: #3a3a3a;
+}
+
+strong {
+  color: #0e4b28;
 }
