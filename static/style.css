@@ -1,30 +1,29 @@
-/* ربط الخط المحلي */
 @font-face {
   font-family: 'Tajawal';
-  src: url("fonts/Tajawal-Regular.ttf");
+  src: url('fonts/Tajawal-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-/* تنسيق الجسم بالكامل */
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Tajawal', sans-serif;
-  color: #1b3d2f;
-  text-align: center;
   background-image: url("images/background_saudidest.png");
   background-size: cover;
-  background-repeat: no-repeat;
   background-position: center;
-  min-height: 100vh;
+  background-repeat: no-repeat;
+  color: #1b3d2f;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
 }
 
-/* تنسيق البنر */
 .banner {
   max-width: 800px;
-  margin: 0 auto 30px;
+  width: 100%;
+  margin-bottom: 30px;
 }
 
 .banner img {
@@ -33,14 +32,25 @@ body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* النصوص */
 h1 {
   font-size: 32px;
   margin-top: 20px;
-  color: #1b3d2f;
+  margin-bottom: 10px;
 }
 
 p {
-  font-size: 20px;
-  color: #444;
+  font-size: 18px;
+  color: #333;
+  margin: 5px 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 16px;
+  }
 }
