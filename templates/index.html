@@ -3,144 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>وجهة السعودية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- خط Tajawal -->
-  <link href="{{ url_for('static', filename='fonts/Tajawal-Regular.ttf') }}" rel="stylesheet">
-
-  <!-- استدعاء ملف CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Tajawal', sans-serif;
-      background-image: url("{{ url_for('static', filename='images/background_saudidest.png') }}");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      color: #1b3d2f;
-      direction: rtl;
-    }
-
-    .sidebar {
-      background-color: #1b3d2f;
-      width: 220px;
-      min-height: 100vh;
-      color: white;
-      padding: 20px;
-      box-sizing: border-box;
-      position: fixed;
-      right: 0;
-      top: 0;
-      transition: transform 0.3s ease-in-out;
-      z-index: 1000;
-    }
-
-    .sidebar a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      margin: 15px 0;
-      font-size: 1.1em;
-    }
-
-    .sidebar a.logo {
-      font-size: 1.3em;
-      font-weight: bold;
-      margin-bottom: 25px;
-    }
-
-    .menu-toggle {
-      display: none;
-      position: fixed;
-      right: 15px;
-      top: 15px;
-      font-size: 1.5em;
-      color: #1b3d2f;
-      background-color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      z-index: 1001;
-      cursor: pointer;
-    }
-
-    .main-content {
-      margin-right: 240px;
-      padding: 50px 30px;
-      text-align: center;
-    }
-
-    .banner img {
-      width: 100%;
-      max-width: 800px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      margin-bottom: 30px;
-    }
-
-    h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 20px;
-      color: #333;
-    }
-
-    /* استجابة للجوال */
-    @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(100%);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-
-      .main-content {
-        margin-right: 0;
-        padding: 80px 20px;
-      }
-    }
-  </style>
 </head>
 <body>
 
-  <!-- قائمة جانبية -->
-  <div class="sidebar" id="sidebar">
-    <a href="#" class="logo">🌍 وجهة السعودية</a>
-    <a href="/">الرئيسية</a>
-    <a href="/trips">الرحلات</a>
-    <a href="/guides">المرشدين</a>
-    <a href="/about">من نحن</a>
-    <a href="/contact">تواصل معنا</a>
+  <div class="banner">
+    <img src="{{ url_for('static', filename='images/banner_saudidest.png') }}" alt="بنر موقع وجهة السعودية">
   </div>
 
-  <!-- زر فتح القائمة للجوال -->
-  <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+  <h1>مرحباً بكم في وجهة السعودية</h1>
+  <p>وجهتك...بخبرة سعودية وموثوقية كاملة</p>
+  <p>عدد الزوار: <strong>2000</strong> زائر</p>
 
-  <!-- المحتوى الرئيسي -->
-  <div class="main-content">
-    <div class="banner">
-      <img src="{{ url_for('static', filename='images/banner_saudidest.png') }}" alt="بنر وجهة السعودية">
-    </div>
-
-    <h1>مرحباً بكم في وجهة السعودية</h1>
-    <p>وجهتك… بخبرة سعودية وموثوقية كاملة</p>
-    <p><strong>عدد الزوار:</strong> 2000 زائر</p>
-  </div>
-
-  <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("open");
-    }
-  </script>
 </body>
 </html>
