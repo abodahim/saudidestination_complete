@@ -10,7 +10,7 @@ body {
   font-family: 'Tajawal', sans-serif;
   direction: rtl;
   text-align: center;
-  background-image: url('../images/background.PNG'); /* تأكد من اسم الصورة */
+  background-image: url('../images/background.PNG'); /* تم تعديل الاسم */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -74,16 +74,8 @@ body {
   cursor: pointer;
 }
 
-/* البنر */
-.banner-full img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* المحتوى الرئيسي */
 .main-content {
-  padding: 40px 20px;
+  padding: 80px 20px;
 }
 
 h1 {
@@ -103,7 +95,6 @@ h1 {
   margin-top: 10px;
 }
 
-/* زر احجز الآن */
 .book-btn {
   display: inline-block;
   margin-top: 25px;
@@ -120,7 +111,6 @@ h1 {
   background-color: #14533c;
 }
 
-/* تصميم متجاوب */
 @media (max-width: 768px) {
   h1 {
     font-size: 26px;
