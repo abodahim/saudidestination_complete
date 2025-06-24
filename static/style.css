@@ -9,137 +9,52 @@ body {
   margin: 0;
   font-family: 'Tajawal', sans-serif;
   direction: rtl;
-  text-align: center;
-  background-image: url('../images/background.PNG');
+  background-image: url("../images/background.PNG"); /* مسار الصورة الصحيح */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: #1b3d2f;
-  min-height: 100vh;
-}
-
-/* القائمة الجانبية */
-.sidebar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  top: 0;
-  right: 0;
-  background-color: #1b3d2f;
-  overflow-x: hidden;
-  transition: 0.3s;
-  padding-top: 60px;
-  z-index: 999;
-  color: white;
-}
-
-.sidebar.active {
-  width: 220px;
-}
-
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sidebar li {
-  padding: 16px;
-  font-size: 18px;
-  border-bottom: 1px solid #444;
-  cursor: pointer;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: white;
-  cursor: pointer;
-}
-
-.open-btn {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background-color: #1b3d2f;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  font-size: 18px;
-  z-index: 1000;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* المحتوى الرئيسي */
-.main-content {
-  padding: 100px 20px 40px;
+  text-align: center;
 }
 
 h1 {
   font-size: 32px;
-  margin-top: 20px;
+  margin-top: 30px;
   color: #1b3d2f;
 }
 
-.subtitle {
+p {
   font-size: 20px;
-  color: #3a3a3a;
+  color: #444;
+  margin: 10px 0;
 }
 
-.visits {
-  font-size: 18px;
-  color: #555;
-  margin-top: 10px;
-}
-
-.book-btn {
-  display: inline-block;
-  margin-top: 25px;
-  padding: 12px 24px;
+button {
   background-color: #1b3d2f;
   color: white;
-  text-decoration: none;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
   font-size: 18px;
-  border-radius: 6px;
-  transition: background 0.3s;
-}
-
-.book-btn:hover {
-  background-color: #14533c;
-}
-
-/* رسائل التنبيه (flash) */
-.flashes {
-  list-style: none;
-  padding: 0;
+  cursor: pointer;
   margin-top: 20px;
-  text-align: center;
 }
 
-.flashes li.success {
-  color: #155724;
-  background-color: #d4edda;
-  padding: 10px;
-  border-radius: 5px;
-  display: inline-block;
+button:hover {
+  background-color: #145c43;
 }
 
-/* تصميم متجاوب */
 @media (max-width: 768px) {
   h1 {
     font-size: 26px;
   }
 
-  .subtitle, .visits {
+  p {
     font-size: 18px;
   }
 
-  .book-btn {
+  button {
     font-size: 16px;
   }
 }
