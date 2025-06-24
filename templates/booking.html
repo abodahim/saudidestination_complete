@@ -2,44 +2,36 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>نموذج حجز الرحلة</title>
+  <title>نموذج الحجز - وجهة السعودية</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-  <div class="main-content">
-    <h1>نموذج حجز الرحلة</h1>
-    <form method="POST" action="{{ url_for('booking') }}">
-      <p><input type="text" name="name" placeholder="الاسم الكامل" required></p>
-      <p><input type="email" name="email" placeholder="البريد الإلكتروني" required></p>
-      <p><input type="tel" name="phone" placeholder="رقم الجوال" required></p>
+  <!-- زر الرجوع -->
+  <a href="/" class="back-btn">← الرجوع للرئيسية</a>
 
-      <p>
-        <select name="city" required>
-          <option value="">اختر المدينة</option>
-          <option value="الرياض">الرياض</option>
-          <option value="جدة">جدة</option>
-          <option value="المدينة المنورة">المدينة المنورة</option>
-          <option value="أبها">أبها</option>
-        </select>
-      </p>
+  <div class="booking-container">
+    <h2>نموذج الحجز</h2>
+    <form action="/submit_booking" method="post">
+      <label for="name">الاسم الكامل:</label>
+      <input type="text" id="name" name="name" required>
 
-      <p>
-        <select name="trip_type" required>
-          <option value="">نوع الرحلة</option>
-          <option value="عائلية">عائلية 👨‍👩‍👧‍👦</option>
-          <option value="مدرسية">مدرسية 🎒</option>
-          <option value="شركات">شركات 🏢</option>
-        </select>
-      </p>
+      <label for="email">البريد الإلكتروني:</label>
+      <input type="email" id="email" name="email" required>
 
-      <p><input type="number" name="people" placeholder="عدد الأشخاص" min="1" required></p>
-      <p><input type="date" name="date" required></p>
-      <p><textarea name="notes" placeholder="ملاحظات إضافية" rows="4" cols="40"></textarea></p>
-      <p><button type="submit" class="book-btn">إرسال الطلب</button></p>
+      <label for="date">تاريخ الرحلة:</label>
+      <input type="date" id="date" name="date" required>
+
+      <label for="type">نوع الرحلة:</label>
+      <select id="type" name="type" required>
+        <option value="عائلية">👨‍👩‍👧‍👦 عائلية</option>
+        <option value="مدرسية">🏫 مدرسية</option>
+        <option value="شركات">🏢 شركات</option>
+      </select>
+
+      <button type="submit" class="book-btn">تأكيد الحجز</button>
     </form>
   </div>
 
 </body>
-</html>ض
+</html>
