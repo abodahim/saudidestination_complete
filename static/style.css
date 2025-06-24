@@ -9,13 +9,19 @@ body {
   margin: 0;
   font-family: 'Tajawal', sans-serif;
   direction: rtl;
-  background-color: #f7f2e9; /* خلفية بيج */
+  background-color: #f7f2e9;
   color: #1b3d2f;
   text-align: center;
 }
 
+.top-border,
+.bottom-border {
+  height: 15px;
+  background-color: #d1bfa3;
+}
+
 .hero-section {
-  padding: 60px 20px;
+  padding: 40px 20px;
 }
 
 .banner img {
@@ -28,14 +34,19 @@ body {
 
 h1 {
   font-size: 32px;
-  margin-top: 30px;
+  margin-top: 20px;
   color: #1b3d2f;
 }
 
-p {
+.subtitle {
   font-size: 20px;
-  color: #444;
-  margin: 10px 0;
+  color: #3a3a3a;
+}
+
+.visits {
+  font-size: 18px;
+  color: #555;
+  margin-top: 10px;
 }
 
 @media (max-width: 768px) {
@@ -43,7 +54,7 @@ p {
     font-size: 26px;
   }
 
-  p {
+  .subtitle, .visits {
     font-size: 18px;
   }
 
