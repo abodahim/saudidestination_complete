@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>نموذج حجز الرحلة</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <div class="main-content">
+    <h1>نموذج حجز الرحلة</h1>
+    <form method="POST" action="{{ url_for('booking') }}">
+      <p><input type="text" name="name" placeholder="الاسم الكامل" required></p>
+      <p><input type="email" name="email" placeholder="البريد الإلكتروني" required></p>
+      <p><input type="tel" name="phone" placeholder="رقم الجوال" required></p>
+
+      <p>
+        <select name="city" required>
+          <option value="">اختر المدينة</option>
+          <option value="الرياض">الرياض</option>
+          <option value="جدة">جدة</option>
+          <option value="المدينة المنورة">المدينة المنورة</option>
+          <option value="أبها">أبها</option>
+        </select>
+      </p>
+
+      <p>
+        <select name="trip_type" required>
+          <option value="">نوع الرحلة</option>
+          <option value="عائلية">عائلية 👨‍👩‍👧‍👦</option>
+          <option value="مدرسية">مدرسية 🎒</option>
+          <option value="شركات">شركات 🏢</option>
+        </select>
+      </p>
+
+      <p><input type="number" name="people" placeholder="عدد الأشخاص" min="1" required></p>
+      <p><input type="date" name="date" required></p>
+      <p><textarea name="notes" placeholder="ملاحظات إضافية" rows="4" cols="40"></textarea></p>
+      <p><button type="submit" class="book-btn">إرسال الطلب</button></p>
+    </form>
+  </div>
+
+</body>
+</html>ض
