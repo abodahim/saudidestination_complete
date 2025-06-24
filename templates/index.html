@@ -1,40 +1,97 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>وجهة السعودية</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
+@font-face {
+  font-family: 'Tajawal';
+  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
-  <!-- القائمة الجانبية -->
-  <div class="sidebar" id="sidebar">
-    <button class="close-btn" onclick="toggleSidebar()">✖️</button>
-    <ul>
-      <li>🏠 الرئيسية</li>
-      <li>ℹ️ عن الموقع</li>
-      <li>🧳 الرحلات</li>
-    </ul>
-  </div>
+body {
+  margin: 0;
+  font-family: 'Tajawal', sans-serif;
+  direction: rtl;
+  background: url('../images/background.PNG') no-repeat center center fixed;
+  background-size: cover;
+  color: #1b3d2f;
+  text-align: center;
+  height: 100vh;
+}
 
-  <!-- زر فتح القائمة -->
-  <button class="open-btn" onclick="toggleSidebar()">☰ القائمة</button>
+/* القائمة الجانبية */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -220px;
+  width: 200px;
+  height: 100%;
+  background-color: rgba(27, 61, 47, 0.95);
+  color: white;
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
 
-  <!-- المحتوى الرئيسي -->
-  <main class="main-content">
-    <h1>مرحباً بكم في وجهة السعودية</h1>
-    <p class="subtitle">وجهتك...بخبرة سعودية وموثوقية كاملة</p>
-    <p class="visits">عدد الزوار: <strong>2000</strong> زائر</p>
-    <a href="{{ url_for('booking') }}" class="book-btn">احجز الآن</a>
-  </main>
+.sidebar.active {
+  right: 0;
+}
 
-  <!-- جافاسكربت لتفعيل القائمة -->
-  <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("active");
-    }
-  </script>
+.sidebar ul {
+  list-style: none;
+  padding: 20px;
+}
 
-</body>
-</html>
+.sidebar li {
+  padding: 10px 0;
+  font-size: 18px;
+}
+
+/* زر القائمة */
+.open-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #1b3d2f;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* زر إغلاق */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: none;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.main-content {
+  padding-top: 120px;
+  color: #1b3d2f;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.subtitle, .visits {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* زر احجز الآن */
+.book-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #1b3d2f;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 18px;
+}
