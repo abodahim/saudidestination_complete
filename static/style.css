@@ -9,9 +9,13 @@ body {
   margin: 0;
   font-family: 'Tajawal', sans-serif;
   direction: rtl;
-  background-color: #f7f2e9;
-  color: #1b3d2f;
   text-align: center;
+  background-image: url('../images/background.PNG'); /* تأكد من اسم الصورة */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #1b3d2f;
 }
 
 /* القائمة الجانبية */
