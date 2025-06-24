@@ -9,89 +9,137 @@ body {
   margin: 0;
   font-family: 'Tajawal', sans-serif;
   direction: rtl;
-  background: url('../images/background.PNG') no-repeat center center fixed;
-  background-size: cover;
-  color: #1b3d2f;
   text-align: center;
-  height: 100vh;
+  background-image: url('../images/background.PNG');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #1b3d2f;
+  min-height: 100vh;
 }
 
 /* القائمة الجانبية */
 .sidebar {
+  height: 100%;
+  width: 0;
   position: fixed;
   top: 0;
-  right: -220px;
-  width: 200px;
-  height: 100%;
-  background-color: rgba(27, 61, 47, 0.95);
+  right: 0;
+  background-color: #1b3d2f;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+  z-index: 999;
   color: white;
-  transition: right 0.3s ease;
-  z-index: 1000;
 }
 
 .sidebar.active {
-  right: 0;
+  width: 220px;
 }
 
 .sidebar ul {
-  list-style: none;
-  padding: 20px;
+  list-style-type: none;
+  padding: 0;
 }
 
 .sidebar li {
-  padding: 10px 0;
+  padding: 16px;
   font-size: 18px;
-}
-
-/* زر القائمة */
-.open-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: #1b3d2f;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 16px;
-  border-radius: 5px;
+  border-bottom: 1px solid #444;
   cursor: pointer;
 }
 
-/* زر إغلاق */
 .close-btn {
   position: absolute;
   top: 10px;
   left: 10px;
   background: none;
-  color: white;
   border: none;
-  font-size: 20px;
+  font-size: 24px;
+  color: white;
   cursor: pointer;
 }
 
+.open-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: #1b3d2f;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 18px;
+  z-index: 1000;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* المحتوى الرئيسي */
 .main-content {
-  padding-top: 120px;
-  color: #1b3d2f;
+  padding: 100px 20px 40px;
 }
 
 h1 {
   font-size: 32px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  color: #1b3d2f;
 }
 
-.subtitle, .visits {
+.subtitle {
   font-size: 20px;
-  margin-bottom: 10px;
+  color: #3a3a3a;
 }
 
-/* زر احجز الآن */
+.visits {
+  font-size: 18px;
+  color: #555;
+  margin-top: 10px;
+}
+
 .book-btn {
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 25px;
   padding: 12px 24px;
   background-color: #1b3d2f;
   color: white;
   text-decoration: none;
-  border-radius: 6px;
   font-size: 18px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.book-btn:hover {
+  background-color: #14533c;
+}
+
+/* رسائل التنبيه (flash) */
+.flashes {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.flashes li.success {
+  color: #155724;
+  background-color: #d4edda;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+/* تصميم متجاوب */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 26px;
+  }
+
+  .subtitle, .visits {
+    font-size: 18px;
+  }
+
+  .book-btn {
+    font-size: 16px;
+  }
 }
