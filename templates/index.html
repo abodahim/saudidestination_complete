@@ -1,24 +1,45 @@
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>وجهة السعودية</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-  <header class="top-border"></header>
-
-  <div class="banner">
-    <img src="{{ url_for('static', filename='images/banner_saudidest.png') }}" alt="بنر موقع وجهة السعودية">
+  <!-- القائمة الجانبية -->
+  <div class="sidebar" id="sidebar">
+    <button class="close-btn" onclick="toggleSidebar()">✖️</button>
+    <ul>
+      <li>🏠 الرئيسية</li>
+      <li>ℹ️ عن الموقع</li>
+      <li>🧳 الرحلات</li>
+    </ul>
   </div>
 
-  <div class="content hero-section">
+  <!-- زر فتح القائمة -->
+  <button class="open-btn" onclick="toggleSidebar()">☰ القائمة</button>
+
+  <!-- البانر بعرض كامل -->
+  <header class="banner-full">
+    <img src="{{ url_for('static', filename='images/banner_saudidest.png') }}" alt="بنر وجهة السعودية">
+  </header>
+
+  <!-- المحتوى الرئيسي -->
+  <main class="main-content">
     <h1>مرحباً بكم في وجهة السعودية</h1>
     <p class="subtitle">وجهتك...بخبرة سعودية وموثوقية كاملة</p>
     <p class="visits">عدد الزوار: <strong>2000</strong> زائر</p>
-  </div>
+    <a href="{{ url_for('booking') }}" class="book-btn">احجز الآن</a>
+  </main>
 
-  <footer class="bottom-border"></footer>
+  <!-- جافاسكربت لتفعيل القائمة -->
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+  </script>
 
 </body>
 </html>
