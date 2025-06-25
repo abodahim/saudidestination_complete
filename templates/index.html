@@ -5,29 +5,33 @@
   <title>وجهة السعودية</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='fonts/tajawal.css') }}">
 </head>
 <body>
 
-  <!-- القائمة الجانبية -->
+  <!-- زر القائمة -->
   <div class="menu">
     <button onclick="toggleMenu()">☰ القائمة</button>
     <ul id="menuItems">
-      <li><a href="{{ url_for('home') }}">🏠 الرئيسية</a></li>
-      <li><a href="#">ℹ️ عن الموقع</a></li>
-      <li><a href="{{ url_for('booking') }}">🧳 الرحلات</a></li>
-      <li><a href="{{ url_for('contact') }}">📞 تواصل معنا</a></li>
+      <li><a href="#">🏠 الرئيسية</a></li>
+      <li><a href="#">ℹ️ عن المنصة</a></li>
+      <li><a href="#">🧳 الرحلات</a></li>
     </ul>
   </div>
 
-  <!-- المحتوى الرئيسي -->
+  <!-- المحتوى -->
   <div class="content">
-    <h1>مرحباً بكم في وجهة السعودية</h1>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="شعار وجهة السعودية" class="logo">
+    <h1>مرحباً في وجهة السعودية</h1>
     <p class="subtitle">استكشف المملكة العربية السعودية مع أفضل الباقات السياحية والمرشدين المحليين</p>
-    <p class="visits">عدد الزوار: <strong>2000</strong> زائر</p>
     <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
   </div>
 
-  <!-- سكريبت القائمة -->
+  <!-- عبارة الزوار -->
+  <footer>
+    <p class="visits">عدد الزوار: <strong>2000</strong> زائر</p>
+  </footer>
+
   <script>
     function toggleMenu() {
       const menu = document.getElementById("menuItems");
