@@ -1,142 +1,89 @@
-@font-face {
-  font-family: 'Tajawal';
-  src: url('/static/fonts/Tajawal-Regular.ttf') format('truetype');
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: 'Tajawal';
-  src: url('/static/fonts/Tajawal-Bold.ttf') format('truetype');
-  font-weight: bold;
-}
-
 body {
+  font-family: 'Tajawal', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Tajawal', sans-serif;
-  background-image: url('/static/images/background.PNG');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
+  background-color: #f5e7d0;
+  background-image: url('../static/images/background_saudidest.png');
   background-size: cover;
-  color: #033;
-  text-align: center;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .menu {
-  position: absolute;
+  position: fixed;
   top: 20px;
   right: 20px;
+  z-index: 999;
 }
 
 .menu button {
-  background-color: #014421;
-  color: white;
-  border: none;
+  background-color: #0a3d2c;
+  color: #fff;
   padding: 10px 15px;
   font-size: 16px;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
 }
 
 .menu ul {
   display: none;
-  list-style: none;
-  padding: 0;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
-  margin-top: 10px;
-  text-align: right;
-}
-
-.menu ul li {
-  padding: 10px;
-}
-
-.menu ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.content {
-  margin-top: 20vh;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.90);
-  display: inline-block;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
-
-h1 {
-  color: #014421;
-  font-size: 32px;
-  margin-bottom: 10px;
-}
-
-.subtitle, .visits {
-  font-size: 18px;
-  margin: 10px 0;
-}
-
-.btn {
-  background-color: #014421;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 20px;
-  font-size: 18px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.btn:hover {
-  background-color: #026c3f;
-  transform: scale(1.05);
-}
-
-input, textarea {
-  width: 80%;
-  max-width: 400px;
-  padding: 10px;
-  margin: 10px 0;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 16px;
+  background-color: #fff;
   border: 1px solid #ccc;
+  list-style: none;
+  padding: 10px;
+  margin-top: 10px;
   border-radius: 6px;
 }
 
-textarea {
-  height: 100px;
-  resize: vertical;
+.menu ul li {
+  margin: 10px 0;
 }
 
-/* الجوال */
-@media (max-width: 600px) {
-  body {
-    background-attachment: scroll; /* تعطيل الخلفية الثابتة على الجوال */
-  }
+.menu ul li a {
+  color: #0a3d2c;
+  text-decoration: none;
+}
 
-  .content {
-    width: 90%;
-  }
+.content {
+  text-align: center;
+  padding: 100px 20px 60px;
+}
 
-  .menu {
-    right: 10px;
-    top: 10px;
-  }
+.logo {
+  width: 150px;
+  margin-bottom: 20px;
+}
 
-  .btn {
-    font-size: 16px;
-    padding: 10px 20px;
-  }
+h1 {
+  font-size: 32px;
+  color: #0a3d2c;
+}
 
-  h1 {
-    font-size: 24px;
-  }
+.subtitle {
+  font-size: 18px;
+  margin: 20px 0;
+  color: #333;
+}
 
-  .subtitle, .visits {
-    font-size: 16px;
-  }
+.btn {
+  background-color: #0a3d2c;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 18px;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background-color: #06452a;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #222;
+  font-size: 16px;
 }
