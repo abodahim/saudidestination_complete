@@ -106,5 +106,31 @@ def export_excel():
 def about():
     return render_template('about.html')
 
+@app.route('/trip/<int:trip_id>')
+def trip_details(trip_id):
+    trips = {
+        1: {
+            'title': 'رحلة إلى شاطئ جدة',
+            'description': 'استمتع بجمال البحر الأحمر والأنشطة البحرية الممتعة.',
+            'price': 350,
+            'date': '2025-07-10',
+            'image': 'trip_jeddah.jpg'
+        },
+        2: {
+            'title': 'جولة في الرياض',
+            'description': 'استكشاف معالم الرياض الحديثة والتاريخية.',
+            'price': 400,
+            'date': '2025-07-15',
+            'image': 'trip_riyadh.jpg'
+        }
+        # يمكن إضافة المزيد من الرحلات هنا
+    }
+
+    trip = trips.get(trip_id)
+    if trip:
+        return render_template("trip_details.html", trip=trip)
+    else:
+        return "الرحلة غير موجودة", 404
+
 if __name__ == '__main__':
     app.run(debug=True)
