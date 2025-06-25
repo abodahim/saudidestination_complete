@@ -1,18 +1,55 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>about.html</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+  <meta charset="UTF-8">
+  <title>عن موقع وجهة السعودية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .about-container {
+      max-width: 900px;
+      margin: auto;
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .about-container h1 {
+      color: #1b3d2f;
+      margin-bottom: 20px;
+    }
+
+    .about-container p {
+      font-size: 18px;
+      color: #444;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .about-container {
+        padding: 20px;
+      }
+
+      .about-container h1 {
+        font-size: 24px;
+      }
+
+      .about-container p {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-    
-        <section>
-            <h2>من نحن</h2>
-            <p>منصة سعودية تأسست بتاريخ 10 أبريل 2025 تهدف لإبراز السياحة الداخلية بطريقة مبتكرة وعصرية.</p>
-            <img src="/static/images/about_us.jpg" alt="من نحن" style="width:100%; border-radius: 12px;">
-        </section>
-    
+
+  <div class="about-container">
+    <h1>عن وجهة السعودية</h1>
+    <p>منصة وجهة السعودية هي بوابتك لاكتشاف جمال المملكة من خلال رحلات سياحية منظمة ومميزة يقودها مرشدون سعوديون معتمدون.</p>
+    <p>نسعى إلى تقديم تجربة سياحية فريدة تلبي احتياجات العائلات، المدارس، والشركات، مع ضمان أعلى معايير الجودة والمصداقية.</p>
+    <p>فريقنا يضم نخبة من المتخصصين في السياحة والتقنية، يعملون بكل شغف على تقديم منصة عصرية سهلة وآمنة للجميع.</p>
+  </div>
+
 </body>
 </html>
