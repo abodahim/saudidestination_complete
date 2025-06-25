@@ -1,60 +1,38 @@
-@font-face {
-  font-family: 'Tajawal';
-  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
 
-body {
-  margin: 0;
-  font-family: 'Tajawal', sans-serif;
-  direction: rtl;
-  background-image: url("../images/background.PNG"); /* مسار الصورة الصحيح */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  color: #1b3d2f;
-  text-align: center;
-}
-
-h1 {
-  font-size: 32px;
-  margin-top: 30px;
-  color: #1b3d2f;
-}
-
-p {
-  font-size: 20px;
-  color: #444;
-  margin: 10px 0;
-}
-
-button {
-  background-color: #1b3d2f;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 18px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-button:hover {
-  background-color: #145c43;
-}
-
-@media (max-width: 768px) {
   h1 {
-    font-size: 26px;
+    font-size: 24px;
+    text-align: center;
   }
 
-  p {
-    font-size: 18px;
-  }
-
-  button {
+  .subtitle, .visits {
     font-size: 16px;
+    text-align: center;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    display: block;
+    margin: 20px auto;
+  }
+
+  .menu button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .menu ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+  }
+
+  .menu ul li {
+    margin: 10px 0;
   }
 }
