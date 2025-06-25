@@ -101,6 +101,10 @@ def export_excel():
 
     wb.save("bookings.xlsx")
     return send_file("bookings.xlsx", as_attachment=True)
+    
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
