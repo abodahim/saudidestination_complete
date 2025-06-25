@@ -29,11 +29,22 @@
     .trip-card p {
       margin: 0;
       color: #555;
+      font-size: 17px;
     }
 
     .trip-icon {
       font-size: 28px;
       margin-left: 10px;
+    }
+
+    .btn {
+      margin-top: 15px;
+      display: inline-block;
+      background-color: #1b3d2f;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
     }
 
     @media (max-width: 600px) {
@@ -59,22 +70,27 @@
     <div class="trip-card">
       <h3><span class="trip-icon">🏖️</span> رحلة إلى شاطئ جدة</h3>
       <p>استمتع بجمال البحر الأحمر والأنشطة البحرية الممتعة.</p>
-    </div>
-
-    <div class="trip-card">
-      <h3><span class="trip-icon">⛰️</span> رحلة إلى جبال السودة</h3>
-      <p>مناظر طبيعية خلابة وجولات وسط الجبال.</p>
-    </div>
-
-    <div class="trip-card">
-      <h3><span class="trip-icon">🏜️</span> رحلة إلى العلا</h3>
-      <p>استكشاف الآثار النبطية والمغامرات الصحراوية.</p>
+      <a href="{{ url_for('trip_details', trip_id=1) }}" class="btn">عرض التفاصيل</a>
     </div>
 
     <div class="trip-card">
       <h3><span class="trip-icon">🌆</span> جولة في الرياض</h3>
-      <p>زيارة لأهم معالم العاصمة وتجربة حضارية فريدة.</p>
+      <p>استكشاف أهم معالم العاصمة السعودية وتجربة حضارية فريدة.</p>
+      <a href="{{ url_for('trip_details', trip_id=2) }}" class="btn">عرض التفاصيل</a>
     </div>
+
+    <div class="trip-card">
+      <h3><span class="trip-icon">⛰️</span> رحلة إلى جبال السودة</h3>
+      <p>استمتع بالمشي في الطبيعة والهواء البارد في أعالي الجبال.</p>
+      <a href="{{ url_for('trip_details', trip_id=3) }}" class="btn">عرض التفاصيل</a>
+    </div>
+
+    <div class="trip-card">
+      <h3><span class="trip-icon">🏜️</span> مغامرة في العلا</h3>
+      <p>استكشاف الآثار التاريخية والتجول وسط المناظر الصحراوية المذهلة.</p>
+      <a href="{{ url_for('trip_details', trip_id=4) }}" class="btn">عرض التفاصيل</a>
+    </div>
+
   </div>
 
 </body>
