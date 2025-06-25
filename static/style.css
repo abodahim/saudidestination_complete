@@ -14,7 +14,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Tajawal', sans-serif;
-  background: url('/static/images/background.PNG') no-repeat center center fixed;
+  background-image: url('/static/images/background.PNG');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
   background-size: cover;
   color: #033;
   text-align: center;
@@ -59,9 +62,10 @@ body {
 .content {
   margin-top: 20vh;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.90);
   display: inline-block;
   border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
 h1 {
@@ -84,11 +88,12 @@ h1 {
   display: inline-block;
   margin-top: 20px;
   font-size: 18px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .btn:hover {
   background-color: #026c3f;
+  transform: scale(1.05);
 }
 
 input, textarea {
@@ -107,7 +112,12 @@ textarea {
   resize: vertical;
 }
 
+/* الجوال */
 @media (max-width: 600px) {
+  body {
+    background-attachment: scroll; /* تعطيل الخلفية الثابتة على الجوال */
+  }
+
   .content {
     width: 90%;
   }
