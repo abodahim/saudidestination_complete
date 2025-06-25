@@ -1,68 +1,136 @@
----
-
-### 🧾 الكود الكامل مع الشرح:
-
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>عرض الحجوزات - وجهة السعودية</title>
+  <title>لوحة الحجوزات</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f7f2e9;
+      padding: 20px;
+      color: #1b3d2f;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
-      background-color: #fff;
+      margin-bottom: 20px;
     }
+
     th, td {
-      padding: 10px;
       border: 1px solid #ccc;
+      padding: 10px;
       text-align: center;
     }
+
     th {
-      background-color: #eee;
+      background-color: #1b3d2f;
+      color: white;
+    }
+
+    .btn {
+      background-color: #1b3d2f;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 5px;
+      display: inline-block;
+    }
+
+    input[type="text"], input[type="date"] {
+      padding: 8px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 300px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .btn-container {
+      margin-top: 30px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <div class="content">
-    <h1>📋 قائمة الحجوزات</h1>
+  <!-- عنوان الصفحة -->
+  <h1>قائمة الحجوزات</h1>
 
-    {% if bookings %}
-      <!-- ✅ عرض جدول الحجوزات إذا كانت هناك بيانات -->
-      <table>
-        <thead>
-          <tr>
-            <th>الاسم</th>
-            <th>البريد الإلكتروني</th>
-            <th>الرحلة</th>
-            <th>تاريخ الحجز</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for b in bookings %}
-          <tr>
-            <td>{{ b[1] }}</td>
-            <td>{{ b[2] }}</td>
-            <td>{{ b[3] }}</td>
-            <td>{{ b[4] }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% else %}
-      <!-- ❌ إذا لم توجد حجوزات -->
-      <p>لا توجد حجوزات حالياً.</p>
-    {% endif %}
+  <!-- ✅ شريط البحث -->
+  <input type="text" id="searchInput" placeholder="🔍 ابحث داخل الجدول..." onkeyup="searchTable()">
 
-    <br>
-    <a href="{{ url_for('admin_logout') }}" class="btn">🚪 تسجيل الخروج</a>
-    <a href="/" class="btn">العودة للرئيسية</a>
+  <!-- ✅ فلتر حسب التاريخ -->
+  <form method="GET" action="{{ url_for('admin_dashboard') }}">
+    <label>📅 تصفية حسب التاريخ:</label>
+    <input type="date" name="date" value="{{ request.args.get('date', '') }}">
+    <button type="submit" class="btn">تصفية</button>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn" style="background-color: gray;">عرض الكل</a>
+  </form>
+
+  <!-- ✅ جدول الحجوزات -->
+  <table>
+    <thead>
+      <tr>
+        <th>رقم</th>
+        <th>الاسم</th>
+        <th>البريد الإلكتروني</th>
+        <th>اسم الرحلة</th>
+        <th>تاريخ الحجز</th>
+        <th>حذف</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in bookings %}
+      <tr>
+        <td>{{ b[0] }}</td>
+        <td>{{ b[1] }}</td>
+        <td>{{ b[2] }}</td>
+        <td>
+          {% if 'جدة' in b[3] %}
+            🕌 {{ b[3] }}
+          {% elif 'شاطئ' in b[3] %}
+            🏝️ {{ b[3] }}
+          {% elif 'جبال' in b[3] %}
+            🏞️ {{ b[3] }}
+          {% else %}
+            🎯 {{ b[3] }}
+          {% endif %}
+        </td>
+        <td>{{ b[4] }}</td>
+        <td><a class="btn" href="{{ url_for('delete_booking', id=b[0]) }}" onclick="return confirm('هل أنت متأكد من الحذف؟')">🗑️ حذف</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- ✅ أزرار تصدير -->
+  <div class="btn-container">
+    <a href="{{ url_for('export_pdf') }}" class="btn">📄 تصدير PDF</a>
+    <a href="{{ url_for('export_excel') }}" class="btn">📊 تصدير Excel</a>
   </div>
+
+  <!-- ✅ كود جافاسكربت للبحث -->
+  <script>
+    function searchTable() {
+      let input = document.getElementById("searchInput");
+      let filter = input.value.toLowerCase();
+      let rows = document.querySelectorAll("table tbody tr");
+
+      rows.forEach(row => {
+        let text = row.textContent.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+      });
+    }
+  </script>
 
 </body>
 </html>
