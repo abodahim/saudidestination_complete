@@ -1,36 +1,38 @@
-<!-- templates/booking.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>نموذج الحجز - وجهة السعودية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
 
-  <div class="content">
-    <h1>نموذج الحجز</h1>
-    
-    <form method="POST">
-      <label>الاسم الكامل:</label><br>
-      <input type="text" name="name" required><br><br>
+  <!-- إعداد لعرض
 
-      <label>البريد الإلكتروني:</label><br>
-      <input type="email" name="email" required><br><br>
+بالطبع، إليك كود `booking` مشروحًا **سطرًا بسطر باللغة العربية** داخل ملف `main.py` لتفهم وظيفة كل جزء بوضوح:
 
-      <label>اختر الرحلة:</label><br>
-      <select name="trip" required>
-        <option value="الرياض التاريخية">الرياض التاريخية</option>
-        <option value="جدة القديمة">جدة القديمة</option>
-        <option value="العلا واحة التاريخ">العلا واحة التاريخ</option>
-      </select><br><br>
+---
 
-      <button type="submit" class="btn">إرسال الحجز</button>
-    </form>
+### ✅ كود `booking` داخل `main.py` مع الشرح:
 
-    <p style="margin-top: 20px;">📩 سيتم التواصل معك عبر البريد الإلكتروني بعد تأكيد الحجز</p>
-  </div>
+```python
+@app.route('/booking', methods=['GET', 'POST'])  # هذا المسار يعالج طلبات GET (عرض النموذج) و POST (إرسال النموذج)
+def booking():
+    if request.method == 'POST':  # إذا كان المستخدم قد أرسل النموذج
+        # ===== استلام البيانات من النموذج =====
+        name = request.form['name']         # الاسم المُدخل من المستخدم
+        email = request.form['email']       # البريد الإلكتروني المُدخل
+        trip = request.form['trip']         # اسم الرحلة التي تم اختيارها
 
-</body>
-</html>
+        # ===== ربط بقاعدة البيانات bookings.db =====
+        conn = sqlite3.connect('bookings.db')  # فتح اتصال بقاعدة البيانات
+        cursor = conn.cursor()                # إنشاء مؤشر للتعامل مع قاعدة البيانات
+
+        # ===== تنفيذ أمر إدخال بيانات الحجز في جدول bookings =====
+        cursor.execute('INSERT INTO bookings (name, email, trip) VALUES (?, ?, ?)', (name, email, trip))
+
+        conn.commit()  # حفظ التغييرات في قاعدة البيانات
+        conn.close()   # إغلاق الاتصال بقاعدة البيانات
+
+        # ===== عرض رسالة تأكيد =====
+        return f"<h3>تم الحجز بنجاح! شكراً {name}</h3><a href='/'>العودة للرئيسية</a>"
+
+    # إذا كانت طريقة الطلب GET، نعرض نموذج الحجز
+    return render_template('booking.html')
