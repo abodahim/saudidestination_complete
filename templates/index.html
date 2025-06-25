@@ -3,16 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>وجهة السعودية</title>
+
+  <!-- إعداد التوافق مع الجوال -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='fonts/tajawal.css') }}">
+
+  <!-- ربط ملف التنسيقات -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!-- ربط الخط المحلي Tajawal -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='Tajawal.css') }}">
 </head>
 <body>
 
-  <!-- الشعار -->
-  <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
-
-  <!-- القائمة -->
+  <!-- ===== القائمة الجانبية ===== -->
   <div class="menu">
     <button onclick="toggleMenu()">☰ القائمة</button>
     <ul id="menuItems">
@@ -22,20 +25,27 @@
     </ul>
   </div>
 
-  <!-- المحتوى الرئيسي -->
-  <section class="content">
-    <h1>مرحباً بكم في وجهة السعودية</h1>
-    <p class="subtitle">
-      استكشف المملكة العربية السعودية مع أفضل الباقات السياحية والمرشدين المحليين
-    </p>
-    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
-  </section>
+  <!-- ===== محتوى الصفحة ===== -->
+  <div class="content">
+    <!-- شعار المنصة -->
+    <img src="{{ url_for('static', filename='logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
 
-  <!-- عدد الزوار -->
+    <!-- العنوان الرئيسي -->
+    <h1>مرحباً بك في وجهة السعودية</h1>
+
+    <!-- العبارة التعريفية -->
+    <p class="subtitle">استكشف المملكة العربية السعودية مع أفضل الباقات السياحية والمرشدين المحليين</p>
+
+    <!-- زر الحجز -->
+    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+  </div>
+
+  <!-- ===== تذييل الصفحة ===== -->
   <footer>
-    <p class="visits">📊 عدد الزوار: <strong>{{ visit_count }}</strong> زائر</p>
+    <p>👥 عدد الزوار: <strong>2000</strong> زائر</p>
   </footer>
 
+  <!-- كود التحكم في القائمة الجانبية -->
   <script>
     function toggleMenu() {
       const menu = document.getElementById("menuItems");
