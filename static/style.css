@@ -1,91 +1,132 @@
-/* الخط */
 @font-face {
   font-family: 'Tajawal';
-  src: url("fonts/Tajawal-Regular.ttf");
-}
-body {
-  font-family: 'Tajawal', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: url("images/background.PNG") no-repeat center center fixed;
-  background-size: cover;
-  direction: rtl;
+  src: url('/static/fonts/Tajawal-Regular.ttf') format('truetype');
+  font-weight: normal;
 }
 
-/* تراكب شفاف */
-.overlay {
-  background-color: rgba(255, 255, 255, 0.9);
-  min-height: 100vh;
-  padding: 20px;
-}
-
-/* القائمة */
-.menu {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-}
-.menu button {
-  background-color: #014122;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.menu ul {
-  display: none;
-  list-style: none;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 10px;
-  margin-top: 10px;
-}
-.menu ul li {
-  margin: 10px 0;
-}
-.menu ul li a {
-  text-decoration: none;
-  color: #014122;
+@font-face {
+  font-family: 'Tajawal';
+  src: url('/static/fonts/Tajawal-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 
-/* المحتوى */
-.content {
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Tajawal', sans-serif;
+  background: url('/static/images/background.PNG') no-repeat center center fixed;
+  background-size: cover;
+  color: #033;
   text-align: center;
-  margin-top: 100px;
 }
-h1 {
-  color: #014122;
-  font-size: 36px;
+
+.menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
-.subtitle {
-  font-size: 18px;
-  color: #444;
+
+.menu button {
+  background-color: #014421;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
 }
-.visits {
+
+.menu ul {
+  display: none;
+  list-style: none;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
   margin-top: 10px;
-  color: #333;
+  text-align: right;
 }
+
+.menu ul li {
+  padding: 10px;
+}
+
+.menu ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.content {
+  margin-top: 20vh;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.85);
+  display: inline-block;
+  border-radius: 12px;
+}
+
+h1 {
+  color: #014421;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.subtitle, .visits {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
 .btn {
-  background-color: #014122;
+  background-color: #014421;
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
   text-decoration: none;
   display: inline-block;
   margin-top: 20px;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
 }
 
-/* استجابة للجوال */
+.btn:hover {
+  background-color: #026c3f;
+}
+
+input, textarea {
+  width: 80%;
+  max-width: 400px;
+  padding: 10px;
+  margin: 10px 0;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+textarea {
+  height: 100px;
+  resize: vertical;
+}
+
 @media (max-width: 600px) {
+  .content {
+    width: 90%;
+  }
+
+  .menu {
+    right: 10px;
+    top: 10px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
   h1 {
     font-size: 24px;
   }
-  .btn {
-    padding: 10px 20px;
+
+  .subtitle, .visits {
     font-size: 16px;
   }
 }
