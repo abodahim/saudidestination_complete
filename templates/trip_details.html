@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ trip.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .trip-details {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .trip-details img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .trip-details h1 {
+      color: #1b3d2f;
+      margin-bottom: 10px;
+    }
+
+    .trip-details p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #444;
+    }
+
+    .price {
+      font-size: 20px;
+      color: #006400;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .btn {
+      margin-top: 20px;
+      display: inline-block;
+      background-color: #1b3d2f;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="trip-details">
+    <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="صورة الرحلة">
+    <h1>{{ trip.title }}</h1>
+    <p>{{ trip.description }}</p>
+    <p class="price">💰 السعر: {{ trip.price }} ريال</p>
+    <p>📅 التاريخ: {{ trip.date }}</p>
+    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+  </div>
+
+</body>
+</html>
