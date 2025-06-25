@@ -1,15 +1,81 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>الرحلات السياحية</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+  <meta charset="UTF-8">
+  <title>الرحلات السياحية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .trips-container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    .trip-card {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .trip-card h3 {
+      margin: 0 0 10px;
+      color: #1b3d2f;
+    }
+
+    .trip-card p {
+      margin: 0;
+      color: #555;
+    }
+
+    .trip-icon {
+      font-size: 28px;
+      margin-left: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .trip-card {
+        padding: 15px;
+      }
+
+      .trip-card h3 {
+        font-size: 20px;
+      }
+
+      .trip-card p {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>الرحلات المتاحة</h1>
-    <div class="trip"><img src="/static/images/trip1.jpg"><h2>رحلة إلى العلا - أبريل</h2></div>
-    <div class="trip"><img src="/static/images/trip2.jpg"><h2>جولة في جدة التاريخية - يونيو</h2></div>
-    <div class="trip"><img src="/static/images/trip3.jpg"><h2>مغامرة نيوم - يونيو</h2></div>
+
+  <div class="trips-container">
+    <h1 style="text-align:center; color:#1b3d2f;">🧳 الباقات السياحية المتوفرة</h1>
+
+    <div class="trip-card">
+      <h3><span class="trip-icon">🏖️</span> رحلة إلى شاطئ جدة</h3>
+      <p>استمتع بجمال البحر الأحمر والأنشطة البحرية الممتعة.</p>
+    </div>
+
+    <div class="trip-card">
+      <h3><span class="trip-icon">⛰️</span> رحلة إلى جبال السودة</h3>
+      <p>مناظر طبيعية خلابة وجولات وسط الجبال.</p>
+    </div>
+
+    <div class="trip-card">
+      <h3><span class="trip-icon">🏜️</span> رحلة إلى العلا</h3>
+      <p>استكشاف الآثار النبطية والمغامرات الصحراوية.</p>
+    </div>
+
+    <div class="trip-card">
+      <h3><span class="trip-icon">🌆</span> جولة في الرياض</h3>
+      <p>زيارة لأهم معالم العاصمة وتجربة حضارية فريدة.</p>
+    </div>
+  </div>
+
 </body>
 </html>
