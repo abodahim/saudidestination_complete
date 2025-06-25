@@ -1,19 +1,24 @@
-body {
-  font-family: 'Tajawal', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f5e7d0;
-  background-image: url('../static/images/background_saudidest.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+/* ===== إعداد الخط المحلي Tajawal ===== */
+@font-face {
+  font-family: 'Tajawal';
+  src: url("Tajawal-Regular.ttf") format("truetype");
 }
 
+/* ===== تنسيق عام للصفحة ===== */
+body {
+  font-family: 'Tajawal', sans-serif;
+  background-color: #f5efe2; /* لون ترابي */
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+}
+
+/* ===== القائمة الجانبية ===== */
 .menu {
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 999;
+  z-index: 1000;
 }
 
 .menu button {
@@ -28,44 +33,58 @@ body {
 
 .menu ul {
   display: none;
-  background-color: #fff;
-  border: 1px solid #ccc;
   list-style: none;
-  padding: 10px;
-  margin-top: 10px;
+  padding: 0;
+  margin: 10px 0 0 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
   border-radius: 6px;
 }
 
 .menu ul li {
-  margin: 10px 0;
+  margin: 0;
+  border-bottom: 1px solid #eee;
 }
 
 .menu ul li a {
-  color: #0a3d2c;
+  display: block;
+  padding: 10px;
   text-decoration: none;
+  color: #0a3d2c;
+  font-weight: bold;
 }
 
+.menu ul li:last-child {
+  border-bottom: none;
+}
+
+/* ===== تنسيق محتوى الصفحة ===== */
 .content {
   text-align: center;
-  padding: 100px 20px 60px;
+  padding: 120px 20px 40px;
 }
 
+/* شعار */
 .logo {
-  width: 150px;
+  width: 160px;
   margin-bottom: 20px;
 }
 
+/* العنوان */
 h1 {
-  font-size: 32px;
   color: #0a3d2c;
+  font-size: 32px;
+  margin: 20px 0 10px;
 }
 
+/* الوصف */
 .subtitle {
   font-size: 18px;
   margin: 20px 0;
   color: #333;
 }
 
+/* زر احجز الآن */
 .btn {
   background-color: #0a3d2c;
   color: #fff;
@@ -75,15 +94,59 @@ h1 {
   text-decoration: none;
   font-size: 18px;
   transition: background 0.3s;
+  display: inline-block;
+  margin-top: 20px;
 }
 
 .btn:hover {
   background-color: #06452a;
 }
 
+/* ===== تذييل الصفحة - عدد الزوار ===== */
 footer {
   text-align: center;
-  padding: 20px;
-  color: #222;
+  padding: 30px 20px;
+  background-color: #f5efe2;
+  color: #2b2b2b;
   font-size: 16px;
+  border-top: 1px solid #ccc;
+  margin-top: 40px;
+}
+
+footer p {
+  margin: 0;
+  font-weight: bold;
+}
+
+/* ===== دعم كامل للجوال ===== */
+@media (max-width: 600px) {
+  .content {
+    padding: 100px 10px 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .menu button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .menu ul li a {
+    font-size: 14px;
+  }
+
+  .logo {
+    width: 130px;
+  }
 }
