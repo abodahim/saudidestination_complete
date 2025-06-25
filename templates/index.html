@@ -3,47 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <title>وجهة السعودية</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-  <!-- زر فتح القائمة -->
-  <button class="open-btn" onclick="toggleSidebar()">☰ القائمة</button>
-
   <!-- القائمة الجانبية -->
-  <div class="sidebar" id="sidebar">
-    <button class="close-btn" onclick="toggleSidebar()">×</button>
-    <ul>
-      <li>🏠 الرئيسية</li>
-      <li>ℹ️ عن الموقع</li>
-      <li>🧳 الرحلات</li>
+  <div class="menu">
+    <button onclick="toggleMenu()">☰ القائمة</button>
+    <ul id="menuItems">
+      <li><a href="#">🏠 الرئيسية</a></li>
+      <li><a href="#">ℹ️ عن الموقع</a></li>
+      <li><a href="#">🧳 الرحلات</a></li>
     </ul>
   </div>
 
-  <!-- عرض الرسائل (flash) -->
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <ul class="flashes">
-        {% for category, message in messages %}
-          <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
-
-  <!-- المحتوى الرئيسي -->
-  <main class="main-content">
-    <h1>مرحباً بكم في <strong>وجهة السعودية</strong></h1>
+  <!-- محتوى الصفحة -->
+  <div class="content">
+    <h1>مرحباً بكم في وجهة السعودية</h1>
     <p class="subtitle">وجهتك...بخبرة سعودية وموثوقية كاملة</p>
     <p class="visits">عدد الزوار: <strong>2000</strong> زائر</p>
-    <a href="{{ url_for('booking') }}" class="book-btn">احجز الآن</a>
-  </main>
+    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+  </div>
 
-  <!-- جافاسكربت -->
+  <!-- جافاسكربت لتفعيل القائمة -->
   <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("active");
+    function toggleMenu() {
+      const menu = document.getElementById("menuItems");
+      if (menu.style.display === "block") {
+        menu.style.display = "none";
+      } else {
+        menu.style.display = "block";
+      }
     }
   </script>
 
