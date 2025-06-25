@@ -1,44 +1,14 @@
-/* تنسيق الخلفية */
+/* خلفية الصفحة */
 body {
-  background-image: url("images/background.PNG");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  font-family: 'Tajawal', sans-serif;
   margin: 0;
   padding: 0;
-}
-
-/* تنسيق النصوص */
-h1 {
-  color: #0b3e29;
-  font-size: 36px;
-  text-align: center;
-  margin-top: 100px;
-}
-
-.subtitle, .visits {
-  text-align: center;
-  font-size: 20px;
-  color: #333;
-  margin-top: 10px;
-}
-
-/* زر الحجز */
-.btn {
-  display: block;
-  width: fit-content;
-  margin: 30px auto;
-  padding: 12px 24px;
-  background-color: #0b3e29;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 18px;
-}
-
-.btn:hover {
-  background-color: #066b4b;
+  font-family: 'Tajawal', sans-serif;
+  background-image: url("../static/images/background.PNG");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  direction: rtl;
 }
 
 /* القائمة الجانبية */
@@ -46,45 +16,89 @@ h1 {
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 999;
+  z-index: 1000;
+  text-align: right;
 }
 
 .menu button {
-  background-color: #0b3e29;
+  background-color: #0b3d2e;
   color: white;
-  padding: 10px 15px;
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
+  padding: 10px 15px;
   cursor: pointer;
+  font-size: 16px;
+  border-radius: 8px;
 }
 
 .menu ul {
+  list-style: none;
+  margin: 10px 0 0 0;
+  padding: 0;
+  background-color: rgba(11, 61, 46, 0.9);
+  border-radius: 8px;
   display: none;
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
 .menu ul li {
-  margin: 10px 0;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.menu ul li:last-child {
+  border-bottom: none;
 }
 
 .menu ul li a {
+  color: white;
   text-decoration: none;
-  color: #0b3e29;
-  font-weight: bold;
+  display: block;
+  font-size: 16px;
 }
 
-/* التنسيق للهواتف */
+/* محتوى الصفحة */
+.content {
+  text-align: center;
+  margin-top: 150px;
+  color: #083c2c;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #083c2c;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.visits {
+  font-size: 16px;
+  color: #333;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: #0b3d2e;
+  color: white;
+  padding: 10px 25px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+/* تصميم للجوال */
 @media (max-width: 600px) {
   h1 {
     font-size: 24px;
   }
 
-  .subtitle, .visits {
-    font-size: 16px;
+  .subtitle,
+  .visits {
+    font-size: 14px;
   }
 
   .btn {
@@ -92,8 +106,7 @@ h1 {
     padding: 10px 20px;
   }
 
-  .menu button {
+  .menu ul li a {
     font-size: 14px;
-    padding: 8px 12px;
   }
 }
