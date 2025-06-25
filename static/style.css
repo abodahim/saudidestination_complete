@@ -1,112 +1,91 @@
-/* خلفية الصفحة */
+/* الخط */
+@font-face {
+  font-family: 'Tajawal';
+  src: url("fonts/Tajawal-Regular.ttf");
+}
 body {
+  font-family: 'Tajawal', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Tajawal', sans-serif;
-  background-image: url("../static/images/background.PNG");
+  background: url("images/background.PNG") no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
   direction: rtl;
 }
 
-/* القائمة الجانبية */
+/* تراكب شفاف */
+.overlay {
+  background-color: rgba(255, 255, 255, 0.9);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* القائمة */
 .menu {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 1000;
-  text-align: right;
 }
-
 .menu button {
-  background-color: #0b3d2e;
+  background-color: #014122;
   color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 8px;
-}
-
-.menu ul {
-  list-style: none;
-  margin: 10px 0 0 0;
-  padding: 0;
-  background-color: rgba(11, 61, 46, 0.9);
-  border-radius: 8px;
-  display: none;
-}
-
-.menu ul li {
   padding: 10px 20px;
-  border-bottom: 1px solid #ccc;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
-
-.menu ul li:last-child {
-  border-bottom: none;
+.menu ul {
+  display: none;
+  list-style: none;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  margin-top: 10px;
 }
-
+.menu ul li {
+  margin: 10px 0;
+}
 .menu ul li a {
-  color: white;
   text-decoration: none;
-  display: block;
-  font-size: 16px;
+  color: #014122;
+  font-weight: bold;
 }
 
-/* محتوى الصفحة */
+/* المحتوى */
 .content {
   text-align: center;
-  margin-top: 150px;
-  color: #083c2c;
+  margin-top: 100px;
 }
-
 h1 {
-  font-size: 32px;
-  margin-bottom: 10px;
-  color: #083c2c;
+  color: #014122;
+  font-size: 36px;
 }
-
 .subtitle {
   font-size: 18px;
-  color: #333;
-  margin-bottom: 10px;
+  color: #444;
 }
-
 .visits {
-  font-size: 16px;
+  margin-top: 10px;
   color: #333;
 }
-
 .btn {
+  background-color: #014122;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
   display: inline-block;
   margin-top: 20px;
-  background-color: #0b3d2e;
-  color: white;
-  padding: 10px 25px;
-  text-decoration: none;
-  border-radius: 10px;
-  font-size: 18px;
 }
 
-/* تصميم للجوال */
+/* استجابة للجوال */
 @media (max-width: 600px) {
   h1 {
     font-size: 24px;
   }
-
-  .subtitle,
-  .visits {
-    font-size: 14px;
-  }
-
   .btn {
-    font-size: 16px;
     padding: 10px 20px;
-  }
-
-  .menu ul li a {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
