@@ -4,32 +4,36 @@
   <meta charset="UTF-8">
   <title>وجهة السعودية</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='fonts/tajawal.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-  <!-- زر القائمة -->
+  <!-- الشعار -->
+  <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+
+  <!-- القائمة -->
   <div class="menu">
     <button onclick="toggleMenu()">☰ القائمة</button>
     <ul id="menuItems">
       <li><a href="#">🏠 الرئيسية</a></li>
-      <li><a href="#">ℹ️ عن المنصة</a></li>
+      <li><a href="#">ℹ️ عن الموقع</a></li>
       <li><a href="#">🧳 الرحلات</a></li>
     </ul>
   </div>
 
-  <!-- المحتوى -->
-  <div class="content">
-    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="شعار وجهة السعودية" class="logo">
-    <h1>مرحباً في وجهة السعودية</h1>
-    <p class="subtitle">استكشف المملكة العربية السعودية مع أفضل الباقات السياحية والمرشدين المحليين</p>
+  <!-- المحتوى الرئيسي -->
+  <section class="content">
+    <h1>مرحباً بكم في وجهة السعودية</h1>
+    <p class="subtitle">
+      استكشف المملكة العربية السعودية مع أفضل الباقات السياحية والمرشدين المحليين
+    </p>
     <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
-  </div>
+  </section>
 
-  <!-- عبارة الزوار -->
+  <!-- عدد الزوار -->
   <footer>
-    <p class="visits">عدد الزوار: <strong>2000</strong> زائر</p>
+    <p class="visits">📊 عدد الزوار: <strong>{{ visit_count }}</strong> زائر</p>
   </footer>
 
   <script>
