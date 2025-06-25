@@ -1,20 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>contact.html</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+  <meta charset="UTF-8">
+  <title>تواصل معنا - وجهة السعودية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    
-        <section>
-            <h2>تواصل معنا</h2>
-            <p>العنوان: ينبع، المملكة العربية السعودية</p>
-            <p>الهاتف: 0547775250</p>
-            <p>البريد الإلكتروني: aboodahim@gmail.com</p>
-            <img src="/static/images/contact.jpg" alt="تواصل معنا" style="width:100%; border-radius: 12px;">
-        </section>
-    
+
+  <div class="content">
+    <h1>📞 تواصل معنا</h1>
+    <p>نحن هنا للإجابة على استفساراتك بكل سرور!</p>
+
+    <form method="POST" action="{{ url_for('contact') }}">
+      <input type="text" name="name" placeholder="الاسم الكامل" required><br>
+      <input type="email" name="email" placeholder="البريد الإلكتروني" required><br>
+      <textarea name="message" placeholder="اكتب رسالتك هنا..." required></textarea><br>
+      <button type="submit" class="btn">إرسال</button>
+    </form>
+  </div>
+
 </body>
 </html>
