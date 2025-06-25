@@ -1,29 +1,25 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # مفتاح الجلسة لتفعيل flash messages
 
-# الصفحة الرئيسية
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# صفحة الحجز
 @app.route('/booking')
 def booking():
-    return render_template('booking.html')
+    return "<h2>صفحة الحجز قيد التطوير</h2>"
 
-# استقبال بيانات الحجز
-@app.route('/submit_booking', methods=['POST'])
-def submit_booking():
-    name = request.form['name']
-    email = request.form['email']
-    date = request.form['date']
-    trip_type = request.form['type']
-
-    # بإمكانك هنا تخزين البيانات في قاعدة بيانات أو إرسالها بالبريد
-    flash(f'تم استلام الحجز بنجاح للرحلة بتاريخ {date} 🎉', 'success')
-    return redirect(url_for('home'))
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
+        # يمكنك هنا إرسال البريد أو حفظ البيانات
+        print(f"تم استلام رسالة من {name} ({email}): {message}")
+        return "<h2>تم إرسال رسالتك بنجاح! شكرًا لتواصلك معنا.</h2>"
+    return render_template('contact.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
