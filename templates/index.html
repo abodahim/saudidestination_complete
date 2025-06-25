@@ -8,33 +8,31 @@
 </head>
 <body>
 
-  <!-- القائمة الجانبية -->
-  <div class="menu">
-    <button onclick="toggleMenu()">☰ القائمة</button>
-    <ul id="menuItems">
-      <li><a href="#">🏠 الرئيسية</a></li>
-      <li><a href="#">ℹ️ عن الموقع</a></li>
-      <li><a href="#">🧳 الرحلات</a></li>
-    </ul>
+  <div class="overlay">
+    <!-- القائمة -->
+    <div class="menu">
+      <button onclick="toggleMenu()">☰ القائمة</button>
+      <ul id="menuItems">
+        <li><a href="#">الرئيسية 🏠</a></li>
+        <li><a href="#">عن الموقع ℹ️</a></li>
+        <li><a href="#">الرحلات 🧳</a></li>
+      </ul>
+    </div>
+
+    <!-- المحتوى -->
+    <div class="content">
+      <h1>مرحباً بكم في وجهة السعودية</h1>
+      <p class="subtitle">وجهتك...بخبرة سعودية وموثوقية كاملة</p>
+      <p class="visits">عدد الزوار: <strong>2000</strong> زائر</p>
+      <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+    </div>
   </div>
 
-  <!-- المحتوى الرئيسي -->
-  <div class="content">
-    <h1>مرحباً بكم في وجهة السعودية</h1>
-    <p class="subtitle">وجهتك...بخبرة سعودية وموثوقية كاملة</p>
-    <p class="visits">عدد الزوار: <strong>2000</strong> زائر</p>
-    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
-  </div>
-
-  <!-- جافاسكربت لتبديل القائمة -->
+  <!-- الجافاسكربت -->
   <script>
     function toggleMenu() {
       const menu = document.getElementById("menuItems");
-      if (menu.style.display === "block") {
-        menu.style.display = "none";
-      } else {
-        menu.style.display = "block";
-      }
+      menu.style.display = (menu.style.display === "block") ? "none" : "block";
     }
   </script>
 
