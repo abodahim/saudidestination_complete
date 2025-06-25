@@ -1,36 +1,35 @@
+<!-- templates/booking.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>نموذج الحجز - وجهة السعودية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-  <!-- زر الرجوع -->
-  <a href="/" class="back-btn">← الرجوع للرئيسية</a>
+  <div class="content">
+    <h1>نموذج الحجز</h1>
+    
+    <form method="POST">
+      <label>الاسم الكامل:</label><br>
+      <input type="text" name="name" required><br><br>
 
-  <div class="booking-container">
-    <h2>نموذج الحجز</h2>
-    <form action="/submit_booking" method="post">
-      <label for="name">الاسم الكامل:</label>
-      <input type="text" id="name" name="name" required>
+      <label>البريد الإلكتروني:</label><br>
+      <input type="email" name="email" required><br><br>
 
-      <label for="email">البريد الإلكتروني:</label>
-      <input type="email" id="email" name="email" required>
+      <label>اختر الرحلة:</label><br>
+      <select name="trip" required>
+        <option value="الرياض التاريخية">الرياض التاريخية</option>
+        <option value="جدة القديمة">جدة القديمة</option>
+        <option value="العلا واحة التاريخ">العلا واحة التاريخ</option>
+      </select><br><br>
 
-      <label for="date">تاريخ الرحلة:</label>
-      <input type="date" id="date" name="date" required>
-
-      <label for="type">نوع الرحلة:</label>
-      <select id="type" name="type" required>
-        <option value="عائلية">👨‍👩‍👧‍👦 عائلية</option>
-        <option value="مدرسية">🏫 مدرسية</option>
-        <option value="شركات">🏢 شركات</option>
-      </select>
-
-      <button type="submit" class="book-btn">تأكيد الحجز</button>
+      <button type="submit" class="btn">إرسال الحجز</button>
     </form>
+
+    <p style="margin-top: 20px;">📩 سيتم التواصل معك عبر البريد الإلكتروني بعد تأكيد الحجز</p>
   </div>
 
 </body>
