@@ -27,11 +27,11 @@
     <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
   </div>
 
-  <!-- جافاسكربت لتفعيل القائمة -->
+  <!-- سكريبت القائمة -->
   <script>
     function toggleMenu() {
       const menu = document.getElementById("menuItems");
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
+      menu.style.display = (menu.style.display === "block") ? "none" : "block";
     }
   </script>
 
