@@ -11,7 +11,11 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Tajawal', sans-serif;
-  background-color: #f5f0e6; /* خلفية ترابية */
+  background-image: url('images/background_saudidest.PNG'); /* مسار الصورة */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
   color: #1b3d2f;
   direction: rtl;
   text-align: center;
