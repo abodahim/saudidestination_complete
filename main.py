@@ -1,44 +1,176 @@
-from flask import Flask, render_template
-
-app = Flask(__name__)
-
-# بيانات الرحلات (ثابتة مؤقتًا إلى حين ربط قاعدة البيانات)
-trips = {
-    1: {
-        'title': 'رحلة إلى جدة',
-        'description': 'استمتع بشاطئ البحر الأحمر وأنشطة الغوص.',
-        'price': 350,
-        'date': '2025-07-10',
-        'images': ['jeddah_1.jpg', 'jeddah_2.jpg', 'jeddah_3.jpg', 'jeddah_4.jpg']
-    },
-    2: {
-        'title': 'جولة فاخرة في الرياض',
-        'description': 'تعرف على معالم العاصمة بأسلوب راقٍ.',
-        'price': 400,
-        'date': '2025-07-15',
-        'images': ['riyadh_1.jpg', 'riyadh_2.jpg', 'riyadh_3.jpg', 'riyadh_4.jpg']
-    },
-    3: {
-        'title': 'رحلة إلى ينبع',
-        'description': 'شواطئ ساحرة وأنشطة مائية ممتعة.',
-        'price': 370,
-        'date': '2025-07-30',
-        'images': ['yanbu_1.jpg', 'yanbu_2.jpg', 'yanbu_3.jpg', 'yanbu_4.jpg']
-    }
+/* الخط العربي Tajawal */
+@font-face {
+  font-family: 'Tajawal';
+  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-# صفحة رئيسية افتراضية (يمكن تعديلها لاحقًا)
-@app.route('/')
-def home():
-    return "<h1>مرحباً بكم في وجهة السعودية</h1><p>يرجى التوجه إلى /trip/1 أو /trip/2 لعرض تفاصيل الرحلات.</p>"
+/* إعدادات أساسية للصفحة */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Tajawal', sans-serif;
+  background-color: #f5f0e6; /* خلفية ترابية */
+  color: #1b3d2f;
+  direction: rtl;
+  text-align: center;
+}
 
-# صفحة تفاصيل الرحلة حسب رقم الرحلة
-@app.route('/trip/<int:trip_id>')
-def trip_details(trip_id):
-    trip = trips.get(trip_id)
-    if trip:
-        return render_template('trip_details.html', trip=trip)
-    return "الرحلة غير موجودة", 404
+/* القائمة الجانبية */
+.menu {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
 
-if __name__ == '__main__':
-    app.run(debug=True)
+.menu button {
+  background-color: #1b3d2f;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menu ul {
+  display: none;
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  list-style: none;
+  margin-top: 10px;
+  text-align: right;
+}
+
+.menu ul li {
+  margin: 10px 0;
+}
+
+.menu ul li a {
+  text-decoration: none;
+  color: #1b3d2f;
+  font-weight: bold;
+}
+
+/* المحتوى الرئيسي */
+.content {
+  max-width: 800px;
+  margin: 120px auto 40px;
+  padding: 20px;
+  background-color: #ffffffdd;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.content h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #1b3d2f;
+}
+
+.subtitle {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.visits {
+  font-size: 18px;
+  margin-top: 40px;
+  color: #555;
+}
+
+/* زر احجز الآن */
+.btn {
+  display: inline-block;
+  background-color: #1b3d2f;
+  color: white;
+  padding: 12px 24px;
+  margin-top: 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #14452f;
+}
+
+/* معرض صور الرحلة */
+.gallery-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.gallery-images img {
+  width: 250px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.gallery-images img:hover {
+  transform: scale(1.05);
+}
+
+/* تنسيق تفاصيل الرحلة */
+.trip-info {
+  background-color: #ffffffee;
+  border-radius: 12px;
+  padding: 20px;
+  margin: auto;
+  max-width: 700px;
+  text-align: right;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.trip-info p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+/* تنسيق عنوان القسم */
+.gallery h2 {
+  margin-top: 30px;
+  font-size: 24px;
+  color: #1b3d2f;
+}
+
+/* استجابة الجوال */
+@media (max-width: 600px) {
+  .content {
+    margin-top: 100px;
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .gallery-images img {
+    width: 90%;
+    height: auto;
+  }
+
+  .menu button {
+    font-size: 14px;
+  }
+
+  .trip-info {
+    padding: 15px;
+  }
+}
