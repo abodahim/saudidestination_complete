@@ -2,40 +2,26 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>وجهة السعودية</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>وجهة السعودية</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- الشعار الثابت -->
-  <img src="{{ url_for('static', filename='images/logo.JPG') }}" class="fixed-logo" alt="شعار وجهة السعودية">
-
   <!-- القائمة الجانبية -->
-  <div class="menu">
-    <button onclick="toggleMenu()">☰ القائمة</button>
-    <ul id="menuItems">
-      <li><a href="#">🏠 الرئيسية</a></li>
-      <li><a href="#">ℹ️ عن الموقع</a></li>
-      <li><a href="#">🧳 الرحلات</a></li>
-    </ul>
+  <div class="menu"><button>القائمة ☰</button></div>
+
+  <!-- محتوى الصفحة -->
+  <div class="container">
+    <img src="logo.JPG" alt="شعار وجهة السعودية" class="logo">
+    <h1>مرحباً في وجهة السعودية</h1>
+    <h2>بوجهة السعودية</h2>
+    <p class="subtitle">وجهتك. بخبرة، سعودية وموثوقية كاملة</p>
+    <a href="#" class="btn">احجز الآن</a>
   </div>
 
-  <!-- المحتوى الرئيسي -->
-  <div class="content">
-    <h1>مرحباً بكم في وجهة السعودية</h1>
-    <p class="subtitle">وجهتك...بخبرة سعودية وموثوقية كاملة</p>
-    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
-    <p class="visits">عدد الزوار: <strong>2000</strong> زائر</p>
-  </div>
-
-  <!-- جافاسكربت لتفعيل القائمة -->
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById("menuItems");
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
-  </script>
+  <!-- التذييل -->
+  <footer>© 2025 وجهة السعودية</footer>
 
 </body>
 </html>
