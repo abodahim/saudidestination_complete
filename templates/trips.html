@@ -3,95 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>الرحلات السياحية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    .trips-container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 30px;
-    }
-
-    .trip-card {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 25px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .trip-card h3 {
-      margin: 0 0 10px;
-      color: #1b3d2f;
-    }
-
-    .trip-card p {
-      margin: 0;
-      color: #555;
-      font-size: 17px;
-    }
-
-    .trip-icon {
-      font-size: 28px;
-      margin-left: 10px;
-    }
-
-    .btn {
-      margin-top: 15px;
-      display: inline-block;
-      background-color: #1b3d2f;
-      color: #fff;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 6px;
-    }
-
-    @media (max-width: 600px) {
-      .trip-card {
-        padding: 15px;
-      }
-
-      .trip-card h3 {
-        font-size: 20px;
-      }
-
-      .trip-card p {
-        font-size: 16px;
-      }
-    }
-  </style>
 </head>
 <body>
 
-  <div class="trips-container">
-    <h1 style="text-align:center; color:#1b3d2f;">🧳 الباقات السياحية المتوفرة</h1>
+  <header>
+    <h1>استعرض الرحلات السياحية</h1>
+  </header>
 
-    <div class="trip-card">
-      <h3><span class="trip-icon">🏖️</span> رحلة إلى شاطئ جدة</h3>
-      <p>استمتع بجمال البحر الأحمر والأنشطة البحرية الممتعة.</p>
-      <a href="{{ url_for('trip_details', trip_id=1) }}" class="btn">عرض التفاصيل</a>
-    </div>
-
-    <div class="trip-card">
-      <h3><span class="trip-icon">🌆</span> جولة في الرياض</h3>
-      <p>استكشاف أهم معالم العاصمة السعودية وتجربة حضارية فريدة.</p>
-      <a href="{{ url_for('trip_details', trip_id=2) }}" class="btn">عرض التفاصيل</a>
-    </div>
-
-    <div class="trip-card">
-      <h3><span class="trip-icon">⛰️</span> رحلة إلى جبال السودة</h3>
-      <p>استمتع بالمشي في الطبيعة والهواء البارد في أعالي الجبال.</p>
-      <a href="{{ url_for('trip_details', trip_id=3) }}" class="btn">عرض التفاصيل</a>
-    </div>
-
-    <div class="trip-card">
-      <h3><span class="trip-icon">🏜️</span> مغامرة في العلا</h3>
-      <p>استكشاف الآثار التاريخية والتجول وسط المناظر الصحراوية المذهلة.</p>
-      <a href="{{ url_for('trip_details', trip_id=4) }}" class="btn">عرض التفاصيل</a>
-    </div>
-
-  </div>
+  <!-- عرض بطاقات الرحلات -->
+  <section class="trips-container">
+    {% for trip in trips %}
+      <div class="trip-card">
+        <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="صورة الرحلة">
+        <h3>{{ trip.title }}</h3>
+        <p>{{ trip.description }}</p>
+        <p><strong>السعر:</strong> {{ trip.price }} ريال</p>
+        <p><strong>التاريخ:</strong> {{ trip.date }}</p>
+        <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn">عرض التفاصيل</a>
+      </div>
+    {% endfor %}
+  </section>
 
 </body>
 </html>
