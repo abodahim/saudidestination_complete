@@ -1,74 +1,113 @@
-@import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
+/* الخط الأساسي */
+@font-face {
+  font-family: 'Tajawal';
+  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
+}
 
+/* إلغاء الخلفية الثقيلة */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Tajawal', sans-serif;
-  background-color: #226644;
-  color: #f7e8c5;
+  background-color: #2a623d; /* أخضر هادئ */
+  color: #f5f0e6;
   text-align: center;
+  direction: rtl;
 }
 
-.container {
-  padding: 60px 20px;
+/* الرؤوس */
+.header {
+  position: fixed;
+  top: 20px; right: 20px;
+  width: calc(100% - 40px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
 }
-
 .logo {
-  width: 140px;
-  margin-bottom: 20px;
+  width: 80px;
+  height: auto;
+  padding: 8px;
+  background-color: rgba(245,240,230,0.8);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-
-h1 {
-  font-size: 36px;
-  margin: 10px 0;
-}
-
-h2 {
-  font-size: 32px;
-  margin: 10px 0;
-}
-
-.subtitle {
-  font-size: 18px;
-  margin: 20px 0;
-}
-
-.btn {
-  background-color: #d6652c;
-  color: white;
-  padding: 12px 24px;
-  font-size: 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-  background-color: #b35422;
-}
-
-footer {
-  margin-top: 60px;
-  padding: 20px;
-  background-color: #1b3d2f;
-  color: #eee;
-  font-size: 14px;
-}
-
-.menu {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-
-.menu button {
-  background-color: #d6652c;
-  color: white;
+.menu-btn {
+  background-color: #d1682b; /* برتقالي ترابي */
+  color: #f5f0e6;
   border: none;
+  border-radius: 10px;
   padding: 10px 16px;
   font-size: 16px;
-  border-radius: 6px;
   cursor: pointer;
+}
+.menu-nav {
+  position: absolute;
+  top: 60px; right: 0;
+  display: none;
+  background-color: rgba(245,240,230,0.9);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.menu-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+}
+.menu-nav li {
+  margin: 8px 0;
+}
+.menu-nav a {
+  text-decoration: none;
+  color: #2a623d;
+  font-weight: bold;
+}
+
+/* البانر الرئيسي */
+.main-banner {
+  margin-top: 120px;
+  padding: 40px 20px 200px; /* مساحة أسفل للرسوم */
+}
+.main-banner h1 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+.subtitle {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.btn {
+  display: inline-block;
+  background-color: #d1682b;
+  color: #f5f0e6;
+  padding: 14px 30px;
+  border-radius: 12px;
+  font-size: 18px;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.btn:hover {
+  background-color: #b05320;
+  transform: scale(1.03);
+}
+
+/* خلفية التلال والبرج */
+.main-banner::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 50%;
+  background: url('../images/banner_saudidest.png') no-repeat bottom center;
+  background-size: cover;
+  pointer-events: none;
+}
+
+/* استجابة الموبايل */
+@media(max-width: 600px) {
+  .logo { width: 60px; }
+  .menu-btn { font-size: 14px; padding: 8px 12px; }
+  .main-banner h1 { font-size: 24px; }
+  .btn { font-size: 16px; padding: 12px 24px; }
+  .main-banner { padding-bottom: 150px; }
 }
