@@ -2,26 +2,34 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>وجهة السعودية</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+  <header class="header">
+    <img src="{{ url_for('static', filename='logo.JPG') }}" alt="logo" class="logo">
+    <button class="menu-btn" onclick="toggleMenu()">☰ القائمة</button>
+    <nav class="menu-nav" id="menuNav">
+      <ul>
+        <li><a href="#">🏠 الرئيسية</a></li>
+        <li><a href="#">ℹ️ عن الموقع</a></li>
+        <li><a href="#">🧳 الرحلات</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <!-- القائمة الجانبية -->
-  <div class="menu"><button>القائمة ☰</button></div>
+  <main class="main-banner">
+    <h1>مرحبًا في جهـة السعوديـة</h1>
+    <p class="subtitle">وجهتك. بخبرة، سعودية، وموثوقية كاملة</p>
+    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+  </main>
 
-  <!-- محتوى الصفحة -->
-  <div class="container">
-    <img src="logo.JPG" alt="شعار وجهة السعودية" class="logo">
-    <h1>مرحباً في وجهة السعودية</h1>
-    <h2>بوجهة السعودية</h2>
-    <p class="subtitle">وجهتك. بخبرة، سعودية وموثوقية كاملة</p>
-    <a href="#" class="btn">احجز الآن</a>
-  </div>
-
-  <!-- التذييل -->
-  <footer>© 2025 وجهة السعودية</footer>
-
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('menuNav');
+      nav.style.display = (nav.style.display === 'block') ? 'none' : 'block';
+    }
+  </script>
 </body>
 </html>
