@@ -1,6 +1,24 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 
+import os
+import sqlite3
+
+# إنشاء قاعدة البيانات تلقائيًا إذا لم تكن موجودة
+if not os.path.exists('create.db'):
+    conn = sqlite3.connect('create.db')
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS bookings (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            trip TEXT NOT NULL,
+            date TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
 app = Flask(__name__)
 
 # إنشاء قاعدة البيانات (إن لم تكن موجودة) عند تشغيل التطبيق
