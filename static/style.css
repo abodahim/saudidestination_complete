@@ -1,131 +1,74 @@
-/* تحميل خط تاجوال */
-@font-face {
-  font-family: 'Tajawal';
-  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
 
-/* إعدادات عامة */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Tajawal', sans-serif;
-  background-color: #f5f0e6; /* لون بيج ترابي */
-  color: #1b3d2f;
-  direction: rtl;
+  background-color: #226644;
+  color: #f7e8c5;
   text-align: center;
 }
 
-/* الشعار الثابت في أعلى يسار الصفحة */
-.fixed-logo {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 100px;
-  z-index: 1000;
+.container {
+  padding: 60px 20px;
 }
 
-/* القائمة الجانبية */
-.menu {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
+.logo {
+  width: 140px;
+  margin-bottom: 20px;
 }
 
-.menu button {
-  background-color: #1b3d2f;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.menu ul {
-  display: none;
-  background-color: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  list-style: none;
-  margin-top: 10px;
-  text-align: right;
-}
-
-.menu ul li {
+h1 {
+  font-size: 36px;
   margin: 10px 0;
 }
 
-.menu ul li a {
-  text-decoration: none;
-  color: #1b3d2f;
-  font-weight: bold;
-}
-
-/* المحتوى الرئيسي */
-.content {
-  max-width: 800px;
-  margin: 140px auto 40px;
-  padding: 20px;
-  background-color: #ffffffdd;
-  border-radius: 16px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.content h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
-  color: #1b3d2f;
+h2 {
+  font-size: 32px;
+  margin: 10px 0;
 }
 
 .subtitle {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-.visits {
   font-size: 18px;
-  margin-top: 60px;
-  color: #555;
+  margin: 20px 0;
 }
 
-/* زر احجز الآن */
 .btn {
-  display: inline-block;
-  background-color: #1b3d2f;
+  background-color: #d6652c;
   color: white;
   padding: 12px 24px;
-  margin-top: 20px;
-  text-decoration: none;
-  border-radius: 10px;
   font-size: 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 20px;
   transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-  background-color: #14452f;
+  background-color: #b35422;
 }
 
-/* استجابة للموبايل */
-@media (max-width: 600px) {
-  .content {
-    margin-top: 120px;
-    padding: 15px;
-  }
+footer {
+  margin-top: 60px;
+  padding: 20px;
+  background-color: #1b3d2f;
+  color: #eee;
+  font-size: 14px;
+}
 
-  .content h1 {
-    font-size: 28px;
-  }
+.menu {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
 
-  .btn {
-    font-size: 16px;
-    padding: 10px 20px;
-  }
-
-  .menu button {
-    font-size: 14px;
-  }
+.menu button {
+  background-color: #d6652c;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
 }
