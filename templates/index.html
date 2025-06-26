@@ -8,35 +8,32 @@
 </head>
 <body>
 
-  <!-- ✅ القائمة الجانبية -->
+  <!-- الشعار الثابت -->
+  <img src="{{ url_for('static', filename='images/logo.JPG') }}" class="fixed-logo" alt="شعار وجهة السعودية">
+
+  <!-- القائمة الجانبية -->
   <div class="menu">
     <button onclick="toggleMenu()">☰ القائمة</button>
     <ul id="menuItems">
-      <li><a href="/">🏠 الرئيسية</a></li>
-      <li><a href="/about">ℹ️ عن الموقع</a></li>
-      <li><a href="/trips">🧳 الرحلات</a></li>
+      <li><a href="#">🏠 الرئيسية</a></li>
+      <li><a href="#">ℹ️ عن الموقع</a></li>
+      <li><a href="#">🧳 الرحلات</a></li>
     </ul>
   </div>
 
-  <!-- ✅ المحتوى الرئيسي داخل إطار أبيض -->
+  <!-- المحتوى الرئيسي -->
   <div class="content">
     <h1>مرحباً بكم في وجهة السعودية</h1>
     <p class="subtitle">وجهتك...بخبرة سعودية وموثوقية كاملة</p>
     <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+    <p class="visits">عدد الزوار: <strong>2000</strong> زائر</p>
   </div>
 
-  <!-- ✅ عدد الزوار في الأسفل -->
-  <p class="visits">👁️ عدد الزوار: <strong>2000</strong> زائر</p>
-
-  <!-- ✅ جافاسكربت لتفعيل القائمة -->
+  <!-- جافاسكربت لتفعيل القائمة -->
   <script>
     function toggleMenu() {
       const menu = document.getElementById("menuItems");
-      if (menu.style.display === "block") {
-        menu.style.display = "none";
-      } else {
-        menu.style.display = "block";
-      }
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
     }
   </script>
 
