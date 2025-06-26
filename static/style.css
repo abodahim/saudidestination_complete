@@ -11,14 +11,19 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Tajawal', sans-serif;
-  background-image: url('images/background_saudidest.PNG'); /* مسار الصورة */
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;
+  background-color: #f5f0e6; /* لون بيج ترابي */
   color: #1b3d2f;
   direction: rtl;
   text-align: center;
+}
+
+/* الشعار الثابت في أعلى يسار الصفحة */
+.fixed-logo {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 100px;
+  z-index: 1000;
 }
 
 /* القائمة الجانبية */
@@ -63,7 +68,7 @@ body {
 /* المحتوى الرئيسي */
 .content {
   max-width: 800px;
-  margin: 120px auto 40px;
+  margin: 140px auto 40px;
   padding: 20px;
   background-color: #ffffffdd;
   border-radius: 16px;
@@ -83,7 +88,7 @@ body {
 
 .visits {
   font-size: 18px;
-  margin-top: 40px;
+  margin-top: 60px;
   color: #555;
 }
 
@@ -104,82 +109,10 @@ body {
   background-color: #14452f;
 }
 
-/* معرض الصور */
-.gallery-images {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.gallery-images img {
-  width: 250px;
-  height: 170px;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease;
-}
-
-.gallery-images img:hover {
-  transform: scale(1.05);
-}
-
-/* تنسيق تفاصيل الرحلة */
-.trip-info {
-  background-color: #ffffffee;
-  border-radius: 12px;
-  padding: 20px;
-  margin: auto;
-  max-width: 700px;
-  text-align: right;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-
-.trip-info p {
-  font-size: 18px;
-  margin: 10px 0;
-}
-
-/* عنوان قسم المعرض */
-.gallery h2 {
-  margin-top: 30px;
-  font-size: 24px;
-  color: #1b3d2f;
-}
-
-/* تنسيق نموذج الحجز */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  text-align: right;
-  max-width: 500px;
-  margin: auto;
-}
-
-input, select {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-/* التذييل */
-footer {
-  margin-top: 60px;
-  padding: 20px;
-  background-color: #eee;
-  color: #555;
-  font-size: 14px;
-  text-align: center;
-}
-
 /* استجابة للموبايل */
 @media (max-width: 600px) {
   .content {
-    margin-top: 100px;
+    margin-top: 120px;
     padding: 15px;
   }
 
@@ -192,16 +125,7 @@ footer {
     padding: 10px 20px;
   }
 
-  .gallery-images img {
-    width: 90%;
-    height: auto;
-  }
-
   .menu button {
     font-size: 14px;
-  }
-
-  .trip-info {
-    padding: 15px;
   }
 }
