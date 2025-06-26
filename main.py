@@ -1,176 +1,70 @@
-/* الخط العربي Tajawal */
-@font-face {
-  font-family: 'Tajawal';
-  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+from flask import Flask, render_template, request, redirect, url_for
+import sqlite3
 
-/* إعدادات أساسية للصفحة */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Tajawal', sans-serif;
-  background-color: #f5f0e6; /* خلفية ترابية */
-  color: #1b3d2f;
-  direction: rtl;
-  text-align: center;
-}
+app = Flask(__name__)
 
-/* القائمة الجانبية */
-.menu {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-}
+# إنشاء قاعدة البيانات (إن لم تكن موجودة) عند تشغيل التطبيق
+def init_db():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS bookings (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            email TEXT,
+            trip TEXT,
+            date TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
 
-.menu button {
-  background-color: #1b3d2f;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
+# الصفحة الرئيسية
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-.menu ul {
-  display: none;
-  background-color: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  list-style: none;
-  margin-top: 10px;
-  text-align: right;
-}
+# صفحة عن الموقع
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
-.menu ul li {
-  margin: 10px 0;
-}
+# صفحة الرحلات
+@app.route('/trips')
+def trips():
+    return render_template('trips.html')
 
-.menu ul li a {
-  text-decoration: none;
-  color: #1b3d2f;
-  font-weight: bold;
-}
+# صفحة تفاصيل الرحلة
+@app.route('/trip/<trip_name>')
+def trip_details(trip_name):
+    return render_template('trip_details.html', trip_name=trip_name)
 
-/* المحتوى الرئيسي */
-.content {
-  max-width: 800px;
-  margin: 120px auto 40px;
-  padding: 20px;
-  background-color: #ffffffdd;
-  border-radius: 16px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
+# صفحة الحجز
+@app.route('/booking', methods=['GET', 'POST'])
+def booking():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        trip = request.form['trip']
+        date = request.form['date']
 
-.content h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
-  color: #1b3d2f;
-}
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO bookings (name, email, trip, date) VALUES (?, ?, ?, ?)",
+                  (name, email, trip, date))
+        conn.commit()
+        conn.close()
 
-.subtitle {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
+        return redirect(url_for('thank_you'))
 
-.visits {
-  font-size: 18px;
-  margin-top: 40px;
-  color: #555;
-}
+    return render_template('booking.html')
 
-/* زر احجز الآن */
-.btn {
-  display: inline-block;
-  background-color: #1b3d2f;
-  color: white;
-  padding: 12px 24px;
-  margin-top: 20px;
-  text-decoration: none;
-  border-radius: 10px;
-  font-size: 18px;
-  transition: background-color 0.3s ease;
-}
+# صفحة الشكر بعد الحجز
+@app.route('/thank_you')
+def thank_you():
+    return render_template('thank_you.html')
 
-.btn:hover {
-  background-color: #14452f;
-}
-
-/* معرض صور الرحلة */
-.gallery-images {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.gallery-images img {
-  width: 250px;
-  height: 170px;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease;
-}
-
-.gallery-images img:hover {
-  transform: scale(1.05);
-}
-
-/* تنسيق تفاصيل الرحلة */
-.trip-info {
-  background-color: #ffffffee;
-  border-radius: 12px;
-  padding: 20px;
-  margin: auto;
-  max-width: 700px;
-  text-align: right;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-
-.trip-info p {
-  font-size: 18px;
-  margin: 10px 0;
-}
-
-/* تنسيق عنوان القسم */
-.gallery h2 {
-  margin-top: 30px;
-  font-size: 24px;
-  color: #1b3d2f;
-}
-
-/* استجابة الجوال */
-@media (max-width: 600px) {
-  .content {
-    margin-top: 100px;
-    padding: 15px;
-  }
-
-  h1 {
-    font-size: 24px;
-  }
-
-  .btn {
-    font-size: 16px;
-    padding: 10px 20px;
-  }
-
-  .gallery-images img {
-    width: 90%;
-    height: auto;
-  }
-
-  .menu button {
-    font-size: 14px;
-  }
-
-  .trip-info {
-    padding: 15px;
-  }
-}
+# تشغيل التطبيق
+if __name__ == '__main__':
+    init_db()
+    app.run(debug=True)
