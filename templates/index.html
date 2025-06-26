@@ -3,54 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>وجهة السعودية</title>
-
-  <!-- إعداد التوافق مع الجوال -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- ربط ملف التنسيقات -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-  <!-- ربط الخط المحلي Tajawal -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='Tajawal.css') }}">
 </head>
 <body>
 
-  <!-- ===== القائمة الجانبية ===== -->
+  <!-- ✅ القائمة الجانبية -->
   <div class="menu">
     <button onclick="toggleMenu()">☰ القائمة</button>
     <ul id="menuItems">
-      <li><a href="#">🏠 الرئيسية</a></li>
-      <li><a href="#">ℹ️ عن الموقع</a></li>
-      <li><a href="#">🧳 الرحلات</a></li>
-      <li><a href="{{ url_for('about') }}">ℹ️ عن الموقع</a></li>
+      <li><a href="/">🏠 الرئيسية</a></li>
+      <li><a href="/about">ℹ️ عن الموقع</a></li>
+      <li><a href="/trips">🧳 الرحلات</a></li>
     </ul>
   </div>
 
-  <!-- ===== محتوى الصفحة ===== -->
+  <!-- ✅ المحتوى الرئيسي داخل إطار أبيض -->
   <div class="content">
-    <!-- شعار المنصة -->
-    <img src="{{ url_for('static', filename='logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
-
-    <!-- العنوان الرئيسي -->
-    <h1>مرحباً بك في وجهة السعودية</h1>
-
-    <!-- العبارة التعريفية -->
-    <p class="subtitle">استكشف المملكة العربية السعودية مع أفضل الباقات السياحية والمرشدين المحليين</p>
-
-    <!-- زر الحجز -->
+    <h1>مرحباً بكم في وجهة السعودية</h1>
+    <p class="subtitle">وجهتك...بخبرة سعودية وموثوقية كاملة</p>
     <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
   </div>
 
-  <!-- ===== تذييل الصفحة ===== -->
-  <footer>
-    <p>👥 عدد الزوار: <strong>2000</strong> زائر</p>
-  </footer>
+  <!-- ✅ عدد الزوار في الأسفل -->
+  <p class="visits">👁️ عدد الزوار: <strong>2000</strong> زائر</p>
 
-  <!-- كود التحكم في القائمة الجانبية -->
+  <!-- ✅ جافاسكربت لتفعيل القائمة -->
   <script>
     function toggleMenu() {
       const menu = document.getElementById("menuItems");
-      menu.style.display = (menu.style.display === "block") ? "none" : "block";
+      if (menu.style.display === "block") {
+        menu.style.display = "none";
+      } else {
+        menu.style.display = "block";
+      }
     }
   </script>
 
