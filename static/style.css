@@ -1,4 +1,4 @@
-/* 1. تحميل خط تاجوال من ملف محلي */
+/* تحميل خط تاجوال */
 @font-face {
   font-family: 'Tajawal';
   src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
@@ -6,18 +6,18 @@
   font-style: normal;
 }
 
-/* 2. إعدادات عامة للصفحة */
+/* إعدادات عامة */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Tajawal', sans-serif;
-  background-color: #f5f0e6; /* لون بيج ترابي */
-  color: #1b3d2f; /* أخضر داكن */
+  background-color: #f5f0e6; /* خلفية ترابية */
+  color: #1b3d2f;
   direction: rtl;
   text-align: center;
 }
 
-/* 3. القائمة الجانبية */
+/* القائمة الجانبية */
 .menu {
   position: fixed;
   top: 20px;
@@ -56,7 +56,7 @@ body {
   font-weight: bold;
 }
 
-/* 4. المحتوى الرئيسي */
+/* المحتوى الرئيسي */
 .content {
   max-width: 800px;
   margin: 120px auto 40px;
@@ -66,7 +66,6 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* 5. العناوين والعبارات */
 .content h1 {
   font-size: 36px;
   margin-bottom: 20px;
@@ -84,7 +83,7 @@ body {
   color: #555;
 }
 
-/* 6. زر احجز الآن */
+/* زر احجز الآن */
 .btn {
   display: inline-block;
   background-color: #1b3d2f;
@@ -101,59 +100,7 @@ body {
   background-color: #14452f;
 }
 
-/* 7. كروت الرحلات في trips.html */
-.trips-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin: 30px auto;
-  padding: 10px;
-}
-
-.trip-card {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  width: 300px;
-  padding: 15px;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.trip-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.trip-card h3 {
-  margin: 15px 0 10px;
-  font-size: 22px;
-  color: #1b3d2f;
-}
-
-.trip-card p {
-  font-size: 16px;
-  margin: 5px 0;
-}
-
-.trip-card .btn {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 18px;
-  background-color: #1b3d2f;
-  color: white;
-  border-radius: 8px;
-  text-decoration: none;
-}
-
-.trip-card:hover {
-  transform: scale(1.03);
-}
-
-/* 8. معرض الصور في صفحة تفاصيل الرحلة */
+/* معرض الصور */
 .gallery-images {
   display: flex;
   flex-wrap: wrap;
@@ -175,7 +122,7 @@ body {
   transform: scale(1.05);
 }
 
-/* 9. تفاصيل الرحلة */
+/* تنسيق تفاصيل الرحلة */
 .trip-info {
   background-color: #ffffffee;
   border-radius: 12px;
@@ -191,22 +138,49 @@ body {
   margin: 10px 0;
 }
 
-/* 10. عنوان قسم الصور */
+/* عنوان قسم المعرض */
 .gallery h2 {
   margin-top: 30px;
   font-size: 24px;
   color: #1b3d2f;
 }
 
-/* 11. استجابة للجوال */
+/* تنسيق نموذج الحجز */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: right;
+  max-width: 500px;
+  margin: auto;
+}
+
+input, select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* التذييل */
+footer {
+  margin-top: 60px;
+  padding: 20px;
+  background-color: #eee;
+  color: #555;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* استجابة للموبايل */
 @media (max-width: 600px) {
   .content {
     margin-top: 100px;
     padding: 15px;
   }
 
-  h1 {
-    font-size: 24px;
+  .content h1 {
+    font-size: 28px;
   }
 
   .btn {
@@ -225,9 +199,5 @@ body {
 
   .trip-info {
     padding: 15px;
-  }
-
-  .trip-card {
-    width: 90%;
   }
 }
