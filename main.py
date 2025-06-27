@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
-
 import os
-import sqlite3
 
 # إنشاء قاعدة البيانات تلقائيًا إذا لم تكن موجودة
 if not os.path.exists('create.db'):
@@ -19,9 +17,10 @@ if not os.path.exists('create.db'):
     conn.commit()
     conn.close()
 
-app = Flask(__name__)
+# تعريف التطبيق
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
-# إنشاء قاعدة البيانات (إن لم تكن موجودة) عند تشغيل التطبيق
+# تهيئة قاعدة البيانات
 def init_db():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
@@ -77,7 +76,7 @@ def booking():
 
     return render_template('booking.html')
 
-# صفحة الشكر بعد الحجز
+# صفحة الشكر
 @app.route('/thank_you')
 def thank_you():
     return render_template('thank_you.html')
