@@ -1,119 +1,136 @@
-/* إعداد الخط */
+/* تحميل خط تاجوال */
 @font-face {
-    font-family: 'Tajawal';
-    src: url('/static/fonts/Tajawal-Regular.ttf') format('truetype');
+  font-family: 'Tajawal';
+  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
+
+/* إعدادات عامة */
 body {
-    font-family: 'Tajawal', sans-serif;
-    margin: 0;
-    padding: 0;
-    direction: rtl;
-    background-color: #f9f6f1;
-    color: #1c3c2f;
+  margin: 0;
+  padding: 0;
+  font-family: 'Tajawal', sans-serif;
+  background-color: #f7f3ef;
+  color: #1b3d2f;
+  direction: rtl;
+  text-align: center;
 }
 
-/* رأس الصفحة */
+/* الشعار والزر العلوي */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 15px 30px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
 }
+
 .logo {
-    height: 60px;
-}
-.nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-}
-.nav li {
-    margin-left: 20px;
-}
-.nav a {
-    text-decoration: none;
-    color: #1c3c2f;
-    font-weight: bold;
-}
-.nav a.active,
-.nav a:hover {
-    color: #006c4f;
+  width: 120px;
+  height: auto;
 }
 
-/* المحتوى الرئيسي */
-.container {
-    padding: 40px 20px;
-    max-width: 1200px;
-    margin: auto;
-}
-.page-title {
-    font-size: 32px;
-    margin-bottom: 30px;
-    text-align: center;
-    color: #006c4f;
+.btn-back {
+  background-color: #1b3d2f;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 16px;
 }
 
-/* بطاقات الرحلات */
-.trip-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-.trip-card {
-    background-color: #fff;
-    border-radius: 10px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    overflow: hidden;
-    text-align: center;
-    padding-bottom: 20px;
-    transition: transform 0.3s ease;
-}
-.trip-card:hover {
-    transform: translateY(-5px);
-}
-.trip-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-.trip-card h3 {
-    margin: 15px 0 10px;
-}
-.trip-card p {
-    margin: 0 15px 15px;
-    color: #444;
-}
-.trip-card .btn {
-    display: inline-block;
-    background-color: #006c4f;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-}
-.trip-card .btn:hover {
-    background-color: #004e36;
+.btn-back:hover {
+  background-color: #14452f;
 }
 
-/* تذييل الصفحة */
+/* تفاصيل الرحلة */
+.trip-info {
+  background-color: #ffffffee;
+  border-radius: 16px;
+  padding: 30px 20px;
+  margin: 20px auto;
+  max-width: 850px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  text-align: right;
+}
+
+.trip-info h1 {
+  font-size: 32px;
+  color: #1b3d2f;
+  margin-bottom: 20px;
+}
+
+.trip-info p {
+  font-size: 18px;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+/* معرض الصور */
+.gallery-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.gallery-images img {
+  width: 230px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.gallery-images img:hover {
+  transform: scale(1.05);
+}
+
+/* زر احجز الآن */
+.btn {
+  display: inline-block;
+  background-color: #1b3d2f;
+  color: white;
+  padding: 12px 24px;
+  margin-top: 30px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #14452f;
+}
+
+/* التذييل */
 footer {
-    background-color: #eee;
-    text-align: center;
-    padding: 20px;
-    font-size: 14px;
-    margin-top: 40px;
+  margin-top: 60px;
+  padding: 20px;
+  background-color: #eee;
+  color: #555;
+  font-size: 14px;
 }
 
-/* استجابة الشاشة */
+/* استجابة للجوال */
 @media (max-width: 768px) {
-    .trip-list {
-        flex-direction: column;
-        align-items: center;
-    }
+  .trip-info h1 {
+    font-size: 26px;
+  }
+
+  .gallery-images img {
+    width: 90%;
+    height: auto;
+  }
+
+  .logo {
+    width: 90px;
+  }
+
+  .btn-back {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
 }
