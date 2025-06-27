@@ -7,36 +7,21 @@
 </head>
 <body>
 
+    <!-- شعار الموقع -->
     <div class="logo-container">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية">
     </div>
 
-    <div class="menu">
-        <button onclick="toggleMenu()">القائمة ☰</button>
-        <ul id="menu-list">
-            <li><a href="/">الرئيسية</a></li>
-            <li><a href="/about">عن الموقع</a></li>
-            <li><a href="/trips">الرحلات</a></li>
-            <li><a href="/booking">احجز الآن</a></li>
-        </ul>
+    <!-- المحتوى الرئيسي -->
+    <div class="content">
+        <h1>مرحبًا بكم في وجهة السعودية</h1>
+        <p class="subtitle">اكتشف أجمل الوجهات السياحية مع أفضل المرشدين المحليين</p>
+        <a href="/trips" class="btn">استعرض الرحلات</a>
     </div>
 
-    <div class="main-content">
-        <h1>مرحباً في وجهة السعودية</h1>
-        <p class="subtitle">وجهتك. بخبرة، سعودية وموثوقية كاملة</p>
-        <a href="/booking" class="btn">احجز الآن</a>
-    </div>
-
-    <script>
-        function toggleMenu() {
-            var list = document.getElementById('menu-list');
-            if (list.style.display === 'block') {
-                list.style.display = 'none';
-            } else {
-                list.style.display = 'block';
-            }
-        }
-    </script>
-
+    <!-- تذييل -->
+    <footer>
+        جميع الحقوق محفوظة © وجهة السعودية 2025
+    </footer>
 </body>
 </html>
