@@ -1,23 +1,20 @@
-/* الخط */
 @font-face {
     font-family: 'Tajawal';
-    src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
+    src: url('./fonts/Tajawal-Regular.ttf') format('truetype');
     font-weight: normal;
-    font-style: normal;
 }
 
 body {
     margin: 0;
     padding: 0;
     font-family: 'Tajawal', sans-serif;
-    background-image: url('../images/background_saudidest.PNG');
+    background-image: url('./images/background_saudidest.PNG');
     background-size: cover;
-    background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    color: #fff;
     direction: rtl;
     text-align: center;
+    color: #fff;
 }
 
 /* الشعار */
@@ -38,7 +35,7 @@ body {
     left: 20px;
 }
 .menu button {
-    background-color: #d95f1a;
+    background-color: #d9732f;
     color: white;
     border: none;
     padding: 10px 16px;
@@ -50,26 +47,22 @@ body {
     display: none;
     background-color: white;
     padding: 10px;
-    border-radius: 8px;
     list-style: none;
-    margin-top: 10px;
-    text-align: right;
+    border-radius: 8px;
 }
 .menu ul li {
-    margin: 8px 0;
+    margin: 5px 0;
 }
 .menu ul li a {
-    color: #1b132f;
-    font-weight: bold;
+    color: #1b3d2f;
     text-decoration: none;
+    font-weight: bold;
 }
 
-/* المحتوى الرئيسي */
+/* المحتوى */
 .main-content {
     margin-top: 180px;
     padding: 40px 20px;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 20px;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
@@ -86,7 +79,7 @@ body {
 /* زر الحجز */
 .btn {
     display: inline-block;
-    background-color: #d95f1a;
+    background-color: #d9732f;
     color: white;
     padding: 12px 24px;
     margin-top: 20px;
@@ -96,7 +89,7 @@ body {
     transition: background-color 0.3s ease;
 }
 .btn:hover {
-    background-color: #a4470f;
+    background-color: #aa4f07;
 }
 
 /* استجابة للشاشات الصغيرة */
