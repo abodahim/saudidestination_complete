@@ -7,21 +7,40 @@
 </head>
 <body>
 
-    <!-- شعار الموقع -->
-    <div class="logo-container">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية">
-    </div>
+<!-- شعار الموقع -->
+<div class="logo-container">
+    <img src="{{ url_for('static', filename='logo.JPG') }}" alt="شعار الموقع">
+</div>
 
-    <!-- المحتوى الرئيسي -->
-    <div class="content">
-        <h1>مرحبًا بكم في وجهة السعودية</h1>
-        <p class="subtitle">اكتشف أجمل الوجهات السياحية مع أفضل المرشدين المحليين</p>
-        <a href="/trips" class="btn">استعرض الرحلات</a>
-    </div>
+<!-- قائمة التنقل -->
+<div class="menu">
+    <button onclick="toggleMenu()">القائمة ☰</button>
+    <ul id="navList">
+        <li><a href="/">الرئيسية</a></li>
+        <li><a href="/about">عن الموقع</a></li>
+        <li><a href="/trips">الرحلات</a></li>
+        <li><a href="/booking">احجز الآن</a></li>
+    </ul>
+</div>
 
-    <!-- تذييل -->
-    <footer>
-        جميع الحقوق محفوظة © وجهة السعودية 2025
-    </footer>
+<!-- المحتوى الرئيسي -->
+<div class="content">
+    <h1>اكتشف وجهات السعودية السياحية</h1>
+    <p class="subtitle">استمتع بأجمل الرحلات مع مرشدين محليين وخبرات لا تُنسى 🌴🕌</p>
+    <a href="/trips" class="btn">استعرض الرحلات</a>
+</div>
+
+<!-- خلفية طبيعية -->
+<div class="background">
+    <img src="{{ url_for('static', filename='background_saudidest.png') }}" alt="خلفية" />
+</div>
+
+<script>
+    function toggleMenu() {
+        const nav = document.getElementById("navList");
+        nav.style.display = nav.style.display === "block" ? "none" : "block";
+    }
+</script>
+
 </body>
 </html>
