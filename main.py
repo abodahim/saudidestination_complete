@@ -1,138 +1,59 @@
-/* تحميل خط محلي */
-@font-face {
-  font-family: 'Tajawal';
-  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
-}
+from flask import Flask, render_template, request, redirect, url_for
+import sqlite3
+import os
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Tajawal', sans-serif;
-  background-color: #f4f1eb;
-  color: #1b3d2f;
-  direction: rtl;
-  text-align: center;
-  overflow-x: hidden;
-}
+# إنشاء قاعدة البيانات إذا لم تكن موجودة
+if not os.path.exists('database.db'):
+    conn = sqlite3.connect('database.db')
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS bookings (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            trip TEXT NOT NULL,
+            date TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
 
-/* الشعار */
-.logo-container {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-}
+app = Flask(__name__)
 
-.logo-container img {
-  width: 100px;
-}
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-/* قائمة التنقل */
-.menu {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
-}
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
-.menu button {
-  background-color: #1b3d2f;
-  color: white;
-  padding: 10px 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-}
+@app.route('/trips')
+def trips():
+    return render_template('trips.html')
 
-.menu ul {
-  display: none;
-  list-style: none;
-  background-color: white;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
+@app.route('/trip/<trip_name>')
+def trip_details(trip_name):
+    return render_template('trip_details.html', trip_name=trip_name)
 
-.menu ul li {
-  margin: 8px 0;
-}
+@app.route('/booking', methods=['GET', 'POST'])
+def booking():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        trip = request.form['trip']
+        date = request.form['date']
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO bookings (name, email, trip, date) VALUES (?, ?, ?, ?)",
+                  (name, email, trip, date))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('thank_you'))
+    return render_template('booking.html')
 
-.menu ul li a {
-  text-decoration: none;
-  color: #1b3d2f;
-  font-weight: bold;
-}
+@app.route('/thank_you')
+def thank_you():
+    return render_template('thank_you.html')
 
-/* المحتوى */
-.content {
-  margin-top: 160px;
-  background-color: #ffffffcc;
-  padding: 40px 20px;
-  border-radius: 20px;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.content h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-
-.subtitle {
-  font-size: 20px;
-  color: #555;
-  margin-bottom: 30px;
-}
-
-.btn {
-  background-color: #1b3d2f;
-  color: white;
-  padding: 14px 30px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-size: 18px;
-  transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-  background-color: #14452f;
-}
-
-/* الخلفية */
-.background {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: -1;
-}
-
-.background img {
-  width: 100%;
-  height: auto;
-  opacity: 0.9;
-}
-
-/* استجابة للجوال */
-@media (max-width: 600px) {
-  .content {
-    width: 90%;
-    padding: 20px;
-  }
-
-  .content h1 {
-    font-size: 26px;
-  }
-
-  .btn {
-    font-size: 16px;
-    padding: 10px 20px;
-  }
-
-  .logo-container img {
-    width: 80px;
-  }
-}
+if __name__ == '__main__':
+    app.run(debug=True)
