@@ -1,35 +1,133 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>وجهة السعودية</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <header class="header">
-    <img src="{{ url_for('static', filename='logo.JPG') }}" alt="logo" class="logo">
-    <button class="menu-btn" onclick="toggleMenu()">☰ القائمة</button>
-    <nav class="menu-nav" id="menuNav">
-      <ul>
-        <li><a href="#">🏠 الرئيسية</a></li>
-        <li><a href="#">ℹ️ عن الموقع</a></li>
-        <li><a href="#">🧳 الرحلات</a></li>
-      </ul>
-    </nav>
-  </header>
+/* خط تاجوال */
+@font-face {
+  font-family: 'Tajawal';
+  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
-  <main class="main-banner">
-    <h1>مرحبًا في جهـة السعوديـة</h1>
-    <p class="subtitle">وجهتك. بخبرة، سعودية، وموثوقية كاملة</p>
-    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
-  </main>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Tajawal', sans-serif;
+  background-image: url('../images/background_saudidest.PNG');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #fff;
+  direction: rtl;
+  text-align: center;
+}
 
-  <script>
-    function toggleMenu() {
-      const nav = document.getElementById('menuNav');
-      nav.style.display = (nav.style.display === 'block') ? 'none' : 'block';
-    }
-  </script>
-</body>
-</html>
+/* الشعار */
+.logo-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.logo {
+  height: 80px;
+  border-radius: 10px;
+}
+
+/* القائمة */
+.menu {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.menu button {
+  background-color: #d95f1a;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menu ul {
+  display: none;
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
+  list-style: none;
+  margin-top: 10px;
+  text-align: right;
+}
+
+.menu ul li {
+  margin: 8px 0;
+}
+
+.menu ul li a {
+  color: #1b3d2f;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* المحتوى الرئيسي */
+.main-content {
+  margin-top: 180px;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 40px 20px;
+  border-radius: 20px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main-content h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+/* زر الحجز */
+.btn {
+  display: inline-block;
+  background-color: #d95f1a;
+  color: white;
+  padding: 12px 24px;
+  margin-top: 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #a4470f;
+}
+
+/* استجابة الشاشات الصغيرة */
+@media (max-width: 600px) {
+  .main-content {
+    padding: 20px;
+    margin-top: 100px;
+  }
+
+  .main-content h1 {
+    font-size: 24px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .logo {
+    height: 60px;
+  }
+
+  .menu button {
+    font-size: 14px;
+  }
+}
