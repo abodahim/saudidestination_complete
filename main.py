@@ -2,7 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import os
 
-# إنشاء قاعدة البيانات إذا لم تكن موجودة
+# 🔹 تعريف المسارات الثابتة والصور (مهم للعمل على Render)
+app = Flask(__name__, static_folder='static', template_folder='templates')
+
+# 🔹 إنشاء قاعدة البيانات تلقائيًا إذا لم تكن موجودة
 if not os.path.exists('database.db'):
     conn = sqlite3.connect('database.db')
     conn.execute('''
@@ -17,29 +20,27 @@ if not os.path.exists('database.db'):
     conn.commit()
     conn.close()
 
-app = Flask(__name__)
-
-# الصفحة الرئيسية
+# 🔹 الصفحة الرئيسية
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# صفحة عن الموقع
+# 🔹 صفحة "عن الموقع"
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-# صفحة الرحلات
+# 🔹 صفحة الرحلات
 @app.route('/trips')
 def trips():
     return render_template('trips.html')
 
-# صفحة تفاصيل الرحلة
+# 🔹 صفحة تفاصيل الرحلة
 @app.route('/trip/<trip_name>')
 def trip_details(trip_name):
     return render_template('trip_details.html', trip_name=trip_name)
 
-# صفحة الحجز
+# 🔹 صفحة الحجز
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
     if request.method == 'POST':
@@ -48,6 +49,7 @@ def booking():
         trip = request.form['trip']
         date = request.form['date']
 
+        # 🔸 تخزين بيانات الحجز في قاعدة البيانات
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
         c.execute("INSERT INTO bookings (name, email, trip, date) VALUES (?, ?, ?, ?)",
@@ -59,10 +61,11 @@ def booking():
 
     return render_template('booking.html')
 
-# صفحة الشكر بعد الحجز
+# 🔹 صفحة الشكر بعد الحجز
 @app.route('/thank_you')
 def thank_you():
     return render_template('thank_you.html')
 
+# 🔹 تشغيل التطبيق في الوضع المحلي
 if __name__ == '__main__':
     app.run(debug=True)
