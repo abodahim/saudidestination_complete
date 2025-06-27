@@ -1,210 +1,110 @@
-/* تحميل خط تاجوال */
-@font-face {
-  font-family: 'Tajawal';
-  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* إعدادات عامة */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Tajawal', sans-serif;
-  background: url("/static/images/background_saudidest.PNG") center center / cover no-repeat fixed;
-  color: #1b3d2f;
-  direction: rtl;
-  text-align: center;
+    margin: 0;
+    font-family: 'Tajawal', sans-serif;
+    background: url("../images/background_saudidest.PNG") no-repeat center center fixed;
+    background-size: cover;
 }
 
-/* القائمة الجانبية */
-.menu {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.menu button {
-  background-color: #1b3d2f;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.menu ul {
-  display: none;
-  background-color: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  list-style: none;
-  margin-top: 10px;
-  text-align: right;
-}
-
-.menu ul li {
-  margin: 10px 0;
-}
-
-.menu ul li a {
-  text-decoration: none;
-  color: #1b3d2f;
-  font-weight: bold;
-}
-
-/* الشعار */
 .logo {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 100px;
+    height: 60px;
 }
 
-/* المحتوى الرئيسي */
-.content {
-  max-width: 800px;
-  margin: 120px auto 40px;
-  padding: 20px;
-  background-color: #ffffffdd;
-  border-radius: 16px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+.menu {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 15px;
 }
 
-.content h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
-  color: #1b3d2f;
+.menu li {
+    display: inline;
 }
 
-.subtitle {
-  font-size: 20px;
-  margin-bottom: 20px;
+.menu a {
+    text-decoration: none;
+    color: #004225;
+    font-weight: bold;
+}
+
+.menu-btn {
+    display: none;
+    background-color: #004225;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+}
+
+.hero {
+    text-align: center;
+    padding: 120px 20px;
+    background-color: rgba(255, 255, 255, 0.85);
+    max-width: 90%;
+    margin: 60px auto;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.hero h1 {
+    font-size: 2em;
+    color: #004225;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 .btn {
-  display: inline-block;
-  background-color: #1b3d2f;
-  color: white;
-  padding: 12px 24px;
-  margin-top: 20px;
-  text-decoration: none;
-  border-radius: 10px;
-  font-size: 18px;
-  transition: background-color 0.3s ease;
+    background-color: #004225;
+    color: white;
+    padding: 10px 25px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
 }
 
-.btn:hover {
-  background-color: #14452f;
-}
-
-/* معرض الصور */
-.gallery-images {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.gallery-images img {
-  width: 250px;
-  height: 170px;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease;
-}
-
-.gallery-images img:hover {
-  transform: scale(1.05);
-}
-
-/* تفاصيل الرحلة */
-.trip-info {
-  background-color: #ffffffee;
-  border-radius: 12px;
-  padding: 20px;
-  margin: auto;
-  max-width: 700px;
-  text-align: right;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-
-.trip-info p {
-  font-size: 18px;
-  margin: 10px 0;
-}
-
-/* ترويسة المعرض */
-.gallery h2 {
-  margin-top: 30px;
-  font-size: 24px;
-  color: #1b3d2f;
-}
-
-/* نموذج الحجز */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  text-align: right;
-  max-width: 500px;
-  margin: auto;
-}
-
-input, select {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-/* التذييل */
 footer {
-  margin-top: 60px;
-  padding: 20px;
-  background-color: #eee;
-  color: #555;
-  font-size: 14px;
-  text-align: center;
+    text-align: center;
+    padding: 15px;
+    background-color: #f2f2f2;
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 50px;
 }
 
-/* استجابة الجوال */
-@media (max-width: 600px) {
-  .content {
-    margin-top: 100px;
-    padding: 15px;
-  }
+/* Responsive */
+@media (max-width: 768px) {
+    .menu {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        background-color: white;
+        padding: 10px;
+        position: absolute;
+        top: 70px;
+        right: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        border-radius: 10px;
+    }
 
-  .content h1 {
-    font-size: 28px;
-  }
+    .menu.show {
+        display: flex;
+    }
 
-  .btn {
-    font-size: 16px;
-    padding: 10px 20px;
-  }
-
-  .gallery-images img {
-    width: 90%;
-    height: auto;
-  }
-
-  .menu button {
-    font-size: 14px;
-  }
-
-  .trip-info {
-    padding: 15px;
-  }
-
-  .logo {
-    width: 80px;
-    top: 10px;
-    left: 10px;
-  }
+    .menu-btn {
+        display: block;
+    }
 }
