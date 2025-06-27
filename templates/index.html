@@ -6,13 +6,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+
     <div class="logo-container">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" class="logo" alt="شعار">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
     </div>
 
     <div class="menu">
         <button onclick="toggleMenu()">القائمة ☰</button>
-        <ul id="menuItems">
+        <ul id="menu-list">
             <li><a href="/">الرئيسية</a></li>
             <li><a href="/about">عن الموقع</a></li>
             <li><a href="/trips">الرحلات</a></li>
@@ -21,15 +22,21 @@
     </div>
 
     <div class="main-content">
-        <h1>مرحباً في وجهة السعودية <br> بوجهة السعودية</h1>
+        <h1>مرحباً في وجهة السعودية</h1>
         <p class="subtitle">وجهتك. بخبرة، سعودية وموثوقية كاملة</p>
         <a href="/booking" class="btn">احجز الآن</a>
     </div>
+
+    <script>
+        function toggleMenu() {
+            var list = document.getElementById('menu-list');
+            if (list.style.display === 'block') {
+                list.style.display = 'none';
+            } else {
+                list.style.display = 'block';
+            }
+        }
+    </script>
+
 </body>
-<script>
-function toggleMenu() {
-    const menu = document.getElementById('menuItems');
-    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-}
-</script>
 </html>
