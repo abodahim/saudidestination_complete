@@ -2,11 +2,18 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>وجهة السعودية</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
+    <!-- الشعار -->
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار الموقع" class="logo">
+    </div>
+
+    <!-- القائمة -->
     <div class="menu">
         <button onclick="toggleMenu()">القائمة ☰</button>
         <ul id="menuList">
@@ -17,21 +24,23 @@
         </ul>
     </div>
 
-    <div class="logo-container">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار" class="logo">
-    </div>
-
+    <!-- المحتوى الرئيسي -->
     <div class="main-content">
         <h1>مرحباً في وجهة السعودية</h1>
-        <div class="subtitle">وجهتك. بخبرة، سعودية وموثوقية كاملة</div>
+        <p class="subtitle">وجهتك، بخبرة، سعودية وموثوقية كاملة</p>
         <a href="/booking" class="btn">احجز الآن</a>
     </div>
 
     <script>
         function toggleMenu() {
-            var menuList = document.getElementById("menuList");
-            menuList.style.display = menuList.style.display === "block" ? "none" : "block";
+            var menu = document.getElementById("menuList");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
         }
     </script>
+
 </body>
 </html>
