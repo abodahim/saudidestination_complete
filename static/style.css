@@ -1,7 +1,6 @@
-/* الخط */
 @font-face {
   font-family: 'Tajawal';
-  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
+  src: url('fonts/Tajawal-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -10,82 +9,50 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Tajawal', sans-serif;
-  background-image: url('../images/background_saudidest.PNG');
+  background-image: url('images/background_saudidest.PNG');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  color: #fff;
+  color: #1b3d2f;
   direction: rtl;
   text-align: center;
 }
 
-/* الشعار */
 .logo-container {
   position: absolute;
-  top: 20px;
-  right: 20px;
-}
-.logo {
-  height: 80px;
-  border-radius: 10px;
-}
-
-/* القائمة */
-.menu {
-  position: absolute;
-  top: 20px;
+  top: 15px;
   left: 20px;
-}
-.menu button {
-  background-color: #d95f1a;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.menu ul {
-  display: none;
-  background-color: white;
-  padding: 10px;
-  border-radius: 8px;
-  list-style: none;
-  margin-top: 10px;
-  text-align: right;
-}
-.menu ul li a {
-  color: #1b3f2f;
-  font-weight: bold;
-  text-decoration: none;
-  padding: 6px 0;
-  display: block;
+  width: 100px;
 }
 
-/* النصوص */
-.main-content {
-  margin-top: 180px;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 40px 20px;
-  border-radius: 20px;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+.logo-container img {
+  width: 100%;
+  height: auto;
 }
-.main-content h1 {
+
+.content {
+  max-width: 800px;
+  margin: 160px auto 40px;
+  padding: 20px;
+  background-color: #ffffffdd;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.content h1 {
   font-size: 36px;
   margin-bottom: 20px;
+  color: #1b3d2f;
 }
+
 .subtitle {
   font-size: 20px;
   margin-bottom: 20px;
 }
 
-/* زر الحجز */
 .btn {
-  display: inline-block;
-  background-color: #d95f1a;
+  background-color: #1b3d2f;
   color: white;
   padding: 12px 24px;
   margin-top: 20px;
@@ -94,27 +61,16 @@ body {
   font-size: 18px;
   transition: background-color 0.3s ease;
 }
+
 .btn:hover {
-  background-color: #a4470f;
+  background-color: #14452f;
 }
 
-/* استجابة الشاشات الصغيرة */
-@media (max-width: 600px) {
-  .main-content {
-    padding: 20px;
-    margin-top: 100px;
-  }
-  .main-content h1 {
-    font-size: 24px;
-  }
-  .btn {
-    font-size: 16px;
-    padding: 10px 20px;
-  }
-  .logo {
-    height: 60px;
-  }
-  .menu button {
-    font-size: 14px;
-  }
+footer {
+  margin-top: 60px;
+  padding: 20px;
+  background-color: #eee;
+  color: #555;
+  font-size: 14px;
+  text-align: center;
 }
