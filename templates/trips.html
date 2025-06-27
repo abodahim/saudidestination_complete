@@ -2,50 +2,52 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الرحلات - وجهة السعودية</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="trips-page">
 
     <header class="header">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار الموقع" class="logo">
-        <nav>
-            <ul class="nav">
-                <li><a href="/">الرئيسية</a></li>
-                <li><a href="/about">عن الموقع</a></li>
-                <li><a href="/trips" class="active">الرحلات</a></li>
-                <li><a href="/booking">احجز الآن</a></li>
-            </ul>
-        </nav>
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+        <a href="/" class="btn-back">الرئيسية</a>
     </header>
 
-    <main class="container">
-        <h1 class="page-title">الرحلات المتوفرة</h1>
+    <main>
+        <h1 class="page-title">✈️ الرحلات المتاحة</h1>
 
-        <div class="trip-list">
-            <!-- بطاقة الرحلة 1 -->
+        <div class="trips-container">
+
+            <!-- جدة -->
             <div class="trip-card">
-                <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="جدة">
-                <h3>رحلة إلى جدة</h3>
-                <p>استمتع بجمال البحر الأحمر والمعالم التاريخية.</p>
-                <a href="/trip/jeddah" class="btn">تفاصيل</a>
+                <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="جدة" class="trip-img">
+                <div class="trip-details">
+                    <h2>🌊 جدة التاريخية</h2>
+                    <p>استمتع بجولة مميزة على البحر الأحمر وزيارة المعالم التاريخية.</p>
+                    <a href="/trip/جدة" class="trip-btn">عرض التفاصيل</a>
+                </div>
             </div>
 
-            <!-- بطاقة الرحلة 2 -->
+            <!-- الرياض -->
             <div class="trip-card">
-                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض">
-                <h3>رحلة إلى الرياض</h3>
-                <p>استكشف العاصمة وثقافتها النابضة بالحياة.</p>
-                <a href="/trip/riyadh" class="btn">تفاصيل</a>
+                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض" class="trip-img">
+                <div class="trip-details">
+                    <h2>🏙️ الرياض الحديثة</h2>
+                    <p>استكشف عاصمة المملكة من خلال باقات متنوعة وزيارات للمعالم العصرية.</p>
+                    <a href="/trip/الرياض" class="trip-btn">عرض التفاصيل</a>
+                </div>
             </div>
 
-            <!-- بطاقة الرحلة 3 -->
+            <!-- ينبع -->
             <div class="trip-card">
-                <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="ينبع">
-                <h3>رحلة إلى ينبع</h3>
-                <p>استرخِ على الشواطئ واستمتع بالأنشطة البحرية.</p>
-                <a href="/trip/yanbu" class="btn">تفاصيل</a>
+                <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="ينبع" class="trip-img">
+                <div class="trip-details">
+                    <h2>🏖️ ينبع البحرية</h2>
+                    <p>رحلات بحرية وغوص في أعماق البحر الأحمر مع مرشدين متخصصين.</p>
+                    <a href="/trip/ينبع" class="trip-btn">عرض التفاصيل</a>
+                </div>
             </div>
+
         </div>
     </main>
 
