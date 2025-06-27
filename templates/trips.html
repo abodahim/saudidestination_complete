@@ -1,30 +1,57 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>الرحلات السياحية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>الرحلات - وجهة السعودية</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-  <header>
-    <h1>استعرض الرحلات السياحية</h1>
-  </header>
+    <header class="header">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار الموقع" class="logo">
+        <nav>
+            <ul class="nav">
+                <li><a href="/">الرئيسية</a></li>
+                <li><a href="/about">عن الموقع</a></li>
+                <li><a href="/trips" class="active">الرحلات</a></li>
+                <li><a href="/booking">احجز الآن</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <!-- عرض بطاقات الرحلات -->
-  <section class="trips-container">
-    {% for trip in trips %}
-      <div class="trip-card">
-        <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="صورة الرحلة">
-        <h3>{{ trip.title }}</h3>
-        <p>{{ trip.description }}</p>
-        <p><strong>السعر:</strong> {{ trip.price }} ريال</p>
-        <p><strong>التاريخ:</strong> {{ trip.date }}</p>
-        <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn">عرض التفاصيل</a>
-      </div>
-    {% endfor %}
-  </section>
+    <main class="container">
+        <h1 class="page-title">الرحلات المتوفرة</h1>
+
+        <div class="trip-list">
+            <!-- بطاقة الرحلة 1 -->
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="جدة">
+                <h3>رحلة إلى جدة</h3>
+                <p>استمتع بجمال البحر الأحمر والمعالم التاريخية.</p>
+                <a href="/trip/jeddah" class="btn">تفاصيل</a>
+            </div>
+
+            <!-- بطاقة الرحلة 2 -->
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض">
+                <h3>رحلة إلى الرياض</h3>
+                <p>استكشف العاصمة وثقافتها النابضة بالحياة.</p>
+                <a href="/trip/riyadh" class="btn">تفاصيل</a>
+            </div>
+
+            <!-- بطاقة الرحلة 3 -->
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="ينبع">
+                <h3>رحلة إلى ينبع</h3>
+                <p>استرخِ على الشواطئ واستمتع بالأنشطة البحرية.</p>
+                <a href="/trip/yanbu" class="btn">تفاصيل</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>جميع الحقوق محفوظة © وجهة السعودية 2025</p>
+    </footer>
 
 </body>
 </html>
