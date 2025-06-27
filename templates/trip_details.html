@@ -1,36 +1,60 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>{{ trip.title }}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- ربط ملف التنسيق الخارجي -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الرحلة - {{ trip_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-  <!-- رأس الصفحة -->
-  <header>
-    <h1>{{ trip.title }}</h1>
-  </header>
+    <header class="header">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار" class="logo">
+        <a href="/trips" class="btn-back">العودة للرحلات</a>
+    </header>
 
-  <!-- تفاصيل الرحلة -->
-  <section class="trip-info">
-    <p><strong>الوصف:</strong> {{ trip.description }}</p>
-    <p><strong>التاريخ:</strong> {{ trip.date }}</p>
-    <p><strong>السعر:</strong> {{ trip.price }} ريال</p>
-  </section>
+    <main class="trip-info">
 
-  <!-- صور الرحلة -->
-  <section class="gallery">
-    <h2>معرض الصور</h2>
-    <div class="gallery-images">
-      {% for img in trip.images %}
-        <img src="{{ url_for('static', filename='images/' + img) }}" alt="صورة من الرحلة">
-      {% endfor %}
-    </div>
-  </section>
+        <h1>تفاصيل الرحلة إلى {{ trip_name }}</h1>
+
+        {% if trip_name == "جدة" %}
+            <p>✨ جولة ساحلية في جدة التاريخية تشمل زيارة البلد والأسواق الشعبية.</p>
+            <div class="gallery-images">
+                <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}">
+                <img src="{{ url_for('static', filename='images/jeddah_2.JPG') }}">
+                <img src="{{ url_for('static', filename='images/jeddah_3.JPG') }}">
+                <img src="{{ url_for('static', filename='images/jeddah_4.JPG') }}">
+            </div>
+
+        {% elif trip_name == "الرياض" %}
+            <p>🏙️ استكشف معالم الرياض العصرية والتاريخية مع مرشدين محترفين.</p>
+            <div class="gallery-images">
+                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}">
+                <img src="{{ url_for('static', filename='images/riyadh_2.JPG') }}">
+                <img src="{{ url_for('static', filename='images/riyadh_3.JPG') }}">
+                <img src="{{ url_for('static', filename='images/riyadh_4.JPG') }}">
+            </div>
+
+        {% elif trip_name == "ينبع" %}
+            <p>🏖️ رحلة استجمام في ينبع البحرية مع نشاطات بحرية وغوص.</p>
+            <div class="gallery-images">
+                <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}">
+                <img src="{{ url_for('static', filename='images/yanbu_2.JPG') }}">
+                <img src="{{ url_for('static', filename='images/yanbu_3.JPG') }}">
+                <img src="{{ url_for('static', filename='images/yanbu_4.JPG') }}">
+            </div>
+
+        {% else %}
+            <p>لا توجد تفاصيل متاحة لهذه الرحلة حالياً.</p>
+        {% endif %}
+
+        <a href="/booking" class="btn">احجز الآن</a>
+
+    </main>
+
+    <footer>
+        <p>جميع الحقوق محفوظة © وجهة السعودية 2025</p>
+    </footer>
 
 </body>
 </html>
