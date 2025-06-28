@@ -1,111 +1,86 @@
-@font-face {
-  font-family: 'Tajawal';
-  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
+/* الخط الأساسي */
 body {
+  font-family: 'Tajawal', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Tajawal', sans-serif;
-  background-color: #f5f0e6;
-  color: #1b3d2f;
+  background-color: #f9f9f9;
   direction: rtl;
-  text-align: center;
 }
 
-.content {
-  max-width: 800px;
-  margin: 60px auto;
-  padding: 20px;
-  background-color: #ffffffee;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-h1, h2 {
-  color: #1b3d2f;
-  margin-bottom: 20px;
-}
-
-form {
+/* رأس الصفحة */
+.header {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  text-align: right;
-  margin-top: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #fff;
 }
 
-input, select {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+.logo img {
+  max-width: 100px;
+  height: auto;
 }
 
-button {
-  background-color: #1b3d2f;
-  color: white;
-  padding: 10px 20px;
+/* زر القائمة */
+.nav-toggle {
+  background-color: #004d32;
+  color: #fff;
   border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-button:hover {
-  background-color: #14452f;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  font-size: 15px;
-}
-
-th, td {
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-
-th {
-  background-color: #1b3d2f;
-  color: white;
-}
-
-tr:nth-child(even) {
-  background-color: #f7f7f7;
-}
-
-.btn {
-  display: inline-block;
-  background-color: #1b3d2f;
-  color: white;
-  padding: 10px 20px;
+  padding: 0.6rem 1.2rem;
   border-radius: 8px;
-  margin-top: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* الحاوية الرئيسية */
+.container {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+/* العناوين */
+h1 {
+  font-size: 6vw;
+  color: #004d32;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 4vw;
+  color: #444;
+  margin-bottom: 1.5rem;
+}
+
+/* زر احجز الآن */
+.btn {
+  background-color: #004d32;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
-.btn:hover {
-  background-color: #14452f;
+/* تذييل */
+.footer {
+  background-color: #eee;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 2rem;
 }
 
-@media (max-width: 600px) {
-  .content {
-    margin: 40px 10px;
-    padding: 15px;
+/* للأجهزة الكبيرة */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2.8rem;
   }
 
-  table, th, td {
-    font-size: 14px;
+  p {
+    font-size: 1.2rem;
   }
 
-  input, select, button {
-    font-size: 15px;
+  .btn {
+    font-size: 1.1rem;
   }
 }
