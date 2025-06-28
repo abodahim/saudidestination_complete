@@ -7,6 +7,71 @@ body {
     direction: rtl;
 }
 
+.trips-page {
+    background-color: #fdfaf5;
+    font-family: 'Tajawal', sans-serif;
+    padding: 20px;
+    margin-right: 220px; /* تأكيد ترك مساحة للقائمة */
+}
+
+.page-title {
+    text-align: center;
+    color: #1d4d3d;
+    margin-bottom: 10px;
+}
+
+.page-description {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.trips-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+}
+
+.trip-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-width: 90%;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.trip-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.trip-card h2 {
+    margin: 15px 0 5px;
+    color: #1d4d3d;
+}
+
+.trip-card p {
+    color: #444;
+    margin: 0 15px 15px;
+}
+
+.details-btn {
+    background-color: #1d4d3d;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.details-btn:hover {
+    background-color: #16392e;
+}
+
 /* الهيرو */
 .hero {
     background-color: #eaf1f3;
