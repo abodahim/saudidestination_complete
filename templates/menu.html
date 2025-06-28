@@ -1,78 +1,26 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-from datetime import datetime
-import sqlite3
+<!-- templates/menu.html -->
+<div class="menu" id="menuContainer">
+  <button id="menuToggle" aria-label="فتح القائمة">☰</button>
+  <ul class="menu-items" id="menuList">
+    <li><a href="{{ url_for('index') }}">🏠 الرئيسية</a></li>
+    <li><a href="{{ url_for('about') }}">📖 عن الموقع</a></li>
+    <li><a href="{{ url_for('trips') }}">🌍 الرحلات</a></li>
+    <li><a href="{{ url_for('booking') }}">📝 الحجز</a></li>
+    <li><a href="{{ url_for('admin_login') }}">🔒 الإدارة</a></li>
+  </ul>
+</div>
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # استخدم قيمة سرية حقيقية في الإنتاج
+<script>
+  const toggleBtn = document.getElementById('menuToggle');
+  const menuContainer = document.getElementById('menuContainer');
+  toggleBtn.addEventListener('click', () => {
+    menuContainer.classList.toggle('open');
+  });
 
-# الصفحة الرئيسية
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-# صفحة عن الموقع
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-# صفحة الرحلات
-@app.route('/trips')
-def trips():
-    return render_template('trips.html')
-
-# صفحة الحجز
-@app.route('/booking', methods=['GET', 'POST'])
-def booking():
-    if request.method == 'POST':
-        name = request.form['name']
-        phone = request.form['phone']
-        date = request.form['date']
-        trip = request.form['trip']
-
-        conn = sqlite3.connect('database.db')
-        c = conn.cursor()
-        c.execute("INSERT INTO bookings (name, phone, date, trip) VALUES (?, ?, ?, ?)", 
-                  (name, phone, date, trip))
-        conn.commit()
-        conn.close()
-        return redirect(url_for('booking'))
-
-    return render_template('booking.html')
-
-# تسجيل دخول الإدارة
-@app.route('/admin_login', methods=['GET', 'POST'])
-def admin_login():
-    error = None
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        if username == 'admin' and password == 'admin123':
-            session['admin_logged_in'] = True
-            return redirect(url_for('admin_panel'))
-        else:
-            error = 'اسم المستخدم أو كلمة المرور غير صحيحة'
-    return render_template('admin_login.html', error=error)
-
-# لوحة التحكم الإدارية (تظهر فقط عند تسجيل الدخول)
-@app.route('/admin')
-def admin_panel():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute("SELECT * FROM bookings ORDER BY date DESC")
-    bookings = c.fetchall()
-    conn.close()
-
-    return render_template('admin.html', bookings=bookings)
-
-# تسجيل الخروج من الإدارة
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('index'))
-
-# تشغيل التطبيق
-if __name__ == '__main__':
-    app.run(debug=True)
+  // إخفاء القائمة عند النقر خارجها
+  document.addEventListener('click', function (e) {
+    if (!menuContainer.contains(e.target)) {
+      menuContainer.classList.remove('open');
+    }
+  });
+</script>
