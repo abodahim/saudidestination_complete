@@ -19,11 +19,11 @@
     .menu-content {
         position: fixed;
         top: 70px;
-        right: -220px; /* خارج الشاشة */
-        background-color: #207a55;
-        border-radius: 10px;
+        right: -220px;
+        background-color: rgba(32, 122, 85, 0.97); /* أخضر شفاف */
+        border-radius: 12px;
         padding: 15px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         min-width: 180px;
         direction: rtl;
         text-align: right;
@@ -31,6 +31,7 @@
         flex-direction: column;
         transition: right 0.3s ease-in-out;
         z-index: 1002;
+        backdrop-filter: blur(3px); /* تأثير زجاجي ناعم */
     }
 
     .menu-content.show {
@@ -49,7 +50,6 @@
         opacity: 0.8;
     }
 
-    /* ظل الخلفية */
     .overlay {
         position: fixed;
         top: 0;
@@ -73,6 +73,12 @@
 
         .menu-content {
             min-width: 150px;
+            top: 60px;
+            right: -170px;
+        }
+
+        .menu-content.show {
+            right: 15px;
         }
 
         .menu-content a {
@@ -81,12 +87,10 @@
     }
 </style>
 
-<!-- الزر -->
 <div class="side-menu">
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 </div>
 
-<!-- القائمة -->
 <div class="menu-content" id="menuContent">
     <a href="{{ url_for('index') }}">🏠 الرئيسية</a>
     <a href="{{ url_for('about') }}">📖 عن الموقع</a>
@@ -95,7 +99,6 @@
     <a href="/admin">🔒 الإدارة</a>
 </div>
 
-<!-- ظل الشاشة -->
 <div class="overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <script>
@@ -112,7 +115,6 @@
         document.getElementById("menuOverlay").classList.remove("show");
     }
 
-    // إغلاق القائمة عند الضغط على أي رابط داخلها
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".menu-content a").forEach(function (link) {
             link.addEventListener("click", closeMenu);
