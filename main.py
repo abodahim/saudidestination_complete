@@ -70,7 +70,11 @@ def booking():
         return redirect(url_for('thank_you'))
 
     return render_template('booking.html')
-
+    
+@app.route('/admin_login')
+def admin_login():
+    return render_template('admin_login.html')
+    
 # صفحة الشكر بعد الحجز
 @app.route('/thank_you')
 def thank_you():
