@@ -3,6 +3,7 @@ import sqlite3
 import os
 
 # إنشاء قاعدة البيانات إذا لم تكن موجودة
+# إنشاء قاعدة البيانات إذا لم تكن موجودة
 if not os.path.exists('database.db'):
     conn = sqlite3.connect('database.db')
     conn.execute('''
@@ -10,6 +11,7 @@ if not os.path.exists('database.db'):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             email TEXT NOT NULL,
+            phone TEXT NOT NULL,  -- رقم الجوال
             trip TEXT NOT NULL,
             date TEXT NOT NULL
         )
