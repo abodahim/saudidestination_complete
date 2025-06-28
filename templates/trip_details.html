@@ -1,31 +1,36 @@
-<!-- ملف trip_details.html -->
+<!-- templates/trip_details.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>تفاصيل الرحلة</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>تفاصيل الرحلة</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  {% include 'menu.html' %}
-  <div class="content">
-    <h1>تفاصيل الرحلة: {{ trip_name }}</h1>
-    
-    <div class="trip-info">
-      <p>رحلة رائعة إلى {{ trip_name }}، تشمل زيارة أبرز المعالم وتجارب ثقافية مميزة.</p>
+    {% include 'menu.html' %}
+
+    <div class="content">
+        <div class="trip-card">
+            <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="صورة الرحلة">
+            <h2>{{ trip.name }}</h2>
+            <p>{{ trip.description }}</p>
+            <p><strong>التصنيف:</strong> {{ trip.category }}</p>
+            <a href="/booking" class="details-btn">احجز الآن</a>
+        </div>
+
+        <!-- زر الرجوع -->
+        <a href="/trips" class="back-btn">↩️ العودة للرحلات</a>
     </div>
 
-    <div class="gallery">
-      <h2>صور الرحلة</h2>
-      <div class="gallery-images">
-        <img src="{{ url_for('static', filename='images/' + trip_name + '_1.jpg') }}">
-        <img src="{{ url_for('static', filename='images/' + trip_name + '_2.jpg') }}">
-        <img src="{{ url_for('static', filename='images/' + trip_name + '_3.jpg') }}">
-      </div>
-    </div>
-
-    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
-    <a href="{{ url_for('reviews', trip=trip_name) }}" class="btn">عرض / إضافة تقييم</a>
-  </div>
+    <!-- إغلاق القائمة الجانبية عند الضغط خارجها -->
+    <script>
+        document.addEventListener("click", function (e) {
+            const menu = document.querySelector(".menu-content");
+            const toggle = document.querySelector(".menu-toggle");
+            if (menu && toggle && !menu.contains(e.target) && !toggle.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html>
