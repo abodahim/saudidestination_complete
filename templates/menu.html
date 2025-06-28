@@ -3,17 +3,25 @@
   <button onclick="toggleMenu()">☰</button>
   <ul id="menuList">
     <li><a href="/">الرئيسية</a></li>
-    <li><a href="/about">عن الموقع</a></li>
     <li><a href="/trips">الرحلات</a></li>
     <li><a href="/booking">الحجز</a></li>
-    <li><a href="/reviews">التقييمات</a></li>
-    <li><a href="/admin_login">الإدارة</a></li>
+    <li><a href="/about">عن الموقع</a></li>
+    <li><a href="/admin_login">لوحة التحكم</a></li>
   </ul>
 </div>
 
 <script>
   function toggleMenu() {
     const menu = document.getElementById("menuList");
-    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
   }
+
+  window.onclick = function (e) {
+    if (!e.target.matches('.menu button')) {
+      const menu = document.getElementById("menuList");
+      if (menu && menu.style.display === "block") {
+        menu.style.display = "none";
+      }
+    }
+  };
 </script>
