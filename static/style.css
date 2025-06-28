@@ -26,7 +26,7 @@ body {
     background-color: #fdfaf5;
     font-family: 'Tajawal', sans-serif;
     padding: 20px;
-    margin-right: 220px; /* مساحة للقائمة الجانبية */
+    margin-right: 220px;
 }
 
 /* العناوين */
@@ -162,6 +162,49 @@ p {
     border-top: 1px solid #ddd;
 }
 
+/* القائمة الجانبية */
+.side-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.menu-toggle {
+    background-color: #1d6c4c;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    font-size: 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.menu-content {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background-color: #207a55;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    min-width: 160px;
+}
+
+.menu-content a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 8px 0;
+    transition: opacity 0.3s ease;
+}
+
+.menu-content a:hover {
+    opacity: 0.8;
+}
+
 /* تجاوب الهواتف */
 @media (max-width: 600px) {
     .hero {
@@ -194,9 +237,27 @@ p {
         padding: 10px;
     }
 
-    /* تحسينات إضافية للحجز في الجوال */
+    /* تحسينات للقائمة الجانبية */
+    .menu-content {
+        min-width: 140px;
+        padding: 12px;
+    }
+
+    .menu-content a {
+        font-size: 15px;
+        padding: 5px 8px;
+    }
+
+    /* تحسينات للحجز في الجوال */
     .booking-form {
+        width: 90%;
+        max-width: none;
         padding: 15px;
+    }
+
+    .booking-form input,
+    .booking-form select {
+        font-size: 16px;
     }
 
     .submit-btn {
