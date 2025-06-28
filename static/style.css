@@ -190,8 +190,17 @@ p {
     }
 
     .trips-page {
-        margin-right: 0; /* إلغاء المساحة في الهواتف */
+        margin-right: 0;
         padding: 10px;
+    }
+
+    /* تحسينات إضافية للحجز في الجوال */
+    .booking-form {
+        padding: 15px;
+    }
+
+    .submit-btn {
+        font-size: 16px;
     }
 }
 
