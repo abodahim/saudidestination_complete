@@ -1,82 +1,158 @@
-/* القائمة الجانبية */
-.menu {
-  position: relative;
+/* تحميل خط تاجوال */
+@font-face {
+  font-family: 'Tajawal';
+  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* === إعدادات عامة === */
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Tajawal', sans-serif;
+  background-color: #f5f0e6; /* لون ترابي فاتح */
+  color: #1b3d2f;           /* أخضر غامق */
   direction: rtl;
-  margin: 15px;
+  text-align: center;
 }
 
+/* === القائمة الجانبية (menu.html) === */
+.menu {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
 .menu button {
-  background-color: #014421;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
+  background-color: #1b3d2f;
+  color: #f5f0e6;
   border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-family: 'Tajawal', sans-serif;
-  transition: background-color 0.3s ease;
-}
-
-.menu button:hover {
-  background-color: #02693e;
-}
-
-.menu ul {
-  position: absolute;
-  top: 45px;
-  right: 0;
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
-  list-style: none;
-  display: none;
-  z-index: 999;
-  width: 180px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.menu ul li {
-  margin-bottom: 10px;
-}
-
-.menu ul li:last-child {
-  margin-bottom: 0;
-}
-
-.menu ul li a {
-  text-decoration: none;
-  color: #014421;
+  padding: 10px 14px;
   font-size: 16px;
-  font-family: 'Tajawal', sans-serif;
-  display: block;
-  transition: color 0.3s ease;
+  border-radius: 8px;
+  cursor: pointer;
 }
-
-.menu ul li a:hover {
-  color: #02693e;
+.menu-items {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #ffffff;
+  padding: 12px 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  list-style: none;
+  text-align: right;
+  min-width: 140px;
+}
+.menu-items li {
+  margin: 8px 0;
+}
+.menu-items li a {
+  text-decoration: none;
+  color: #1b3d2f;
   font-weight: bold;
 }
 
-/* حركة ناعمة */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* إظهار/إخفاء القائمة */
+.menu.open .menu-items {
+  display: block;
 }
 
-/* استجابة للموبايل */
+/* === قسم البطل (Hero) === */
+.hero {
+  background-color: #1b3d2f; /* أخضر غامق */
+  padding: 40px 20px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-logo {
+  width: 100px;
+  max-width: 20%;
+  height: auto;
+  margin-bottom: 20px;
+  background-color: #f5f0e6;
+  padding: 8px;
+  border-radius: 8px;
+  display: inline-block;
+}
+.hero h1 {
+  margin: 0 0 16px;
+  font-size: 28px;
+  line-height: 1.2;
+  color: #f5f0e6;
+}
+.hero p {
+  margin: 0 0 24px;
+  font-size: 18px;
+  color: #e3dccf;
+}
+.btn {
+  display: inline-block;
+  background-color: #d95f1a;  /* برتقالي */
+  color: #f5f0e6;
+  padding: 12px 28px;
+  font-size: 18px;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+.btn:hover {
+  background-color: #b04b16;
+}
+
+/* === عناصر خلفية تلال ونخيل (إن وجدت كـ <div> أو صورة) === */
+.hero::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -20%;
+  width: 140%;
+  height: 200px;
+  background: url('../images/background_saudidest.png') no-repeat center bottom;
+  background-size: cover;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* === التذييل === */
+.footer {
+  margin-top: 60px;
+  padding: 16px;
+  background-color: #e3dccf;
+  font-size: 14px;
+  color: #555;
+}
+
+/* === استجابة الأجهزة الصغيرة === */
 @media (max-width: 768px) {
-  .menu ul {
-    width: 160px;
+  .hero {
+    padding: 30px 10px 60px;
   }
-
+  .hero-logo {
+    width: 80px;
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-size: 22px;
+  }
+  .hero p {
+    font-size: 16px;
+  }
+  .btn {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+  .menu {
+    top: 12px;
+    right: 12px;
+  }
   .menu button {
+    padding: 8px 12px;
     font-size: 14px;
-    padding: 8px 16px;
-  }
-
-  .menu ul li a {
-    font-size: 15px;
   }
 }
