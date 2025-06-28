@@ -1,4 +1,3 @@
-/* تحميل خط تاجوال */
 @font-face {
   font-family: 'Tajawal';
   src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
@@ -6,131 +5,107 @@
   font-style: normal;
 }
 
-/* إعدادات عامة */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Tajawal', sans-serif;
-  background-color: #f7f3ef;
+  background-color: #f5f0e6;
   color: #1b3d2f;
   direction: rtl;
   text-align: center;
 }
 
-/* الشعار والزر العلوي */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.content {
+  max-width: 800px;
+  margin: 60px auto;
   padding: 20px;
-}
-
-.logo {
-  width: 120px;
-  height: auto;
-}
-
-.btn-back {
-  background-color: #1b3d2f;
-  color: white;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
-.btn-back:hover {
-  background-color: #14452f;
-}
-
-/* تفاصيل الرحلة */
-.trip-info {
   background-color: #ffffffee;
   border-radius: 16px;
-  padding: 30px 20px;
-  margin: 20px auto;
-  max-width: 850px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  text-align: right;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.trip-info h1 {
-  font-size: 32px;
+h1, h2 {
   color: #1b3d2f;
   margin-bottom: 20px;
 }
 
-.trip-info p {
-  font-size: 18px;
-  margin-bottom: 25px;
-  line-height: 1.6;
-}
-
-/* معرض الصور */
-.gallery-images {
+form {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
   gap: 15px;
-  margin-top: 15px;
+  text-align: right;
+  margin-top: 20px;
 }
 
-.gallery-images img {
-  width: 230px;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease;
+input, select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }
 
-.gallery-images img:hover {
-  transform: scale(1.05);
+button {
+  background-color: #1b3d2f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-/* زر احجز الآن */
+button:hover {
+  background-color: #14452f;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+th {
+  background-color: #1b3d2f;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
 .btn {
   display: inline-block;
   background-color: #1b3d2f;
   color: white;
-  padding: 12px 24px;
-  margin-top: 30px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-top: 20px;
   text-decoration: none;
-  border-radius: 10px;
-  font-size: 18px;
-  transition: background-color 0.3s ease;
+  font-size: 16px;
 }
 
 .btn:hover {
   background-color: #14452f;
 }
 
-/* التذييل */
-footer {
-  margin-top: 60px;
-  padding: 20px;
-  background-color: #eee;
-  color: #555;
-  font-size: 14px;
-}
-
-/* استجابة للجوال */
-@media (max-width: 768px) {
-  .trip-info h1 {
-    font-size: 26px;
+@media (max-width: 600px) {
+  .content {
+    margin: 40px 10px;
+    padding: 15px;
   }
 
-  .gallery-images img {
-    width: 90%;
-    height: auto;
-  }
-
-  .logo {
-    width: 90px;
-  }
-
-  .btn-back {
+  table, th, td {
     font-size: 14px;
-    padding: 8px 16px;
+  }
+
+  input, select, button {
+    font-size: 15px;
   }
 }
