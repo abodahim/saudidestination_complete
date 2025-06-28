@@ -1,36 +1,33 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <title>وجهة السعودية</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/tajawal.css') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>وجهة السعودية</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='fonts/tajawal.css') }}">
 </head>
 <body>
 
-    <div class="navbar">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
-        <button class="menu-btn">القائمة ☰</button>
-        <ul class="menu">
-            <li><a href="/">الرئيسية</a></li>
-            <li><a href="/about">عن الموقع</a></li>
-            <li><a href="/trips">الرحلات</a></li>
-            <li><a href="/booking">احجز الآن</a></li>
-        </ul>
+  <!-- رأس الصفحة -->
+  <div class="header">
+    <button class="nav-toggle">القائمة ☰</button>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية">
     </div>
+  </div>
 
-    <div class="hero">
-        <div class="content">
-            <h1>مرحباً بكم في وجهة السعودية</h1>
-            <p>استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
-            <a href="/booking" class="btn">احجز الآن</a>
-        </div>
-    </div>
+  <!-- المحتوى الرئيسي -->
+  <div class="container">
+    <h1>مرحباً بكم في وجهة السعودية</h1>
+    <p>استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
+    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+  </div>
 
-    <footer>
-        <p>جميع الحقوق محفوظة © وجهة السعودية 2025</p>
-    </footer>
+  <!-- التذييل -->
+  <div class="footer">
+    جميع الحقوق محفوظة © وجهة السعودية 2025
+  </div>
 
 </body>
 </html>
