@@ -1,27 +1,71 @@
 <!-- menu.html -->
-<div class="menu">
-  <button onclick="toggleMenu()">☰</button>
-  <ul id="menuList">
-    <li><a href="/">الرئيسية</a></li>
-    <li><a href="/trips">الرحلات</a></li>
-    <li><a href="/booking">الحجز</a></li>
-    <li><a href="/about">عن الموقع</a></li>
-    <li><a href="/admin_login">لوحة التحكم</a></li>
-  </ul>
+<style>
+  .menu-toggle {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #004d26;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    z-index: 9999;
+  }
+
+  .side-menu {
+    display: none;
+    position: fixed;
+    top: 50px;
+    right: 0;
+    width: 200px;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    z-index: 9998;
+    padding: 20px;
+    border-radius: 8px 0 0 8px;
+    text-align: right;
+  }
+
+  .side-menu a {
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #004d26;
+    font-weight: bold;
+  }
+
+  .side-menu a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .side-menu {
+      width: 100%;
+      border-radius: 0;
+      top: 50px;
+    }
+  }
+</style>
+
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+<div class="side-menu" id="sideMenu">
+  <a href="/">الرئيسية</a>
+  <a href="/about">عن الموقع</a>
+  <a href="/trips">الرحلات</a>
+  <a href="/booking">الحجز</a>
+  <a href="/reviews">التقييمات</a>
+  <a href="/admin_login">الإدارة</a>
 </div>
 
 <script>
   function toggleMenu() {
-    const menu = document.getElementById("menuList");
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
-  }
-
-  window.onclick = function (e) {
-    if (!e.target.matches('.menu button')) {
-      const menu = document.getElementById("menuList");
-      if (menu && menu.style.display === "block") {
-        menu.style.display = "none";
-      }
+    var menu = document.getElementById("sideMenu");
+    if (menu.style.display === "block") {
+      menu.style.display = "none";
+    } else {
+      menu.style.display = "block";
     }
-  };
+  }
 </script>
