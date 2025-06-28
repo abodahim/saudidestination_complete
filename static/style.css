@@ -1,126 +1,87 @@
-/* style.css */
-
 body {
-  margin: 0;
-  font-family: 'Tajawal', sans-serif;
-  background-color: #f9f7f3;
-  color: #222;
-  line-height: 1.7;
+    margin: 0;
+    padding: 0;
+    font-family: 'Tajawal', sans-serif;
+    background-color: #f4f1eb;
+    color: #1d1d1d;
+    direction: rtl;
 }
 
-.content-container {
-  max-width: 900px;
-  margin: 80px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+/* الهيرو */
+.hero {
+    background-color: #eaf1f3;
+    padding: 50px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.page-title {
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 30px;
-  color: #2c3e50;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 10px;
+.logo-container {
+    max-width: 200px;
+    margin-bottom: 20px;
 }
 
-.about-section {
-  margin-bottom: 30px;
+.logo-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.about-section h2 {
-  font-size: 24px;
-  color: #1e7f5c;
-  margin-bottom: 10px;
-}
-
-.about-section p {
-  font-size: 18px;
-  color: #333;
-}
-
-.about-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.about-section ul li {
-  background-color: #e9f3ec;
-  margin: 8px 0;
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-size: 17px;
-}
-
-/* القائمة الجانبية */
-.menu {
-  position: fixed;
-  top: 0;
-  right: 0;
-  background-color: #1e7f5c;
-  width: 230px;
-  height: 100%;
-  padding: 20px;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-  z-index: 1000;
-}
-
-.menu ul {
-  list-style: none;
-  padding: 0;
-}
-
-.menu ul li {
-  margin: 20px 0;
-}
-
-.menu ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 18px;
-}
-
-.menu ul li a:hover {
-  text-decoration: underline;
-}
-
-.footer {
-  text-align: center;
-  font-size: 14px;
-  color: #666;
-  padding: 20px;
-  background-color: #f1f1f1;
-  margin-top: 40px;
-}
-
-/* دعم الشاشات الصغيرة */
-@media screen and (max-width: 768px) {
-  .content-container {
-    margin: 20px;
-    padding: 15px;
-  }
-
-  .page-title {
+h1 {
+    color: #1d6c4c;
     font-size: 26px;
-  }
+    margin: 10px 0;
+}
 
-  .about-section h2 {
-    font-size: 20px;
-  }
+p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 25px;
+}
 
-  .about-section p,
-  .about-section ul li {
-    font-size: 16px;
-  }
+.btn {
+    background-color: #1d6c4c;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
 
-  .menu {
-    width: 200px;
+.btn:hover {
+    background-color: #145f3e;
+}
+
+/* التذييل */
+.footer {
+    background-color: #f4f1eb;
+    text-align: center;
     padding: 15px;
-  }
+    font-size: 14px;
+    color: #555;
+    border-top: 1px solid #ddd;
+}
 
-  .menu ul li a {
-    font-size: 16px;
-  }
+/* تجاوب الهواتف */
+@media (max-width: 600px) {
+    .hero {
+        padding: 30px 10px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
 }
