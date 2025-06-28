@@ -1,86 +1,82 @@
-/* الخط الأساسي */
-body {
-  font-family: 'Tajawal', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f9f9f9;
+/* القائمة الجانبية */
+.menu {
+  position: relative;
   direction: rtl;
+  margin: 15px;
 }
 
-/* رأس الصفحة */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background-color: #fff;
-}
-
-.logo img {
-  max-width: 100px;
-  height: auto;
-}
-
-/* زر القائمة */
-.nav-toggle {
-  background-color: #004d32;
-  color: #fff;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-/* الحاوية الرئيسية */
-.container {
-  text-align: center;
-  padding: 2rem 1rem;
-}
-
-/* العناوين */
-h1 {
-  font-size: 6vw;
-  color: #004d32;
-  margin-bottom: 1rem;
-}
-
-p {
-  font-size: 4vw;
-  color: #444;
-  margin-bottom: 1.5rem;
-}
-
-/* زر احجز الآن */
-.btn {
-  background-color: #004d32;
+.menu button {
+  background-color: #014421;
   color: white;
-  padding: 1rem 2rem;
-  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.menu button:hover {
+  background-color: #02693e;
+}
+
+.menu ul {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  list-style: none;
+  display: none;
+  z-index: 999;
+  width: 180px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.menu ul li {
+  margin-bottom: 10px;
+}
+
+.menu ul li:last-child {
+  margin-bottom: 0;
+}
+
+.menu ul li a {
   text-decoration: none;
-  font-size: 1rem;
+  color: #014421;
+  font-size: 16px;
+  font-family: 'Tajawal', sans-serif;
+  display: block;
+  transition: color 0.3s ease;
 }
 
-/* تذييل */
-.footer {
-  background-color: #eee;
-  padding: 1rem;
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: 2rem;
+.menu ul li a:hover {
+  color: #02693e;
+  font-weight: bold;
 }
 
-/* للأجهزة الكبيرة */
-@media (min-width: 768px) {
-  h1 {
-    font-size: 2.8rem;
+/* حركة ناعمة */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* استجابة للموبايل */
+@media (max-width: 768px) {
+  .menu ul {
+    width: 160px;
   }
 
-  p {
-    font-size: 1.2rem;
+  .menu button {
+    font-size: 14px;
+    padding: 8px 16px;
   }
 
-  .btn {
-    font-size: 1.1rem;
+  .menu ul li a {
+    font-size: 15px;
   }
 }
