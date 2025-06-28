@@ -1,112 +1,46 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الرحلات - وجهة السعودية</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='fonts/tajawal.css') }}">
-  <style>
-    .trips-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      padding: 2rem 1rem;
-    }
-
-    .trip-card {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-      width: 90%;
-      max-width: 320px;
-      overflow: hidden;
-      text-align: center;
-      transition: transform 0.3s;
-    }
-
-    .trip-card:hover {
-      transform: scale(1.03);
-    }
-
-    .trip-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .trip-card h3 {
-      font-size: 1.3rem;
-      color: #004d32;
-      margin: 1rem 0 0.5rem;
-    }
-
-    .trip-card p {
-      padding: 0 1rem 1rem;
-      color: #444;
-      font-size: 0.95rem;
-    }
-
-    .trip-card a {
-      display: inline-block;
-      margin: 1rem;
-      padding: 0.6rem 1.2rem;
-      background-color: #004d32;
-      color: #fff;
-      border-radius: 6px;
-      text-decoration: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>الرحلات</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
+<body class="trips-page">
 
-  {% include 'menu.html' %}
+    {% include 'sidebar.html' %}
 
-  <!-- رأس الصفحة -->
-  <div class="header">
-    <button class="nav-toggle">القائمة ☰</button>
-    <div class="logo">
-      <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية">
+    <div class="main-content">
+        <h1 class="page-title">🌍 الرحلات المتاحة</h1>
+        <p class="page-description">اختر وجهتك واستمتع بأفضل التجارب</p>
+
+        <div class="trips-container">
+
+            <!-- بطاقة جدة -->
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="جدة">
+                <h2>رحلة إلى جدة</h2>
+                <p>جولة في عروس البحر الأحمر، بين التراث والحداثة</p>
+                <a href="/trip/jeddah" class="details-btn">عرض التفاصيل</a>
+            </div>
+
+            <!-- بطاقة الرياض -->
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض">
+                <h2>رحلة إلى الرياض</h2>
+                <p>اكتشف العاصمة النابضة بالحياة والثقافة</p>
+                <a href="/trip/riyadh" class="details-btn">عرض التفاصيل</a>
+            </div>
+
+            <!-- بطاقة ينبع -->
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="ينبع">
+                <h2>رحلة إلى ينبع</h2>
+                <p>استمتع بجمال البحر والمغامرات البحرية في ينبع</p>
+                <a href="/trip/yanbu" class="details-btn">عرض التفاصيل</a>
+            </div>
+
+        </div>
     </div>
-  </div>
-
-  <!-- المحتوى الرئيسي -->
-  <div class="container">
-    <h1>🌍 الرحلات المتاحة</h1>
-    <p>اختر وجهتك واستمتع بأفضل التجارب</p>
-  </div>
-
-  <div class="trips-container">
-    <!-- بطاقة رحلة -->
-    <div class="trip-card">
-      <img src="{{ url_for('static', filename='images/jeddah.jpg') }}" alt="جدة">
-      <h3>رحلة إلى جدة</h3>
-      <p>جولة في عروس البحر الأحمر، بين التراث والحداثة</p>
-      <a href="{{ url_for('trip_details', trip_name='جدة') }}">عرض التفاصيل</a>
-    </div>
-
-    <!-- بطاقة رحلة -->
-    <div class="trip-card">
-      <img src="{{ url_for('static', filename='images/riyadh.jpg') }}" alt="الرياض">
-      <h3>رحلة إلى الرياض</h3>
-      <p>اكتشف عاصمة المملكة بثقافتها المتنوعة وأماكنها الحديثة</p>
-      <a href="{{ url_for('trip_details', trip_name='الرياض') }}">عرض التفاصيل</a>
-    </div>
-
-    <!-- بطاقة رحلة -->
-    <div class="trip-card">
-      <img src="{{ url_for('static', filename='images/yanbu.jpg') }}" alt="ينبع">
-      <h3>رحلة إلى ينبع</h3>
-      <p>استمتع بجمال البحر والشواطئ الهادئة في ينبع</p>
-      <a href="{{ url_for('trip_details', trip_name='ينبع') }}">عرض التفاصيل</a>
-    </div>
-  </div>
-
-  <!-- التذييل -->
-  <div class="footer">
-    جميع الحقوق محفوظة © وجهة السعودية 2025
-  </div>
-
 </body>
 </html>
