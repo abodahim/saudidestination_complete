@@ -1,31 +1,92 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>وجهة السعودية</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='fonts/tajawal.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #fdfdfc;
+      margin: 0;
+      padding: 0;
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    .logo-container img {
+      max-width: 280px;
+      height: auto;
+    }
+
+    .content {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px;
+    }
+
+    .content h1 {
+      color: #004d26;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .content p {
+      font-size: 18px;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background-color: #004d26;
+      color: white;
+      padding: 10px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      .logo-container img {
+        max-width: 200px;
+      }
+
+      .content h1 {
+        font-size: 26px;
+      }
+
+      .content p {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
+
   {% include 'menu.html' %}
 
-  <!-- رأس الصفحة -->
-  <div class="header">
-    <button class="nav-toggle">القائمة ☰</button>
-    <div class="logo">
-      <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية">
-    </div>
+  <div class="logo-container">
+    <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية">
   </div>
 
-  <!-- المحتوى الرئيسي -->
-  <div class="container">
+  <div class="content">
     <h1>مرحباً بكم في وجهة السعودية</h1>
     <p>استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
-    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+    <a href="/booking" class="btn">احجز الآن</a>
   </div>
 
-  <!-- التذييل -->
   <div class="footer">
     جميع الحقوق محفوظة © وجهة السعودية 2025
   </div>
