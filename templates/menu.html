@@ -19,12 +19,12 @@
     .menu-content {
         position: fixed;
         top: 70px;
-        right: -240px;
-        background-color: rgba(32, 122, 85, 0.98); /* ظل أكثر وضوحًا */
+        right: -160px;
+        background-color: rgba(32, 122, 85, 0.98);
         border-radius: 12px;
         padding: 15px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        min-width: 180px;
+        min-width: 140px;
         direction: rtl;
         text-align: right;
         display: flex;
@@ -41,7 +41,7 @@
     .menu-content a {
         color: white;
         text-decoration: none;
-        font-size: 16px;
+        font-size: 15px;
         margin-bottom: 6px;
         padding-bottom: 6px;
         border-bottom: 1px solid rgba(255,255,255,0.2);
@@ -62,7 +62,7 @@
         cursor: pointer;
         position: absolute;
         top: 8px;
-        left: 12px;
+        left: 10px;
     }
 
     .overlay {
@@ -87,28 +87,28 @@
         }
 
         .menu-content {
-            min-width: 150px;
+            min-width: 120px;
             top: 60px;
-            right: -180px;
+            right: -140px;
             padding: 10px;
         }
 
         .menu-content.show {
-            right: 15px;
+            right: 12px;
         }
 
         .menu-content a {
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .close-btn {
             font-size: 16px;
-            left: 10px;
+            left: 8px;
         }
     }
 </style>
 
-<!-- زر فتح القائمة -->
+<!-- زر القائمة -->
 <div class="side-menu">
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 </div>
@@ -123,7 +123,7 @@
     <a href="/admin">🔒 الإدارة</a>
 </div>
 
-<!-- خلفية عند الفتح -->
+<!-- خلفية القائمة -->
 <div class="overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <script>
