@@ -9,7 +9,7 @@
 <body>
     {% include 'menu.html' %}
 
-    <div class="trips-page">
+    <div class="content">
         <h2 class="page-title">احجز رحلتك الآن</h2>
         <form method="POST" class="booking-form">
             <label for="name">الاسم</label>
@@ -34,6 +34,20 @@
 
             <button type="submit" class="submit-btn">احجز الآن</button>
         </form>
+
+        <!-- زر الرجوع -->
+        <a href="/" class="back-btn">↩️ الرجوع للرئيسية</a>
     </div>
+
+    <!-- سكربت إغلاق القائمة عند الضغط خارجها -->
+    <script>
+        document.addEventListener("click", function (e) {
+            const menu = document.querySelector(".menu-content");
+            const toggle = document.querySelector(".menu-toggle");
+            if (menu && toggle && !menu.contains(e.target) && !toggle.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html>
