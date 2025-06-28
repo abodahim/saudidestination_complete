@@ -1,140 +1,126 @@
-/* تحميل خط تاجوال */
-@font-face {
-  font-family: 'Tajawal';
-  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+/* style.css */
 
-/* إعدادات عامة */
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Tajawal', sans-serif;
-  background-color: #f5f0e6;
-  color: #1b3d2f;
-  direction: rtl;
+  background-color: #f9f7f3;
+  color: #222;
+  line-height: 1.7;
+}
+
+.content-container {
+  max-width: 900px;
+  margin: 80px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.about-section {
+  margin-bottom: 30px;
+}
+
+.about-section h2 {
+  font-size: 24px;
+  color: #1e7f5c;
+  margin-bottom: 10px;
+}
+
+.about-section p {
+  font-size: 18px;
+  color: #333;
+}
+
+.about-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.about-section ul li {
+  background-color: #e9f3ec;
+  margin: 8px 0;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 17px;
 }
 
 /* القائمة الجانبية */
 .menu {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 0;
+  right: 0;
+  background-color: #1e7f5c;
+  width: 230px;
+  height: 100%;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
   z-index: 1000;
 }
 
-.menu button {
-  background-color: #1b3d2f;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  font-size: 18px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
 .menu ul {
-  display: none;
-  background-color: white;
-  padding: 12px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   list-style: none;
-  margin-top: 10px;
-  text-align: right;
-}
-
-.menu.open ul {
-  display: block;
+  padding: 0;
 }
 
 .menu ul li {
-  margin: 12px 0;
+  margin: 20px 0;
 }
 
 .menu ul li a {
+  color: #fff;
   text-decoration: none;
-  color: #1b3d2f;
-  font-weight: bold;
-}
-
-/* قسم البطل */
-.hero {
-  background-color: #e9ecef;
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.hero-container {
-  max-width: 600px;
-  margin: auto;
-}
-
-.hero-logo {
-  max-width: 200px;
-  height: auto;
-  margin-bottom: 20px;
-}
-
-.hero h1 {
-  font-size: 32px;
-  margin-bottom: 10px;
-  color: #1b3d2f;
-}
-
-.hero p {
   font-size: 18px;
-  color: #444;
-  margin-bottom: 20px;
 }
 
-/* زر الحجز */
-.btn {
-  background-color: #1b3d2f;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+.menu ul li a:hover {
+  text-decoration: underline;
 }
 
-.btn:hover {
-  background-color: #14452f;
-}
-
-/* التذييل */
 .footer {
-  background-color: #eee;
   text-align: center;
-  padding: 20px;
   font-size: 14px;
   color: #666;
+  padding: 20px;
+  background-color: #f1f1f1;
   margin-top: 40px;
 }
 
-/* استجابة للموبايل */
-@media (max-width: 600px) {
-  .hero h1 {
-    font-size: 24px;
+/* دعم الشاشات الصغيرة */
+@media screen and (max-width: 768px) {
+  .content-container {
+    margin: 20px;
+    padding: 15px;
   }
 
-  .hero p {
+  .page-title {
+    font-size: 26px;
+  }
+
+  .about-section h2 {
+    font-size: 20px;
+  }
+
+  .about-section p,
+  .about-section ul li {
     font-size: 16px;
   }
 
-  .hero-logo {
-    max-width: 140px;
+  .menu {
+    width: 200px;
+    padding: 15px;
   }
 
-  .btn {
-    font-size: 14px;
-    padding: 10px 20px;
-  }
-
-  .menu button {
+  .menu ul li a {
     font-size: 16px;
-    padding: 8px 12px;
   }
 }
