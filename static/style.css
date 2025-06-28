@@ -6,153 +6,135 @@
   font-style: normal;
 }
 
-/* === إعدادات عامة === */
-* {
-  box-sizing: border-box;
-}
+/* إعدادات عامة */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Tajawal', sans-serif;
-  background-color: #f5f0e6; /* لون ترابي فاتح */
-  color: #1b3d2f;           /* أخضر غامق */
+  background-color: #f5f0e6;
+  color: #1b3d2f;
   direction: rtl;
-  text-align: center;
 }
 
-/* === القائمة الجانبية (menu.html) === */
+/* القائمة الجانبية */
 .menu {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 1000;
 }
+
 .menu button {
   background-color: #1b3d2f;
-  color: #f5f0e6;
+  color: white;
   border: none;
   padding: 10px 14px;
-  font-size: 16px;
+  font-size: 18px;
   border-radius: 8px;
   cursor: pointer;
 }
-.menu-items {
+
+.menu ul {
   display: none;
-  position: absolute;
-  top: 50px;
-  right: 0;
-  background-color: #ffffff;
-  padding: 12px 8px;
-  border-radius: 8px;
+  background-color: white;
+  padding: 12px;
+  border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   list-style: none;
+  margin-top: 10px;
   text-align: right;
-  min-width: 140px;
 }
-.menu-items li {
-  margin: 8px 0;
+
+.menu.open ul {
+  display: block;
 }
-.menu-items li a {
+
+.menu ul li {
+  margin: 12px 0;
+}
+
+.menu ul li a {
   text-decoration: none;
   color: #1b3d2f;
   font-weight: bold;
 }
 
-/* إظهار/إخفاء القائمة */
-.menu.open .menu-items {
-  display: block;
+/* قسم البطل */
+.hero {
+  background-color: #e9ecef;
+  padding: 60px 20px;
+  text-align: center;
 }
 
-/* === قسم البطل (Hero) === */
-.hero {
-  background-color: #1b3d2f; /* أخضر غامق */
-  padding: 40px 20px 80px;
-  position: relative;
-  overflow: hidden;
+.hero-container {
+  max-width: 600px;
+  margin: auto;
 }
+
 .hero-logo {
-  width: 100px;
-  max-width: 20%;
+  max-width: 200px;
   height: auto;
   margin-bottom: 20px;
-  background-color: #f5f0e6;
-  padding: 8px;
-  border-radius: 8px;
-  display: inline-block;
 }
+
 .hero h1 {
-  margin: 0 0 16px;
-  font-size: 28px;
-  line-height: 1.2;
-  color: #f5f0e6;
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #1b3d2f;
 }
+
 .hero p {
-  margin: 0 0 24px;
   font-size: 18px;
-  color: #e3dccf;
+  color: #444;
+  margin-bottom: 20px;
 }
+
+/* زر الحجز */
 .btn {
-  display: inline-block;
-  background-color: #d95f1a;  /* برتقالي */
-  color: #f5f0e6;
-  padding: 12px 28px;
-  font-size: 18px;
+  background-color: #1b3d2f;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
   text-decoration: none;
-  border-radius: 10px;
+  font-size: 16px;
   transition: background-color 0.3s ease;
 }
+
 .btn:hover {
-  background-color: #b04b16;
+  background-color: #14452f;
 }
 
-/* === عناصر خلفية تلال ونخيل (إن وجدت كـ <div> أو صورة) === */
-.hero::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: -20%;
-  width: 140%;
-  height: 200px;
-  background: url('../images/background_saudidest.png') no-repeat center bottom;
-  background-size: cover;
-  opacity: 0.25;
-  pointer-events: none;
-}
-
-/* === التذييل === */
+/* التذييل */
 .footer {
-  margin-top: 60px;
-  padding: 16px;
-  background-color: #e3dccf;
+  background-color: #eee;
+  text-align: center;
+  padding: 20px;
   font-size: 14px;
-  color: #555;
+  color: #666;
+  margin-top: 40px;
 }
 
-/* === استجابة الأجهزة الصغيرة === */
-@media (max-width: 768px) {
-  .hero {
-    padding: 30px 10px 60px;
-  }
-  .hero-logo {
-    width: 80px;
-    margin-bottom: 12px;
-  }
+/* استجابة للموبايل */
+@media (max-width: 600px) {
   .hero h1 {
-    font-size: 22px;
+    font-size: 24px;
   }
+
   .hero p {
     font-size: 16px;
   }
+
+  .hero-logo {
+    max-width: 140px;
+  }
+
   .btn {
-    font-size: 16px;
+    font-size: 14px;
     padding: 10px 20px;
   }
-  .menu {
-    top: 12px;
-    right: 12px;
-  }
+
   .menu button {
+    font-size: 16px;
     padding: 8px 12px;
-    font-size: 14px;
   }
 }
