@@ -9,21 +9,19 @@
 </head>
 <body>
 
-  <!-- القائمة الجانبية المشتركة -->
+  <!-- القائمة الجانبية -->
   {% include 'menu.html' %}
 
-  <!-- قسم البطل (Hero) -->
+  <!-- قسم البطل -->
   <header class="hero">
-    <!-- الشعار -->
-    <img src="{{ url_for('static', filename='images/logo.JPG') }}"
-         alt="شعار وجهة السعودية"
-         class="hero-logo">
-    <!-- عنوان ترحيبي -->
-    <h1>مرحباً بكم في وجهة السعودية</h1>
-    <!-- وصف قصير -->
-    <p>استكشف المملكة بباقات سياحية احترافية ومرشدين محليين بخبرات عالية</p>
-    <!-- زر الحجز -->
-    <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+    <div class="hero-container">
+      <img src="{{ url_for('static', filename='images/logo.JPG') }}"
+           alt="شعار وجهة السعودية"
+           class="hero-logo">
+      <h1>مرحباً بكم في وجهة السعودية</h1>
+      <p>استكشف المملكة بباقات سياحية احترافية ومرشدين محليين بخبرات عالية</p>
+      <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+    </div>
   </header>
 
   <!-- التذييل -->
