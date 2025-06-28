@@ -1,41 +1,36 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>نموذج الحجز - وجهة السعودية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>نموذج الحجز</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <div class="content">
+        <h1>نموذج الحجز</h1>
+        <form method="post">
+            <label for="name">الاسم الكامل:</label>
+            <input type="text" id="name" name="name" required>
 
-  <div class="content">
-    <h2>📋 نموذج حجز رحلة</h2>
+            <label for="email">البريد الإلكتروني:</label>
+            <input type="email" id="email" name="email" required>
 
-    <!-- ✅ عرض نموذج الحجز -->
-    <form method="POST">
-      <!-- 🧑 حقل اسم المستخدم -->
-      <label for="name">الاسم الكامل:</label><br>
-      <input type="text" id="name" name="name" required><br><br>
+            <label for="phone">رقم الجوال:</label>
+            <input type="text" id="phone" name="phone" required>
 
-      <!-- 📧 حقل البريد الإلكتروني -->
-      <label for="email">البريد الإلكتروني:</label><br>
-      <input type="email" id="email" name="email" required><br><br>
-      
-      <label for="phone">رقم الجوال:</label>
-      <input type="text" id="phone" name="phone" required>
+            <label for="trip">الرحلة:</label>
+            <select id="trip" name="trip" required>
+                <option value="جدة">جدة</option>
+                <option value="الرياض">الرياض</option>
+                <option value="ينبع">ينبع</option>
+                <option value="سنغافورة">سنغافورة</option>
+            </select>
 
-      <!-- 🌍 حقل اسم الرحلة -->
-      <label for="trip">الرحلة المطلوبة:</label><br>
-      <input type="text" id="trip" name="trip" required placeholder="مثال: جولة في الدرعية"><br><br>
+            <label for="date">تاريخ الحجز:</label>
+            <input type="date" id="date" name="date" required>
 
-      <!-- زر الإرسال -->
-      <button type="submit" class="btn">🔖 احجز الآن</button>
-    </form>
-
-    <!-- رابط للعودة إلى الصفحة الرئيسية -->
-    <br>
-    <a href="/" class="btn">🏠 العودة للرئيسية</a>
-  </div>
-
+            <button type="submit" class="btn">احجز الآن</button>
+        </form>
+    </div>
 </body>
 </html>
