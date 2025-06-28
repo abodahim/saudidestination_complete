@@ -1,10 +1,9 @@
-<!-- القائمة الجانبية -->
 <style>
     .side-menu {
         position: fixed;
         top: 20px;
         right: 20px;
-        z-index: 1000;
+        z-index: 1001;
     }
 
     .menu-toggle {
@@ -18,16 +17,24 @@
     }
 
     .menu-content {
-        display: none;
-        flex-direction: column;
         position: fixed;
         top: 70px;
-        right: 20px;
+        right: -220px; /* خارج الشاشة */
         background-color: #207a55;
         border-radius: 10px;
         padding: 15px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        min-width: 160px;
+        min-width: 180px;
+        direction: rtl;
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        transition: right 0.3s ease-in-out;
+        z-index: 1002;
+    }
+
+    .menu-content.show {
+        right: 20px;
     }
 
     .menu-content a {
@@ -42,10 +49,30 @@
         opacity: 0.8;
     }
 
+    /* ظل الخلفية */
+    .overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: none;
+    }
+
+    .overlay.show {
+        display: block;
+    }
+
     @media (max-width: 600px) {
         .menu-toggle {
             font-size: 18px;
             padding: 8px 12px;
+        }
+
+        .menu-content {
+            min-width: 150px;
         }
 
         .menu-content a {
@@ -54,24 +81,41 @@
     }
 </style>
 
+<!-- الزر -->
 <div class="side-menu">
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-    <div class="menu-content" id="menuContent">
-        <a href="{{ url_for('index') }}">🏠 الرئيسية</a>
-        <a href="{{ url_for('about') }}">📖 عن الموقع</a>
-        <a href="{{ url_for('trips') }}">🌍 الرحلات</a>
-        <a href="{{ url_for('booking') }}">📝 الحجز</a>
-        <a href="/admin">🔒 الإدارة</a>
-    </div>
 </div>
+
+<!-- القائمة -->
+<div class="menu-content" id="menuContent">
+    <a href="{{ url_for('index') }}">🏠 الرئيسية</a>
+    <a href="{{ url_for('about') }}">📖 عن الموقع</a>
+    <a href="{{ url_for('trips') }}">🌍 الرحلات</a>
+    <a href="{{ url_for('booking') }}">📝 الحجز</a>
+    <a href="/admin">🔒 الإدارة</a>
+</div>
+
+<!-- ظل الشاشة -->
+<div class="overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <script>
     function toggleMenu() {
         var menu = document.getElementById("menuContent");
-        if (menu.style.display === "flex") {
-            menu.style.display = "none";
-        } else {
-            menu.style.display = "flex";
-        }
+        var overlay = document.getElementById("menuOverlay");
+
+        menu.classList.toggle("show");
+        overlay.classList.toggle("show");
     }
+
+    function closeMenu() {
+        document.getElementById("menuContent").classList.remove("show");
+        document.getElementById("menuOverlay").classList.remove("show");
+    }
+
+    // إغلاق القائمة عند الضغط على أي رابط داخلها
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".menu-content a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+    });
 </script>
