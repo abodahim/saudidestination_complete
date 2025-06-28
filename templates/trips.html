@@ -15,32 +15,16 @@
         <p class="page-description">اختر وجهتك واستمتع بأفضل التجارب</p>
 
         <div class="trips-container">
-
-            <!-- بطاقة جدة -->
-            <div class="trip-card">
-                <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="جدة">
-                <h2>رحلة إلى جدة</h2>
-                <p>جولة في عروس البحر الأحمر، بين التراث والحداثة</p>
-                <a href="/trip/jeddah" class="details-btn">عرض التفاصيل</a>
-            </div>
-
-            <!-- بطاقة الرياض -->
-            <div class="trip-card">
-                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض">
-                <h2>رحلة إلى الرياض</h2>
-                <p>اكتشف العاصمة النابضة بالحياة والثقافة</p>
-                <a href="/trip/riyadh" class="details-btn">عرض التفاصيل</a>
-            </div>
-
-            <!-- بطاقة ينبع -->
-            <div class="trip-card">
-                <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="ينبع">
-                <h2>رحلة إلى ينبع</h2>
-                <p>استمتع بجمال البحر والمغامرات البحرية في ينبع</p>
-                <a href="/trip/yanbu" class="details-btn">عرض التفاصيل</a>
-            </div>
-
+            {% for trip in trips %}
+                <div class="trip-card">
+                    <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="{{ trip.name }}">
+                    <h2>رحلة إلى {{ trip.name }}</h2>
+                    <p>{{ trip.description }}</p>
+                    <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="details-btn">عرض التفاصيل</a>
+                </div>
+            {% endfor %}
         </div>
     </div>
+    
 </body>
 </html>
