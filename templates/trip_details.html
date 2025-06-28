@@ -1,60 +1,57 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفاصيل الرحلة - {{ trip_name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <title>تفاصيل الرحلة - وجهة السعودية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    <header class="header">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار" class="logo">
-        <a href="/trips" class="btn-back">العودة للرحلات</a>
-    </header>
+  <!-- القائمة الجانبية -->
+  <div class="menu">
+    <button onclick="toggleMenu()">القائمة ☰</button>
+    <ul id="menu-list">
+      <li><a href="/">الرئيسية</a></li>
+      <li><a href="/about">عن الموقع</a></li>
+      <li><a href="/trips">الرحلات</a></li>
+      <li><a href="/booking">الحجز</a></li>
+    </ul>
+  </div>
 
-    <main class="trip-info">
+  <!-- المحتوى الرئيسي -->
+  <div class="content">
+    <h1>تفاصيل الرحلة إلى {{ trip_name }}</h1>
+    <div class="trip-info">
+      <p>🌍 اسم الرحلة: <strong>{{ trip_name }}</strong></p>
+      <p>📅 المدة: ٥ أيام</p>
+      <p>👨‍👩‍👧‍👦 الفئة: عائلية - مدرسية - شركات</p>
+      <p>🎯 المزايا: جولات سياحية، مرشد محلي، وجبات، مواصلات</p>
+      <p>💬 للتفاصيل والحجز يرجى تعبئة النموذج في صفحة <a href="/booking">الحجز</a></p>
+    </div>
 
-        <h1>تفاصيل الرحلة إلى {{ trip_name }}</h1>
+    <!-- معرض صور الرحلة -->
+    <div class="gallery">
+      <h2>📸 صور من الرحلة</h2>
+      <div class="gallery-images">
+        <img src="{{ url_for('static', filename='images/' + trip_name + '_1.jpg') }}" alt="صورة 1">
+        <img src="{{ url_for('static', filename='images/' + trip_name + '_2.jpg') }}" alt="صورة 2">
+        <img src="{{ url_for('static', filename='images/' + trip_name + '_3.jpg') }}" alt="صورة 3">
+        <img src="{{ url_for('static', filename='images/' + trip_name + '_4.jpg') }}" alt="صورة 4">
+      </div>
+    </div>
 
-        {% if trip_name == "جدة" %}
-            <p>✨ جولة ساحلية في جدة التاريخية تشمل زيارة البلد والأسواق الشعبية.</p>
-            <div class="gallery-images">
-                <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}">
-                <img src="{{ url_for('static', filename='images/jeddah_2.JPG') }}">
-                <img src="{{ url_for('static', filename='images/jeddah_3.JPG') }}">
-                <img src="{{ url_for('static', filename='images/jeddah_4.JPG') }}">
-            </div>
+    <!-- زر الحجز -->
+    <a href="/booking" class="btn">احجز الآن</a>
+  </div>
 
-        {% elif trip_name == "الرياض" %}
-            <p>🏙️ استكشف معالم الرياض العصرية والتاريخية مع مرشدين محترفين.</p>
-            <div class="gallery-images">
-                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}">
-                <img src="{{ url_for('static', filename='images/riyadh_2.JPG') }}">
-                <img src="{{ url_for('static', filename='images/riyadh_3.JPG') }}">
-                <img src="{{ url_for('static', filename='images/riyadh_4.JPG') }}">
-            </div>
-
-        {% elif trip_name == "ينبع" %}
-            <p>🏖️ رحلة استجمام في ينبع البحرية مع نشاطات بحرية وغوص.</p>
-            <div class="gallery-images">
-                <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}">
-                <img src="{{ url_for('static', filename='images/yanbu_2.JPG') }}">
-                <img src="{{ url_for('static', filename='images/yanbu_3.JPG') }}">
-                <img src="{{ url_for('static', filename='images/yanbu_4.JPG') }}">
-            </div>
-
-        {% else %}
-            <p>لا توجد تفاصيل متاحة لهذه الرحلة حالياً.</p>
-        {% endif %}
-
-        <a href="/booking" class="btn">احجز الآن</a>
-
-    </main>
-
-    <footer>
-        <p>جميع الحقوق محفوظة © وجهة السعودية 2025</p>
-    </footer>
+  <!-- سكربت القائمة -->
+  <script>
+    function toggleMenu() {
+      const list = document.getElementById("menu-list");
+      list.style.display = (list.style.display === "block") ? "none" : "block";
+    }
+  </script>
 
 </body>
 </html>
