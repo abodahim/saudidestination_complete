@@ -1,0 +1,21 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول للمشرف</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="content">
+        <h2>تسجيل دخول المشرف</h2>
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <form method="POST">
+            <input type="password" name="password" placeholder="كلمة المرور">
+            <button type="submit">دخول</button>
+        </form>
+    </div>
+</body>
+</html>
