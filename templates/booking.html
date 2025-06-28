@@ -8,20 +8,31 @@
 </head>
 <body>
     {% include 'menu.html' %}
-    <div class="content">
-        <h2>احجز رحلتك الآن</h2>
-        <form method="POST">
+
+    <div class="trips-page">
+        <h2 class="page-title">احجز رحلتك الآن</h2>
+        <form method="POST" class="booking-form">
+            <label for="name">الاسم</label>
             <input type="text" name="name" placeholder="الاسم" required>
+
+            <label for="email">البريد الإلكتروني</label>
             <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+
+            <label for="phone">رقم الجوال</label>
             <input type="text" name="phone" placeholder="رقم الجوال" required>
+
+            <label for="trip">اختر الرحلة</label>
             <select name="trip" required>
                 <option value="">اختر الرحلة</option>
                 <option value="جدة">جدة</option>
                 <option value="الرياض">الرياض</option>
                 <option value="ينبع">ينبع</option>
             </select>
+
+            <label for="date">تاريخ الرحلة</label>
             <input type="date" name="date" required>
-            <button type="submit" class="btn">احجز الآن</button>
+
+            <button type="submit" class="submit-btn">احجز الآن</button>
         </form>
     </div>
 </body>
