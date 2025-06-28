@@ -19,8 +19,8 @@
     .menu-content {
         position: fixed;
         top: 70px;
-        right: -220px;
-        background-color: rgba(32, 122, 85, 0.97); /* أخضر شفاف */
+        right: -240px;
+        background-color: rgba(32, 122, 85, 0.98); /* ظل أكثر وضوحًا */
         border-radius: 12px;
         padding: 15px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.3);
@@ -31,7 +31,7 @@
         flex-direction: column;
         transition: right 0.3s ease-in-out;
         z-index: 1002;
-        backdrop-filter: blur(3px); /* تأثير زجاجي ناعم */
+        backdrop-filter: blur(3px);
     }
 
     .menu-content.show {
@@ -42,12 +42,27 @@
         color: white;
         text-decoration: none;
         font-size: 16px;
-        margin: 8px 0;
+        margin-bottom: 6px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
         transition: opacity 0.3s ease;
+    }
+
+    .menu-content a:last-child {
+        border-bottom: none;
     }
 
     .menu-content a:hover {
         opacity: 0.8;
+    }
+
+    .close-btn {
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        position: absolute;
+        top: 8px;
+        left: 12px;
     }
 
     .overlay {
@@ -74,7 +89,8 @@
         .menu-content {
             min-width: 150px;
             top: 60px;
-            right: -170px;
+            right: -180px;
+            padding: 10px;
         }
 
         .menu-content.show {
@@ -84,14 +100,22 @@
         .menu-content a {
             font-size: 14px;
         }
+
+        .close-btn {
+            font-size: 16px;
+            left: 10px;
+        }
     }
 </style>
 
+<!-- زر فتح القائمة -->
 <div class="side-menu">
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 </div>
 
+<!-- القائمة الجانبية -->
 <div class="menu-content" id="menuContent">
+    <span class="close-btn" onclick="closeMenu()">✖</span>
     <a href="{{ url_for('index') }}">🏠 الرئيسية</a>
     <a href="{{ url_for('about') }}">📖 عن الموقع</a>
     <a href="{{ url_for('trips') }}">🌍 الرحلات</a>
@@ -99,6 +123,7 @@
     <a href="/admin">🔒 الإدارة</a>
 </div>
 
+<!-- خلفية عند الفتح -->
 <div class="overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <script>
