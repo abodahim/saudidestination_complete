@@ -3,7 +3,6 @@ import sqlite3
 import os
 
 # إنشاء قاعدة البيانات إذا لم تكن موجودة
-# إنشاء قاعدة البيانات إذا لم تكن موجودة
 if not os.path.exists('database.db'):
     conn = sqlite3.connect('database.db')
     conn.execute('''
@@ -11,7 +10,7 @@ if not os.path.exists('database.db'):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             email TEXT NOT NULL,
-            phone TEXT NOT NULL,  -- رقم الجوال
+            phone TEXT NOT NULL,
             trip TEXT NOT NULL,
             date TEXT NOT NULL
         )
@@ -21,38 +20,48 @@ if not os.path.exists('database.db'):
 
 app = Flask(__name__)
 
+# الصفحة الرئيسية
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# صفحة عن الموقع
 @app.route('/about')
 def about():
     return render_template('about.html')
 
+# صفحة الرحلات
 @app.route('/trips')
 def trips():
     return render_template('trips.html')
 
+# صفحة تفاصيل الرحلة
 @app.route('/trip/<trip_name>')
 def trip_details(trip_name):
     return render_template('trip_details.html', trip_name=trip_name)
 
+# صفحة الحجز
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
+        phone = request.form['phone']
         trip = request.form['trip']
         date = request.form['date']
+
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
-        c.execute("INSERT INTO bookings (name, email, trip, date) VALUES (?, ?, ?, ?)",
-                  (name, email, trip, date))
+        c.execute("INSERT INTO bookings (name, email, phone, trip, date) VALUES (?, ?, ?, ?, ?)",
+                  (name, email, phone, trip, date))
         conn.commit()
         conn.close()
+
         return redirect(url_for('thank_you'))
+
     return render_template('booking.html')
 
+# صفحة الشكر بعد الحجز
 @app.route('/thank_you')
 def thank_you():
     return render_template('thank_you.html')
