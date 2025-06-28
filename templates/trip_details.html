@@ -1,36 +1,25 @@
-<!-- templates/trip_details.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تفاصيل الرحلة</title>
+    <title>تفاصيل الرحلة - {{ trip.name }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+
     {% include 'menu.html' %}
 
-    <div class="content">
-        <div class="trip-card">
-            <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="صورة الرحلة">
-            <h2>{{ trip.name }}</h2>
-            <p>{{ trip.description }}</p>
-            <p><strong>التصنيف:</strong> {{ trip.category }}</p>
-            <a href="/booking" class="details-btn">احجز الآن</a>
+    <div class="trip-details-container">
+        <h1 class="page-title">🧭 تفاصيل الرحلة إلى {{ trip.name }}</h1>
+        
+        <div class="trip-details-card">
+            <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="{{ trip.name }}">
+            <p class="trip-description">{{ trip.description }}</p>
+            <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+            <a href="{{ url_for('trips') }}" class="back-link">🔙 العودة إلى قائمة الرحلات</a>
         </div>
-
-        <!-- زر الرجوع -->
-        <a href="/trips" class="back-btn">↩️ العودة للرحلات</a>
     </div>
 
-    <!-- إغلاق القائمة الجانبية عند الضغط خارجها -->
-    <script>
-        document.addEventListener("click", function (e) {
-            const menu = document.querySelector(".menu-content");
-            const toggle = document.querySelector(".menu-toggle");
-            if (menu && toggle && !menu.contains(e.target) && !toggle.contains(e.target)) {
-                menu.style.display = "none";
-            }
-        });
-    </script>
 </body>
 </html>
