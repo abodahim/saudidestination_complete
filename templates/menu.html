@@ -22,9 +22,9 @@
         right: -160px;
         background-color: rgba(32, 122, 85, 0.98);
         border-radius: 12px;
-        padding: 15px;
+        padding: 10px;
         box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        min-width: 140px;
+        width: 115px; /* عرض ضيق */
         direction: rtl;
         text-align: right;
         display: flex;
@@ -32,6 +32,7 @@
         transition: right 0.3s ease-in-out;
         z-index: 1002;
         backdrop-filter: blur(3px);
+        white-space: nowrap; /* منع التفاف الرموز والنص */
     }
 
     .menu-content.show {
@@ -41,7 +42,7 @@
     .menu-content a {
         color: white;
         text-decoration: none;
-        font-size: 15px;
+        font-size: 14px;
         margin-bottom: 6px;
         padding-bottom: 6px;
         border-bottom: 1px solid rgba(255,255,255,0.2);
@@ -58,7 +59,7 @@
 
     .close-btn {
         color: white;
-        font-size: 18px;
+        font-size: 16px;
         cursor: pointer;
         position: absolute;
         top: 8px;
@@ -87,23 +88,22 @@
         }
 
         .menu-content {
-            min-width: 120px;
+            width: 105px;
             top: 60px;
-            right: -140px;
-            padding: 10px;
+            right: -130px;
+            padding: 8px;
         }
 
         .menu-content.show {
-            right: 12px;
+            right: 10px;
         }
 
         .menu-content a {
-            font-size: 13px;
+            font-size: 12.5px;
         }
 
         .close-btn {
-            font-size: 16px;
-            left: 8px;
+            font-size: 14px;
         }
     }
 </style>
@@ -123,14 +123,13 @@
     <a href="/admin">🔒 الإدارة</a>
 </div>
 
-<!-- خلفية القائمة -->
+<!-- ظل خلفي -->
 <div class="overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <script>
     function toggleMenu() {
         var menu = document.getElementById("menuContent");
         var overlay = document.getElementById("menuOverlay");
-
         menu.classList.toggle("show");
         overlay.classList.toggle("show");
     }
