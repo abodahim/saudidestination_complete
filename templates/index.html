@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>وجهة السعودية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- ربط ملف الأنماط -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>وجهة السعودية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-  <!-- القائمة الجانبية -->
-  {% include 'menu.html' %}
+    <!-- القائمة الجانبية -->
+    {% include 'menu.html' %}
 
-  <!-- قسم البطل -->
-  <header class="hero">
-    <div class="hero-container">
-      <img src="{{ url_for('static', filename='images/logo.JPG') }}"
-           alt="شعار وجهة السعودية"
-           class="hero-logo">
-      <h1>مرحباً بكم في وجهة السعودية</h1>
-      <p>استكشف المملكة بباقات سياحية احترافية ومرشدين محليين بخبرات عالية</p>
-      <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+    <!-- المحتوى الرئيسي -->
+    <div class="hero">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo-img">
+        </div>
+        <h1>مرحباً بكم في وجهة السعودية</h1>
+        <p>استكشف المملكة بباقات سياحية احترافية ومرشدين محليين بخبرات عالية</p>
+        <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
     </div>
-  </header>
 
-  <!-- التذييل -->
-  <footer class="footer">
-    جميع الحقوق محفوظة © وجهة السعودية 2025
-  </footer>
+    <!-- التذييل -->
+    <footer class="footer">
+        جميع الحقوق محفوظة © وجهة السعودية 2025
+    </footer>
 
 </body>
 </html>
