@@ -11,7 +11,7 @@
     <!-- القائمة الجانبية -->
     {% include 'menu.html' %}
 
-    <!-- المحتوى الرئيسي -->
+    <!-- قسم الهيرو -->
     <div class="hero">
         <div class="logo-container">
             <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo-img">
@@ -20,6 +20,50 @@
         <p>استكشف المملكة بباقات سياحية احترافية ومرشدين محليين بخبرات عالية</p>
         <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
     </div>
+
+    <!-- قسم المرشدين -->
+    <section class="guides-section">
+        <h2>تعرف على مرشدينا المحليين 👨‍💼</h2>
+        <div class="guides-container">
+            <div class="guide-card">
+                <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="مرشد">
+                <h3>عبدالله الحربي</h3>
+                <p>خبرة 8 سنوات في رحلات جدة</p>
+            </div>
+            <div class="guide-card">
+                <img src="{{ url_for('static', filename='images/guide2.PNG') }}" alt="مرشد">
+                <h3>سلمان القحطاني</h3>
+                <p>متخصص في رحلات الرياض</p>
+            </div>
+            <div class="guide-card">
+                <img src="{{ url_for('static', filename='images/guide3.PNG') }}" alt="مرشد">
+                <h3>نايف المطيري</h3>
+                <p>خبير سياحي في ينبع</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الرحلات -->
+    <section class="trips-section">
+        <h2>استكشف رحلاتنا المميزة ✈️</h2>
+        <div class="trips-container">
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="جدة">
+                <h3>رحلة إلى جدة</h3>
+                <p>جولة بحرية وأسواق تراثية</p>
+            </div>
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض">
+                <h3>رحلة إلى الرياض</h3>
+                <p>زيارات تاريخية ومتاحف</p>
+            </div>
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="ينبع">
+                <h3>رحلة إلى ينبع</h3>
+                <p>سياحة بحرية وفعاليات عائلية</p>
+            </div>
+        </div>
+    </section>
 
     <!-- التذييل -->
     <footer class="footer">
