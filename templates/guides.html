@@ -1,19 +1,40 @@
-
+<!-- templates/guides.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <title>المرشدين السياحيين</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>المرشدين المعتمدين</h1>
-    <div class="guides">
-        <div><img src="/static/images/guide1.jpg"><h3>محمد الحربي</h3></div>
-        <div><img src="/static/images/guide2.jpg"><h3>سارة المالكي</h3></div>
-        <div><img src="/static/images/guide3.jpg"><h3>عبدالله الزهراني</h3></div>
-        <div><img src="/static/images/guide4.jpg"><h3>نوف القحطاني</h3></div>
-        <div><img src="/static/images/guide5.jpg"><h3>فهد العتيبي</h3></div>
+    {% include 'menu.html' %}
+    
+    <div class="guides-page">
+        <h2 class="page-title">👨‍🏫 فريق المرشدين السياحيين</h2>
+        <p class="page-description">تعرف على نخبة من المرشدين السعوديين المعتمدين بخبرات واسعة في السياحة المحلية.</p>
+
+        <div class="guides-container">
+            <!-- مرشد 1 -->
+            <div class="guide-card">
+                <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="المرشد 1">
+                <h3>أ. فهد المطيري</h3>
+                <p>مرشد سياحي في الرياض بخبرة 10 سنوات في تنظيم الجولات العائلية والتاريخية.</p>
+            </div>
+
+            <!-- مرشد 2 -->
+            <div class="guide-card">
+                <img src="{{ url_for('static', filename='images/guide2.PNG') }}" alt="المرشد 2">
+                <h3>أ. نورة السبيعي</h3>
+                <p>خبيرة في السياحة البحرية والأنشطة البيئية في ينبع والمناطق الساحلية.</p>
+            </div>
+
+            <!-- مرشد 3 -->
+            <div class="guide-card">
+                <img src="{{ url_for('static', filename='images/guide3.PNG') }}" alt="المرشد 3">
+                <h3>أ. عبدالعزيز الحربي</h3>
+                <p>مرشد متخصص في الجولات الثقافية والتراثية بمدينة جدة التاريخية.</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>
