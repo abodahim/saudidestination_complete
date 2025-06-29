@@ -1,0 +1,22 @@
+<!-- templates/thank_you.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تم الحجز بنجاح</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% include 'menu.html' %}
+
+    <div class="booking-form" style="text-align: center;">
+        <h2>🎉 شكراً لك يا {{ name }}!</h2>
+        <p>تم حجز رحلتك إلى <strong>{{ trip }}</strong> بتاريخ <strong>{{ date }}</strong>.</p>
+        <div style="margin-top: 20px; text-align: right;">
+            <p><strong>📧 البريد:</strong> {{ email }}</p>
+            <p><strong>📱 الجوال:</strong> {{ phone }}</p>
+        </div>
+        <a href="{{ url_for('index') }}" class="btn">العودة للرئيسية</a>
+    </div>
+</body>
+</html>
