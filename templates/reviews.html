@@ -3,52 +3,61 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تقييمات الرحلة</title>
+    <title>تقييمات {{ trip }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="trips-page">
+<body>
+
     {% include 'menu.html' %}
 
-    <div class="main-content">
-        <h1 class="page-title">⭐ تقييمات رحلة {{ trip }}</h1>
+    <div class="trips-page">
+        <h1 class="page-title">⭐ تقييمات الرحلة إلى {{ trip }}</h1>
+        <p class="page-description">آراء الزوار وتجاربهم السابقة</p>
 
-        <!-- نموذج إضافة تقييم -->
-        <form method="POST" class="booking-form" style="margin-bottom: 40px;">
-            <label for="name">الاسم:</label>
-            <input type="text" name="name" id="name" required>
+        <!-- نموذج إضافة تقييم جديد -->
+        <div class="booking-form">
+            <h3 style="margin-bottom: 15px;">أضف تقييمك</h3>
+            <form method="POST">
+                <label>الاسم</label>
+                <input type="text" name="name" required>
 
-            <label for="rating">التقييم (1 إلى 5):</label>
-            <select name="rating" id="rating" required>
-                <option value="">-- اختر التقييم --</option>
-                <option value="5">5 - ممتاز 🌟</option>
-                <option value="4">4 - جيد جداً</option>
-                <option value="3">3 - جيد</option>
-                <option value="2">2 - مقبول</option>
-                <option value="1">1 - ضعيف</option>
-            </select>
+                <label>التقييم (من 1 إلى 5)</label>
+                <select name="rating" required>
+                    <option value="">اختر التقييم</option>
+                    <option value="5">5 - ممتاز</option>
+                    <option value="4">4 - جيد جدًا</option>
+                    <option value="3">3 - جيد</option>
+                    <option value="2">2 - مقبول</option>
+                    <option value="1">1 - ضعيف</option>
+                </select>
 
-            <label for="comment">ملاحظات:</label>
-            <input type="text" name="comment" id="comment" placeholder="اكتب تعليقك (اختياري)">
+                <label>تعليقك</label>
+                <input type="text" name="comment">
 
-            <button type="submit" class="submit-btn">إرسال التقييم</button>
-        </form>
+                <button type="submit" class="submit-btn">إرسال التقييم</button>
+            </form>
+        </div>
 
-        <!-- عرض التقييمات -->
+        <!-- عرض جميع التقييمات -->
         {% if reviews %}
+            <h3 style="margin: 40px 0 20px;">🗣️ آراء المسافرين</h3>
             {% for r in reviews %}
                 <div class="review-card">
-                    <p><strong>👤 {{ r[1] }}</strong> - ⭐ {{ r[2] }} / 5</p>
-                    <p>{{ r[3] }}</p>
-                    <small>📅 {{ r[4] }}</small>
+                    <p><strong>الاسم:</strong> {{ r[1] }}</p>
+                    <p><strong>التقييم:</strong> {{ r[2] }} / 5</p>
+                    <p><strong>التعليق:</strong> {{ r[3] if r[3] else 'لا يوجد تعليق' }}</p>
+                    <small>🕒 تم الإرسال في: {{ r[4] }}</small>
                 </div>
             {% endfor %}
         {% else %}
-            <p style="text-align: center;">لا توجد تقييمات حتى الآن.</p>
+            <p style="text-align:center; margin-top: 20px;">لا توجد تقييمات حتى الآن.</p>
         {% endif %}
 
-        <div style="text-align: center; margin-top: 30px;">
-            <a href="{{ url_for('trips') }}" class="btn">🌍 الرجوع إلى الرحلات</a>
+        <!-- زر رجوع -->
+        <div style="text-align:center; margin-top: 30px;">
+            <a href="{{ url_for('trip_details', trip_name=trip) }}" class="btn">🔙 العودة لتفاصيل الرحلة</a>
         </div>
+
     </div>
 </body>
 </html>
