@@ -36,7 +36,7 @@ def booking():
         trip = request.form['trip']
         phone = request.form['phone']
         # ... حفظ البيانات في قاعدة البيانات إن وجدت
-        return render_template('thankyou.html', name=name, trip=trip)
+        return render_template('thank_you.html', name=name, trip=trip)
     return render_template('booking.html')
 
 # صفحة المرشدين
