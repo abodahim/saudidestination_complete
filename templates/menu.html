@@ -1,147 +1,29 @@
-<style>
-    .side-menu {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1001;
-    }
-
-    .menu-toggle {
-        background-color: #1d6c4c;
-        color: white;
-        border: none;
-        padding: 10px 14px;
-        font-size: 20px;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-
-    .menu-content {
-        position: fixed;
-        top: 70px;
-        right: -160px;
-        background-color: rgba(32, 122, 85, 0.98);
-        border-radius: 12px;
-        padding: 10px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        width: 115px; /* عرض ضيق */
-        direction: rtl;
-        text-align: right;
-        display: flex;
-        flex-direction: column;
-        transition: right 0.3s ease-in-out;
-        z-index: 1002;
-        backdrop-filter: blur(3px);
-        white-space: nowrap; /* منع التفاف الرموز والنص */
-    }
-
-    .menu-content.show {
-        right: 20px;
-    }
-
-    .menu-content a {
-        color: white;
-        text-decoration: none;
-        font-size: 14px;
-        margin-bottom: 6px;
-        padding-bottom: 6px;
-        border-bottom: 1px solid rgba(255,255,255,0.2);
-        transition: opacity 0.3s ease;
-    }
-
-    .menu-content a:last-child {
-        border-bottom: none;
-    }
-
-    .menu-content a:hover {
-        opacity: 0.8;
-    }
-
-    .close-btn {
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        position: absolute;
-        top: 8px;
-        left: 10px;
-    }
-
-    .overlay {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-        display: none;
-    }
-
-    .overlay.show {
-        display: block;
-    }
-
-    @media (max-width: 600px) {
-        .menu-toggle {
-            font-size: 18px;
-            padding: 8px 12px;
-        }
-
-        .menu-content {
-            width: 105px;
-            top: 60px;
-            right: -130px;
-            padding: 8px;
-        }
-
-        .menu-content.show {
-            right: 10px;
-        }
-
-        .menu-content a {
-            font-size: 12.5px;
-        }
-
-        .close-btn {
-            font-size: 14px;
-        }
-    }
-</style>
-
-<!-- زر القائمة -->
+<!-- templates/menu.html -->
 <div class="side-menu">
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <div class="menu-content" id="menuContent">
+        <a href="{{ url_for('index') }}">🏠 الرئيسية</a>
+        <a href="{{ url_for('about') }}">📖 عن الموقع</a>
+        <a href="{{ url_for('trips') }}">🌍 الرحلات</a>
+        <a href="{{ url_for('guides') }}">🧭 المرشدون</a>
+        <a href="{{ url_for('booking') }}">📝 الحجز</a>
+        <a href="{{ url_for('admin_login') }}">🔒 الإدارة</a>
+    </div>
 </div>
-
-<!-- القائمة الجانبية -->
-<div class="menu-content" id="menuContent">
-    <span class="close-btn" onclick="closeMenu()">✖</span>
-    <a href="{{ url_for('index') }}">🏠 الرئيسية</a>
-    <a href="{{ url_for('about') }}">📖 عن الموقع</a>
-    <a href="{{ url_for('trips') }}">🌍 الرحلات</a>
-    <a href="{{ url_for('booking') }}">📝 الحجز</a>
-    <a href="/admin">🔒 الإدارة</a>
-</div>
-
-<!-- ظل خلفي -->
-<div class="overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <script>
     function toggleMenu() {
-        var menu = document.getElementById("menuContent");
-        var overlay = document.getElementById("menuOverlay");
-        menu.classList.toggle("show");
-        overlay.classList.toggle("show");
+        const menu = document.getElementById("menuContent");
+        const isVisible = menu.style.display === "flex";
+        menu.style.display = isVisible ? "none" : "flex";
     }
 
-    function closeMenu() {
-        document.getElementById("menuContent").classList.remove("show");
-        document.getElementById("menuOverlay").classList.remove("show");
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".menu-content a").forEach(function (link) {
-            link.addEventListener("click", closeMenu);
-        });
+    // إغلاق القائمة إذا تم النقر خارجها
+    document.addEventListener("click", function(event) {
+        const menu = document.getElementById("menuContent");
+        const toggle = document.querySelector(".menu-toggle");
+        if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+            menu.style.display = "none";
+        }
     });
 </script>
