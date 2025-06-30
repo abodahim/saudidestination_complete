@@ -2,124 +2,87 @@ from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import os
 
+app = Flask(__name__)
+
 # إنشاء قاعدة البيانات إذا لم تكن موجودة
 if not os.path.exists('database.db'):
     conn = sqlite3.connect('database.db')
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS bookings (
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE guides (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            email TEXT NOT NULL,
-            phone TEXT,
-            trip TEXT NOT NULL,
-            date TEXT NOT NULL
+            bio TEXT,
+            experience TEXT,
+            image TEXT
         )
     ''')
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS reviews (
+    c.execute('''
+        CREATE TABLE trips (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            trip TEXT NOT NULL,
             name TEXT NOT NULL,
-            rating INTEGER NOT NULL,
-            comment TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            title TEXT,
+            description TEXT,
+            image TEXT
         )
     ''')
     conn.commit()
     conn.close()
 
-app = Flask(__name__)
+# قراءة البيانات من قاعدة البيانات
+def get_all_guides():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    guides = conn.execute("SELECT * FROM guides").fetchall()
+    conn.close()
+    return guides
+
+def get_all_trips():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    trips = conn.execute("SELECT * FROM trips").fetchall()
+    conn.close()
+    return trips
+
+def get_guide_by_id(guide_id):
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    guide = conn.execute("SELECT * FROM guides WHERE id = ?", (guide_id,)).fetchone()
+    conn.close()
+    return guide
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    guides = get_all_guides()
+    trips = get_all_trips()
+    return render_template('index.html', guides=guides, trips=trips)
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+@app.route('/guides')
+def guides():
+    all_guides = get_all_guides()
+    return render_template('guides.html', guides=all_guides)
 
-@app.route('/trips')
-def trips():
-    conn = sqlite3.connect('trips.db')
-    c = conn.cursor()
-    c.execute("SELECT * FROM trips")
-    trips = c.fetchall()
-    conn.close()
-    return render_template('trips.html', trips=[{
-        'id': row[0],
-        'name': row[1],
-        'description': row[2],
-        'image': row[3]
-    } for row in trips])
+@app.route('/guide/<int:guide_id>')
+def guide_details(guide_id):
+    guide = get_guide_by_id(guide_id)
+    if guide:
+        return render_template('guide_details.html', guide=guide)
+    return "المرشد غير موجود", 404
 
-@app.route('/trip/<int:trip_id>')
-def trip_details(trip_id):
-    conn = sqlite3.connect('trips.db')
-    c = conn.cursor()
-    c.execute("SELECT * FROM trips WHERE id = ?", (trip_id,))
-    row = c.fetchone()
-    conn.close()
-    if row:
-        trip = {
-            'id': row[0],
-            'name': row[1],
-            'description': row[2],
-            'image': row[3]
-        }
-        return render_template('trip_details.html', trip=trip)
-    else:
-        return "الرحلة غير موجودة", 404
+@app.route('/trip/<trip_name>')
+def trip_details(trip_name):
+    return render_template('trip_details.html', trip_name=trip_name)
 
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
     if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        phone = request.form['phone']
-        trip = request.form['trip']
-        date = request.form['date']
-
-        conn = sqlite3.connect('database.db')
-        c = conn.cursor()
-        c.execute("INSERT INTO bookings (name, email, phone, trip, date) VALUES (?, ?, ?, ?, ?)",
-                  (name, email, phone, trip, date))
-        conn.commit()
-        conn.close()
-
-        return render_template('thank_you.html', name=name, trip=trip, date=date, phone=phone, email=email)
-
+        # من الممكن إضافة الحفظ في قاعدة البيانات هنا
+        return redirect(url_for('thank_you'))
     return render_template('booking.html')
 
 @app.route('/thank_you')
 def thank_you():
     return render_template('thank_you.html')
-
-@app.route('/admin_login')
-def admin_login():
-    return render_template('admin_login.html')
-
-@app.route('/reviews/<trip>', methods=['GET', 'POST'])
-def reviews(trip):
-    if request.method == 'POST':
-        name = request.form['name']
-        rating = request.form['rating']
-        comment = request.form['comment']
-
-        conn = sqlite3.connect('database.db')
-        c = conn.cursor()
-        c.execute("INSERT INTO reviews (trip, name, rating, comment) VALUES (?, ?, ?, ?)",
-                  (trip, name, rating, comment))
-        conn.commit()
-        conn.close()
-        return redirect(url_for('reviews', trip=trip))
-
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute("SELECT trip, name, rating, comment, created_at FROM reviews WHERE trip = ? ORDER BY id DESC", (trip,))
-    all_reviews = c.fetchall()
-    conn.close()
-
-    return render_template('reviews.html', trip=trip, reviews=all_reviews)
 
 if __name__ == '__main__':
     app.run(debug=True)
