@@ -6,17 +6,22 @@
     <title>تم الحجز بنجاح</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="trips-page">
     {% include 'menu.html' %}
 
-    <div class="booking-form" style="text-align: center;">
-        <h2>🎉 شكراً لك يا {{ name }}!</h2>
-        <p>تم حجز رحلتك إلى <strong>{{ trip }}</strong> بتاريخ <strong>{{ date }}</strong>.</p>
-        <div style="margin-top: 20px; text-align: right;">
-            <p><strong>📧 البريد:</strong> {{ email }}</p>
-            <p><strong>📱 الجوال:</strong> {{ phone }}</p>
+    <div class="main-content" style="text-align: center;">
+        <h1 class="page-title">✅ تم الحجز بنجاح!</h1>
+        <p class="page-description">شكرًا لك، تم استلام حجزك بنجاح.</p>
+
+        <div class="booking-summary" style="background-color:#fff; padding:20px; border-radius:10px; max-width:500px; margin:auto; box-shadow:0 4px 12px rgba(0,0,0,0.1); text-align:right;">
+            <p><strong>الاسم:</strong> {{ name }}</p>
+            <p><strong>البريد الإلكتروني:</strong> {{ email }}</p>
+            <p><strong>رقم الجوال:</strong> {{ phone }}</p>
+            <p><strong>الرحلة:</strong> {{ trip }}</p>
+            <p><strong>التاريخ:</strong> {{ date }}</p>
         </div>
-        <a href="{{ url_for('index') }}" class="btn">العودة للرئيسية</a>
+
+        <a href="{{ url_for('index') }}" class="btn" style="margin-top: 25px;">🏠 العودة للرئيسية</a>
     </div>
 </body>
 </html>
