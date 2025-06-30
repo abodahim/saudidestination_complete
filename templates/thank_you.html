@@ -3,25 +3,29 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تم الحجز بنجاح</title>
+    <title>شكراً لحجزك</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="trips-page">
+<body>
+
     {% include 'menu.html' %}
 
-    <div class="main-content" style="text-align: center;">
-        <h1 class="page-title">✅ تم الحجز بنجاح!</h1>
-        <p class="page-description">شكرًا لك، تم استلام حجزك بنجاح.</p>
+    <div class="trips-page">
+        <div class="booking-form">
+            <h2 style="text-align:center; color:#1d6c4c;">🎉 شكراً لحجزك معنا!</h2>
+            <p style="text-align:center;">تم تسجيل معلوماتك بنجاح، إليك تفاصيل الحجز:</p>
 
-        <div class="booking-summary" style="background-color:#fff; padding:20px; border-radius:10px; max-width:500px; margin:auto; box-shadow:0 4px 12px rgba(0,0,0,0.1); text-align:right;">
-            <p><strong>الاسم:</strong> {{ name }}</p>
-            <p><strong>البريد الإلكتروني:</strong> {{ email }}</p>
-            <p><strong>رقم الجوال:</strong> {{ phone }}</p>
-            <p><strong>الرحلة:</strong> {{ trip }}</p>
-            <p><strong>التاريخ:</strong> {{ date }}</p>
+            <div class="details-box">
+                <p><strong>الاسم:</strong> {{ name }}</p>
+                <p><strong>البريد الإلكتروني:</strong> {{ email }}</p>
+                <p><strong>رقم الجوال:</strong> {{ phone }}</p>
+                <p><strong>الرحلة:</strong> {{ trip }}</p>
+                <p><strong>التاريخ:</strong> {{ date }}</p>
+            </div>
+
+            <a href="{{ url_for('index') }}" class="btn" style="display:block; text-align:center; margin-top: 30px;">🔙 العودة إلى الرئيسية</a>
         </div>
-
-        <a href="{{ url_for('index') }}" class="btn" style="margin-top: 25px;">🏠 العودة للرئيسية</a>
     </div>
+
 </body>
 </html>
