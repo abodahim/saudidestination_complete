@@ -1,22 +1,21 @@
+<!-- templates/guide_details.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>{{ guide.name }}</title>
+    <title>{{ guide['name'] }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="trips-page">
     {% include 'menu.html' %}
-
-    <div class="section guide-details">
-        <img src="{{ url_for('static', filename='images/' + guide.image) }}" alt="{{ guide.name }}" class="guide-details-img">
-        <h2>{{ guide.name }}</h2>
-        <p>{{ guide.bio }}</p>
-        <a href="{{ url_for('guides') }}" class="btn">← العودة إلى قائمة المرشدين</a>
+    <div class="main-content">
+        <div class="trip-card" style="max-width: 600px; margin: auto;">
+            <img src="{{ url_for('static', filename='images/' + guide['image']) }}" alt="{{ guide['name'] }}">
+            <h2>{{ guide['name'] }}</h2>
+            <p><strong>الخبرة:</strong> {{ guide['experience'] }}</p>
+            <p>{{ guide['bio'] }}</p>
+            <a href="{{ url_for('guides') }}" class="btn">🔙 العودة للمرشدين</a>
+        </div>
     </div>
-
-    <footer class="footer">
-        جميع الحقوق محفوظة © وجهة السعودية 2025
-    </footer>
 </body>
 </html>
