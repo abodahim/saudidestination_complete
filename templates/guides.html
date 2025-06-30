@@ -1,29 +1,26 @@
+<!-- templates/guides.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>المرشدين السياحيين</title>
+    <title>المرشدين</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="trips-page">
     {% include 'menu.html' %}
-
-    <div class="section guides-page">
-        <h2 class="page-title">👨‍💼 المرشدين السياحيين</h2>
-        <div class="guides-container">
+    <div class="main-content">
+        <h1 class="page-title">👨‍💼 فريق المرشدين</h1>
+        <p class="page-description">تعرف على أفضل المرشدين السياحيين المعتمدين</p>
+        <div class="trips-container">
             {% for guide in guides %}
-            <div class="guide-card">
-                <img src="{{ url_for('static', filename='images/' + guide.image) }}" alt="{{ guide.name }}">
-                <h3>{{ guide.name }}</h3>
-                <p>{{ guide.description }}</p>
-                <a href="{{ url_for('guide_details', guide_id=guide.id) }}" class="details-btn">عرض التفاصيل</a>
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/' + guide['image']) }}" alt="{{ guide['name'] }}">
+                <h2>{{ guide['name'] }}</h2>
+                <p>{{ guide['bio'] }}</p>
+                <a href="{{ url_for('guide_details', guide_id=guide['id']) }}" class="details-btn">عرض التفاصيل</a>
             </div>
             {% endfor %}
         </div>
     </div>
-
-    <footer class="footer">
-        جميع الحقوق محفوظة © وجهة السعودية 2025
-    </footer>
 </body>
 </html>
