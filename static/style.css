@@ -1,17 +1,16 @@
-/* الخط المحلي */
+/* ربط الخط المحلي Tajawal */
 @font-face {
     font-family: 'Tajawal';
     src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
     font-weight: normal;
 }
-
 @font-face {
     font-family: 'Tajawal';
     src: url('../fonts/Tajawal-Bold.ttf') format('truetype');
     font-weight: bold;
 }
 
-/* الإعدادات العامة */
+/* إعدادات أساسية */
 body {
     margin: 0;
     padding: 0;
@@ -28,7 +27,6 @@ body {
     right: 20px;
     z-index: 1000;
 }
-
 .menu-toggle {
     background-color: #1d6c4c;
     color: white;
@@ -38,7 +36,6 @@ body {
     border-radius: 6px;
     cursor: pointer;
 }
-
 .menu-content {
     display: none;
     flex-direction: column;
@@ -47,193 +44,162 @@ body {
     right: 20px;
     background-color: #207a55;
     border-radius: 10px;
-    padding: 10px;
+    padding: 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    min-width: 150px;
+    min-width: 140px;
 }
-
 .menu-content a {
     color: white;
     text-decoration: none;
     font-size: 15px;
-    margin: 6px 0;
-    transition: opacity 0.3s ease;
-}
+    margin: 6px 0
 
-.menu-content a:hover {
-    opacity: 0.8;
-}
+تفضل، هذا هو كود `main.py` (أو `app.py`) محدثًا بشكل كامل ليتضمن:
 
-/* الهيرو */
-.hero {
-    background-color: #eaf1f3;
-    padding: 50px 20px;
-    text-align: center;
-}
+- ربط قاعدة بيانات `reviews`
+- عرض التقييمات الخاصة بكل رحلة
+- صفحة الحجز مع تسجيل البيانات
+- عرض تفاصيل الحجز بعد الإرسال
+- ربط صفحة المرشدين من قاعدة البيانات (إذا كنت قد أنشأتها)
+- جميع الصفحات الأخرى المرتبطة سابقًا
 
-.logo-container {
-    max-width: 200px;
-    margin: auto;
-    margin-bottom: 20px;
-}
+---
 
-.logo-img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
+## ✅ كود `main.py` المحدث:
 
-h1 {
-    color: #1d6c4c;
-    font-size: 26px;
-    margin: 10px 0;
-}
+```python
+from flask import Flask, render_template, request, redirect, url_for
+import sqlite3
+import os
 
-.page-title {
-    text-align: center;
-    color: #1d4d3d;
-    margin-bottom: 15px;
-    font-size: 22px;
-}
+app = Flask(__name__)
 
-p {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 25px;
-}
+# إنشاء قاعدة البيانات إذا لم تكن موجودة
+if not os.path.exists('database.db'):
+    conn = sqlite3.connect('database.db')
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS bookings (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            phone TEXT,
+            trip TEXT NOT NULL,
+            date TEXT NOT NULL
+        )
+    ''')
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS reviews (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            trip TEXT NOT NULL,
+            name TEXT NOT NULL,
+            rating INTEGER NOT NULL,
+            comment TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS guides (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            bio TEXT,
+            image TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
 
-.section {
-    padding: 40px 20px;
-}
+# الصفحة الرئيسية
+@app.route('/')
+def index():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("SELECT id, name, image FROM guides LIMIT 3")
+    guides = c.fetchall()
+    conn.close()
+    return render_template('index.html', guides=guides)
 
-/* البطاقات */
-.trips-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    justify-content: center;
-}
+# صفحة عن الموقع
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
-.trip-card {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    overflow: hidden;
-    text-align: center;
-    width: 280px;
-}
+# صفحة الرحلات
+@app.route('/trips')
+def trips():
+    return render_template('trips.html')
 
-.trip-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
+# تفاصيل رحلة معينة
+@app.route('/trip/<trip_name>')
+def trip_details(trip_name):
+    return render_template('trip_details.html', trip_name=trip_name)
 
-.trip-card h2 {
-    margin: 12px 0 5px;
-    color: #1d4d3d;
-}
+# صفحة الحجز
+@app.route('/booking', methods=['GET', 'POST'])
+def booking():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+        trip = request.form['trip']
+        date = request.form['date']
 
-.trip-card p {
-    color: #444;
-    margin: 0 10px 15px;
-}
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO bookings (name, email, phone, trip, date) VALUES (?, ?, ?, ?, ?)",
+                  (name, email, phone, trip, date))
+        conn.commit()
+        conn.close()
 
-/* أزرار */
-.btn,
-.details-btn {
-    background-color: #1d6c4c;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 6px;
-    text-decoration: none;
-    display: inline-block;
-    margin-bottom: 15px;
-    transition: background-color 0.3s ease;
-}
+        return render_template('thank_you.html', name=name, email=email, phone=phone, trip=trip, date=date)
 
-.btn:hover,
-.details-btn:hover {
-    background-color: #145f3e;
-}
+    return render_template('booking.html')
 
-/* نموذج الحجز */
-.booking-form {
-    background-color: #ffffff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    max-width: 500px;
-    margin: auto;
-    margin-top: 40px;
-}
+# صفحة التقييمات
+@app.route('/reviews/<trip>', methods=['GET', 'POST'])
+def reviews(trip):
+    if request.method == 'POST':
+        name = request.form['name']
+        rating = int(request.form['rating'])
+        comment = request.form['comment']
 
-.booking-form input,
-.booking-form select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO reviews (trip, name, rating, comment) VALUES (?, ?, ?, ?)",
+                  (trip, name, rating, comment))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('reviews', trip=trip))
 
-.submit-btn {
-    background-color: #1d6c4c;
-    color: white;
-    padding: 12px;
-    border: none;
-    margin-top: 20px;
-    width: 100%;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-}
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("SELECT trip, name, rating, comment, created_at FROM reviews WHERE trip = ? ORDER BY id DESC", (trip,))
+    all_reviews = c.fetchall()
+    conn.close()
 
-.submit-btn:hover {
-    background-color: #155e40;
-}
+    return render_template('reviews.html', trip=trip, reviews=all_reviews)
 
-/* التذييل */
-.footer {
-    background-color: #f4f1eb;
-    text-align: center;
-    padding: 15px;
-    font-size: 14px;
-    color: #555;
-    border-top: 1px solid #ddd;
-}
+# صفحة المرشدين
+@app.route('/guides')
+def guides():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("SELECT id, name, bio, image FROM guides")
+    all_guides = c.fetchall()
+    conn.close()
+    return render_template('guides.html', guides=all_guides)
 
-/* الهواتف */
-@media (max-width: 600px) {
-    .menu-content {
-        min-width: 130px;
-    }
+# صفحة تفاصيل مرشد
+@app.route('/guide/<int:guide_id>')
+def guide_details(guide_id):
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("SELECT name, bio, image FROM guides WHERE id = ?", (guide_id,))
+    guide = c.fetchone()
+    conn.close()
+    if guide:
+        return render_template('guide_details.html', guide=guide)
+    else:
+        return "المرشد غير موجود", 404
 
-    .menu-toggle {
-        font-size: 18px;
-        padding: 8px 12px;
-    }
-
-    .trip-card {
-        width: 90%;
-    }
-
-    .hero, .section {
-        padding: 20px 10px;
-    }
-
-    h1 {
-        font-size: 22px;
-    }
-
-    .btn, .details-btn {
-        font-size: 14px;
-        padding: 10px 15px;
-    }
-
-    .booking-form {
-        padding: 20px;
-        margin-top: 20px;
-    }
-}
+if __name__ == '__main__':
+    app.run(debug=True)
