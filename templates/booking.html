@@ -3,42 +3,37 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>نموذج الحجز</title>
+    <title>احجز رحلتك</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="trips-page">
+<body>
     {% include 'menu.html' %}
 
-    <div class="main-content">
-        <h2 class="page-title">📝 احجز رحلتك الآن</h2>
+    <div class="booking-form">
+        <h2 style="text-align: center; color: #1d6c4c;">احجز رحلتك الآن</h2>
+        <form method="POST">
+            <label for="name">الاسم الكامل</label>
+            <input type="text" name="name" required>
 
-        <form method="POST" class="booking-form">
-            <label for="name">الاسم:</label>
-            <input type="text" name="name" id="name" required>
+            <label for="email">البريد الإلكتروني</label>
+            <input type="email" name="email" required>
 
-            <label for="email">البريد الإلكتروني:</label>
-            <input type="email" name="email" id="email" required>
+            <label for="phone">رقم الجوال</label>
+            <input type="text" name="phone" required>
 
-            <label for="phone">رقم الجوال:</label>
-            <input type="text" name="phone" id="phone" required>
-
-            <label for="trip">اختر الرحلة:</label>
-            <select name="trip" id="trip" required>
-                <option value="">-- اختر الرحلة --</option>
+            <label for="trip">الرحلة</label>
+            <select name="trip" required>
+                <option value="">اختر الرحلة</option>
                 <option value="جدة">جدة</option>
                 <option value="الرياض">الرياض</option>
                 <option value="ينبع">ينبع</option>
             </select>
 
-            <label for="date">تاريخ الرحلة:</label>
-            <input type="date" name="date" id="date" required>
+            <label for="date">تاريخ الرحلة</label>
+            <input type="date" name="date" required>
 
             <button type="submit" class="submit-btn">احجز الآن</button>
         </form>
-
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="{{ url_for('index') }}" class="btn">🔙 الرجوع للرئيسية</a>
-        </div>
     </div>
 </body>
 </html>
