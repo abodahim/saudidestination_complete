@@ -1,69 +1,26 @@
-<!-- templates/thank_you.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <title>تم الحجز بنجاح</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        .thank-you-container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .thank-you-container h2 {
-            color: #1d6c4c;
-            margin-bottom: 20px;
-        }
-
-        .details-box {
-            text-align: right;
-            margin-top: 20px;
-        }
-
-        .details-box p {
-            font-size: 16px;
-            color: #333;
-            margin: 8px 0;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin-top: 25px;
-            background-color: #1d6c4c;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background-color: #145f3e;
-        }
-    </style>
 </head>
 <body>
     {% include 'menu.html' %}
+    
+    <div class="booking-form">
+        <h2 style="color: #1d6c4c; text-align: center;">🎉 تم الحجز بنجاح!</h2>
+        <p style="text-align: center; font-size: 18px;">شكرًا لك <strong>{{ name }}</strong> على حجزك.</p>
 
-    <div class="thank-you-container">
-        <h2>شكراً {{ name }}!</h2>
-        <p>تم استلام حجزك بنجاح.</p>
+        <div style="margin-top: 30px;">
+            <label>📍 الرحلة:</label>
+            <div>{{ trip }}</div>
 
-        <div class="details-box">
-            <p><strong>الرحلة:</strong> {{ trip }}</p>
-            <p><strong>رقم الجوال:</strong> {{ phone }}</p>
-            <p><strong>البريد الإلكتروني:</strong> {{ email }}</p>
-            <p><strong>تاريخ الرحلة:</strong> {{ date }}</p>
+            <label>📞 رقم الجوال:</label>
+            <div>{{ phone }}</div>
         </div>
 
-        <a href="{{ url_for('index') }}" class="back-btn">العودة إلى الرئيسية</a>
+        <a href="{{ url_for('index') }}" class="btn" style="display: block; text-align: center; margin-top: 30px;">العودة إلى الرئيسية</a>
     </div>
 </body>
 </html>
