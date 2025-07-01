@@ -13,9 +13,9 @@ def home():
     ]
     return render_template('index.html', trips=trips)
 
-# صفحة الرحلات
+# ✅ صفحة الرحلات (بعد تعديل الاسم من trips إلى show_trips)
 @app.route('/trips')
-def trips():
+def show_trips():
     trips = [
         {"id": 1, "title": "رحلة إلى جدة", "image": "jeddah_1.jpg", "description": "استكشف عروس البحر الأحمر"},
         {"id": 2, "title": "رحلة إلى الرياض", "image": "riyadh_1.jpg", "description": "جولة في العاصمة"},
