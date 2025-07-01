@@ -1,4 +1,4 @@
-/* ربط الخط المحلي Tajawal */
+/* الخط المحلي Tajawal */
 @font-face {
     font-family: 'Tajawal';
     src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
@@ -10,7 +10,7 @@
     font-weight: bold;
 }
 
-/* إعدادات أساسية */
+/* الأساسيات */
 body {
     margin: 0;
     padding: 0;
@@ -46,160 +46,86 @@ body {
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    min-width: 140px;
+    min-width: 180px;
 }
 .menu-content a {
     color: white;
     text-decoration: none;
-    font-size: 15px;
-    margin: 6px 0
+    font-size: 16px;
+    margin: 8px 0;
+    transition: opacity 0.3s ease;
+}
+.menu-content a:hover {
+    opacity: 0.8;
+}
 
-تفضل، هذا هو كود `main.py` (أو `app.py`) محدثًا بشكل كامل ليتضمن:
+/* النموذج */
+.booking-form {
+    background-color: #ffffff;
+    padding: 30px;
+    margin: 80px auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 550px;
+}
+.booking-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+.booking-form input,
+.booking-form select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+.submit-btn {
+    background-color: #1d6c4c;
+    color: white;
+    border: none;
+    padding: 14px;
+    margin-top: 25px;
+    width: 100%;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.submit-btn:hover {
+    background-color: #155e40;
+}
 
-- ربط قاعدة بيانات `reviews`
-- عرض التقييمات الخاصة بكل رحلة
-- صفحة الحجز مع تسجيل البيانات
-- عرض تفاصيل الحجز بعد الإرسال
-- ربط صفحة المرشدين من قاعدة البيانات (إذا كنت قد أنشأتها)
-- جميع الصفحات الأخرى المرتبطة سابقًا
+/* التذييل */
+.footer {
+    background-color: #f4f1eb;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+    color: #555;
+    border-top: 1px solid #ddd;
+}
 
----
-
-## ✅ كود `main.py` المحدث:
-
-```python
-from flask import Flask, render_template, request, redirect, url_for
-import sqlite3
-import os
-
-app = Flask(__name__)
-
-# إنشاء قاعدة البيانات إذا لم تكن موجودة
-if not os.path.exists('database.db'):
-    conn = sqlite3.connect('database.db')
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS bookings (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL,
-            phone TEXT,
-            trip TEXT NOT NULL,
-            date TEXT NOT NULL
-        )
-    ''')
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS reviews (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            trip TEXT NOT NULL,
-            name TEXT NOT NULL,
-            rating INTEGER NOT NULL,
-            comment TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS guides (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            bio TEXT,
-            image TEXT
-        )
-    ''')
-    conn.commit()
-    conn.close()
-
-# الصفحة الرئيسية
-@app.route('/')
-def index():
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute("SELECT id, name, image FROM guides LIMIT 3")
-    guides = c.fetchall()
-    conn.close()
-    return render_template('index.html', guides=guides)
-
-# صفحة عن الموقع
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-# صفحة الرحلات
-@app.route('/trips')
-def trips():
-    return render_template('trips.html')
-
-# تفاصيل رحلة معينة
-@app.route('/trip/<trip_name>')
-def trip_details(trip_name):
-    return render_template('trip_details.html', trip_name=trip_name)
-
-# صفحة الحجز
-@app.route('/booking', methods=['GET', 'POST'])
-def booking():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        phone = request.form['phone']
-        trip = request.form['trip']
-        date = request.form['date']
-
-        conn = sqlite3.connect('database.db')
-        c = conn.cursor()
-        c.execute("INSERT INTO bookings (name, email, phone, trip, date) VALUES (?, ?, ?, ?, ?)",
-                  (name, email, phone, trip, date))
-        conn.commit()
-        conn.close()
-
-        return render_template('thank_you.html', name=name, email=email, phone=phone, trip=trip, date=date)
-
-    return render_template('booking.html')
-
-# صفحة التقييمات
-@app.route('/reviews/<trip>', methods=['GET', 'POST'])
-def reviews(trip):
-    if request.method == 'POST':
-        name = request.form['name']
-        rating = int(request.form['rating'])
-        comment = request.form['comment']
-
-        conn = sqlite3.connect('database.db')
-        c = conn.cursor()
-        c.execute("INSERT INTO reviews (trip, name, rating, comment) VALUES (?, ?, ?, ?)",
-                  (trip, name, rating, comment))
-        conn.commit()
-        conn.close()
-        return redirect(url_for('reviews', trip=trip))
-
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute("SELECT trip, name, rating, comment, created_at FROM reviews WHERE trip = ? ORDER BY id DESC", (trip,))
-    all_reviews = c.fetchall()
-    conn.close()
-
-    return render_template('reviews.html', trip=trip, reviews=all_reviews)
-
-# صفحة المرشدين
-@app.route('/guides')
-def guides():
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute("SELECT id, name, bio, image FROM guides")
-    all_guides = c.fetchall()
-    conn.close()
-    return render_template('guides.html', guides=all_guides)
-
-# صفحة تفاصيل مرشد
-@app.route('/guide/<int:guide_id>')
-def guide_details(guide_id):
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute("SELECT name, bio, image FROM guides WHERE id = ?", (guide_id,))
-    guide = c.fetchone()
-    conn.close()
-    if guide:
-        return render_template('guide_details.html', guide=guide)
-    else:
-        return "المرشد غير موجود", 404
-
-if __name__ == '__main__':
-    app.run(debug=True)
+/* تجاوب الهواتف */
+@media (max-width: 600px) {
+    .booking-form {
+        padding: 20px;
+        margin: 40px 10px;
+    }
+    .menu-toggle {
+        font-size: 18px;
+        padding: 8px 12px;
+    }
+    .menu-content {
+        min-width: 150px;
+        top: 65px;
+        right: 10px;
+    }
+    .menu-content a {
+        font-size: 14px;
+    }
+    .submit-btn {
+        font-size: 16px;
+    }
+}
