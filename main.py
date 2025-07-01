@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # الصفحة الرئيسية
 @app.route('/')
-def home():
+def index():
     trips = [
         {"id": 1, "title": "رحلة إلى جدة", "image": "jeddah_1.jpg", "description": "استكشف عروس البحر الأحمر"},
         {"id": 2, "title": "رحلة إلى الرياض", "image": "riyadh_1.jpg", "description": "جولة في العاصمة"},
@@ -13,9 +13,9 @@ def home():
     ]
     return render_template('index.html', trips=trips)
 
-# ✅ صفحة الرحلات (بعد تعديل الاسم من trips إلى show_trips)
+# صفحة الرحلات
 @app.route('/trips')
-def show_trips():
+def trips():
     trips = [
         {"id": 1, "title": "رحلة إلى جدة", "image": "jeddah_1.jpg", "description": "استكشف عروس البحر الأحمر"},
         {"id": 2, "title": "رحلة إلى الرياض", "image": "riyadh_1.jpg", "description": "جولة في العاصمة"},
@@ -28,40 +28,56 @@ def show_trips():
 def about():
     return render_template('about.html')
 
-# صفحة حجز (مثال بسيط)
+# صفحة الحجز
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
     if request.method == 'POST':
         name = request.form['name']
         trip = request.form['trip']
         phone = request.form['phone']
-        # ... حفظ البيانات في قاعدة البيانات إن وجدت
         return render_template('thank_you.html', name=name, trip=trip)
     return render_template('booking.html')
 
-# صفحة المرشدين
+# المرشدين
 @app.route('/guides')
 def guides():
     guides = [
-        {"id": 1, "name": "عبدالله الغامدي", "image": "guide1.PNG", "bio": "مرشد محترف في جدة"},
-        {"id": 2, "name": "سارة العتيبي", "image": "guide2.PNG", "bio": "خبيرة سياحية في الرياض"},
-        {"id": 3, "name": "فيصل الحربي", "image": "guide3.PNG", "bio": "دليل محلي في ينبع"}
+        {"id": 1, "name": "عبدالله الغامدي", "image": "guide1.PNG", "bio": "مرشد محترف في جدة", "experience": "5 سنوات"},
+        {"id": 2, "name": "سارة العتيبي", "image": "guide2.PNG", "bio": "خبيرة سياحية في الرياض", "experience": "3 سنوات"},
+        {"id": 3, "name": "فيصل الحربي", "image": "guide3.PNG", "bio": "دليل محلي في ينبع", "experience": "4 سنوات"}
     ]
     return render_template('guides.html', guides=guides)
 
-# صفحة تفاصيل مرشد
-@app.route('/guide/<int:guide_id>')
+# تفاصيل المرشد + تواصل
+@app.route('/guide/<int:guide_id>', methods=['GET', 'POST'])
 def guide_details(guide_id):
     guides = {
-        1: {"name": "عبدالله الغامدي", "image": "guide1.PNG", "bio": "مرشد محترف في جدة"},
-        2: {"name": "سارة العتيبي", "image": "guide2.PNG", "bio": "خبيرة سياحية في الرياض"},
-        3: {"name": "فيصل الحربي", "image": "guide3.PNG", "bio": "دليل محلي في ينبع"}
+        1: {"name": "عبدالله الغامدي", "image": "guide1.PNG", "bio": "مرشد محترف في جدة", "experience": "5 سنوات"},
+        2: {"name": "سارة العتيبي", "image": "guide2.PNG", "bio": "خبيرة سياحية في الرياض", "experience": "3 سنوات"},
+        3: {"name": "فيصل الحربي", "image": "guide3.PNG", "bio": "دليل محلي في ينبع", "experience": "4 سنوات"}
     }
     guide = guides.get(guide_id)
+
+    if request.method == 'POST':
+        sender = request.form['sender']
+        message = request.form['message']
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute("CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, guide_id INTEGER, sender TEXT, message TEXT)")
+        c.execute("INSERT INTO messages (guide_id, sender, message) VALUES (?, ?, ?)", (guide_id, sender, message))
+        conn.commit()
+        conn.close()
+        return render_template('thank_you.html', name=sender, trip=guide['name'])
+
     if guide:
         return render_template('guide_details.html', guide=guide)
     else:
         return "المرشد غير موجود", 404
+
+# صفحة الإدارة وهمية مؤقتًا
+@app.route('/admin_login')
+def admin_login():
+    return "صفحة تسجيل دخول المشرف تحت الإنشاء"
 
 if __name__ == '__main__':
     app.run(debug=True)
