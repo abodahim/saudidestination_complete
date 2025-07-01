@@ -14,11 +14,10 @@
 <script>
     function toggleMenu() {
         const menu = document.getElementById("menuContent");
-        const isVisible = menu.style.display === "flex";
-        menu.style.display = isVisible ? "none" : "flex";
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
     }
 
-    // إغلاق القائمة إذا تم النقر خارجها
+    // إغلاق القائمة عند الضغط خارجها
     document.addEventListener("click", function(event) {
         const menu = document.getElementById("menuContent");
         const toggle = document.querySelector(".menu-toggle");
