@@ -14,7 +14,16 @@
             <h2>{{ guide['name'] }}</h2>
             <p><strong>الخبرة:</strong> {{ guide['experience'] }}</p>
             <p>{{ guide['bio'] }}</p>
-            <a href="{{ url_for('guides') }}" class="btn">🔙 العودة للمرشدين</a>
+
+            <form method="POST" style="margin-top: 30px;">
+                <label>اسمك:</label>
+                <input type="text" name="sender" required>
+                <label>رسالتك:</label>
+                <textarea name="message" rows="4" required></textarea>
+                <button type="submit" class="btn">📨 إرسال</button>
+            </form>
+
+            <a href="{{ url_for('guides') }}" class="btn" style="margin-top: 20px;">🔙 العودة للمرشدين</a>
         </div>
     </div>
 </body>
