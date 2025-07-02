@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # الصفحة الرئيسية
 @app.route('/')
-def index():
+def home():
     trips = [
         {"id": 1, "title": "رحلة إلى جدة", "image": "jeddah_1.jpg", "description": "استكشف عروس البحر الأحمر"},
         {"id": 2, "title": "رحلة إلى الرياض", "image": "riyadh_1.jpg", "description": "جولة في العاصمة"},
