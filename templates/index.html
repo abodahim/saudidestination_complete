@@ -1,57 +1,35 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <title>وجهة السعودية</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    {% include 'menu.html' %}
+    <h1>أهلاً بك في وجهة السعودية</h1>
+    <h2>أبرز المرشدين</h2>
 
-    <!-- الهيرو -->
-    <div class="hero">
-        <div class="logo-container">
-            <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo-img">
+    <div class="guides-container">
+        <div class="guide-card">
+            <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="مرشد 1">
+            <h3>عبدالله الغامدي</h3>
+            <p>مرشد محترف في جدة</p>
+            <a href="/guide/1">عرض التفاصيل</a>
         </div>
-        <h1>مرحباً بكم في وجهة السعودية</h1>
-        <p>استكشف المملكة بباقات سياحية ومرشدين بخبرات عالية</p>
-        <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
-    </div>
-
-    <!-- قسم المرشدين -->
-    <div class="section">
-        <h2 class="page-title">👨‍💼 أبرز المرشدين</h2>
-        <div class="trips-container">
-            {% for guide in guides[:3] %}
-            <div class="trip-card" style="max-width: 280px;">
-                <img src="{{ url_for('static', filename='images/' + guide['image']) }}" alt="{{ guide['name'] }}">
-                <h2>{{ guide['name'] }}</h2>
-                <p>{{ guide['bio'][:60] }}...</p>
-                <a href="{{ url_for('guide_details', guide_id=guide['id']) }}" class="details-btn">عرض</a>
-            </div>
-            {% endfor %}
+        <div class="guide-card">
+            <img src="{{ url_for('static', filename='images/guide2.PNG') }}" alt="مرشد 2">
+            <h3>سارة العتيبي</h3>
+            <p>خبيرة سياحية في الرياض</p>
+            <a href="/guide/2">عرض التفاصيل</a>
+        </div>
+        <div class="guide-card">
+            <img src="{{ url_for('static', filename='images/guide3.PNG') }}" alt="مرشد 3">
+            <h3>فيصل الحربي</h3>
+            <p>دليل محلي في ينبع</p>
+            <a href="/guide/3">عرض التفاصيل</a>
         </div>
     </div>
 
-    <!-- قسم الرحلات -->
-    <div class="section">
-        <h2 class="page-title">🌍 أبرز الرحلات</h2>
-        <div class="trips-container">
-            {% for trip in trips[:3] %}
-            <div class="trip-card" style="max-width: 280px;">
-                <img src="{{ url_for('static', filename='images/' + trip['image']) }}" alt="{{ trip['title'] }}">
-                <h2>{{ trip['title'] }}</h2>
-                <p>{{ trip['description'][:60] }}...</p>
-                <a href="{{ url_for('trip_details', trip_name=trip['name']) }}" class="details-btn">عرض</a>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-
-    <footer class="footer">
-        جميع الحقوق محفوظة © وجهة السعودية 2025
-    </footer>
+    <a href="/guides">عرض جميع المرشدين</a>
 </body>
 </html>
