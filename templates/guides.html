@@ -1,27 +1,34 @@
-<!-- templates/guides.html -->
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <title>المرشدون السياحيون</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="trips-page">
-    {% include 'menu.html' %}
-    <div class="main-content">
-        <h2 class="page-title">🧭 المرشدون السياحيون</h2>
-        <p class="page-description">تعرف على فريقنا من المرشدين السعوديين المميزين</p>
+<body>
+    <h1>قائمة المرشدين</h1>
 
-        <div class="trips-container">
-            {% for guide in guides %}
-            <div class="trip-card">
-                <img src="{{ url_for('static', filename='images/' + guide.image) }}" alt="{{ guide.name }}">
-                <h2>{{ guide.name }}</h2>
-                <p>{{ guide.bio }}</p>
-                <a href="{{ url_for('guide_details', guide_id=guide.id) }}" class="details-btn">عرض التفاصيل</a>
-            </div>
-            {% endfor %}
+    <div class="guides-container">
+        <div class="guide-card">
+            <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="مرشد 1">
+            <h3>عبدالله الغامدي</h3>
+            <p>مرشد محترف في جدة</p>
+            <a href="/guide/1">عرض التفاصيل</a>
+        </div>
+        <div class="guide-card">
+            <img src="{{ url_for('static', filename='images/guide2.PNG') }}" alt="مرشد 2">
+            <h3>سارة العتيبي</h3>
+            <p>خبيرة سياحية في الرياض</p>
+            <a href="/guide/2">عرض التفاصيل</a>
+        </div>
+        <div class="guide-card">
+            <img src="{{ url_for('static', filename='images/guide3.PNG') }}" alt="مرشد 3">
+            <h3>فيصل الحربي</h3>
+            <p>دليل محلي في ينبع</p>
+            <a href="/guide/3">عرض التفاصيل</a>
         </div>
     </div>
+
+    <a href="/">العودة للرئيسية</a>
 </body>
 </html>
