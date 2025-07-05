@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>الرحلات</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>الرحلات</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body class="trips-page">
-
-    {% include 'menu.html' %}
-
-    <div class="main-content">
-        <h1 class="page-title">🌍 الرحلات المتاحة</h1>
-        <p class="page-description">اختر وجهتك واستمتع بأفضل التجارب</p>
-
-        <div class="trips-container">
-            {% for trip in trips %}
-                <div class="trip-card">
-                    <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="{{ trip.name }}">
-                    <h2>رحلة إلى {{ trip.name }}</h2>
-                    <p>{{ trip.description }}</p>
-                    <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="details-btn">عرض التفاصيل</a>
-                </div>
-            {% endfor %}
-        </div>
+  {% include 'menu.html' %}
+  <h1 class="page-title">🌍 الرحلات المتاحة</h1>
+  <div class="trips-container">
+    {% for trip in trips %}
+    <div class="trip-card">
+      <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="{{ trip.title }}">
+      <h2>{{ trip.title }}</h2>
+      <p>{{ trip.description }}</p>
+      <a href="{{ url_for('trips') }}" class="details-btn">عرض التفاصيل</a>
     </div>
-    
+    {% endfor %}
+  </div>
 </body>
 </html>
