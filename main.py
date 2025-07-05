@@ -55,5 +55,10 @@ def guide_details(guide_id):
         return render_template('guide_details.html', guide=guide)
     return "المرشد غير موجود", 404
 
+# ✅ صفحة تفاصيل الرحلة (جديدة)
+@app.route('/trip/<trip_name>')
+def trip_details(trip_name):
+    return render_template('trip_details.html', trip_name=trip_name)
+
 if __name__ == '__main__':
     app.run(debug=True)
