@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>المرشدون</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>المرشدون السياحيون</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="trips-page">
-  {% include 'menu.html' %}
-
-  <h1 class="page-title">🧭 قائمة المرشدين</h1>
-  <div class="guides-container">
-    {% for guide in guides %}
-    <div class="guide-card">
-      <img src="{{ url_for('static', filename='images/' + guide.image) }}" alt="{{ guide.name }}">
-      <h3>{{ guide.name }}</h3>
-      <p>{{ guide.bio }}</p>
-      <a href="{{ url_for('guide_details', guide_id=guide.id) }}" class="details-btn">عرض التفاصيل</a>
+<body>
+    {% include 'menu.html' %}
+    <div class="main-content">
+        <h2 class="page-title">المرشدون السياحيون</h2>
+        <p class="page-description">تعرّف على نخبة من مرشدينا المحترفين</p>
+        <div class="guides-container">
+            {% for guide in guides %}
+            <div class="guide-card">
+                <img src="{{ url_for('static', filename='images/' + guide.image) }}" alt="{{ guide.name }}">
+                <h3>{{ guide.name }}</h3>
+                <p>{{ guide.bio }}</p>
+                <a href="{{ url_for('guide_details', guide_id=guide.id) }}" class="details-btn">عرض التفاصيل</a>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    {% endfor %}
-  </div>
 </body>
 </html>
