@@ -2,154 +2,88 @@ body {
     font-family: 'Tajawal', sans-serif;
     margin: 0;
     padding: 0;
-    direction: rtl;
-    background-color: #f8f5f0;
+    background-color: #fdfaf5;
     color: #333;
 }
 
-/* القائمة الجانبية */
 .side-menu {
     position: fixed;
-    top: 0;
     right: 0;
-    width: 200px;
-    background-color: #1e3d2f;
-    height: 100vh;
-    z-index: 1000;
-    padding-top: 20px;
-}
-
-.side-menu .menu-toggle {
-    display: none;
-}
-
-.side-menu .menu-content {
+    top: 0;
+    background-color: #2c3e50;
+    width: 220px;
+    height: 100%;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    z-index: 1000;
 }
 
-.side-menu .menu-content a {
-    color: #fff;
+.menu-toggle {
+    background-color: #34495e;
+    color: white;
+    border: none;
     padding: 10px;
+    cursor: pointer;
+}
+
+.menu-content a {
+    color: white;
     text-decoration: none;
-    font-weight: bold;
-    transition: background 0.3s;
+    margin: 10px 0;
+    display: block;
 }
 
-.side-menu .menu-content a:hover {
-    background-color: #345d44;
-}
-
-/* القسم الرئيسي */
-.main-content {
-    margin-right: 220px;
-    padding: 20px;
-}
-
-/* قسم الهيرو */
 .hero {
-    background-color: #eee3d1;
+    background-color: #ece5da;
+    padding: 50px;
     text-align: center;
-    padding: 80px 20px;
-}
-
-.logo-container {
-    margin-bottom: 20px;
 }
 
 .logo-img {
-    width: 150px;
+    width: 120px;
+    height: auto;
 }
 
-/* البطاقات */
-.trip-card, .guide-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    padding: 15px;
-    margin: 10px;
-    text-align: center;
-    transition: transform 0.3s;
+.btn {
+    background-color: #006c4b;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+    border-radius: 5px;
 }
 
-.trip-card:hover, .guide-card:hover {
-    transform: scale(1.03);
-}
-
-.trip-card img, .guide-card img {
-    width: 100%;
-    border-radius: 10px;
-    height: 200px;
-    object-fit: cover;
-}
-
-/* حاويات */
 .trips-container, .guides-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    padding: 20px;
 }
 
-.page-title {
-    font-size: 28px;
-    margin: 20px 0 10px;
+.trip-card, .guide-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    margin: 10px;
+    width: 280px;
+    padding: 15px;
+    border-radius: 10px;
     text-align: center;
 }
 
-.page-description {
-    text-align: center;
-    color: #666;
-    margin-bottom: 20px;
+.trip-card img, .guide-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
 }
 
-/* زر */
-.btn, .details-btn {
-    display: inline-block;
-    background-color: #1e3d2f;
-    color: #fff;
-    padding: 10px 20px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background 0.3s;
-}
-
-.btn:hover, .details-btn:hover {
-    background-color: #345d44;
-}
-
-/* استجابة للجوال */
-@media screen and (max-width: 768px) {
-    .main-content {
-        margin-right: 0;
-        padding: 10px;
-    }
-
-    .side-menu {
-        width: 100%;
-        height: auto;
-        position: relative;
-    }
-
-    .side-menu .menu-content {
-        display: none;
-        flex-direction: column;
-        background-color: #1e3d2f;
-    }
-
-    .side-menu .menu-toggle {
-        display: block;
-        background: none;
-        color: #fff;
-        font-size: 24px;
-        padding: 10px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .trip-card img, .guide-card img {
-        height: 160px;
-    }
+.form-container, .message-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    margin-top: 30px;
 }
