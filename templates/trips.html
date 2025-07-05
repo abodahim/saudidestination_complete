@@ -1,22 +1,57 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>الرحلات</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body class="trips-page">
-  {% include 'menu.html' %}
-  <h1 class="page-title">🌍 الرحلات المتاحة</h1>
-  <div class="trips-container">
-    {% for trip in trips %}
-    <div class="trip-card">
-      <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="{{ trip.title }}">
-      <h2>{{ trip.title }}</h2>
-      <p>{{ trip.description }}</p>
-      <a href="{{ url_for('trips') }}" class="details-btn">عرض التفاصيل</a>
-    </div>
-    {% endfor %}
-  </div>
-</body>
-</html>
+from flask import Flask, render_template, request, redirect, url_for
+import os
+
+app = Flask(__name__)
+
+# بيانات الرحلات
+trips_data = [
+    {
+        "title": "رحلة إلى جدة",
+        "description": "استكشف عروس البحر الأحمر",
+        "image": "jeddah_1.JPG"
+    },
+    {
+        "title": "رحلة إلى الرياض",
+        "description": "جولة في العاصمة",
+        "image": "riyadh_1.JPG"
+    },
+    {
+        "title": "رحلة إلى ينبع",
+        "description": "متعة البحر والطبيعة",
+        "image": "yanbu_1.JPG"
+    }
+]
+
+@app.route('/')
+def index():
+    return render_template('index.html', trips=trips_data)
+
+@app.route('/trips')
+def trips():
+    return render_template('trips.html', trips=trips_data)
+
+@app.route('/trip/<trip_name>')
+def trip_details(trip_name):
+    trip = next((trip for trip in trips_data if trip["title"] == trip_name), None)
+    if trip:
+        return render_template('trip_details.html', trip=trip)
+    return "الرحلة غير موجودة", 404
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/booking')
+def booking():
+    return render_template('booking.html')
+
+@app.route('/guides')
+def guides():
+    return render_template('guides.html')
+
+@app.route('/admin_login')
+def admin_login():
+    return render_template('admin_login.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
