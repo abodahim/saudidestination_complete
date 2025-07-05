@@ -1,27 +1,38 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>وجهة السعودية</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>وجهة السعودية</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  {% include 'menu.html' %}
+    {% include 'menu.html' %}
 
-  <h1>أهلاً بك في وجهة السعودية</h1>
-  <h2>أبرز المرشدين</h2>
+    <!-- قسم الهيرو -->
+    <section class="hero">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="شعار الوجهة" class="logo-img">
+        </div>
+        <h1>أهلاً بكم في وجهة السعودية</h1>
+        <p>استكشف أجمل معالم المملكة بباقة خدمات متكاملة</p>
+        <a href="{{ url_for('trips') }}" class="btn">عرض الرحلات</a>
+    </section>
 
-  <div class="guides-container">
-    {% for guide in guides %}
-    <div class="guide-card">
-      <img src="{{ url_for('static', filename='images/' + guide.image) }}" alt="{{ guide.name }}">
-      <h3>{{ guide.name }}</h3>
-      <p>{{ guide.bio }}</p>
-      <a href="{{ url_for('guide_details', guide_id=guide.id) }}" class="details-btn">عرض التفاصيل</a>
-    </div>
-    {% endfor %}
-  </div>
-
-  <a href="{{ url_for('guides') }}" class="btn">عرض جميع المرشدين</a>
+    <!-- أحدث الرحلات -->
+    <section class="trips-page">
+        <h2 class="page-title">أحدث الرحلات</h2>
+        <p class="page-description">اختَر من بين أكثر وجهاتنا شعبية</p>
+        <div class="trips-container">
+            {% for trip in trips %}
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="{{ trip.title }}">
+                <h2>{{ trip.title }}</h2>
+                <p>{{ trip.description }}</p>
+                <a href="{{ url_for('trip_details', trip_name=trip.title) }}" class="details-btn">التفاصيل</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
 </body>
 </html>
