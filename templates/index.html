@@ -1,35 +1,27 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>وجهة السعودية</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <title>وجهة السعودية</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>أهلاً بك في وجهة السعودية</h1>
-    <h2>أبرز المرشدين</h2>
+  {% include 'menu.html' %}
 
-    <div class="guides-container">
-        <div class="guide-card">
-            <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="مرشد 1">
-            <h3>عبدالله الغامدي</h3>
-            <p>مرشد محترف في جدة</p>
-            <a href="/guide/1">عرض التفاصيل</a>
-        </div>
-        <div class="guide-card">
-            <img src="{{ url_for('static', filename='images/guide2.PNG') }}" alt="مرشد 2">
-            <h3>سارة العتيبي</h3>
-            <p>خبيرة سياحية في الرياض</p>
-            <a href="/guide/2">عرض التفاصيل</a>
-        </div>
-        <div class="guide-card">
-            <img src="{{ url_for('static', filename='images/guide3.PNG') }}" alt="مرشد 3">
-            <h3>فيصل الحربي</h3>
-            <p>دليل محلي في ينبع</p>
-            <a href="/guide/3">عرض التفاصيل</a>
-        </div>
+  <h1>أهلاً بك في وجهة السعودية</h1>
+  <h2>أبرز المرشدين</h2>
+
+  <div class="guides-container">
+    {% for guide in guides %}
+    <div class="guide-card">
+      <img src="{{ url_for('static', filename='images/' + guide.image) }}" alt="{{ guide.name }}">
+      <h3>{{ guide.name }}</h3>
+      <p>{{ guide.bio }}</p>
+      <a href="{{ url_for('guide_details', guide_id=guide.id) }}" class="details-btn">عرض التفاصيل</a>
     </div>
+    {% endfor %}
+  </div>
 
-    <a href="/guides">عرض جميع المرشدين</a>
+  <a href="{{ url_for('guides') }}" class="btn">عرض جميع المرشدين</a>
 </body>
 </html>
