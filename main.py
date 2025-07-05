@@ -1,72 +1,45 @@
 from flask import Flask, render_template, request, redirect, url_for
+import sqlite3
+import os
 
 app = Flask(__name__)
 
-# الصفحة الرئيسية (تُمرّر قائمة المرشدين إلى القالب)
+# الصفحة الرئيسية - تعرض 3 مرشدين فقط
 @app.route('/')
-def index():
-    guides = [
-        {"id": 1, "name": "عبدالله الغامدي", "image": "guide1.PNG", "bio": "مرشد محترف في جدة"},
-        {"id": 2, "name": "سارة العتيبي",   "image": "guide2.PNG", "bio": "خبيرة سياحية في الرياض"},
-        {"id": 3, "name": "فيصل الحربي",    "image": "guide3.PNG", "bio": "دليل محلي في ينبع"}
-    ]
-    return render_template('index.html', guides=guides)
+def home():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM guides")
+    guides = cursor.fetchall()
+    conn.close()
+    return render_template('index.html', guides=guides[:3])
 
-# صفحة كلّ المرشدين
+# صفحة جميع المرشدين
 @app.route('/guides')
-def guides():
-    guides = [
-        {"id": 1, "name": "عبدالله الغامدي", "image": "guide1.PNG", "bio": "مرشد محترف في جدة"},
-        {"id": 2, "name": "سارة العتيبي",   "image": "guide2.PNG", "bio": "خبيرة سياحية في الرياض"},
-        {"id": 3, "name": "فيصل الحربي",    "image": "guide3.PNG", "bio": "دليل محلي في ينبع"}
-    ]
+def show_guides():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM guides")
+    guides = cursor.fetchall()
+    conn.close()
     return render_template('guides.html', guides=guides)
 
-# صفحة تفاصيل مرشد
+# صفحة تفاصيل مرشد معين حسب الـ id
 @app.route('/guide/<int:guide_id>')
 def guide_details(guide_id):
-    all_guides = {
-        1: {"name": "عبدالله الغامدي", "image": "guide1.PNG", "bio": "مرشد محترف في جدة"},
-        2: {"name": "سارة العتيبي",   "image": "guide2.PNG", "bio": "خبيرة سياحية في الرياض"},
-        3: {"name": "فيصل الحربي",    "image": "guide3.PNG", "bio": "دليل محلي في ينبع"}
-    }
-    guide = all_guides.get(guide_id)
-    if not guide:
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM guides WHERE id=?", (guide_id,))
+    guide = cursor.fetchone()
+    conn.close()
+    if guide:
+        return render_template('guide_details.html', guide=guide)
+    else:
         return "المرشد غير موجود", 404
-    return render_template('guide_details.html', guide=guide)
 
-# صفحة الرحلات
-@app.route('/trips')
-def trips():
-    trips = [
-        {"id": 1, "title": "رحلة إلى جدة",  "image": "jeddah_1.JPG", "description": "استكشف عروس البحر الأحمر"},
-        {"id": 2, "title": "رحلة إلى الرياض","image": "riyadh_1.JPG","description": "جولة في العاصمة"},
-        {"id": 3, "title": "رحلة إلى ينبع", "image": "yanbu_1.JPG","description": "متعة البحر والطبيعة"}
-    ]
-    return render_template('trips.html', trips=trips)
-
-# صفحة عن الموقع
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-# صفحة الحجز
-@app.route('/booking', methods=['GET','POST'])
-def booking():
-    if request.method == 'POST':
-        name  = request.form['name']
-        email = request.form['email']
-        phone = request.form['phone']
-        trip  = request.form['trip']
-        date  = request.form['date']
-        return render_template('thank_you.html', name=name, trip=trip, date=date)
-    return render_template('booking.html')
-
-# صفحة الشكر
-@app.route('/thank_you')
-def thank_you():
-    return render_template('thank_you.html')
-
-# نقطة دخول التطبيق
+# تشغيل التطبيق
 if __name__ == '__main__':
     app.run(debug=True)
