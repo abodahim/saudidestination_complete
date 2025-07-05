@@ -1,4 +1,3 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -9,7 +8,6 @@
 <body>
     {% include 'menu.html' %}
 
-    <!-- قسم الهيرو -->
     <section class="hero">
         <div class="logo-container">
             <img src="{{ url_for('static', filename='logo.png') }}" alt="شعار الوجهة" class="logo-img">
@@ -19,7 +17,6 @@
         <a href="{{ url_for('trips') }}" class="btn">عرض الرحلات</a>
     </section>
 
-    <!-- أحدث الرحلات -->
     <section class="trips-page">
         <h2 class="page-title">أحدث الرحلات</h2>
         <p class="page-description">اختَر من بين أكثر وجهاتنا شعبية</p>
@@ -29,7 +26,7 @@
                 <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="{{ trip.title }}">
                 <h2>{{ trip.title }}</h2>
                 <p>{{ trip.description }}</p>
-                <a href="{{ url_for('trip_details', trip_name=trip.title) }}" class="details-btn">التفاصيل</a>
+                <a href="#" class="details-btn">التفاصيل</a>
             </div>
             {% endfor %}
         </div>
