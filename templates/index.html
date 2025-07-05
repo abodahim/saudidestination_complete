@@ -1,3 +1,4 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -6,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+
     {% include 'menu.html' %}
 
     <!-- قسم الهيرو -->
@@ -18,10 +20,11 @@
         <a href="{{ url_for('trips') }}" class="btn">عرض الرحلات</a>
     </section>
 
-    <!-- أحدث الرحلات -->
+    <!-- قسم الرحلات -->
     <section class="trips-page">
         <h2 class="page-title">أحدث الرحلات</h2>
         <p class="page-description">اختَر من بين أكثر وجهاتنا شعبية</p>
+
         <div class="trips-container">
             {% for trip in trips %}
             <div class="trip-card">
@@ -33,5 +36,6 @@
             {% endfor %}
         </div>
     </section>
+
 </body>
 </html>
