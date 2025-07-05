@@ -1,19 +1,13 @@
-<!-- templates/thank_you.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>تم الحجز</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body class="trips-page">
-    {% include 'menu.html' %}
-    <div class="main-content">
-        <div class="trip-card" style="max-width: 500px; margin: auto; padding: 30px;">
-            <h2>شكراً لك يا {{ name }}!</h2>
-            <p>تم حجزك أو إرسال رسالتك بنجاح لرحلة أو مرشد: <strong>{{ trip }}</strong></p>
-            <a href="{{ url_for('index') }}" class="btn">🏠 العودة للصفحة الرئيسية</a>
-        </div>
-    </div>
+<head><meta charset="UTF-8"><title>شكراً لك</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+  {% include 'menu.html' %}
+  <div style="text-align:center; padding:50px;">
+    <h1>تم الحجز بنجاح</h1>
+    <p>شكرًا يا {{ name }}! لقد حجزت رحلة إلى <strong>{{ trip }}</strong> بتاريخ <strong>{{ date }}</strong>.</p>
+    <a href="{{ url_for('index') }}" class="btn">🏠 العودة للرئيسية</a>
+  </div>
 </body>
 </html>
