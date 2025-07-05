@@ -1,25 +1,82 @@
+<!-- templates/menu.html -->
 <div class="side-menu">
-    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <button class="menu-toggle" onclick="toggleMenu()">☰ القائمة</button>
     <div class="menu-content" id="menuContent">
         <a href="{{ url_for('index') }}">🏠 الرئيسية</a>
         <a href="{{ url_for('about') }}">📖 عن الموقع</a>
         <a href="{{ url_for('trips') }}">🌍 الرحلات</a>
         <a href="{{ url_for('guides') }}">🧭 المرشدون</a>
         <a href="{{ url_for('booking') }}">📝 الحجز</a>
-        <a href="{{ url_for('admin_login') }}">🔒 الإدارة</a>
     </div>
 </div>
 
+<style>
+/* القائمة الجانبية */
+.side-menu {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 999;
+    direction: rtl;
+}
+
+/* زر فتح القائمة */
+.menu-toggle {
+    background-color: #264d3c; /* أخضر داكن */
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-family: 'Tajawal', sans-serif;
+}
+
+/* محتوى القائمة */
+.menu-content {
+    display: none;
+    flex-direction: column;
+    background-color: #f8f2e7; /* بيج ترابي */
+    border: 1px solid #ccc;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'Tajawal', sans-serif;
+}
+
+/* روابط القائمة */
+.menu-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #264d3c;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    transition: background 0.3s;
+}
+
+/* تأثير عند التمرير */
+.menu-content a:hover {
+    background-color: #e6e0d2;
+}
+</style>
+
 <script>
-    function toggleMenu() {
-        const menu = document.getElementById("menuContent");
-        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+function toggleMenu() {
+    const menu = document.getElementById("menuContent");
+    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    menu.style.flexDirection = "column";
+}
+
+// إغلاق القائمة عند الضغط خارجها
+document.addEventListener("click", function(e) {
+    const menu = document.getElementById("menuContent");
+    const toggle = document.querySelector(".menu-toggle");
+    if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+        menu.style.display = "none";
     }
-    document.addEventListener("click", function(e) {
-        const menu = document.getElementById("menuContent");
-        const toggle = document.querySelector(".menu-toggle");
-        if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-            menu.style.display = "none";
-        }
-    });
+});
 </script>
