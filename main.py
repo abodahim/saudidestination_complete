@@ -18,7 +18,12 @@ def about():
 
 @app.route('/trips')
 def trips():
-    return render_template('trips.html')
+    trips = [
+        {"id": 1, "title": "رحلة إلى جدة", "image": "jeddah_1.jpg", "description": "استكشف عروس البحر الأحمر"},
+        {"id": 2, "title": "رحلة إلى الرياض", "image": "riyadh_1.jpg", "description": "جولة في العاصمة"},
+        {"id": 3, "title": "رحلة إلى ينبع", "image": "yanbu_1.jpg", "description": "متعة البحر والطبيعة"}
+    ]
+    return render_template('trips.html', trips=trips)
 
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
@@ -42,8 +47,8 @@ def guides():
 def guide_details(guide_id):
     guides = {
         1: {"name": "عبدالله الغامدي", "image": "guide1.PNG", "bio": "مرشد محترف في جدة", "experience": "5 سنوات"},
-        2: {"name": "سارة العتيبي", "image": "guide2.PNG", "bio": "خبيرة سياحية في الرياض", "experience": "7 سنوات"},
-        3: {"name": "فيصل الحربي", "image": "guide3.PNG", "bio": "دليل محلي في ينبع", "experience": "4 سنوات"}
+        2: {"name": "سارة العتيبي", "image": "guide2.PNG", "bio": "خبيرة سياحية في الرياض", "experience": "4 سنوات"},
+        3: {"name": "فيصل الحربي", "image": "guide3.PNG", "bio": "دليل محلي في ينبع", "experience": "6 سنوات"}
     }
     guide = guides.get(guide_id)
     if guide:
