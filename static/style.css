@@ -1,43 +1,67 @@
 body {
     font-family: 'Tajawal', sans-serif;
+    background-color: #f4f1ea;
     margin: 0;
     padding: 0;
-    background-color: #fdfaf5;
-    color: #333;
+    direction: rtl;
 }
 
+/* القائمة الجانبية */
 .side-menu {
     position: fixed;
     right: 0;
     top: 0;
-    background-color: #2c3e50;
+    background-color: #1c3d2e;
+    color: white;
     width: 220px;
     height: 100%;
-    padding: 20px;
     display: flex;
     flex-direction: column;
+    padding-top: 60px;
     z-index: 1000;
 }
 
 .menu-toggle {
-    background-color: #34495e;
-    color: white;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 26px;
+    background: none;
     border: none;
-    padding: 10px;
+    color: white;
     cursor: pointer;
+}
+
+.menu-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 20px;
 }
 
 .menu-content a {
     color: white;
     text-decoration: none;
-    margin: 10px 0;
-    display: block;
+    font-size: 18px;
+    padding: 10px;
+    background-color: #2f5943;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
+.menu-content a:hover {
+    background-color: #4d7d60;
+}
+
+/* قسم الهيرو */
 .hero {
-    background-color: #ece5da;
-    padding: 50px;
     text-align: center;
+    padding: 80px 20px 50px;
+    background-color: #d8cfc1;
+}
+
+.logo-container {
+    margin-bottom: 20px;
 }
 
 .logo-img {
@@ -45,45 +69,95 @@ body {
     height: auto;
 }
 
+.hero h1 {
+    font-size: 32px;
+    margin: 0;
+    color: #1c3d2e;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #333;
+}
+
 .btn {
-    background-color: #006c4b;
+    margin-top: 20px;
+    padding: 10px 25px;
+    background-color: #1c3d2e;
     color: white;
-    padding: 10px 20px;
     text-decoration: none;
-    display: inline-block;
-    margin-top: 10px;
-    border-radius: 5px;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
 }
 
-.trips-container, .guides-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px;
+.btn:hover {
+    background-color: #2e5c45;
 }
 
-.trip-card, .guide-card {
-    background-color: white;
-    border: 1px solid #ddd;
-    margin: 10px;
-    width: 280px;
-    padding: 15px;
-    border-radius: 10px;
+/* قسم الرحلات */
+.trips-page {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.page-title {
+    font-size: 28px;
+    color: #1c3d2e;
     text-align: center;
 }
 
-.trip-card img, .guide-card img {
+.page-description {
+    text-align: center;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.trips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.trip-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 280px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+}
+
+.trip-card img {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    border-radius: 10px;
+}
+
+.trip-card h2 {
+    font-size: 20px;
+    margin: 10px 0 5px;
+    color: #1c3d2e;
+}
+
+.trip-card p {
+    font-size: 14px;
+    color: #666;
+}
+
+.details-btn {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #2f5943;
+    color: white;
+    padding: 8px 20px;
+    text-decoration: none;
     border-radius: 5px;
 }
 
-.form-container, .message-container {
-    max-width: 600px;
-    margin: auto;
-    padding: 30px;
-    background: white;
-    border-radius: 10px;
-    margin-top: 30px;
+.details-btn:hover {
+    background-color: #4d7d60;
 }
