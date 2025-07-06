@@ -6,9 +6,9 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     trips = [
-        {"id": 1, "title": "رحلة إلى جدة", "image": "jeddah_1.jpg", "description": "استكشف عروس البحر الأحمر"},
-        {"id": 2, "title": "رحلة إلى الرياض", "image": "riyadh_1.jpg", "description": "جولة في العاصمة"},
-        {"id": 3, "title": "رحلة إلى ينبع", "image": "yanbu_1.jpg", "description": "متعة البحر والطبيعة"}
+        {"id": 1, "title": "رحلة إلى جدة", "image": "jeddah_1.JPG", "description": "استكشف عروس البحر الأحمر"},
+        {"id": 2, "title": "رحلة إلى الرياض", "image": "riyadh_1.JPG", "description": "جولة في العاصمة"},
+        {"id": 3, "title": "رحلة إلى ينبع", "image": "yanbu_1.JPG", "description": "متعة البحر والطبيعة"}
     ]
     return render_template('index.html', trips=trips)
 
@@ -19,9 +19,9 @@ def about():
 @app.route('/trips')
 def trips():
     trips = [
-        {"id": 1, "title": "رحلة إلى جدة", "image": "jeddah_1.jpg", "description": "استكشف عروس البحر الأحمر"},
-        {"id": 2, "title": "رحلة إلى الرياض", "image": "riyadh_1.jpg", "description": "جولة في العاصمة"},
-        {"id": 3, "title": "رحلة إلى ينبع", "image": "yanbu_1.jpg", "description": "متعة البحر والطبيعة"}
+        {"id": 1, "title": "رحلة إلى جدة", "image": "jeddah_1.JPG", "description": "استكشف عروس البحر الأحمر"},
+        {"id": 2, "title": "رحلة إلى الرياض", "image": "riyadh_1.JPG", "description": "جولة في العاصمة"},
+        {"id": 3, "title": "رحلة إلى ينبع", "image": "yanbu_1.JPG", "description": "متعة البحر والطبيعة"}
     ]
     return render_template('trips.html', trips=trips)
 
@@ -54,11 +54,6 @@ def guide_details(guide_id):
     if guide:
         return render_template('guide_details.html', guide=guide)
     return "المرشد غير موجود", 404
-
-# ✅ صفحة تفاصيل الرحلة (جديدة)
-@app.route('/trip/<trip_name>')
-def trip_details(trip_name):
-    return render_template('trip_details.html', trip_name=trip_name)
 
 if __name__ == '__main__':
     app.run(debug=True)
