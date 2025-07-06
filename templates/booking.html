@@ -1,4 +1,3 @@
-<!-- templates/booking.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -8,20 +7,13 @@
 </head>
 <body>
     {% include 'menu.html' %}
-    <div class="form-container">
-        <h2>نموذج حجز</h2>
-        <form method="post">
-            <label>الاسم:</label>
-            <input type="text" name="name" required>
-            <label>اختر الرحلة:</label>
-            <select name="trip" required>
-                <option value="جدة">جدة</option>
-                <option value="الرياض">الرياض</option>
-                <option value="ينبع">ينبع</option>
-            </select>
-            <label>رقم الجوال:</label>
-            <input type="text" name="phone" required>
-            <button type="submit" class="btn">احجز الآن</button>
+    <div class="main-content">
+        <h2>احجز رحلتك الآن</h2>
+        <form method="POST">
+            <input type="text" name="name" placeholder="اسمك" required>
+            <input type="text" name="trip" placeholder="اسم الرحلة" required>
+            <input type="text" name="phone" placeholder="رقم الجوال" required>
+            <button type="submit">إرسال</button>
         </form>
     </div>
 </body>
