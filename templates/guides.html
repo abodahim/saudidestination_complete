@@ -1,25 +1,22 @@
-<!-- templates/guides.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>المرشدون السياحيون</title>
+    <title>المرشدون</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     {% include 'menu.html' %}
-    <div class="main-content">
-        <h2 class="page-title">المرشدون السياحيون</h2>
-        <div class="guides-container">
-            {% for guide in guides %}
-            <div class="guide-card">
-                <img src="{{ url_for('static', filename='images/' + guide.image) }}" alt="{{ guide.name }}">
-                <h3>{{ guide.name }}</h3>
-                <p>{{ guide.bio }}</p>
-                <a href="{{ url_for('guide_details', guide_id=guide.id) }}" class="btn">عرض التفاصيل</a>
-            </div>
-            {% endfor %}
+    <h2>فريق المرشدين</h2>
+    <div class="guides-container">
+        {% for guide in guides %}
+        <div class="guide-card">
+            <img src="{{ url_for('static', filename='images/' + guide.image) }}" alt="{{ guide.name }}">
+            <h3>{{ guide.name }}</h3>
+            <p>{{ guide.bio }}</p>
+            <a href="{{ url_for('guide_details', guide_id=guide.id) }}">عرض التفاصيل</a>
         </div>
+        {% endfor %}
     </div>
 </body>
 </html>
