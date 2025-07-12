@@ -1,98 +1,88 @@
-/* الخط العربي Tajawal - يجب تحميله وربطه محليًا إن لم يكن عبر Google Fonts */
 @font-face {
     font-family: 'Tajawal';
-    src: url('../fonts/Tajawal-Regular.ttf');
+    src: url("../static/fonts/Tajawal-Regular.ttf");
 }
 
 body {
     margin: 0;
     font-family: 'Tajawal', sans-serif;
-    background-color: #fdfaf5;
-    color: #2f3e2f;
+    background-color: #fdf8f2;
+    color: #333;
+    text-align: center;
 }
 
-/* القائمة الجانبية (menu) */
-.side-menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 220px;
-    background-color: #1f3b2d;
-    height: 100vh;
-    padding: 20px;
-    z-index: 999;
-}
-
-.side-menu .menu-content a {
-    display: block;
-    padding: 12px 0;
+.hero {
+    background-color: #113c3d;
     color: white;
-    text-decoration: none;
-    font-size: 18px;
+    padding: 30px 20px;
 }
 
-.side-menu .menu-content a:hover {
-    background-color: #365943;
-    border-radius: 6px;
-    padding-right: 10px;
-}
-
-/* زر إظهار/إخفاء القائمة */
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 28px;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
-@media (max-width: 768px) {
-    .side-menu {
-        width: 100%;
-        height: auto;
-        position: relative;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
-    .menu-content {
-        display: none;
-        flex-direction: column;
-        background-color: #1f3b2d;
-    }
-}
-
-/* صورة الشعار */
-.logo-img {
-    max-width: 150px;
+.logo {
+    width: 120px;
+    max-width: 90%;
+    height: auto;
     margin-bottom: 15px;
 }
 
-/* زر عام */
-.btn, .details-btn {
-    background-color: #2f3e2f;
-    color: white;
-    border: none;
-    padding: 10px 16px;
+.subheading {
+    font-size: 1.1em;
+    margin-top: -10px;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: white;
+    color: #113c3d;
+    padding: 10px 20px;
     text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background 0.3s ease;
+    border-radius: 6px;
+    font-weight: bold;
 }
 
-.btn:hover, .details-btn:hover {
-    background-color: #44624a;
+.trips-section {
+    padding: 40px 20px;
 }
 
-/* بطاقات الرحلات */
+.trips-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
 .trip-card {
-    transition: transform 0.3s;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-.trip-card:hover {
-    transform: translateY(-5px);
+.trip-card a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #113c3d;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+footer {
+    background-color: #113c3d;
+    color: white;
+    padding: 15px;
+    margin-top: 30px;
+}
+
+/* تحسينات للموبايل */
+@media (min-width: 600px) {
+    .trips-grid {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .trip-card {
+        width: 250px;
+    }
 }
