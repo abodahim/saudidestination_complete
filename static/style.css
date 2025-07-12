@@ -1,88 +1,187 @@
-@font-face {
-    font-family: 'Tajawal';
-    src: url("../static/fonts/Tajawal-Regular.ttf");
-}
-
+/* إعدادات عامة */
 body {
-    margin: 0;
     font-family: 'Tajawal', sans-serif;
-    background-color: #fdf8f2;
+    margin: 0;
+    padding: 0;
+    background-color: #fefaf5;
     color: #333;
-    text-align: center;
+    direction: rtl;
 }
 
-.hero {
-    background-color: #113c3d;
-    color: white;
-    padding: 30px 20px;
-}
-
-.logo {
-    width: 120px;
-    max-width: 90%;
-    height: auto;
-    margin-bottom: 15px;
-}
-
-.subheading {
-    font-size: 1.1em;
-    margin-top: -10px;
-}
-
-.btn {
-    display: inline-block;
-    margin-top: 20px;
-    background-color: white;
-    color: #113c3d;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: bold;
-}
-
-.trips-section {
-    padding: 40px 20px;
-}
-
-.trips-grid {
+/* القائمة الجانبية */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #1c3c2f;
+    width: 240px;
+    height: 100%;
+    padding-top: 60px;
     display: flex;
     flex-direction: column;
+    z-index: 1000;
+}
+
+.menu-toggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #1c3c2f;
+    color: white;
+    border: none;
+    font-size: 28px;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+.menu-content {
+    display: none;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.menu-content a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    transition: background 0.3s ease;
+}
+
+.menu-content a:hover {
+    background-color: #325143;
+}
+
+/* الشعار والقسم العلوي */
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #e6ddd0;
+    margin-right: 240px;
+}
+
+.logo-container {
+    margin-bottom: 20px;
+}
+
+.logo-img {
+    max-width: 160px;
+    height: auto;
+}
+
+/* زر */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #1c3c2f;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.btn:hover {
+    background-color: #325143;
+}
+
+/* كروت الرحلات */
+.trips-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
-    max-width: 600px;
-    margin: auto;
+    margin: 40px auto;
+    padding: 0 20px;
+    margin-right: 240px;
 }
 
 .trip-card {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
+    background-color: white;
     border: 1px solid #ccc;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    width: 280px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow: hidden;
 }
 
-.trip-card a {
-    display: inline-block;
-    margin-top: 10px;
-    color: #113c3d;
-    font-weight: bold;
-    text-decoration: none;
+.trip-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
 }
 
-footer {
-    background-color: #113c3d;
+.trip-card h2 {
+    font-size: 20px;
+    margin: 15px 10px 5px;
+}
+
+.trip-card p {
+    font-size: 15px;
+    margin: 0 10px 15px;
+}
+
+.details-btn {
+    background-color: #1c3c2f;
     color: white;
-    padding: 15px;
-    margin-top: 30px;
+    padding: 10px 20px;
+    display: block;
+    text-decoration: none;
+    border-top: 1px solid #ccc;
 }
 
-/* تحسينات للموبايل */
-@media (min-width: 600px) {
-    .trips-grid {
-        flex-direction: row;
-        justify-content: center;
+.details-btn:hover {
+    background-color: #325143;
+}
+
+/* صفحة تفاصيل الرحلة */
+.trip-details {
+    padding: 30px;
+    margin-right: 240px;
+}
+
+.trip-details h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.gallery img {
+    width: calc(50% - 10px);
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* تحسينات للجوال */
+@media (max-width: 768px) {
+    .menu-content {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 240px;
+        height: 100vh;
+        background-color: #1c3c2f;
+        padding-top: 60px;
+        display: none;
+    }
+
+    .hero, .trips-container, .trip-details {
+        margin-right: 0;
+        padding: 20px;
     }
 
     .trip-card {
-        width: 250px;
+        width: 90%;
+    }
+
+    .gallery img {
+        width: 100%;
     }
 }
