@@ -2,39 +2,34 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>وجهة السعودية</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
 </head>
 <body>
-    {% include 'menu.html' %}
+    <div class="header">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+        <h1>وجهة السعودية</h1>
+        <p>اكتشف المملكة مع أفضل الباقات والمرشدين</p>
+    </div>
 
-    <!-- قسم الهيرو -->
-    <section class="hero" style="background-color: #f7f2e8; text-align: center; padding: 40px 20px;">
-        <div class="logo-container">
-            <img src="{{ url_for('static', filename='logo.JPG') }}" alt="شعار الوجهة" class="logo-img" style="max-width: 150px;">
+    <div class="content">
+        <h2>رحلات مميزة</h2>
+        <div class="trip-card">
+            <h3>رحلة جدة 🏖️</h3>
+            <p>استمتع بجمال البحر الأحمر والمعالم التاريخية.</p>
+            <a href="{{ url_for('trip_details', trip_name='جدة') }}">عرض التفاصيل</a>
         </div>
-        <h1 style="color: #2f3e2f;">أهلاً بكم في وجهة السعودية</h1>
-        <p style="font-size: 18px; color: #4a4a4a;">استكشف أجمل معالم المملكة بباقة خدمات متكاملة</p>
-        <a href="{{ url_for('trips') }}" class="btn" style="background-color: #2f3e2f; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none;">عرض الرحلات</a>
-    </section>
+        <div class="trip-card">
+            <h3>رحلة الرياض 🏜️</h3>
+            <p>زيارة لأهم معالم العاصمة وتاريخها العريق.</p>
+            <a href="{{ url_for('trip_details', trip_name='الرياض') }}">عرض التفاصيل</a>
+        </div>
+    </div>
 
-    <!-- قسم الرحلات -->
-    <section class="trips-page" style="padding: 40px 20px; background-color: #fefaf5;">
-        <h2 class="page-title" style="text-align: center; color: #2f3e2f;">🧭 أحدث الرحلات</h2>
-        <p class="page-description" style="text-align: center; margin-bottom: 30px; color: #666;">اختَر من بين أكثر وجهاتنا شعبية</p>
-        <div class="trips-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
-            {% for trip in trips %}
-            <div class="trip-card" style="width: 280px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden; text-align: center;">
-                <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="{{ trip.title }}" style="width: 100%; height: 180px; object-fit: cover;">
-                <div style="padding: 15px;">
-                    <h2 style="color: #2f3e2f;">{{ trip.title }}</h2>
-                    <p style="color: #555;">{{ trip.description }}</p>
-                    <a href="{{ url_for('trip_details', trip_name=trip.title) }}" class="details-btn" style="display: inline-block; margin-top: 10px; background-color: #2f3e2f; color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none;">عرض التفاصيل</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2025</p>
+    </footer>
 </body>
 </html>
