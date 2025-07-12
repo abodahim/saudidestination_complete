@@ -3,29 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>وجهة السعودية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     {% include 'menu.html' %}
 
-    <section class="hero">
+    <!-- قسم الهيرو -->
+    <section class="hero" style="background-color: #f7f2e8; text-align: center; padding: 40px 20px;">
         <div class="logo-container">
-            <img src="{{ url_for('static', filename='logo.JPG') }}" alt="شعار الوجهة" class="logo-img">
+            <img src="{{ url_for('static', filename='logo.JPG') }}" alt="شعار الوجهة" class="logo-img" style="max-width: 150px;">
         </div>
-        <h1>أهلاً بكم في وجهة السعودية</h1>
-        <p>استكشف أجمل معالم المملكة بباقة خدمات متكاملة</p>
-        <a href="{{ url_for('trips') }}" class="btn">عرض الرحلات</a>
+        <h1 style="color: #2f3e2f;">أهلاً بكم في وجهة السعودية</h1>
+        <p style="font-size: 18px; color: #4a4a4a;">استكشف أجمل معالم المملكة بباقة خدمات متكاملة</p>
+        <a href="{{ url_for('trips') }}" class="btn" style="background-color: #2f3e2f; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none;">عرض الرحلات</a>
     </section>
 
-    <section class="trips-page">
-        <h2 class="page-title">أحدث الرحلات</h2>
-        <p class="page-description">اختَر من بين أكثر وجهاتنا شعبية</p>
-        <div class="trips-container">
+    <!-- قسم الرحلات -->
+    <section class="trips-page" style="padding: 40px 20px; background-color: #fefaf5;">
+        <h2 class="page-title" style="text-align: center; color: #2f3e2f;">🧭 أحدث الرحلات</h2>
+        <p class="page-description" style="text-align: center; margin-bottom: 30px; color: #666;">اختَر من بين أكثر وجهاتنا شعبية</p>
+        <div class="trips-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
             {% for trip in trips %}
-            <div class="trip-card">
-                <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="{{ trip.title }}">
-                <h2>{{ trip.title }}</h2>
-                <p>{{ trip.description }}</p>
+            <div class="trip-card" style="width: 280px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden; text-align: center;">
+                <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="{{ trip.title }}" style="width: 100%; height: 180px; object-fit: cover;">
+                <div style="padding: 15px;">
+                    <h2 style="color: #2f3e2f;">{{ trip.title }}</h2>
+                    <p style="color: #555;">{{ trip.description }}</p>
+                    <a href="{{ url_for('trip_details', trip_name=trip.title) }}" class="details-btn" style="display: inline-block; margin-top: 10px; background-color: #2f3e2f; color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none;">عرض التفاصيل</a>
+                </div>
             </div>
             {% endfor %}
         </div>
