@@ -1,150 +1,98 @@
+/* الخط العربي Tajawal - يجب تحميله وربطه محليًا إن لم يكن عبر Google Fonts */
+@font-face {
+    font-family: 'Tajawal';
+    src: url('../fonts/Tajawal-Regular.ttf');
+}
+
 body {
-    font-family: 'Tajawal', sans-serif;
     margin: 0;
-    padding: 0;
-    direction: rtl;
-    background-color: #fdfaf4;
-    color: #333;
+    font-family: 'Tajawal', sans-serif;
+    background-color: #fdfaf5;
+    color: #2f3e2f;
 }
 
-h1, h2, h3 {
-    text-align: center;
-    color: #2f4f4f;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.btn, .details-btn {
-    background-color: #2f4f4f;
-    color: white;
-    padding: 10px 20px;
-    display: inline-block;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-}
-
-.btn:hover, .details-btn:hover {
-    background-color: #1e3932;
-}
-
-/* قائمة جانبية */
+/* القائمة الجانبية (menu) */
 .side-menu {
     position: fixed;
     top: 0;
     right: 0;
-    background-color: #2f4f4f;
-    padding: 10px;
-    z-index: 1000;
+    width: 220px;
+    background-color: #1f3b2d;
+    height: 100vh;
+    padding: 20px;
+    z-index: 999;
 }
 
+.side-menu .menu-content a {
+    display: block;
+    padding: 12px 0;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.side-menu .menu-content a:hover {
+    background-color: #365943;
+    border-radius: 6px;
+    padding-right: 10px;
+}
+
+/* زر إظهار/إخفاء القائمة */
 .menu-toggle {
+    display: none;
     background: none;
     border: none;
     color: white;
-    font-size: 26px;
+    font-size: 28px;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
-.menu-content {
-    display: none;
-    flex-direction: column;
-    background-color: #2f4f4f;
-    position: absolute;
-    top: 50px;
-    right: 0;
-    padding: 10px;
-    border-radius: 5px;
-    min-width: 160px;
+@media (max-width: 768px) {
+    .side-menu {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .menu-content {
+        display: none;
+        flex-direction: column;
+        background-color: #1f3b2d;
+    }
 }
 
-.menu-content a {
-    color: white;
-    padding: 8px 12px;
-    transition: background-color 0.3s ease;
-}
-
-.menu-content a:hover {
-    background-color: #1e3932;
-}
-
-/* قسم الهيرو */
-.hero {
-    background-color: #f3efe3;
-    text-align: center;
-    padding: 50px 20px;
-    border-bottom: 5px solid #2f4f4f;
-}
-
+/* صورة الشعار */
 .logo-img {
     max-width: 150px;
     margin-bottom: 15px;
 }
 
+/* زر عام */
+.btn, .details-btn {
+    background-color: #2f3e2f;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.btn:hover, .details-btn:hover {
+    background-color: #44624a;
+}
+
 /* بطاقات الرحلات */
-.trips-container, .guides-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px;
+.trip-card {
+    transition: transform 0.3s;
 }
 
-.trip-card, .guide-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin: 10px;
-    width: 260px;
-    text-align: center;
-    padding: 15px;
-    transition: transform 0.2s ease;
-}
-
-.trip-card:hover, .guide-card:hover {
-    transform: scale(1.03);
-}
-
-.trip-card img, .guide-card img {
-    width: 100%;
-    border-radius: 8px;
-    max-height: 180px;
-    object-fit: cover;
-}
-
-/* صفحة التفاصيل */
-.main-content {
-    padding: 30px;
-    text-align: center;
-}
-
-.page-title {
-    font-size: 28px;
-    margin-bottom: 10px;
-}
-
-.page-description {
-    font-size: 18px;
-    color: #666;
-}
-
-/* استجابة للشاشات الصغيرة */
-@media screen and (max-width: 600px) {
-    .trip-card, .guide-card {
-        width: 90%;
-    }
-
-    .menu-content {
-        right: 10px;
-    }
-
-    .logo-img {
-        max-width: 100px;
-    }
-
-    .hero {
-        padding: 30px 10px;
-    }
+.trip-card:hover {
+    transform: translateY(-5px);
 }
