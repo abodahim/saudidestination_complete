@@ -5,28 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>وجهة السعودية</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
 </head>
 <body>
-    <div class="header">
+    <header class="hero">
         <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
         <h1>وجهة السعودية</h1>
-        <p>اكتشف المملكة مع أفضل الباقات والمرشدين</p>
-    </div>
+        <p class="subheading">اكتشف المملكة مع أفضل الباقات والمرشدين</p>
+        <a href="#trips" class="btn">عرض الرحلات</a>
+    </header>
 
-    <div class="content">
+    <section class="trips-section" id="trips">
         <h2>رحلات مميزة</h2>
-        <div class="trip-card">
-            <h3>رحلة جدة 🏖️</h3>
-            <p>استمتع بجمال البحر الأحمر والمعالم التاريخية.</p>
-            <a href="{{ url_for('trip_details', trip_name='جدة') }}">عرض التفاصيل</a>
+        <div class="trips-grid">
+            <div class="trip-card">
+                <h3>رحلة جدة 🏖️</h3>
+                <p>استمتع بجمال البحر الأحمر والمعالم التاريخية.</p>
+                <a href="{{ url_for('trip_details', trip_name='جدة') }}">عرض التفاصيل</a>
+            </div>
+            <div class="trip-card">
+                <h3>رحلة الرياض 🏜️</h3>
+                <p>زيارة لأهم معالم العاصمة وتاريخها العريق.</p>
+                <a href="{{ url_for('trip_details', trip_name='الرياض') }}">عرض التفاصيل</a>
+            </div>
         </div>
-        <div class="trip-card">
-            <h3>رحلة الرياض 🏜️</h3>
-            <p>زيارة لأهم معالم العاصمة وتاريخها العريق.</p>
-            <a href="{{ url_for('trip_details', trip_name='الرياض') }}">عرض التفاصيل</a>
-        </div>
-    </div>
+    </section>
 
     <footer>
         <p>جميع الحقوق محفوظة &copy; 2025</p>
