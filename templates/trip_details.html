@@ -1,12 +1,28 @@
+<!-- templates/trip_details.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <title>تفاصيل الرحلة</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <h1>تفاصيل الرحلة: {{ trip_name }}</h1>
-    <p>سيتم لاحقًا عرض معلومات مفصلة عن هذه الرحلة.</p>
-    <a href="{{ url_for('index') }}">العودة للصفحة الرئيسية</a>
+<body class="trips-page">
+    {% include 'menu.html' %}
+
+    <div class="main-content">
+        <div class="trip-details">
+            <h1>رحلة إلى الرياض</h1>
+            <div class="gallery">
+                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض">
+                <img src="{{ url_for('static', filename='images/riyadh_2.JPG') }}" alt="الرياض">
+                <img src="{{ url_for('static', filename='images/riyadh_3.JPG') }}" alt="الرياض">
+                <img src="{{ url_for('static', filename='images/riyadh_4.JPG') }}" alt="الرياض">
+            </div>
+            <p><strong>المدة:</strong> 3 أيام</p>
+            <p><strong>السعر:</strong> 1200 ريال</p>
+            <p><strong>المعالم:</strong> المتحف الوطني، قصر المصمك، برج المملكة</p>
+            <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
+        </div>
+    </div>
 </body>
 </html>
