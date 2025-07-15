@@ -1,71 +1,63 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>وجهة السعودية</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="images/logo.JPG">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>وجهة السعودية</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-    <!-- الشريط العلوي -->
-    <header>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-        <img src="images/logo.JPG" alt="شعار" class="logo">
-    </header>
+  <header>
+    <div class="logo">
+      <img src="images/logo.JPG" alt="شعار وجهة السعودية">
+    </div>
+    <button id="menu-toggle">☰</button>
+  </header>
 
-    <!-- القائمة الجانبية -->
-    <nav id="sideMenu">
-        <ul>
-            <li><a href="index.html">🏠 الصفحة الرئيسية</a></li>
-            <li><a href="trips.html">🧳 الرحلات</a></li>
-            <li><a href="about.html">ℹ️ من نحن</a></li>
-            <li><a href="contact.html">📬 تواصل معنا</a></li>
-        </ul>
-    </nav>
+  <nav class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="index.html">🏠 الصفحة الرئيسية</a></li>
+      <li><a href="trips.html">🧳 الرحلات</a></li>
+      <li><a href="about.html">ℹ️ من نحن</a></li>
+      <li><a href="contact.html">📩 تواصل معنا</a></li>
+    </ul>
+  </nav>
 
-    <!-- المحتوى الرئيسي -->
-    <main>
-        <section class="hero">
-            <h1>وجهة السعودية</h1>
-            <p>اكتشف المملكة مع أفضل الباقات والمرشدين</p>
-            <a href="trips.html" class="cta-button">استعرض الرحلات</a>
-        </section>
+  <main>
+    <section class="hero">
+      <h1>وجهة السعودية</h1>
+      <p>اكتشف المملكة مع أفضل الباقات والمرشدين</p>
+      <a href="trips.html" class="btn">استعرض الرحلات</a>
+    </section>
 
-        <section class="section-title">
-            <h2>رحلاتنا المميزة</h2>
-        </section>
+    <section class="featured-trips">
+      <h2>رحلاتنا المميزة</h2>
 
-        <section class="trips-container">
-            <div class="trip-card">
-                <h3>رحلة جدة 🏖️</h3>
-                <p>استمتع بجمال البحر الأحمر والمعالم التاريخية.</p>
-                <a href="trip_details.html?trip=jeddah">عرض التفاصيل</a>
-            </div>
-            <div class="trip-card">
-                <h3>رحلة الرياض 🏙️</h3>
-                <p>زيارة لأهم معالم العاصمة وتاريخها العريق.</p>
-                <a href="trip_details.html?trip=riyadh">عرض التفاصيل</a>
-            </div>
-            <div class="trip-card">
-                <h3>رحلة ينبع 🌊</h3>
-                <p>مغامرة بحرية ساحرة بين الجزر والشعاب المرجانية.</p>
-                <a href="trip_details.html?trip=yanbu">عرض التفاصيل</a>
-            </div>
-        </section>
-    </main>
+      <div class="trip-card">
+        <h3>🏖️ رحلة جدة</h3>
+        <p>استمتع بجمال البحر الأحمر والمعالم التاريخية.</p>
+        <a href="trip_details.html?city=jeddah">عرض التفاصيل</a>
+      </div>
 
-    <!-- التذييل -->
-    <footer>
-        <p>© 2025 جميع الحقوق محفوظة - وجهة السعودية</p>
-    </footer>
+      <div class="trip-card">
+        <h3>🏜️ رحلة الرياض</h3>
+        <p>زيارة لأهم معالم العاصمة وتاريخها العريق.</p>
+        <a href="trip_details.html?city=riyadh">عرض التفاصيل</a>
+      </div>
 
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById("sideMenu");
-            menu.classList.toggle("open");
-        }
-    </script>
+    </section>
+  </main>
+
+  <footer>
+    <p>جميع الحقوق محفوظة © 2025</p>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    toggle.onclick = () => sidebar.classList.toggle('active');
+  </script>
 </body>
 </html>
