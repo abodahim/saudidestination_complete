@@ -1,36 +1,68 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>وجهة السعودية</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>وجهة السعودية</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-    {% include 'menu.html' %}
+  <header class="main-header">
+    <div class="logo-container">
+      <img src="images/logo.JPG" alt="شعار وجهة السعودية" class="logo" />
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  </header>
 
-    <!-- قسم الهيرو -->
-    <section class="hero">
-        <div class="logo-container">
-            <img src="{{ url_for('static', filename='logo.JPG') }}" alt="شعار الوجهة" class="logo-img">
-        </div>
-        <h1>أهلاً بكم في وجهة السعودية</h1>
-        <p>استكشف أجمل معالم المملكة بباقة خدمات متكاملة</p>
-        <a href="{{ url_for('trips') }}" class="btn">عرض الرحلات</a>
-    </section>
+  <nav class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="index.html">🏠 الصفحة الرئيسية</a></li>
+      <li><a href="trips.html">🧳 الرحلات</a></li>
+      <li><a href="about.html">ℹ️ من نحن</a></li>
+      <li><a href="contact.html">📬 تواصل معنا</a></li>
+    </ul>
+  </nav>
 
-    <!-- أحدث الرحلات -->
-    <section class="trips-page">
-        <h2 class="page-title">أحدث الرحلات</h2>
-        <p class="page-description">اختَر من بين أكثر وجهاتنا شعبية</p>
-        <div class="trips-container">
-            <div class="trip-card">
-                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
-                <h2>رحلة إلى الرياض</h2>
-                <p>جولة في العاصمة</p>
-                <a href="{{ url_for('trip_details', trip_name='الرياض') }}" class="details-btn">التفاصيل</a>
-            </div>
-        </div>
-    </section>
+  <section class="hero">
+    <h1>وجهة السعودية</h1>
+    <p>اكتشف المملكة مع أفضل الباقات والمرشدين</p>
+    <a href="trips.html" class="cta-btn">استعرض الرحلات</a>
+  </section>
+
+  <section class="highlight">
+    <h2>رحلاتنا المميزة</h2>
+    <div class="trips">
+      <div class="trip-card">
+        <img src="images/jeddah_1.JPG" alt="رحلة جدة" />
+        <h3>رحلة جدة</h3>
+        <p>استمتع بجمال البحر الأحمر والمعالم التاريخية.</p>
+        <a href="trip_details.html?city=جدة">عرض التفاصيل</a>
+      </div>
+      <div class="trip-card">
+        <img src="images/riyadh_1.JPG" alt="رحلة الرياض" />
+        <h3>رحلة الرياض</h3>
+        <p>زيارة لأهم معالم العاصمة وتاريخها العريق.</p>
+        <a href="trip_details.html?city=الرياض">عرض التفاصيل</a>
+      </div>
+      <div class="trip-card">
+        <img src="images/yanbu_1.JPG" alt="رحلة ينبع" />
+        <h3>رحلة ينبع</h3>
+        <p>تجربة بحرية خلابة مع مرشدين محليين محترفين.</p>
+        <a href="trip_details.html?city=ينبع">عرض التفاصيل</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    جميع الحقوق محفوظة © وجهة السعودية 2025
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
+  </script>
 </body>
 </html>
