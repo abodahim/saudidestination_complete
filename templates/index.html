@@ -1,49 +1,8 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>وجهة السعودية | الرئيسية</title>
-  <meta name="description" content="منصة وجهة السعودية: باقات سياحية ومرشدون محليون بخبرات عالية." />
-  <link rel="preload" href="static/fonts/Tajawal-Regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="static/css/styles.css" />
-</head>
-<body>
-  <!-- الشريط العلوي -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <button class="menu-toggle" aria-label="فتح القائمة" aria-controls="sidenav" aria-expanded="false">☰</button>
-      <a class="brand" href="#">
-        <img src="static/images/logo.JPG" alt="شعار وجهة السعودية" class="brand-logo" />
-        <span class="brand-name">وجهة السعودية</span>
-      </a>
-      <nav class="top-links" aria-label="روابط سريعة">
-        <a href="#" class="top-link">الرحلات</a>
-        <a href="#" class="top-link">عن المنصة</a>
-        <a href="#" class="top-link btn-primary">احجز الآن</a>
-      </nav>
-    </div>
-  </header>
+{% extends "base.html" %}
 
-  <!-- القائمة الجانبية -->
-  <aside id="sidenav" class="sidenav" aria-hidden="true" aria-label="القائمة الجانبية">
-    <div class="sidenav-head">
-      <img src="static/images/logo.JPG" alt="شعار" />
-      <button class="close-nav" aria-label="إغلاق القائمة">×</button>
-    </div>
-    <ul class="sidenav-list">
-      <li><a href="#"><span class="emoji">🏠</span> الرئيسية</a></li>
-      <li><a href="#"><span class="emoji">🧭</span> الرحلات</a></li>
-      <li><a href="#"><span class="emoji">👨‍🏫</span> المرشدون</a></li>
-      <li><a href="#"><span class="emoji">📝</span> تقييمات</a></li>
-      <li><a href="#"><span class="emoji">📅</span> الحجز</a></li>
-      <li><a href="#"><span class="emoji">☎️</span> تواصل معنا</a></li>
-    </ul>
-  </aside>
+{% block title %}وجهة السعودية | الرئيسية{% endblock %}
 
-  <!-- طبقة التعتيم للقائمة -->
-  <div class="backdrop" hidden></div>
-
+{% block content %}
   <!-- قسم البطل -->
   <section class="hero">
     <div class="container hero-inner">
@@ -69,80 +28,26 @@
     </div>
 
     <div class="trips-grid">
-      <!-- بطاقة جدة -->
+      {% for t in trips %}
       <article class="trip-card">
         <div class="trip-media">
-          <img src="static/images/jeddah_1.JPG" alt="رحلة جدة" />
-          <span class="badge">عائلية</span>
+          <img src="{{ url_for('static', filename='images/' ~ t.image) }}" alt="رحلة {{ t.title }}" />
+          <span class="badge">{{ t.tag }}</span>
         </div>
         <div class="trip-body">
-          <h3 class="trip-title">جدة التاريخية</h3>
-          <p class="trip-text">جولة في البلد، الأسواق التراثية، وممشى الكورنيش.</p>
+          <h3 class="trip-title">{{ t.title }}</h3>
+          <p class="trip-text">{{ t.desc }}</p>
           <div class="trip-meta">
-            <span>المدة: يوم واحد</span>
-            <span>السعر: 299 ر.س</span>
+            <span>المدة: {{ t.duration }}</span>
+            <span>السعر: {{ t.price }}</span>
           </div>
           <div class="trip-actions">
-            <a href="#" class="btn-secondary">التفاصيل</a>
-            <a href="#" class="btn-primary">احجز الآن</a>
+            <a href="/trips/{{ t.slug }}" class="btn-secondary">التفاصيل</a>
+            <a href="/booking/{{ t.slug }}" class="btn-primary">احجز الآن</a>
           </div>
         </div>
       </article>
-
-      <!-- بطاقة الرياض -->
-      <article class="trip-card">
-        <div class="trip-media">
-          <img src="static/images/riyadh_1.JPG" alt="رحلة الرياض" />
-          <span class="badge">شركات</span>
-        </div>
-        <div class="trip-body">
-          <h3 class="trip-title">رياض الحداثة</h3>
-          <p class="trip-text">معالم معاصرة، بوليفارد، وتجارب مطاعم عالمية.</p>
-          <div class="trip-meta">
-            <span>المدة: يومان</span>
-            <span>السعر: 549 ر.س</span>
-          </div>
-          <div class="trip-actions">
-            <a href="#" class="btn-secondary">التفاصيل</a>
-            <a href="#" class="btn-primary">احجز الآن</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- بطاقة ينبع -->
-      <article class="trip-card">
-        <div class="trip-media">
-          <img src="static/images/yanbu_1.JPG" alt="رحلة ينبع" />
-          <span class="badge">مدرسية</span>
-        </div>
-        <div class="trip-body">
-          <h3 class="trip-title">بحر ينبع</h3>
-          <p class="trip-text">أنشطة بحرية وشواطئ خلابة وتجربة غوص.</p>
-          <div class="trip-meta">
-            <span>المدة: 3 أيام</span>
-            <span>السعر: 799 ر.س</span>
-          </div>
-          <div class="trip-actions">
-            <a href="#" class="btn-secondary">التفاصيل</a>
-            <a href="#" class="btn-primary">احجز الآن</a>
-          </div>
-        </div>
-      </article>
+      {% endfor %}
     </div>
   </main>
-
-  <!-- تذييل -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> وجهة السعودية. جميع الحقوق محفوظة.</p>
-      <nav class="footer-nav" aria-label="روابط التذييل">
-        <a href="#">الشروط والسياسات</a>
-        <a href="#">الأسئلة الشائعة</a>
-        <a href="#">تواصل معنا</a>
-      </nav>
-    </div>
-  </footer>
-
-  <script src="static/js/script.js"></script>
-</body>
-</html>
+{% endblock %}
