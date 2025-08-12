@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}وجهة السعودية | الرئيسية{% endblock %}</title>
+  <meta name="description" content="{% block meta_desc %}منصة وجهة السعودية: باقات سياحية ومرشدون محليون بخبرات عالية.{% endblock %}" />
+
+  <!-- Preload لملفات الخطوط -->
+  <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <!-- الشريط العلوي -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <button class="menu-toggle" aria-label="فتح القائمة" aria-controls="sidenav" aria-expanded="false">☰</button>
+      <a class="brand" href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="brand-logo" />
+        <span class="brand-name">وجهة السعودية</span>
+      </a>
+      <nav class="top-links" aria-label="روابط سريعة">
+        <a href="{{ url_for('home') }}" class="top-link">الرحلات</a>
+        <a href="/about" class="top-link">عن المنصة</a>
+        <a href="#" class="top-link btn-primary">احجز الآن</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- القائمة الجانبية -->
+  <aside id="sidenav" class="sidenav" aria-hidden="true" aria-label="القائمة الجانبية">
+    <div class="sidenav-head">
+      <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار" />
+      <button class="close-nav" aria-label="إغلاق القائمة">×</button>
+    </div>
+    <ul class="sidenav-list">
+      <li><a href="{{ url_for('home') }}"><span class="emoji">🏠</span> الرئيسية</a></li>
+      <li><a href="#"><span class="emoji">🧭</span> الرحلات</a></li>
+      <li><a href="#"><span class="emoji">👨‍🏫</span> المرشدون</a></li>
+      <li><a href="#"><span class="emoji">📝</span> تقييمات</a></li>
+      <li><a href="#"><span class="emoji">📅</span> الحجز</a></li>
+      <li><a href="#"><span class="emoji">☎️</span> تواصل معنا</a></li>
+    </ul>
+  </aside>
+
+  <!-- طبقة التعتيم للقائمة -->
+  <div class="backdrop" hidden></div>
+
+  {% block content %}{% endblock %}
+
+  <!-- تذييل -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> وجهة السعودية. جميع الحقوق محفوظة.</p>
+      <nav class="footer-nav" aria-label="روابط التذييل">
+        <a href="#">الشروط والسياسات</a>
+        <a href="#">الأسئلة الشائعة</a>
+        <a href="#">تواصل معنا</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  {% block body_end %}{% endblock %}
+</body>
+</html>
