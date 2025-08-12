@@ -6,10 +6,11 @@
   <title>{% block title %}وجهة السعودية | الرئيسية{% endblock %}</title>
   <meta name="description" content="{% block meta_desc %}منصة وجهة السعودية: باقات سياحية ومرشدون محليون بخبرات عالية.{% endblock %}" />
 
-  <!-- Preload لملفات الخطوط -->
+  <!-- Preload للخطوط المحلية -->
   <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
 
+  <!-- ملف التنسيق الصحيح داخل static/css/ -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   {% block head_extra %}{% endblock %}
 </head>
@@ -46,7 +47,7 @@
     </ul>
   </aside>
 
-  <!-- طبقة التعتيم للقائمة -->
+  <!-- طبقة التعتيم -->
   <div class="backdrop" hidden></div>
 
   {% block content %}{% endblock %}
@@ -63,6 +64,7 @@
     </div>
   </footer>
 
+  <!-- ملف السكربت داخل static/js/ -->
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   {% block body_end %}{% endblock %}
 </body>
