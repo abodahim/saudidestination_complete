@@ -1,125 +1,168 @@
-body {
-  margin: 0;
-  font-family: 'Tajawal', sans-serif;
-  background-color: #fdfaf5;
-  color: #333;
+:root{
+  --bg: #f2e8d5;          /* بيج رملي */
+  --bg-hero: #efe5d0;     /* بيج أفتح للبطل */
+  --fg: #0d0d0d;          /* نص أسود فاتح */
+  --primary: #0f3d2e;     /* أخضر داكن */
+  --primary-700:#0b2d22;
+  --accent: #c6ad7f;      /* ذهبي ترابي خفيف */
+  --card: #fff;
+  --muted:#6b6b6b;
+  --radius: 14px;
+  --shadow: 0 10px 24px rgba(0,0,0,.08);
+  --trans: 220ms ease;
 }
 
-header {
-  background-color: #14342b;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  position: sticky;
-  top: 0;
+/* خط Tajawal محلي */
+@font-face{
+  font-family: "Tajawal";
+  src: url("../fonts/Tajawal-Regular.woff2") format("woff2");
+  font-display: swap;
 }
 
-.logo img {
-  height: 50px;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:"Tajawal",system-ui,-apple-system,Segoe UI,Arial;
+  color:var(--fg);
+  background:var(--bg);
+  line-height:1.7;
 }
 
-#menu-toggle {
-  background: none;
-  border: none;
-  font-size: 28px;
-  color: white;
-  cursor: pointer;
+/* حاوية عامة */
+.container{
+  width:min(1200px, 92%);
+  margin-inline:auto;
 }
 
-.sidebar {
-  background-color: #14342b;
-  position: fixed;
-  top: 70px;
-  right: -250px;
-  width: 200px;
-  height: 100%;
-  transition: right 0.3s;
-  z-index: 10;
+/* الهيدر */
+.site-header{
+  position:sticky; top:0; z-index:50;
+  background:var(--card);
+  border-bottom:1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,.04);
+}
+.header-inner{
+  display:flex; align-items:center; gap:16px;
+  padding:12px 0;
+}
+.menu-toggle{
+  font-size:26px; line-height:1; border:0;
+  background:transparent; cursor:pointer;
+}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--fg)}
+.brand-logo{width:40px; height:40px; object-fit:cover; border-radius:10px}
+.brand-name{font-weight:700; letter-spacing:.2px}
+
+.top-links{margin-inline-start:auto; display:flex; gap:12px; align-items:center}
+.top-link{
+  text-decoration:none; color:var(--primary); padding:8px 12px; border-radius:10px;
+  transition:transform var(--trans), background var(--trans);
+}
+.top-link:hover{background:#f5f5f5; transform:translateY(-1px)}
+.btn-primary{
+  background:var(--primary); color:#fff !important; border-radius:12px; padding:10px 14px; text-decoration:none; display:inline-block;
+}
+.btn-primary:hover{background:var(--primary-700)}
+.btn-secondary{
+  border:1px solid var(--primary); color:var(--primary); background:transparent; border-radius:12px; padding:10px 14px; text-decoration:none; display:inline-block;
+}
+.btn-secondary:hover{background:#f7f7f7}
+
+/* القائمة الجانبية */
+.sidenav{
+  position:fixed; inset-block:0; inset-inline-end:0;
+  width:min(320px,86vw); background:var(--card);
+  box-shadow:-18px 0 40px rgba(0,0,0,.09);
+  transform:translateX(100%); transition:transform var(--trans);
+  z-index:60; overflow:auto;
+}
+.sidenav.open{transform:translateX(0)}
+.sidenav-head{
+  display:flex; align-items:center; justify-content:space-between; padding:16px; border-bottom:1px solid #eee;
+}
+.sidenav-head img{width:44px; height:44px; border-radius:10px; object-fit:cover}
+.close-nav{font-size:28px; border:0; background:transparent; cursor:pointer}
+.sidenav-list{list-style:none; margin:0; padding:8px 12px}
+.sidenav-list a{
+  display:flex; align-items:center; gap:10px; padding:12px; margin:6px 0;
+  text-decoration:none; color:var(--fg); border-radius:12px; transition:background var(--trans), transform var(--trans);
+}
+.sidenav-list a:hover{background:#f6f6f6; transform:translateY(-1px)}
+.emoji{width:1.2em; display:inline-block; text-align:center}
+
+/* الخلفية البطل */
+.hero{
+  background:
+    linear-gradient(180deg, rgba(12,61,46,.08), transparent 50%),
+    var(--bg-hero);
+  padding: clamp(48px, 8vw, 84px) 0;
+  border-block: 12px solid var(--accent);
+}
+.hero-inner{
+  text-align:center;
+}
+.hero-title{
+  margin:0 0 10px; font-size:clamp(22px, 3.6vw, 36px); font-weight:800; color:var(--primary);
+}
+.hero-sub{margin:0 auto 18px; max-width:58ch; color:#333}
+.hero-cta{display:flex; gap:10px; justify-content:center; flex-wrap:wrap}
+
+/* القسم العام */
+.section{padding: 28px 0 60px}
+.section-head{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px;
+}
+.section-head h2{margin:0; color:var(--primary)}
+.filters{display:flex; gap:8px; flex-wrap:wrap}
+.chip{
+  border:1px solid #ddd; background:#fff; padding:8px 12px; border-radius:999px; cursor:pointer;
+}
+.chip.is-active{border-color:var(--primary); color:#fff; background:var(--primary)}
+
+/* بطاقات الرحلات */
+.trips-grid{
+  display:grid; grid-template-columns: repeat(12, 1fr); gap:16px;
+}
+.trip-card{
+  grid-column: span 12;
+  background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow: var(--shadow);
+  display:flex; flex-direction:column;
+  transition: transform var(--trans), box-shadow var(--trans);
+}
+.trip-card:hover{transform:translateY(-4px); box-shadow:0 14px 34px rgba(0,0,0,.12)}
+.trip-media{position:relative; aspect-ratio: 16/9; overflow:hidden}
+.trip-media img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.02)}
+.badge{
+  position:absolute; inset-inline-start:12px; inset-block-start:12px;
+  background:var(--primary); color:#fff; padding:6px 10px; border-radius:999px; font-size:.85rem
+}
+.trip-body{padding:14px 14px 16px}
+.trip-title{margin:0 0 6px; font-size:1.15rem; color:#111}
+.trip-text{margin:0 0 10px; color:#444}
+.trip-meta{display:flex; gap:12px; flex-wrap:wrap; color:var(--muted); font-size:.95rem; margin-bottom:10px}
+.trip-actions{display:flex; gap:10px; flex-wrap:wrap}
+
+/* الشبكة المتجاوبة */
+@media (min-width: 580px){
+  .trip-card{grid-column: span 6}
+}
+@media (min-width: 980px){
+  .trip-card{grid-column: span 4}
 }
 
-.sidebar.active {
-  right: 0;
+/* التذييل */
+.site-footer{background:#fff; border-top:1px solid #eee}
+.footer-inner{display:flex; gap:12px; align-items:center; justify-content:space-between; padding:18px 0; flex-wrap:wrap}
+.footer-nav{display:flex; gap:14px; flex-wrap:wrap}
+.footer-nav a{text-decoration:none; color:var(--primary)}
+.footer-nav a:hover{text-decoration:underline}
+
+/* طبقة التعتيم */
+.backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:55;
 }
 
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar ul li {
-  border-bottom: 1px solid #2c594e;
-}
-
-.sidebar ul li a {
-  display: block;
-  padding: 12px;
-  color: white;
-  text-decoration: none;
-}
-
-.sidebar ul li a:hover {
-  background-color: #0e2823;
-}
-
-.hero {
-  background-color: #14342b;
-  color: white;
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.hero h1 {
-  margin: 0 0 10px;
-  font-size: 36px;
-}
-
-.hero .btn {
-  background-color: white;
-  color: #14342b;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.featured-trips {
-  padding: 40px 20px;
-  text-align: center;
-}
-
-.featured-trips h2 {
-  margin-bottom: 30px;
-  font-size: 28px;
-}
-
-.trip-card {
-  background-color: #fff;
-  margin: 15px auto;
-  max-width: 400px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  padding: 20px;
-}
-
-.trip-card h3 {
-  margin: 0 0 10px;
-}
-
-.trip-card a {
-  display: inline-block;
-  margin-top: 10px;
-  text-decoration: none;
-  color: #14342b;
-  font-weight: bold;
-}
-
-footer {
-  background-color: #14342b;
-  color: white;
-  text-align: center;
-  padding: 15px;
-  font-size: 14px;
-}
+/* تحسينات صغيرة */
+img{font-style:italic; background:#f0f0f0}
+button{font-family:inherit}
