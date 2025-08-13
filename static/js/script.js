@@ -1,9 +1,9 @@
-/* ===== عناصر القائمة ===== */
-const drawer  = document.querySelector('.sidenav');                 // القائمة
-const openBtn = document.querySelector('.menu-toggle');             // زر الفتح
-const closeBtn= document.querySelector('.close-nav');               // زر الإغلاق
+// عناصر
+const drawer  = document.querySelector('.sidenav');
+const openBtn = document.querySelector('.menu-toggle');
+const closeBtn= document.querySelector('.close-nav');
 
-/* ===== طبقة التعتيم ===== */
+// الخلفية
 let backdrop = document.querySelector('.backdrop');
 if (!backdrop) {
   backdrop = document.createElement('div');
@@ -12,9 +12,9 @@ if (!backdrop) {
   document.body.appendChild(backdrop);
 }
 
-/* ===== دوال ===== */
+// دوال
 function openNav(){
-  if (!drawer) return;
+  if(!drawer) return;
   drawer.classList.add('open');
   drawer.setAttribute('aria-hidden','false');
   openBtn?.setAttribute('aria-expanded','true');
@@ -23,7 +23,7 @@ function openNav(){
   backdrop.hidden = false;
 }
 function closeNav(){
-  if (!drawer) return;
+  if(!drawer) return;
   drawer.classList.remove('open');
   drawer.setAttribute('aria-hidden','true');
   openBtn?.setAttribute('aria-expanded','false');
@@ -32,26 +32,15 @@ function closeNav(){
   backdrop.hidden = true;
 }
 
-/* ===== أحداث ===== */
+// أحداث
 openBtn?.addEventListener('click', openNav);
 closeBtn?.addEventListener('click', closeNav);
 backdrop?.addEventListener('click', closeNav);
-
-// ESC
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
-
-// أغلق عند الضغط على أي رابط داخل القائمة
-drawer?.addEventListener('click', e => {
-  const a = e.target.closest('a');
-  if (a) closeNav();
-});
-
-// إغلاق عند تغيير الحجم/الاتجاه
-['resize','orientationchange'].forEach(evt =>
-  window.addEventListener(evt, () => {
-    if (drawer?.classList.contains('open')) closeNav();
-  })
-);
+drawer?.addEventListener('click', e => { if (e.target.closest('a')) closeNav(); });
+['resize','orientationchange'].forEach(evt => window.addEventListener(evt, () => {
+  if (drawer?.classList.contains('open')) closeNav();
+}));
 
 // سنة الفوتر
 document.getElementById('year')?.append(new Date().getFullYear());
