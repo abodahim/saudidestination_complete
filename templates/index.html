@@ -3,7 +3,6 @@
 {% block title %}وجهة السعودية | الرئيسية{% endblock %}
 
 {% block content %}
-  <!-- قسم البطل -->
   <section class="hero">
     <div class="container hero-inner">
       <h1 class="hero-title">استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</h1>
@@ -15,7 +14,6 @@
     </div>
   </section>
 
-  <!-- قسم الرحلات -->
   <main class="container section">
     <div class="section-head">
       <h2>رحلات مختارة</h2>
@@ -31,7 +29,7 @@
       {% for t in trips %}
       <article class="trip-card">
         <div class="trip-media">
-          <img src="{{ url_for('static', filename='images/' ~ t.image) }}" alt="رحلة {{ t.title }}" />
+          <img src="/static/images/{{ t.image }}" alt="رحلة {{ t.title }}" />
           <span class="badge">{{ t.tag }}</span>
         </div>
         <div class="trip-body">
