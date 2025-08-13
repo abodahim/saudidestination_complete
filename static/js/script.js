@@ -1,8 +1,9 @@
-/* ===== يدعم .sidenav أو .sidebar + .menu-toggle أو .menu-btn ===== */
-const drawer  = document.querySelector('.sidenav, .sidebar');
-const openBtn = document.querySelector('.menu-toggle, .menu-btn');
-const closeBtn= document.querySelector('.close-nav, .close-btn');
+/* ===== عناصر القائمة ===== */
+const drawer  = document.querySelector('.sidenav');                 // القائمة
+const openBtn = document.querySelector('.menu-toggle');             // زر الفتح
+const closeBtn= document.querySelector('.close-nav');               // زر الإغلاق
 
+/* ===== طبقة التعتيم ===== */
 let backdrop = document.querySelector('.backdrop');
 if (!backdrop) {
   backdrop = document.createElement('div');
@@ -11,6 +12,7 @@ if (!backdrop) {
   document.body.appendChild(backdrop);
 }
 
+/* ===== دوال ===== */
 function openNav(){
   if (!drawer) return;
   drawer.classList.add('open');
@@ -20,7 +22,6 @@ function openNav(){
   document.body.classList.add('no-scroll');
   backdrop.hidden = false;
 }
-
 function closeNav(){
   if (!drawer) return;
   drawer.classList.remove('open');
@@ -31,18 +32,21 @@ function closeNav(){
   backdrop.hidden = true;
 }
 
+/* ===== أحداث ===== */
 openBtn?.addEventListener('click', openNav);
 closeBtn?.addEventListener('click', closeNav);
 backdrop?.addEventListener('click', closeNav);
+
+// ESC
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
 
 // أغلق عند الضغط على أي رابط داخل القائمة
 drawer?.addEventListener('click', e => {
-  const link = e.target.closest('a');
-  if (link) closeNav();
+  const a = e.target.closest('a');
+  if (a) closeNav();
 });
 
-// أغلق عند تغيير المقاس/الاتجاه
+// إغلاق عند تغيير الحجم/الاتجاه
 ['resize','orientationchange'].forEach(evt =>
   window.addEventListener(evt, () => {
     if (drawer?.classList.contains('open')) closeNav();
