@@ -1,23 +1,42 @@
-const toggle = document.querySelector('.menu-toggle');
-const sidenav = document.getElementById('sidenav');
-const closeBtn = document.querySelector('.close-nav');
-const backdrop = document.querySelector('.backdrop');
+const sidebar = document.querySelector('.sidebar');
+const menuBtn = document.querySelector('.menu-btn');
+const closeBtn = document.querySelector('.close-btn');
 
-function openNav(){
-  sidenav.classList.add('open');
-  sidenav.setAttribute('aria-hidden','false');
-  toggle.setAttribute('aria-expanded','true');
-  backdrop.hidden = false;
+let backdrop = document.querySelector('.backdrop');
+if (!backdrop) {
+  backdrop = document.createElement('div');
+  backdrop.className = 'backdrop';
+  backdrop.style.display = 'none';
+  document.body.appendChild(backdrop);
 }
-function closeNav(){
-  sidenav.classList.remove('open');
-  sidenav.setAttribute('aria-hidden','true');
-  toggle.setAttribute('aria-expanded','false');
-  backdrop.hidden = true;
-}
-toggle?.addEventListener('click', openNav);
-closeBtn?.addEventListener('click', closeNav);
-backdrop?.addEventListener('click', closeNav);
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeNav(); });
 
-document.getElementById('year').textContent = new Date().getFullYear();
+function openMenu() {
+  sidebar.classList.add('open');
+  document.body.classList.add('menu-open');
+  backdrop.style.display = 'block';
+}
+
+function closeMenu() {
+  sidebar.classList.remove('open');
+  document.body.classList.remove('menu-open');
+  backdrop.style.display = 'none';
+}
+
+menuBtn.addEventListener('click', openMenu);
+closeBtn.addEventListener('click', closeMenu);
+backdrop.addEventListener('click', closeMenu);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && sidebar.classList.contains('open')) closeMenu();
+});
+
+sidebar.addEventListener('click', (e) => {
+  const link = e.target.closest('a');
+  if (link) closeMenu();
+});
+
+['resize', 'orientationchange'].forEach(evt =>
+  window.addEventListener(evt, () => {
+    if (sidebar.classList.contains('open')) closeMenu();
+  })
+);
