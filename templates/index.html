@@ -5,8 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>وجهة السعودية</title>
 
-  <!-- CSS الرئيسي -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- ربط CSS باسم styles.css (جمع) ومسار ثابت -->
+  <link rel="stylesheet" href="/static/css/styles.css?v=3">
+
+  <!-- إصلاح فوري كاحتياطي لو لم يحمّل CSS الخارجي لأي سبب -->
+  <style>
+    .sidenav-list{list-style:none;margin:0;padding:14px}
+    .sidenav-list a{color:#333;text-decoration:none;font-weight:700;padding:10px 12px;display:flex;gap:10px;border-radius:10px}
+  </style>
 </head>
 <body>
 
@@ -16,7 +22,7 @@
   <!-- القائمة الجانبية -->
   <aside id="drawer" class="sidenav" aria-hidden="true" aria-label="القائمة الجانبية">
     <div class="sidenav-head">
-      <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار" />
+      <img src="/static/images/logo.JPG" alt="شعار" />
       <button class="close-nav" aria-label="إغلاق القائمة">×</button>
     </div>
     <ul class="sidenav-list">
@@ -32,7 +38,7 @@
 
   <!-- الهيدر -->
   <header class="main-header">
-    <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+    <img src="/static/images/logo.JPG" alt="شعار وجهة السعودية" class="logo">
     <h1>وجهة السعودية</h1>
     <p>استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
   </header>
@@ -43,21 +49,21 @@
     <div class="trips-grid">
 
       <article class="trip-card">
-        <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
+        <img src="/static/images/jeddah_1.JPG" alt="رحلة جدة">
         <h3>رحلة جدة</h3>
         <p>جولة سياحية على شاطئ البحر الأحمر والمعالم التاريخية.</p>
         <a href="#" class="btn">عرض التفاصيل</a>
       </article>
 
       <article class="trip-card">
-        <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
+        <img src="/static/images/riyadh_1.JPG" alt="رحلة الرياض">
         <h3>رحلة الرياض</h3>
         <p>زيارة أهم المعالم الثقافية والتراثية في العاصمة.</p>
         <a href="#" class="btn">عرض التفاصيل</a>
       </article>
 
       <article class="trip-card">
-        <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع">
+        <img src="/static/images/yanbu_1.JPG" alt="رحلة ينبع">
         <h3>رحلة ينبع</h3>
         <p>استكشاف الجزر والشواطئ الرملية الساحرة.</p>
         <a href="#" class="btn">عرض التفاصيل</a>
@@ -72,6 +78,6 @@
   </footer>
 
   <!-- JS -->
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="/static/js/script.js?v=3"></script>
 </body>
 </html>
