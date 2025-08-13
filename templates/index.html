@@ -1,51 +1,71 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وجهة السعودية</title>
 
-{% block title %}وجهة السعودية | الرئيسية{% endblock %}
+    <!-- ملف CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
 
-{% block content %}
-  <section class="hero">
-    <div class="container hero-inner">
-      <h1 class="hero-title">استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</h1>
-      <p class="hero-sub">رحلات عائلية 👨‍👩‍👧‍👦 | مدرسية 🏫 | شركات 🏢 — بخيارات مرنة وجدولة سهلة</p>
-      <div class="hero-cta">
-        <a href="#" class="btn-primary">ابدأ الحجز</a>
-        <a href="#" class="btn-secondary">تصفح الرحلات</a>
-      </div>
+    <!-- زر القائمة -->
+    <button class="menu-btn">☰</button>
+
+    <!-- القائمة الجانبية -->
+    <div class="sidebar">
+        <span class="close-btn">✖</span>
+        <ul>
+            <li><a href="/">🏠 الرئيسية</a></li>
+            <li><a href="/about">ℹ️ عن المنصة</a></li>
+            <li><a href="/trips">🗺️ الرحلات</a></li>
+            <li><a href="/contact">📩 تواصل معنا</a></li>
+        </ul>
     </div>
-  </section>
 
-  <main class="container section">
-    <div class="section-head">
-      <h2>رحلات مختارة</h2>
-      <div class="filters">
-        <button class="chip is-active">الكل</button>
-        <button class="chip">عائلية</button>
-        <button class="chip">مدرسية</button>
-        <button class="chip">شركات</button>
-      </div>
-    </div>
+    <!-- الهيدر -->
+    <header class="main-header">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+        <h1>وجهة السعودية</h1>
+        <p>استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
+    </header>
 
-    <div class="trips-grid">
-      {% for t in trips %}
-      <article class="trip-card">
-        <div class="trip-media">
-          <img src="/static/images/{{ t.image }}" alt="رحلة {{ t.title }}" />
-          <span class="badge">{{ t.tag }}</span>
+    <!-- قسم الرحلات -->
+    <section class="trips-section">
+        <h2>الرحلات المميزة</h2>
+        <div class="trips-grid">
+
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
+                <h3>رحلة جدة</h3>
+                <p>جولة سياحية على شاطئ البحر الأحمر والمعالم التاريخية.</p>
+                <a href="/trip/jeddah" class="btn">عرض التفاصيل</a>
+            </div>
+
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
+                <h3>رحلة الرياض</h3>
+                <p>زيارة أهم المعالم الثقافية والتراثية في العاصمة.</p>
+                <a href="/trip/riyadh" class="btn">عرض التفاصيل</a>
+            </div>
+
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع">
+                <h3>رحلة ينبع</h3>
+                <p>استكشاف الجزر والشواطئ الرملية الساحرة.</p>
+                <a href="/trip/yanbu" class="btn">عرض التفاصيل</a>
+            </div>
+
         </div>
-        <div class="trip-body">
-          <h3 class="trip-title">{{ t.title }}</h3>
-          <p class="trip-text">{{ t.desc }}</p>
-          <div class="trip-meta">
-            <span>المدة: {{ t.duration }}</span>
-            <span>السعر: {{ t.price }}</span>
-          </div>
-          <div class="trip-actions">
-            <a href="/trips/{{ t.slug }}" class="btn-secondary">التفاصيل</a>
-            <a href="/booking/{{ t.slug }}" class="btn-primary">احجز الآن</a>
-          </div>
-        </div>
-      </article>
-      {% endfor %}
-    </div>
-  </main>
-{% endblock %}
+    </section>
+
+    <!-- الفوتر -->
+    <footer>
+        <p>© 2025 وجهة السعودية - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <!-- ملف JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
