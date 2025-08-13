@@ -1,102 +1,106 @@
+/* ===== ربط خط Tajawal من الملفات المحلية ===== */
 @font-face {
-    font-family: 'Tajawal';
-    src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
-    font-weight: normal;
+  font-family: 'Tajawal';
+  src: url('../fonts/Tajawal-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
-    font-family: 'Tajawal';
-    src: url('../fonts/Tajawal-Bold.ttf') format('truetype');
-    font-weight: bold;
+  font-family: 'Tajawal';
+  src: url('../fonts/Tajawal-Bold.ttf') format('truetype');
+  font-weight: 700; font-style: normal; font-display: swap;
 }
 
-body {
-    font-family: 'Tajawal', sans-serif;
-    margin: 0;
-    background-color: #f5f0e6;
+/* ===== إعدادات عامة ===== */
+:root{
+  --bg: #f5f0e6;      /* بيج فاتح */
+  --primary: #2f4f4f; /* أخضر داكن */
+  --card: #fff;
+  --muted: #555;
+  --radius: 12px;
+  --trans: .22s ease;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg);
+  font-family:'Tajawal',system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
 }
 
-/* هيدر */
-.main-header {
-    text-align: center;
-    padding: 20px;
-    background-color: #2f4f4f;
-    color: white;
+/* منع تمرير الصفحة عند فتح القائمة */
+.no-scroll{overflow:hidden!important;height:100%!important}
+
+/* إزالة أي تمرير أفقي محتمل */
+html,body{overflow-x:hidden}
+
+/* ===== الهيدر ===== */
+.main-header{
+  text-align:center; padding:24px 12px; color:#fff; background:var(--primary);
 }
-.main-header .logo {
-    width: 100px;
-    margin-bottom: 10px;
+.main-header .logo{width:96px;height:auto;margin-bottom:10px}
+.main-header h1{margin:0 0 6px;font-weight:700}
+.main-header p{margin:0}
+
+/* ===== زر فتح القائمة ===== */
+.menu-toggle{
+  position:fixed; top:14px; right:14px; z-index:1001;
+  background:var(--primary); color:#fff; border:0; border-radius:8px;
+  font-size:22px; padding:10px 14px; cursor:pointer;
 }
 
-/* زر القائمة */
-.menu-btn {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    background: #2f4f4f;
-    color: white;
-    border: none;
-    font-size: 22px;
-    padding: 10px 15px;
-    cursor: pointer;
-    z-index: 1001;
-    border-radius: 5px;
-}
-
-/* القائمة الجانبية */
-.sidebar {
-    position: fixed;
-    top: 0;
-    right: -250px;
-    width: 250px;
-    height: 100%;
-    background: white;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.3);
-    transition: right 0.3s ease;
-    z-index: 1000;
-}
-.sidebar.open { right: 0; }
-.sidebar ul { list-style: none; padding: 20px; margin: 0; }
-.sidebar ul li { padding: 10px 0; }
-.sidebar ul li a { text-decoration: none; color: #333; font-weight: bold; }
-.sidebar .close-btn { position: absolute; top: 15px; left: 15px; font-size: 20px; cursor: pointer; }
-body.menu-open { overflow: hidden; }
-
-/* خلفية تعتيم */
+/* ===== الخلفية ===== */
 .backdrop{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.35);
-  z-index: 999;
+  position:fixed; inset:0; background:rgba(0,0,0,.35);
+  z-index:900;
 }
 
-/* قسم الرحلات */
-.trips-section { padding: 30px 15px; text-align: center; }
-.trips-section h2 { margin-bottom: 20px; color: #2f4f4f; }
-.trips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-.trip-card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    padding: 15px;
-    text-align: center;
-    transition: transform 0.2s;
+/* ===== القــائمة الجانبية ===== */
+/* ندعم .sidenav و .sidebar معًا */
+.sidenav, .sidebar{
+  position:fixed; top:0; right:0; height:100vh;
+  width:min(320px,86vw); background:var(--card);
+  box-shadow:-18px 0 40px rgba(0,0,0,.09);
+  transform:translateX(100%); transition:transform var(--trans);
+  z-index:1000; overflow-y:auto; -webkit-overflow-scrolling:touch;
 }
-.trip-card:hover { transform: translateY(-5px); }
-.trip-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
-.trip-card h3 { margin: 10px 0; color: #2f4f4f; }
-.trip-card p { font-size: 14px; color: #555; }
-.trip-card .btn {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 15px;
-    background-color: #2f4f4f;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
+.sidenav.open, .sidebar.open{ transform:translateX(0) }
+
+.sidenav-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; border-bottom:1px solid #eee;
+}
+.sidenav-head img{width:40px;height:40px;border-radius:8px;object-fit:cover}
+.close-nav, .close-btn{
+  font-size:26px; border:0; background:transparent; cursor:pointer;
 }
 
-/* الفوتر */
-footer { text-align: center; padding: 15px; background-color: #2f4f4f; color: white; margin-top: 20px; }
+.sidenav ul, .sidebar ul{list-style:none;margin:0;padding:14px}
+.sidenav li, .sidebar li{margin:8px 0}
+.sidenav a, .sidebar a{
+  display:flex; align-items:center; gap:8px;
+  text-decoration:none; color:#333; font-weight:700;
+  padding:10px 12px; border-radius:10px;
+}
+.sidenav a:hover, .sidebar a:hover{ background:#f6f6f6 }
 
-/* تجاوب */
-@media (max-width: 768px) { .trips-grid { grid-template-columns: 1fr; } }
+/* ===== قسم الرحلات ===== */
+.trips-section{padding:30px 15px;text-align:center}
+.trips-section h2{margin:0 0 18px;color:var(--primary)}
+.trips-grid{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px;
+}
+.trip-card{
+  background:var(--card); border-radius:var(--radius); padding:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08); text-align:center;
+  transition:transform .2s;
+}
+.trip-card:hover{ transform:translateY(-4px) }
+.trip-card img{width:100%;height:180px;object-fit:cover;border-radius:10px}
+.trip-card h3{margin:10px 0;color:var(--primary)}
+.trip-card p{margin:0;color:var(--muted);font-size:14px}
+.trip-card .btn{
+  display:inline-block;margin-top:10px;padding:8px 14px;border-radius:8px;
+  color:#fff;background:var(--primary);text-decoration:none;
+}
+
+/* ===== الفوتر ===== */
+footer{ text-align:center; padding:16px; background:var(--primary); color:#fff; margin-top:20px }
