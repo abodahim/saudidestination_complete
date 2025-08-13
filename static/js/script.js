@@ -38,9 +38,9 @@ closeBtn?.addEventListener('click', closeNav);
 backdrop?.addEventListener('click', closeNav);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
 drawer?.addEventListener('click', e => { if (e.target.closest('a')) closeNav(); });
-['resize','orientationchange'].forEach(evt => window.addEventListener(evt, () => {
-  if (drawer?.classList.contains('open')) closeNav();
-}));
+['resize','orientationchange'].forEach(evt =>
+  window.addEventListener(evt, () => { if (drawer?.classList.contains('open')) closeNav(); })
+);
 
 // سنة الفوتر
 document.getElementById('year')?.append(new Date().getFullYear());
