@@ -104,3 +104,12 @@ footer{text-align:center;padding:16px;background:var(--primary);color:#fff;margi
 @media (min-width: 900px){
   .trip-hero{grid-template-columns:1.2fr .8fr;align-items:start;padding:24px}
 }
+
+/* ===== الحجز والأخطاء ===== */
+.booking{max-width:760px;margin:24px auto;padding:0 16px}
+.booking-form{display:grid;gap:12px;background:#fff;padding:16px;border-radius:12px;box-shadow:var(--shadow)}
+.booking-form label{display:grid;gap:6px;text-align:right}
+.booking-form input,.booking-form textarea{padding:10px;border:1px solid #ddd;border-radius:8px;font-family:inherit}
+.booking.success{text-align:center}
+.error-page{text-align:center;padding:60px 16px}
+.error-page h1{font-size:64px;color:var(--primary);margin:0 0 8px}
