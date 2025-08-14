@@ -1,47 +1,63 @@
-import csv, os, smtplib, requests  # requests لإرسال webhook
+import os, csv, smtplib, requests
 from email.message import EmailMessage
-from flask import Flask, render_template, abort, send_from_directory, request, redirect, url_for, flash
+from flask import (
+    Flask, render_template, abort, send_from_directory,
+    request, redirect, url_for, flash
+)
 
-import os
-from dotenv import load_dotenv
+# --- تحميل متغيرات البيئة من Secret File ---
+try:
+    from dotenv import load_dotenv
+    for p in ("/etc/secrets/.env", ".env"):
+        if os.path.exists(p):
+            load_dotenv(p)  # لا يضر لو نُفِّذ مرتين
+            break
+except Exception:
+    pass
 
-# جرّب التحميل من مسارين: في الجذر أو مسار render الافتراضي
-for p in (".env", "/etc/secrets/.env"):
-    if os.path.exists(p):
-        load_dotenv(p)
-        break
-        
 app = Flask(__name__, static_folder="static", static_url_path="/static")
-app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")  # للـ flash
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
 
+# اجعل GA_ID متاحًا داخل القوالب
+@app.context_processor
+def inject_globals():
+    return {"ga_id": os.environ.get("GA_ID", "")}
+
+# --- بيانات الرحلات (مثال) ---
 TRIPS = [
     {"slug":"jeddah","title":"رحلة جدة","desc":"جولة على شاطئ البحر الأحمر والمعالم التاريخية.","image":"jeddah_1.JPG","price":"299 ر.س","duration":"يوم واحد","category":"عائلية"},
     {"slug":"riyadh","title":"رحلة الرياض","desc":"زيارة أهم المعالم الثقافية والتراثية في العاصمة.","image":"riyadh_1.JPG","price":"549 ر.س","duration":"يومان","category":"شركات"},
     {"slug":"yanbu","title":"رحلة ينبع","desc":"استكشاف الجزر والشواطئ الرملية الساحرة.","image":"yanbu_1.JPG","price":"799 ر.س","duration":"3 أيام","category":"مدرسية"},
 ]
 
-# ---------- Utilities ----------
+# --- أدوات الإرسال ---
 def send_to_webhook(payload: dict) -> bool:
     url = os.environ.get("BOOKING_WEBHOOK_URL")
-    if not url: return False
+    if not url:
+        return False
     try:
-        r = requests.post(url, json=payload, timeout=10)
+        r = requests.post(url, json=payload, timeout=12)
         return r.ok
     except Exception:
         return False
 
 def send_email(payload: dict) -> bool:
-    host = os.environ.get("SMTP_HOST"); port = int(os.environ.get("SMTP_PORT","0") or 0)
-    user = os.environ.get("SMTP_USER"); pw = os.environ.get("SMTP_PASS")
-    to  = os.environ.get("BOOKING_EMAIL_TO")
-    if not all([host,port,user,pw,to]): return False
+    host = os.environ.get("SMTP_HOST")
+    port = int(os.environ.get("SMTP_PORT","0") or 0)
+    user = os.environ.get("SMTP_USER")
+    pw   = os.environ.get("SMTP_PASS")
+    to   = os.environ.get("BOOKING_EMAIL_TO")
+    if not all([host, port, user, pw, to]):
+        return False
     try:
         msg = EmailMessage()
         msg["Subject"] = f"حجز جديد - {payload.get('trip_title','')}"
         msg["From"] = user
         msg["To"] = to
-        body = "\n".join([f"{k}: {v}" for k,v in payload.items()])
+        body = "\n".join([f"{k}: {v}" for k, v in payload.items()])
         msg.set_content(body)
+
+        # استخدام SMTP SSL (المنفذ 465 لغالبية المزودين)
         with smtplib.SMTP_SSL(host, port) as s:
             s.login(user, pw)
             s.send_message(msg)
@@ -52,15 +68,19 @@ def send_email(payload: dict) -> bool:
 def save_csv(payload: dict) -> bool:
     try:
         os.makedirs("data", exist_ok=True)
-        with open("data/bookings.csv", "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=sorted(payload.keys()))
-            if f.tell() == 0: writer.writeheader()
-            writer.writerow(payload)
+        path = "data/bookings.csv"
+        write_header = not os.path.exists(path) or os.path.getsize(path) == 0
+        with open(path, "a", newline="", encoding="utf-8") as f:
+            fields = ["trip_slug","trip_title","name","phone","email","date","people","notes"]
+            w = csv.DictWriter(f, fieldnames=fields)
+            if write_header:
+                w.writeheader()
+            w.writerow(payload)
         return True
     except Exception:
         return False
 
-# ---------- Routes ----------
+# --- المسارات ---
 @app.route("/")
 def home():
     return render_template("index.html", trips=TRIPS)
@@ -68,27 +88,28 @@ def home():
 @app.route("/trip/<slug>")
 def trip(slug):
     t = next((x for x in TRIPS if x["slug"] == slug), None)
-    if not t: abort(404)
+    if not t:
+        abort(404)
     return render_template("trip.html", trip=t)
 
-@app.route("/booking/<slug>", methods=["GET", "POST"])
+@app.route("/booking/<slug>", methods=["GET","POST"])
 def booking(slug):
     t = next((x for x in TRIPS if x["slug"] == slug), None)
-    if not t: abort(404)
+    if not t:
+        abort(404)
 
     if request.method == "POST":
         data = {
             "trip_slug": slug,
             "trip_title": t["title"],
-            "name": request.form.get("name","").strip(),
-            "phone": request.form.get("phone","").strip(),
-            "email": request.form.get("email","").strip(),
-            "date": request.form.get("date","").strip(),
-            "people": request.form.get("people","").strip(),
-            "notes": request.form.get("notes","").strip(),
+            "name":   (request.form.get("name") or "").strip(),
+            "phone":  (request.form.get("phone") or "").strip(),
+            "email":  (request.form.get("email") or "").strip(),
+            "date":   (request.form.get("date") or "").strip(),
+            "people": (request.form.get("people") or "").strip(),
+            "notes":  (request.form.get("notes") or "").strip(),
         }
-
-        # أولوية: Webhook → Email → CSV
+        # أولوية الحفظ: Webhook → Email → CSV
         ok = send_to_webhook(data) or send_email(data) or save_csv(data)
         if ok:
             return render_template("booking_success.html", trip=t, data=data)
@@ -97,6 +118,7 @@ def booking(slug):
 
     return render_template("booking.html", trip=t)
 
+# ملفات عامة (سيو / PWA)
 @app.route("/robots.txt")
 def robots():
     return send_from_directory(".", "robots.txt", mimetype="text/plain")
@@ -117,7 +139,7 @@ def sw():
 def health():
     return "ok", 200
 
-# ---------- Error pages ----------
+# صفحات الأخطاء
 @app.errorhandler(404)
 def not_found(e):
     return render_template("404.html"), 404
