@@ -1,84 +1,27 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>وجهة السعودية</title>
-
-  <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}">
-  <meta name="theme-color" content="#2f4f4f">
-  <meta name="description" content="وجهة السعودية: استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية.">
-  <meta property="og:title" content="وجهة السعودية">
-  <meta property="og:description" content="استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية.">
-  <meta property="og:image" content="{{ url_for('static', filename='images/logo.JPG') }}">
-  <meta property="og:type" content="website">
-
-  <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
-
-  <link rel="manifest" href="/manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=7">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وجهة السعودية</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+    <header>
+        <h1>مرحبا بك في وجهة السعودية</h1>
+    </header>
 
-  <a class="skip-link" href="#main">تخطي إلى المحتوى</a>
+    <main>
+        <h2>نموذج الحجز</h2>
+        <form action="/book" method="POST">
+            <input type="text" name="name" placeholder="اسمك" required>
+            <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
+            <input type="tel" name="phone" placeholder="رقم الجوال" required>
+            <input type="text" name="trip" placeholder="اسم الرحلة" required>
+            <button type="submit">احجز الآن</button>
+        </form>
+    </main>
 
-  <button class="menu-toggle" aria-label="فتح القائمة" aria-controls="drawer" aria-expanded="false">
-    <span aria-hidden="true">☰</span>
-  </button>
-
-  <aside id="drawer" class="sidenav" aria-hidden="true" aria-label="القائمة الجانبية">
-    <div class="sidenav-head">
-      <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار" width="40" height="40" />
-      <button class="close-nav" aria-label="إغلاق القائمة">×</button>
-    </div>
-    <ul class="sidenav-list">
-      <li><a href="{{ url_for('home') }}"><span>🏠</span> الرئيسية</a></li>
-      <li><a href="#"><span>ℹ️</span> عن المنصة</a></li>
-      <li><a href="#"><span>🗺️</span> الرحلات</a></li>
-      <li><a href="#"><span>📩</span> تواصل معنا</a></li>
-    </ul>
-  </aside>
-
-  <div class="backdrop" hidden></div>
-
-  <header class="main-header">
-    <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo" width="96" height="96">
-    <h1>وجهة السعودية</h1>
-    <p>استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
-  </header>
-
-  <main id="main" class="trips-section">
-    <h2>الرحلات المميزة</h2>
-    <div class="trips-grid">
-      {% for t in trips %}
-      <article class="trip-card">
-        <picture>
-          <!-- إن توفّرت نسخة webp في static/images -->
-          <source srcset="{{ url_for('static', filename='images/' ~ t.image|replace('.JPG','.webp')) }}" type="image/webp">
-          <img
-            src="{{ url_for('static', filename='images/' ~ t.image) }}"
-            srcset="{{ url_for('static', filename='images/' ~ t.image) }} 1200w, {{ url_for('static', filename='images/' ~ t.image) }} 800w"
-            sizes="(max-width: 700px) 92vw, 600px"
-            alt="رحلة {{ t.title }}"
-            width="1200" height="720" loading="lazy">
-        </picture>
-        <h3>{{ t.title }}</h3>
-        <p>{{ t.desc }}</p>
-        <p class="muted">المدة: {{ t.duration }} • السعر: {{ t.price }}</p>
-        <a href="{{ url_for('trip', slug=t.slug) }}" class="btn">عرض التفاصيل</a>
-      </article>
-      {% endfor %}
-    </div>
-  </main>
-
-  <footer>
-    <p>© <span id="year"></span> وجهة السعودية — جميع الحقوق محفوظة</p>
-  </footer>
-
-  <script src="{{ url_for('static', filename='js/script.js') }}?v=7"></script>
-  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/service-worker.js');}</script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
