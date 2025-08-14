@@ -2,6 +2,15 @@ import csv, os, smtplib, requests  # requests لإرسال webhook
 from email.message import EmailMessage
 from flask import Flask, render_template, abort, send_from_directory, request, redirect, url_for, flash
 
+import os
+from dotenv import load_dotenv
+
+# جرّب التحميل من مسارين: في الجذر أو مسار render الافتراضي
+for p in (".env", "/etc/secrets/.env"):
+    if os.path.exists(p):
+        load_dotenv(p)
+        break
+        
 app = Flask(__name__, static_folder="static", static_url_path="/static")
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")  # للـ flash
 
