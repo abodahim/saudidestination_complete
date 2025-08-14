@@ -25,6 +25,10 @@ body{
 }
 .muted{ color:var(--muted); }
 
+/* تخطي إلى المحتوى (وصولية) */
+.skip-link{position:absolute;right:-9999px;top:auto}
+.skip-link:focus{right:12px;top:12px;background:#fff;color:#000;padding:8px 12px;border-radius:8px;z-index:2000}
+
 /* إيقاف التمرير عند فتح القائمة */
 .no-scroll{overflow:hidden!important;height:100%!important}
 
