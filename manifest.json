@@ -1,0 +1,12 @@
+{
+  "name": "وجهة السعودية",
+  "short_name": "وجهة السعودية",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f0e6",
+  "theme_color": "#2f4f4f",
+  "icons": [
+    { "src": "/static/images/logo.JPG", "sizes": "192x192", "type": "image/jpeg" },
+    { "src": "/static/images/logo.JPG", "sizes": "512x512", "type": "image/jpeg" }
+  ]
+}
