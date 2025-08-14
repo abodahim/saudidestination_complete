@@ -16,22 +16,24 @@
   <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=6">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=7">
 </head>
 <body>
 
   <a class="skip-link" href="#main">تخطي إلى المحتوى</a>
-
   <a class="back-link" href="{{ url_for('home') }}">← الرجوع للرئيسية</a>
 
   <main id="main">
     <section class="trip-hero">
-      <img
-        src="{{ url_for('static', filename='images/' ~ trip.image) }}"
-        srcset="{{ url_for('static', filename='images/' ~ trip.image) }} 1400w, {{ url_for('static', filename='images/' ~ trip.image) }} 900w"
-        sizes="(max-width: 900px) 92vw, 800px"
-        alt="صورة {{ trip.title }}"
-        width="1400" height="800">
+      <picture>
+        <source srcset="{{ url_for('static', filename='images/' ~ trip.image|replace('.JPG','.webp')) }}" type="image/webp">
+        <img
+          src="{{ url_for('static', filename='images/' ~ trip.image) }}"
+          srcset="{{ url_for('static', filename='images/' ~ trip.image) }} 1400w, {{ url_for('static', filename='images/' ~ trip.image) }} 900w"
+          sizes="(max-width: 900px) 92vw, 800px"
+          alt="صورة {{ trip.title }}"
+          width="1400" height="800">
+      </picture>
       <div class="trip-hero-text">
         <h1>{{ trip.title }}</h1>
         <p>{{ trip.desc }}</p>
@@ -50,10 +52,8 @@
     </section>
   </main>
 
-  <footer>
-    <p>© <span id="year"></span> وجهة السعودية — جميع الحقوق محفوظة</p>
-  </footer>
-
-  <script src="{{ url_for('static', filename='js/script.js') }}?v=6"></script>
+  <footer><p>© <span id="year"></span> وجهة السعودية — جميع الحقوق محفوظة</p></footer>
+  <script src="{{ url_for('static', filename='js/script.js') }}?v=7"></script>
+  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/service-worker.js');}</script>
 </body>
 </html>
