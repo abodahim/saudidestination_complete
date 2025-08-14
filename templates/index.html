@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>وجهة السعودية</title>
 
-  <!-- أيقونة تبويب ووسوم SEO/OG -->
   <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}">
   <meta name="theme-color" content="#2f4f4f">
   <meta name="description" content="وجهة السعودية: استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية.">
@@ -14,32 +13,22 @@
   <meta property="og:image" content="{{ url_for('static', filename='images/logo.JPG') }}">
   <meta property="og:type" content="website">
 
-  <!-- Preload للخطوط -->
   <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="{{ url_for('static', filename='fonts/Tajawal-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
 
-  <!-- CSS مع كاش-باستينغ -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=6">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!-- Google Analytics (اختياري — استبدل G-XXXXXXX بمعرّفك) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} gtag('js', new Date());
-    gtag('config', 'G-XXXXXXX');
-  </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=7">
 </head>
 <body>
 
-  <!-- رابط تخطي للمحتوى (وصولية) -->
   <a class="skip-link" href="#main">تخطي إلى المحتوى</a>
 
-  <!-- زر القائمة (محسّن وصوليًا) -->
   <button class="menu-toggle" aria-label="فتح القائمة" aria-controls="drawer" aria-expanded="false">
     <span aria-hidden="true">☰</span>
   </button>
 
-  <!-- القائمة الجانبية -->
   <aside id="drawer" class="sidenav" aria-hidden="true" aria-label="القائمة الجانبية">
     <div class="sidenav-head">
       <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار" width="40" height="40" />
@@ -53,28 +42,29 @@
     </ul>
   </aside>
 
-  <!-- طبقة التعتيم -->
   <div class="backdrop" hidden></div>
 
-  <!-- الهيدر -->
   <header class="main-header">
     <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo" width="96" height="96">
     <h1>وجهة السعودية</h1>
     <p>استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
   </header>
 
-  <!-- المحتوى الرئيسي -->
   <main id="main" class="trips-section">
     <h2>الرحلات المميزة</h2>
     <div class="trips-grid">
       {% for t in trips %}
       <article class="trip-card">
-        <img
-          src="{{ url_for('static', filename='images/' ~ t.image) }}"
-          srcset="{{ url_for('static', filename='images/' ~ t.image) }} 1200w, {{ url_for('static', filename='images/' ~ t.image) }} 800w"
-          sizes="(max-width: 700px) 92vw, 600px"
-          alt="رحلة {{ t.title }}"
-          width="1200" height="720" loading="lazy">
+        <picture>
+          <!-- إن توفّرت نسخة webp في static/images -->
+          <source srcset="{{ url_for('static', filename='images/' ~ t.image|replace('.JPG','.webp')) }}" type="image/webp">
+          <img
+            src="{{ url_for('static', filename='images/' ~ t.image) }}"
+            srcset="{{ url_for('static', filename='images/' ~ t.image) }} 1200w, {{ url_for('static', filename='images/' ~ t.image) }} 800w"
+            sizes="(max-width: 700px) 92vw, 600px"
+            alt="رحلة {{ t.title }}"
+            width="1200" height="720" loading="lazy">
+        </picture>
         <h3>{{ t.title }}</h3>
         <p>{{ t.desc }}</p>
         <p class="muted">المدة: {{ t.duration }} • السعر: {{ t.price }}</p>
@@ -84,12 +74,11 @@
     </div>
   </main>
 
-  <!-- الفوتر -->
   <footer>
     <p>© <span id="year"></span> وجهة السعودية — جميع الحقوق محفوظة</p>
   </footer>
 
-  <!-- JS مع كاش-باستينغ -->
-  <script src="{{ url_for('static', filename='js/script.js') }}?v=6"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}?v=7"></script>
+  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/service-worker.js');}</script>
 </body>
 </html>
