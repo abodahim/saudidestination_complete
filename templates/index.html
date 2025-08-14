@@ -1,87 +1,67 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>وجهة السعودية</title>
+from flask import Flask, render_template, abort, send_from_directory
 
-  <!-- تحسينات SEO وOG -->
-  <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}">
-  <meta name="theme-color" content="#2f4f4f">
-  <meta name="description" content="وجهة السعودية: استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية.">
+app = Flask(__name__, static_folder="static", static_url_path="/static")
 
-  <meta property="og:title" content="وجهة السعودية">
-  <meta property="og:description" content="استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية.">
-  <meta property="og:image" content="{{ url_for('static', filename='images/logo.JPG') }}">
-  <meta property="og:type" content="website">
+TRIPS = [
+    {
+        "slug": "jeddah",
+        "title": "رحلة جدة",
+        "desc": "جولة على شاطئ البحر الأحمر والمعالم التاريخية.",
+        "image": "jeddah_1.JPG",
+        "price": "299 ر.س",
+        "duration": "يوم واحد",
+        "category": "عائلية",
+    },
+    {
+        "slug": "riyadh",
+        "title": "رحلة الرياض",
+        "desc": "زيارة أهم المعالم الثقافية والتراثية في العاصمة.",
+        "image": "riyadh_1.JPG",
+        "price": "549 ر.س",
+        "duration": "يومان",
+        "category": "شركات",
+    },
+    {
+        "slug": "yanbu",
+        "title": "رحلة ينبع",
+        "desc": "استكشاف الجزر والشواطئ الرملية الساحرة.",
+        "image": "yanbu_1.JPG",
+        "price": "799 ر.س",
+        "duration": "3 أيام",
+        "category": "مدرسية",
+    },
+]
 
-  <!-- CSS مع كاش‑باستينغ -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=5">
+@app.route("/")
+def home():
+    return render_template("index.html", trips=TRIPS)
 
-  <!-- Google Analytics (اختياري: ضع معرّفك بدلاً من G-XXXXXXX) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);} gtag('js', new Date());
-  gtag('config', 'G-XXXXXXX');
-  </script>
-</head>
-<body>
+@app.route("/trip/<slug>")
+def trip(slug):
+    t = next((x for x in TRIPS if x["slug"] == slug), None)
+    if not t:
+        abort(404)
+    return render_template("trip.html", trip=t)
 
-  <!-- زر القائمة (وصولية أفضل) -->
-  <button class="menu-toggle" aria-label="فتح القائمة" aria-controls="drawer" aria-expanded="false">
-    <span aria-hidden="true">☰</span>
-  </button>
+@app.route("/booking/<slug>")
+def booking(slug):
+    t = next((x for x in TRIPS if x["slug"] == slug), None)
+    if not t:
+        abort(404)
+    return f"تم اختيار الحجز لرحلة: {t['title']} — (نموذج الحجز قادم)."
 
-  <!-- القائمة الجانبية -->
-  <aside id="drawer" class="sidenav" aria-hidden="true" aria-label="القائمة الجانبية">
-    <div class="sidenav-head">
-      <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار" width="40" height="40" />
-      <button class="close-nav" aria-label="إغلاق القائمة">×</button>
-    </div>
-    <ul class="sidenav-list">
-      <li><a href="{{ url_for('home') }}"><span>🏠</span> الرئيسية</a></li>
-      <li><a href="#"><span>ℹ️</span> عن المنصة</a></li>
-      <li><a href="#"><span>🗺️</span> الرحلات</a></li>
-      <li><a href="#"><span>📩</span> تواصل معنا</a></li>
-    </ul>
-  </aside>
+# ملفات الفهرسة
+@app.route("/robots.txt")
+def robots():
+    return send_from_directory(".", "robots.txt", mimetype="text/plain")
 
-  <!-- طبقة التعتيم -->
-  <div class="backdrop" hidden></div>
+@app.route("/sitemap.xml")
+def sitemap():
+    return send_from_directory(".", "sitemap.xml", mimetype="application/xml")
 
-  <!-- الهيدر -->
-  <header class="main-header">
-    <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo" width="96" height="96">
-    <h1>وجهة السعودية</h1>
-    <p>استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
-  </header>
+@app.route("/health")
+def health():
+    return "ok", 200
 
-  <!-- قسم الرحلات -->
-  <section class="trips-section">
-    <h2>الرحلات المميزة</h2>
-    <div class="trips-grid">
-      {% for t in trips %}
-      <article class="trip-card">
-        <img
-          src="{{ url_for('static', filename='images/' ~ t.image) }}"
-          alt="رحلة {{ t.title }}"
-          width="1200" height="720" loading="lazy">
-        <h3>{{ t.title }}</h3>
-        <p>{{ t.desc }}</p>
-        <p class="muted">المدة: {{ t.duration }} • السعر: {{ t.price }}</p>
-        <a href="{{ url_for('trip', slug=t.slug) }}" class="btn">عرض التفاصيل</a>
-      </article>
-      {% endfor %}
-    </div>
-  </section>
-
-  <!-- الفوتر -->
-  <footer>
-    <p>© <span id="year"></span> وجهة السعودية — جميع الحقوق محفوظة</p>
-  </footer>
-
-  <!-- JS مع كاش‑باستينغ -->
-  <script src="{{ url_for('static', filename='js/script.js') }}?v=5"></script>
-</body>
-</html>
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
