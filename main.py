@@ -1,8 +1,7 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, send_from_directory
 
 app = Flask(__name__, static_folder="static", static_url_path="/static")
 
-# بيانات الرحلات (يمكنك التعديل بحرية)
 TRIPS = [
     {
         "slug": "jeddah",
@@ -49,8 +48,16 @@ def booking(slug):
     t = next((x for x in TRIPS if x["slug"] == slug), None)
     if not t:
         abort(404)
-    # سكافولد حجز بسيط — عدّله لاحقًا حسب نظامك
     return f"تم اختيار الحجز لرحلة: {t['title']} — (نموذج الحجز قادم)."
+
+# ملفات الفهرسة
+@app.route("/robots.txt")
+def robots():
+    return send_from_directory(".", "robots.txt", mimetype="text/plain")
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return send_from_directory(".", "sitemap.xml", mimetype="application/xml")
 
 @app.route("/health")
 def health():
