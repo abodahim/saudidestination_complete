@@ -1,30 +1,37 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
+import os
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "dev_key")
 
 # الصفحة الرئيسية
-@app.route('/')
+@app.route("/")
 def home():
-    return render_template('home.html')
+    return render_template("home.html")
 
-# صفحة الحجز
-@app.route('/booking', methods=['GET', 'POST'])
+# صفحة الحجز (اختياري – إن كنت تحتاجها)
+@app.route("/booking", methods=["GET", "POST"])
 def booking():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-        phone = request.form.get('phone')
-        trip = request.form.get('trip')
-        date = request.form.get('date')
-        # هنا ممكن تضيف: إرسال بريد/حفظ قاعدة بيانات
-        print(f"حجز جديد: {name}, {email}, {phone}, {trip}, {date}")
-        return redirect(url_for('success'))
-    return render_template('booking.html')
+    if request.method == "POST":
+        name  = request.form.get("name", "").strip()
+        email = request.form.get("email", "").strip()
+        phone = request.form.get("phone", "").strip()
+        trip  = request.form.get("trip", "").strip()
 
-# صفحة نجاح الحجز
-@app.route('/success')
+        if not all([name, email, phone, trip]):
+            flash("فضلاً أكمل جميع الحقول.", "error")
+            return redirect(url_for("booking"))
+
+        # منطق الإرسال/الحفظ هنا (بريد/قواعد بيانات...) إن رغبت
+        flash("تم استلام طلبك بنجاح!", "success")
+        return redirect(url_for("home"))
+
+    return render_template("booking.html")
+
+@app.route("/success")
 def success():
-    return render_template('success.html')
+    return render_template("success.html")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
