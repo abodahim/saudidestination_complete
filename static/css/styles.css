@@ -115,3 +115,8 @@ input:focus, select:focus, textarea:focus{
   text-align:center;
   padding:16px 0;
 }
+/* نص تمهيدي في صفحة الشكر */
+.success-lead{margin:6px 2px 18px; color:#374151}
+
+/* أزرار صفحة الشكر */
+.success-actions{display:flex; gap:10px; justify-content:center; margin:8px 0 6px}
