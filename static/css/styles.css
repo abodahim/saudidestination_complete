@@ -1,41 +1,117 @@
-body {
-    font-family: 'Tajawal', sans-serif;
-    background-color: #f9f5f0;
-    margin: 0;
-    padding: 0;
+/* ===== الخط (اختياري: لو موجود عندك) ===== */
+@font-face{
+  font-family:'Tajawal';
+  src:url('../fonts/Tajawal-Regular.ttf') format('truetype');
+  font-weight:400; font-display:swap;
+}
+@font-face{
+  font-family:'Tajawal';
+  src:url('../fonts/Tajawal-Bold.ttf') format('truetype');
+  font-weight:700; font-display:swap;
 }
 
-header {
-    background-color: #004d40;
-    padding: 15px;
-    text-align: center;
-    color: white;
+/* ===== متغيرات عامة ===== */
+:root{
+  --bg:#f5f0e6;
+  --surface:#ffffff;
+  --text:#0f1720;
+  --muted:#6b7280;
+  --primary:#1f5b57;
+  --radius:14px;
+  --shadow:0 10px 30px rgba(0,0,0,.08);
+  --focus:#2dd4bf;
 }
 
-main {
-    padding: 20px;
-    max-width: 500px;
-    margin: auto;
+/* ===== أساسيات ===== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:'Tajawal',system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  line-height:1.7;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
+/* حاوية عامة */
+.container{width:min(1100px,92vw); margin-inline:auto}
+
+/* ===== الهيدر ===== */
+.site-header{
+  background:var(--primary);
+  color:#fff;
+  padding:28px 0 22px;
+  text-align:center;
+}
+.brand{margin:0 0 8px; font-weight:700}
+.subtitle{margin:0; color:#d8f3f0}
+
+/* ===== بطاقة عامة ===== */
+.card{
+  background:var(--surface);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:18px 16px;
+  margin:26px auto;
+}
+.card-title{margin:0 0 14px; color:var(--primary)}
+
+/* ===== نموذج شبكي متجاوب ===== */
+.grid-form{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:14px;
+}
+@media (min-width: 640px){
+  .grid-form{
+    grid-template-columns: 1fr 1fr; /* عمودان على الشاشات الأوسع */
+  }
+  .actions{grid-column: 1 / -1}
 }
 
-input, button {
-    margin: 8px 0;
-    padding: 10px;
-    font-size: 16px;
+/* الحقول */
+.field{display:grid; gap:6px}
+.label{font-size:.95rem; color:var(--muted)}
+input, select, textarea{
+  width:100%;
+  padding:12px 14px;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  background:#fff;
+  font:inherit;
+  transition:border-color .2s, box-shadow .2s;
+}
+input:focus, select:focus, textarea:focus{
+  outline:none;
+  border-color:var(--focus);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--focus) 30%, transparent);
 }
 
-button {
-    background-color: #004d40;
-    color: white;
-    border: none;
-    cursor: pointer;
+/* الأزرار */
+.btn{
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:10px;
+  border:0;
+  cursor:pointer;
+  font-weight:700;
 }
+.btn.primary{
+  background:var(--primary);
+  color:#fff;
+}
+.btn.primary:hover{filter:brightness(1.08)}
 
-button:hover {
-    background-color: #00695c;
+/* محاذاة زر الإرسال */
+.actions{display:flex; gap:10px}
+.actions .btn{flex:1}
+
+/* تلميح بسيط */
+.hint{margin:10px 4px 0; color:var(--muted); font-size:.9rem}
+
+/* ===== الفوتر ===== */
+.site-footer{
+  margin-top:30px;
+  background:var(--primary);
+  color:#fff;
+  text-align:center;
+  padding:16px 0;
 }
