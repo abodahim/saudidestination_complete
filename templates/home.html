@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>وجهة السعودية</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+  <h1 class="brand">وجهة السعودية</h1>
+  <p class="subtitle">استكشف المملكة مع أفضل المرشدين وأجمل الرحلات</p>
+</header>
+
+<section class="section">
+  <h2 class="section-title">رحلاتنا</h2>
+  <div class="cards-container">
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
+      <h3>رحلة جدة</h3>
+      <p>اكتشف سحر جدة وتاريخها العريق مع جولة ساحلية مميزة.</p>
+      <a href="/booking" class="btn">احجز الآن</a>
+    </div>
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
+      <h3>رحلة الرياض</h3>
+      <p>تعرف على معالم العاصمة النابضة بالحياة مع دليل سياحي محلي.</p>
+      <a href="/booking" class="btn">احجز الآن</a>
+    </div>
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع">
+      <h3>رحلة ينبع</h3>
+      <p>استمتع بشواطئ ينبع الخلابة وتجارب بحرية ممتعة.</p>
+      <a href="/booking" class="btn">احجز الآن</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">مرشدونا</h2>
+  <div class="cards-container">
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/guide1.JPG') }}" alt="مرشد سياحي">
+      <h3>أحمد المطيري</h3>
+      <p>خبرة 10 سنوات في تنظيم الرحلات داخل المملكة.</p>
+    </div>
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/guide2.JPG') }}" alt="مرشدة سياحية">
+      <h3>سارة العتيبي</h3>
+      <p>متخصصة في الرحلات الثقافية والتاريخية.</p>
+    </div>
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/guide3.JPG') }}" alt="مرشد سياحي">
+      <h3>خالد العبدالله</h3>
+      <p>متمرس في الجولات الصحراوية والمغامرات.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>© <span id="year"></span> وجهة السعودية - جميع الحقوق محفوظة</p>
+</footer>
+
+</body>
+</html>
