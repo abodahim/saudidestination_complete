@@ -1,122 +1,61 @@
-/* ===== الخط (اختياري: لو موجود عندك) ===== */
-@font-face{
-  font-family:'Tajawal';
-  src:url('../fonts/Tajawal-Regular.ttf') format('truetype');
-  font-weight:400; font-display:swap;
-}
-@font-face{
-  font-family:'Tajawal';
-  src:url('../fonts/Tajawal-Bold.ttf') format('truetype');
-  font-weight:700; font-display:swap;
+body {
+  font-family: 'Tajawal', system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  margin: 0; padding: 0;
+  background-color: #f4f1ea;
+  color: #333;
 }
 
-/* ===== متغيرات عامة ===== */
-:root{
-  --bg:#f5f0e6;
-  --surface:#ffffff;
-  --text:#0f1720;
-  --muted:#6b7280;
-  --primary:#1f5b57;
-  --radius:14px;
-  --shadow:0 10px 30px rgba(0,0,0,.08);
-  --focus:#2dd4bf;
+/* الهيدر */
+.site-header {
+  text-align: center;
+  background-color: #234d20;
+  color: white;
+  padding: 20px;
+}
+.logo { width: 100px; margin-bottom: 10px; }
+.brand { font-size: 28px; margin: 5px 0; }
+.subtitle { font-size: 16px; }
+
+/* الأقسام */
+.section { padding: 30px 10px; text-align: center; }
+.section-title { font-size: 22px; margin-bottom: 20px; color: #234d20; }
+
+/* بطاقات */
+.cards-container {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;
+}
+.card {
+  background-color: #fff; border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  width: 300px; padding: 15px; text-align: center;
+  transition: transform .2s;
+}
+.card:hover { transform: translateY(-5px); }
+.card img { width: 100%; border-radius: 8px; }
+.card h3 { margin: 10px 0; font-size: 18px; color: #234d20; }
+.card p { font-size: 14px; color: #555; }
+
+/* زر */
+.btn {
+  display: inline-block; background-color: #c19a6b; color: #fff;
+  padding: 8px 15px; margin-top: 10px; text-decoration: none; border-radius: 5px;
+}
+.btn:hover { background-color: #a07850; }
+
+/* نموذج الحجز */
+.booking-form {
+  max-width: 420px; margin: 0 auto; display: grid; gap: 12px; text-align: right;
+}
+.booking-form input, .booking-form select {
+  padding: 10px; border: 1px solid #ddd; border-radius: 6px; font: inherit;
 }
 
-/* ===== أساسيات ===== */
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; background:var(--bg); color:var(--text);
-  font-family:'Tajawal',system-ui,-apple-system,Segoe UI,Arial,sans-serif;
-  line-height:1.7;
+/* الفوتر */
+.site-footer {
+  background-color: #234d20; color: #fff; text-align: center; padding: 10px; font-size: 14px;
 }
 
-/* حاوية عامة */
-.container{width:min(1100px,92vw); margin-inline:auto}
-
-/* ===== الهيدر ===== */
-.site-header{
-  background:var(--primary);
-  color:#fff;
-  padding:28px 0 22px;
-  text-align:center;
+/* تجاوب */
+@media (max-width: 768px) {
+  .cards-container { flex-direction: column; align-items: center; }
 }
-.brand{margin:0 0 8px; font-weight:700}
-.subtitle{margin:0; color:#d8f3f0}
-
-/* ===== بطاقة عامة ===== */
-.card{
-  background:var(--surface);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:18px 16px;
-  margin:26px auto;
-}
-.card-title{margin:0 0 14px; color:var(--primary)}
-
-/* ===== نموذج شبكي متجاوب ===== */
-.grid-form{
-  display:grid;
-  grid-template-columns: 1fr;
-  gap:14px;
-}
-@media (min-width: 640px){
-  .grid-form{
-    grid-template-columns: 1fr 1fr; /* عمودان على الشاشات الأوسع */
-  }
-  .actions{grid-column: 1 / -1}
-}
-
-/* الحقول */
-.field{display:grid; gap:6px}
-.label{font-size:.95rem; color:var(--muted)}
-input, select, textarea{
-  width:100%;
-  padding:12px 14px;
-  border:1px solid #e5e7eb;
-  border-radius:10px;
-  background:#fff;
-  font:inherit;
-  transition:border-color .2s, box-shadow .2s;
-}
-input:focus, select:focus, textarea:focus{
-  outline:none;
-  border-color:var(--focus);
-  box-shadow:0 0 0 3px color-mix(in srgb, var(--focus) 30%, transparent);
-}
-
-/* الأزرار */
-.btn{
-  display:inline-block;
-  padding:12px 18px;
-  border-radius:10px;
-  border:0;
-  cursor:pointer;
-  font-weight:700;
-}
-.btn.primary{
-  background:var(--primary);
-  color:#fff;
-}
-.btn.primary:hover{filter:brightness(1.08)}
-
-/* محاذاة زر الإرسال */
-.actions{display:flex; gap:10px}
-.actions .btn{flex:1}
-
-/* تلميح بسيط */
-.hint{margin:10px 4px 0; color:var(--muted); font-size:.9rem}
-
-/* ===== الفوتر ===== */
-.site-footer{
-  margin-top:30px;
-  background:var(--primary);
-  color:#fff;
-  text-align:center;
-  padding:16px 0;
-}
-/* نص تمهيدي في صفحة الشكر */
-.success-lead{margin:6px 2px 18px; color:#374151}
-
-/* أزرار صفحة الشكر */
-.success-actions{display:flex; gap:10px; justify-content:center; margin:8px 0 6px}
