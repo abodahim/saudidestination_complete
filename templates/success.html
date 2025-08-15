@@ -2,45 +2,27 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>تم الحجز بنجاح — وجهة السعودية</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=9">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تم الحجز بنجاح - وجهة السعودية</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
 
-  <!-- الهيدر -->
-  <header class="site-header">
-    <div class="container">
-      <h1 class="brand">وجهة السعودية</h1>
-      <p class="subtitle">شكرًا لاختيارك خدماتنا</p>
-    </div>
-  </header>
+<header class="site-header">
+  <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+  <h1 class="brand">تم الحجز بنجاح</h1>
+</header>
 
-  <main class="container">
-    <!-- بطاقة الشكر -->
-    <section class="card" aria-labelledby="thanksTitle">
-      <h2 id="thanksTitle" class="card-title">تم استلام طلب الحجز بنجاح ✅</h2>
+<section class="section" style="text-align:center;">
+  <h2 class="section-title">✅ تم استلام طلبك</h2>
+  <p>شكرًا لك! سنتواصل معك قريبًا لتأكيد التفاصيل.</p>
+  <a href="/" class="btn">العودة للصفحة الرئيسية</a>
+</section>
 
-      <p class="success-lead">
-        سعداء بتواصلك! سنراجع تفاصيل الطلب ونتواصل معك قريبًا لتأكيد الحجز وترتيب كافة التفاصيل.
-      </p>
+<footer class="site-footer">
+  <p>© <span id="year"></span> وجهة السعودية - جميع الحقوق محفوظة</p>
+</footer>
 
-      <div class="success-actions">
-        <a class="btn primary" href="/">العودة للصفحة الرئيسية</a>
-      </div>
-
-      <p class="hint">إذا لم يصلك رد خلال 24 ساعة، لا تتردد بالتواصل معنا مرة أخرى.</p>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> وجهة السعودية — جميع الحقوق محفوظة</p>
-    </div>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
