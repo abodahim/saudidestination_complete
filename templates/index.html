@@ -1,27 +1,75 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>وجهة السعودية</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>وجهة السعودية</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=9">
 </head>
 <body>
-    <header>
-        <h1>مرحبا بك في وجهة السعودية</h1>
-    </header>
 
-    <main>
-        <h2>نموذج الحجز</h2>
-        <form action="/book" method="POST">
-            <input type="text" name="name" placeholder="اسمك" required>
-            <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
-            <input type="tel" name="phone" placeholder="رقم الجوال" required>
-            <input type="text" name="trip" placeholder="اسم الرحلة" required>
-            <button type="submit">احجز الآن</button>
-        </form>
-    </main>
+  <!-- هيدر بسيط -->
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">وجهة السعودية</h1>
+      <p class="subtitle">استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
+    </div>
+  </header>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <main class="container">
+    <!-- بطاقة الحجز -->
+    <section class="card booking-card" aria-labelledby="bookingTitle">
+      <h2 id="bookingTitle" class="card-title">نموذج الحجز</h2>
+
+      <form class="grid-form" action="/book" method="POST" novalidate>
+        <!-- الاسم -->
+        <label class="field">
+          <span class="label">اسمك</span>
+          <input type="text" name="name" placeholder="اكتب اسمك الكامل" autocomplete="name" required>
+        </label>
+
+        <!-- البريد -->
+        <label class="field">
+          <span class="label">بريدك الإلكتروني</span>
+          <input type="email" name="email" placeholder="example@email.com" autocomplete="email">
+        </label>
+
+        <!-- الجوال -->
+        <label class="field">
+          <span class="label">رقم الجوال</span>
+          <input type="tel" name="phone" placeholder="05xxxxxxxx" inputmode="tel" autocomplete="tel" required>
+        </label>
+
+        <!-- اسم الرحلة -->
+        <label class="field">
+          <span class="label">اسم الرحلة</span>
+          <select name="trip" required>
+            <option value="" disabled selected>— اختر الرحلة —</option>
+            <option value="جدة">رحلة جدة</option>
+            <option value="الرياض">رحلة الرياض</option>
+            <option value="ينبع">رحلة ينبع</option>
+          </select>
+        </label>
+
+        <!-- زر الإرسال (يمتد بعرض الشبكة) -->
+        <div class="actions">
+          <button type="submit" class="btn primary">احجز الآن</button>
+        </div>
+      </form>
+
+      <p class="hint">بالضغط على “احجز الآن” سيتم التواصل معك لتأكيد التفاصيل.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> وجهة السعودية — جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <script>
+    // سنة الفوتر
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
