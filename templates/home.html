@@ -1,70 +1,57 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>وجهة السعودية</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=15">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-  <!-- هيدر بسيط بدون شعار مؤقتاً -->
-  <header class="site-header">
-    <h1 class="brand">وجهة السعودية</h1>
-    <p class="subtitle">استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
+  <!-- الهيدر -->
+  <header class="header">
+    <h1>وجهة السعودية</h1>
+    <p>استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
   </header>
 
-  <!-- البنر (اسم الملف بالحروف نفسها banner.PNG) -->
-  <section class="hero-banner has-img">
-    <img
-      src="{{ url_for('static', filename='images/banner.PNG') }}"
-      alt="بانر وجهة السعودية"
-      class="hero-img">
+  <!-- بانر -->
+  <section class="banner">
+    <img src="{{ url_for('static', filename='images/banner.PNG') }}" alt="بانر الموقع">
   </section>
 
-  <!-- رحلات -->
-  <section class="section">
-    <h2 class="section-title">رحلاتنا</h2>
-    <div class="cards-container">
-      <article class="card">
-        <!-- الامتداد .JPG مطابق لملفك -->
-        <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة" loading="lazy">
-        <h3>رحلة جدة</h3>
-        <p>جولة على كورنيش جدة والمعالم التاريخية.</p>
-        <a class="btn" href="{{ url_for('booking') }}">احجز هذه الرحلة</a>
-      </article>
+  <!-- قسم الرحلات -->
+  <section class="trips">
+    <h2>رحلاتنا</h2>
+    <div class="trip-card">
+      <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
+      <h3>رحلة الرياض</h3>
+      <p>تعرف على العاصمة ومعالمها الحديثة والتراثية.</p>
+      <a href="/trip/riyadh" class="btn">احجز هذه الرحلة</a>
+    </div>
 
-      <article class="card">
-        <!-- الامتداد .JPG مطابق لملفك -->
-        <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض" loading="lazy">
-        <h3>رحلة الرياض</h3>
-        <p>تعرف على العاصمة ومعالمها الحديثة والتراثية.</p>
-        <a class="btn" href="{{ url_for('booking') }}">احجز هذه الرحلة</a>
-      </article>
+    <div class="trip-card">
+      <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
+      <h3>رحلة جدة</h3>
+      <p>جولة بحرية في عروس البحر الأحمر.</p>
+      <a href="/trip/jeddah" class="btn">احجز هذه الرحلة</a>
     </div>
   </section>
 
-  <!-- مرشدون (حدّث أسماء الصور إن كانت تختلف) -->
-  <section class="section">
-    <h2 class="section-title">مرشدونا</h2>
-    <div class="cards-container">
-      <article class="card">
-        <img src="{{ url_for('static', filename='images/guide1.jpg') }}" alt="مرشد سياحي" loading="lazy">
-        <h3>أحمد السعيد</h3>
-        <p>خبرة 10 سنوات في السياحة الداخلية.</p>
-      </article>
+  <!-- قسم المرشدين -->
+  <section class="guides">
+    <h2>مرشدونا</h2>
+    <div class="guide-card">
+      <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="أحمد السعيد">
+      <h3>أحمد السعيد</h3>
+      <p>خبرة 10 سنوات في السياحة الداخلية.</p>
+    </div>
 
-      <article class="card">
-        <img src="{{ url_for('static', filename='images/guide2.jpg') }}" alt="مرشدة سياحية" loading="lazy">
-        <h3>سارة الشمري</h3>
-        <p>متخصصة في تنظيم الرحلات العائلية.</p>
-      </article>
+    <div class="guide-card">
+      <img src="{{ url_for('static', filename='images/guide2.PNG') }}" alt="فاطمة العتيبي">
+      <h3>فاطمة العتيبي</h3>
+      <p>متخصصة في تنظيم الرحلات التراثية.</p>
     </div>
   </section>
-
-  <footer class="site-footer">
-    © جميع الحقوق محفوظة – وجهة السعودية
-  </footer>
 
 </body>
 </html>
