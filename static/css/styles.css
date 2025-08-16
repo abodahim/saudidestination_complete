@@ -1,86 +1,96 @@
-/* إعادة ضبط بسيطة */
+/* reset */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* نلغي أي خلفيات قديمة إجبارياً */
 html, body {
   min-height: 100%;
-  background: #f4f1ea !important;
-  background-image: none !important;
+  background: #f4f1ea;           /* بيج فاتح */
   color: #333;
-  font-family: 'Tajawal', system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  line-height: 1.6;
+  font-family: "Tajawal", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  line-height: 1.7;
 }
 
-/* الهيدر */
+/* رأس الموقع */
 .site-header {
   text-align: center;
-  background-color: #234d20;  /* لا صور خلفية */
-  background-image: none !important;
+  background: #234d20;           /* أخضر داكن */
   color: #fff;
-  padding: 20px;
+  padding: 22px 12px;
+}
+.logo   { width: 84px; height: auto; display: block; margin: 0 auto 8px; }
+.brand  { font-size: 26px; margin-bottom: 6px; }
+.subtitle { font-size: 15px; opacity: .95; }
+
+/* ===== البنر (صورة فقط) ===== */
+.hero-banner.has-img {
+  position: relative;
+  aspect-ratio: 16 / 6;          /* ارتفاع مرن؛ غيّرها إن رغبت */
+  width: 100%;
+  overflow: hidden;
+  background: #e9e4d9;
 }
 
-/* شعار أعلى الصفحة – مقاس ثابت */
-.logo {
-  width: 96px;
-  height: auto;
+/* تأكيد ظهور المعالم باليسار */
+.hero-banner.has-img .hero-img {
+  width: 100%;
+  height: 100%;
   display: block;
-  margin: 0 auto 10px;
+  object-fit: cover;              /* تغطية كاملة */
+  object-position: left center;   /* ← ركّز على اليسار */
 }
 
-/* عناوين الهيدر */
-.brand { font-size: 28px; margin: 5px 0; }
-.subtitle { font-size: 16px; opacity: .95; }
+/* أقسام عامة */
+.section { padding: 34px 12px; text-align: center; }
+.section-title { font-size: 22px; margin-bottom: 18px; color: #234d20; }
 
-/* الأقسام */
-.section { padding: 30px 10px; text-align: center; }
-.section-title { font-size: 22px; margin-bottom: 20px; color: #234d20; }
-
-/* بطاقات عامة (رحلات/مرشدين) */
+/* بطاقات */
 .cards-container {
   display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;
 }
 .card {
-  background: #fff; border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.1);
-  width: 300px; padding: 15px; text-align: center;
+  background: #fff; border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.08);
+  width: 300px; padding: 14px; text-align: center;
   transition: transform .2s;
 }
 .card:hover { transform: translateY(-5px); }
-
-/* مهم: لا نعمم على كل الصور حتى لا يكبر الشعار – نخصص صور البطاقات فقط */
 .card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
+  width: 100%; height: 180px; object-fit: cover; border-radius: 8px;
 }
-
-/* عناوين ونصوص البطاقات */
 .card h3 { margin: 10px 0; font-size: 18px; color: #234d20; }
-.card p { font-size: 14px; color: #555; }
+.card p  { font-size: 14px; color: #555; }
 
-/* زر عام */
+/* زر */
 .btn {
   display: inline-block; background: #c19a6b; color: #fff;
-  padding: 8px 15px; margin-top: 10px; text-decoration: none; border-radius: 5px;
+  padding: 8px 14px; margin-top: 10px; text-decoration: none; border-radius: 6px;
 }
 .btn:hover { background: #a07850; }
 
-/* نموذج الحجز */
+/* فوتر */
+.site-footer {
+  background: #234d20; color: #fff; text-align: center;
+  padding: 12px; font-size: 14px;
+}
+
+/* تجاوب */
+@media (max-width: 992px) {
+  .hero-banner.has-img { aspect-ratio: 16 / 7; }
+}
+@media (max-width: 768px) {
+  .hero-banner.has-img { aspect-rio: 16 / 9; }   /* إن أردت ارتفاعاً أكبر على الجوال */
+  .cards-container { gap: 16px; }
+}
+@media (max-width: 480px) {
+  .hero-banner.has-img { aspect-ratio: 16 / 10; }
+  /* لو احتجت مزيد تركيز على اليسار على الشاشات الصغيرة:
+     .hero-banner.has-img .hero-img { object-position: 12% center; } */
+}
 .booking-form {
   max-width: 420px; margin: 0 auto; display: grid; gap: 12px; text-align: right;
 }
 .booking-form input, .booking-form select {
   padding: 10px; border: 1px solid #ddd; border-radius: 6px; font: inherit;
 }
-
-/* الفوتر */
-.site-footer {
-  background: #234d20; color: #fff; text-align: center; padding: 10px; font-size: 14px;
-}
-
-/* تجاوب */
-@media (max-width: 768px) {
-  .cards-container { flex-direction: column; align-items: center; }
-}
+.flash { background:#fff3cd; border:1px solid #ffeeba; color:#856404; padding:10px; border-radius:6px; margin-bottom:8px; }
+.flash.error   { background:#fdecea; border-color:#f5c2c7; color:#842029; }
+.flash.success { background:#e9f7ef; border-color:#badbcc; color:#0f5132; }
