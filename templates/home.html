@@ -4,19 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>وجهة السعودية</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=13">
-  <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=15">
 </head>
 <body>
 
-  <!-- هيدر بسيط (اختياري) -->
+  <!-- هيدر بسيط بدون شعار مؤقتاً -->
   <header class="site-header">
-    <img class="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="شعار وجهة السعودية" />
     <h1 class="brand">وجهة السعودية</h1>
     <p class="subtitle">استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
   </header>
 
-  <!-- البنر: صورة بدون نص -->
+  <!-- البنر (اسم الملف بالحروف نفسها banner.PNG) -->
   <section class="hero-banner has-img">
     <img
       src="{{ url_for('static', filename='images/banner.PNG') }}"
@@ -24,19 +22,21 @@
       class="hero-img">
   </section>
 
-  <!-- قسم الرحلات (مثال) -->
+  <!-- رحلات -->
   <section class="section">
     <h2 class="section-title">رحلاتنا</h2>
     <div class="cards-container">
       <article class="card">
-        <img src="{{ url_for('static', filename='images/jeddah_1.jpg') }}" alt="رحلة جدة">
+        <!-- الامتداد .JPG مطابق لملفك -->
+        <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة" loading="lazy">
         <h3>رحلة جدة</h3>
         <p>جولة على كورنيش جدة والمعالم التاريخية.</p>
         <a class="btn" href="{{ url_for('booking') }}">احجز هذه الرحلة</a>
       </article>
 
       <article class="card">
-        <img src="{{ url_for('static', filename='images/riyadh_1.jpg') }}" alt="رحلة الرياض">
+        <!-- الامتداد .JPG مطابق لملفك -->
+        <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض" loading="lazy">
         <h3>رحلة الرياض</h3>
         <p>تعرف على العاصمة ومعالمها الحديثة والتراثية.</p>
         <a class="btn" href="{{ url_for('booking') }}">احجز هذه الرحلة</a>
@@ -44,18 +44,18 @@
     </div>
   </section>
 
-  <!-- قسم المرشدين (مثال) -->
+  <!-- مرشدون (حدّث أسماء الصور إن كانت تختلف) -->
   <section class="section">
     <h2 class="section-title">مرشدونا</h2>
     <div class="cards-container">
       <article class="card">
-        <img src="{{ url_for('static', filename='images/guide1.jpg') }}" alt="مرشد سياحي">
+        <img src="{{ url_for('static', filename='images/guide1.jpg') }}" alt="مرشد سياحي" loading="lazy">
         <h3>أحمد السعيد</h3>
         <p>خبرة 10 سنوات في السياحة الداخلية.</p>
       </article>
 
       <article class="card">
-        <img src="{{ url_for('static', filename='images/guide2.jpg') }}" alt="مرشدة سياحية">
+        <img src="{{ url_for('static', filename='images/guide2.jpg') }}" alt="مرشدة سياحية" loading="lazy">
         <h3>سارة الشمري</h3>
         <p>متخصصة في تنظيم الرحلات العائلية.</p>
       </article>
