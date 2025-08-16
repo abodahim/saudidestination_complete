@@ -77,7 +77,7 @@ html, body {
   .hero-banner.has-img { aspect-ratio: 16 / 7; }
 }
 @media (max-width: 768px) {
-  .hero-banner.has-img { aspect-rio: 16 / 9; }   /* إن أردت ارتفاعاً أكبر على الجوال */
+  .hero-banner.has-img { aspect-ratio: 16 / 9; }   /* إن أردت ارتفاعاً أكبر على الجوال */
   .cards-container { gap: 16px; }
 }
 @media (max-width: 480px) {
