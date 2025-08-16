@@ -16,21 +16,20 @@ html, body {
   color: #fff;
   padding: 22px 12px;
 }
-.logo   { width: 84px; height: auto; display: block; margin: 0 auto 8px; }
-.brand  { font-size: 26px; margin-bottom: 6px; }
+.brand    { font-size: 26px; margin-bottom: 6px; }
 .subtitle { font-size: 15px; opacity: .95; }
 
 /* ===== البنر (صورة فقط) ===== */
 .hero-banner.has-img {
   position: relative;
-  aspect-ratio: 16 / 6;          /* ارتفاع مرن؛ غيّرها إن رغبت */
+  aspect-ratio: 16 / 6;          /* ارتفاع مرن */
   width: 100%;
   overflow: hidden;
   background: #e9e4d9;
 }
 
-/* تأكيد ظهور المعالم باليسار */
-.hero-banner.has-img .hero-img {
+/* ظهور المعالم التراثية باليسار */
+.hero-banner.has-img .hero-img{
   width: 100%;
   height: 100%;
   display: block;
@@ -77,12 +76,12 @@ html, body {
   .hero-banner.has-img { aspect-ratio: 16 / 7; }
 }
 @media (max-width: 768px) {
-  .hero-banner.has-img { aspect-ratio: 16 / 9; }   /* إن أردت ارتفاعاً أكبر على الجوال */
+  .hero-banner.has-img { aspect-ratio: 16 / 9; }  /* ارتفاع أكبر على الجوال */
   .cards-container { gap: 16px; }
 }
 @media (max-width: 480px) {
   .hero-banner.has-img { aspect-ratio: 16 / 10; }
-  /* لو احتجت مزيد تركيز على اليسار على الشاشات الصغيرة:
+  /* لو احتجت مزيد تركيز على اليسار:
      .hero-banner.has-img .hero-img { object-position: 12% center; } */
 }
 .booking-form {
