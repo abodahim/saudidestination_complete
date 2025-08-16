@@ -4,12 +4,10 @@ import os
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev_key")
 
-# الصفحة الرئيسية
 @app.route("/")
 def home():
     return render_template("home.html")
 
-# صفحة الحجز (اختياري – إن كنت تحتاجها)
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
     if request.method == "POST":
@@ -22,7 +20,6 @@ def booking():
             flash("فضلاً أكمل جميع الحقول.", "error")
             return redirect(url_for("booking"))
 
-        # منطق الإرسال/الحفظ هنا (بريد/قواعد بيانات...) إن رغبت
         flash("تم استلام طلبك بنجاح!", "success")
         return redirect(url_for("home"))
 
