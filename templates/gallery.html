@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض الصور - وجهة السعودية</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>وجهة السعودية</h2>
+        <ul>
+            <li><a href="{{ url_for('home') }}">🏠 الرئيسية</a></li>
+            <li><a href="{{ url_for('trips') }}">🌍 الرحلات</a></li>
+            <li><a href="{{ url_for('gallery') }}">🖼️ المعرض</a></li>
+            <li><a href="{{ url_for('contact') }}">📞 تواصل معنا</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>🖼️ معرض الصور</h1>
+        <div class="gallery">
+            <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
+            <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
+            <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع">
+        </div>
+    </div>
+</body>
+</html>
