@@ -1,33 +1,32 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تواصل معنا - وجهة السعودية</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <div class="sidebar">
-        <h2>وجهة السعودية</h2>
-        <ul>
-            <li><a href="{{ url_for('home') }}">🏠 الرئيسية</a></li>
-            <li><a href="{{ url_for('trips') }}">🌍 الرحلات</a></li>
-            <li><a href="{{ url_for('gallery') }}">🖼️ المعرض</a></li>
-            <li><a href="{{ url_for('contact') }}">📞 تواصل معنا</a></li>
-        </ul>
-    </div>
+{% extends "base.html" %}
+{% block title %}تواصل معنا{% endblock %}
 
-    <div class="content">
-        <h1>📞 تواصل معنا</h1>
-        <form action="{{ url_for('contact') }}" method="POST" class="form">
-            <label>الاسم:</label>
-            <input type="text" name="name" required>
-            <label>البريد الإلكتروني:</label>
-            <input type="email" name="email" required>
-            <label>الرسالة:</label>
-            <textarea name="message" required></textarea>
-            <button type="submit">إرسال</button>
-        </form>
-    </div>
-</body>
-</html>
+{% block header %}
+<header class="header small">
+  <h1>📞 تواصل معنا</h1>
+  <p>يسعدنا الرد على استفساراتك وملاحظاتك</p>
+</header>
+{% endblock %}
+
+{% block content %}
+<section class="contact-wrap" style="max-width:720px;margin-inline:auto">
+  <form method="POST" action="{{ url_for('contact') }}" class="form">
+    <label for="name">الاسم</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">البريد الإلكتروني</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="message">الرسالة</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button type="submit" class="btn">إرسال</button>
+  </form>
+
+  <div class="contact-info" style="margin-top:20px">
+    <p>📍 الموقع: ينبع، المملكة العربية السعودية</p>
+    <p>✉️ البريد: support@saudidest.com</p>
+    <p>📞 الهاتف: +966500000000</p>
+  </div>
+</section>
+{% endblock %}
