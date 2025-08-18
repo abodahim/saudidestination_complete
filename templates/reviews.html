@@ -1,63 +1,68 @@
-<!-- templates/reviews.html -->
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>تقييمات {{ trip }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}آراء العملاء{% endblock %}
 
-    {% include 'menu.html' %}
+{% block header %}
+<header class="header small">
+  <h1>⭐ آراء عملائنا</h1>
+  <p>تجارب حقيقية من زوار وجهة السعودية</p>
+</header>
+{% endblock %}
 
-    <div class="trips-page">
-        <h1 class="page-title">⭐ تقييمات الرحلة إلى {{ trip }}</h1>
-        <p class="page-description">آراء الزوار وتجاربهم السابقة</p>
+{% block content %}
+<section class="section" style="display:grid;gap:18px;max-width:900px;margin-inline:auto">
 
-        <!-- نموذج إضافة تقييم جديد -->
-        <div class="booking-form">
-            <h3 style="margin-bottom: 15px;">أضف تقييمك</h3>
-            <form method="POST">
-                <label>الاسم</label>
-                <input type="text" name="name" required>
-
-                <label>التقييم (من 1 إلى 5)</label>
-                <select name="rating" required>
-                    <option value="">اختر التقييم</option>
-                    <option value="5">5 - ممتاز</option>
-                    <option value="4">4 - جيد جدًا</option>
-                    <option value="3">3 - جيد</option>
-                    <option value="2">2 - مقبول</option>
-                    <option value="1">1 - ضعيف</option>
-                </select>
-
-                <label>تعليقك</label>
-                <input type="text" name="comment">
-
-                <button type="submit" class="submit-btn">إرسال التقييم</button>
-            </form>
+  <article class="side-card">
+    <h2 style="margin-top:0">أضف رأيك</h2>
+    <form class="form" method="post" action="{{ url_for('reviews') }}">
+      <div class="grid-2">
+        <div>
+          <label for="name">الاسم</label>
+          <input id="name" name="name" required>
         </div>
-
-        <!-- عرض جميع التقييمات -->
-        {% if reviews %}
-            <h3 style="margin: 40px 0 20px;">🗣️ آراء المسافرين</h3>
-            {% for r in reviews %}
-                <div class="review-card">
-                    <p><strong>الاسم:</strong> {{ r[1] }}</p>
-                    <p><strong>التقييم:</strong> {{ r[2] }} / 5</p>
-                    <p><strong>التعليق:</strong> {{ r[3] if r[3] else 'لا يوجد تعليق' }}</p>
-                    <small>🕒 تم الإرسال في: {{ r[4] }}</small>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p style="text-align:center; margin-top: 20px;">لا توجد تقييمات حتى الآن.</p>
-        {% endif %}
-
-        <!-- زر رجوع -->
-        <div style="text-align:center; margin-top: 30px;">
-            <a href="{{ url_for('trip_details', trip_name=trip) }}" class="btn">🔙 العودة لتفاصيل الرحلة</a>
+        <div>
+          <label for="rating">التقييم</label>
+          <select id="rating" name="rating" required>
+            <option value="" selected disabled>اختر</option>
+            <option value="5">5 ⭐⭐⭐⭐⭐</option>
+            <option value="4">4 ⭐⭐⭐⭐</option>
+            <option value="3">3 ⭐⭐⭐</option>
+            <option value="2">2 ⭐⭐</option>
+            <option value="1">1 ⭐</option>
+          </select>
         </div>
+      </div>
 
-    </div>
-</body>
-</html>
+      <label for="comment">تعليقك</label>
+      <textarea id="comment" name="comment" rows="4" required></textarea>
+
+      <button class="btn" type="submit">إرسال التقييم</button>
+    </form>
+  </article>
+
+  <article class="side-card">
+    <h2 style="margin-top:0">التقييمات الأخيرة</h2>
+
+    {% if reviews and reviews|length > 0 %}
+      <ul class="list" style="display:grid;gap:12px;list-style:none;padding:0;margin:0">
+        {% for r in reviews %}
+          {# r = (id, name, rating, comment, created_at) #}
+          <li class="card" style="padding:14px">
+            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+              <strong>{{ r[1] }}</strong>
+              <span aria-label="تقييم {{ r[2] }} من 5">
+                {% for _ in range(r[2]|int) %}⭐{% endfor %}
+                {% for _ in range(5 - (r[2]|int)) %}☆{% endfor %}
+              </span>
+            </div>
+            <p style="margin:8px 0">{{ r[3] }}</p>
+            <small style="color:#666">{{ r[4] }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>لا توجد تقييمات بعد. كن أول من يشارك رأيه! 🎉</p>
+    {% endif %}
+  </article>
+
+</section>
+{% endblock %}
