@@ -1,52 +1,0 @@
-<!-- templates/admin.html -->
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>لوحة التحكم</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    {% include 'menu.html' %}
-    <div class="content">
-        <h1>لوحة تحكم الحجوزات</h1>
-
-        <form method="get" action="{{ url_for('admin') }}">
-            <label for="filter_date">تصفية حسب التاريخ:</label>
-            <input type="date" name="filter_date" id="filter_date">
-            <button type="submit">تصفية</button>
-        </form>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>الاسم</th>
-                    <th>الإيميل</th>
-                    <th>رقم الجوال</th>
-                    <th>الرحلة</th>
-                    <th>التاريخ</th>
-                    <th>حذف</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in bookings %}
-                <tr>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }}</td>
-                    <td>{{ row[3] }}</td>
-                    <td>{{ row[4] }}</td>
-                    <td>{{ row[5] }}</td>
-                    <td>
-                        <form method="POST" action="{{ url_for('delete_booking', booking_id=row[0]) }}">
-                            <button type="submit">🗑️</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <a href="{{ url_for('export_bookings') }}" class="btn">تصدير إلى Excel</a>
-    </div>
-</body>
-</html>
