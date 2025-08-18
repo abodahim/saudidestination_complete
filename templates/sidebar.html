@@ -1,0 +1,25 @@
+<!-- templates/sidebar.html -->
+<aside class="sidebar">
+  <a class="brand" href="{{ url_for('home') }}">
+    <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" class="brand-logo">
+    <span class="brand-name">وجهة السعودية</span>
+  </a>
+
+  <nav class="side-nav">
+    <a href="{{ url_for('home') }}">🏠 الرئيسية</a>
+    <a href="{{ url_for('booking') }}">📝 الحجز</a>
+    <a href="{{ url_for('gallery') }}">🖼️ المعرض</a>
+    <a href="{{ url_for('contact') }}">✉️ تواصل</a>
+    <a href="{{ url_for('admin_login') }}">🛠️ لوحة الإدارة</a>
+    {# إن أضفت لاحقاً صفحات أخرى عرّف لها مسارات ثم أضفها هنا:
+       <a href="{{ url_for('about') }}">ℹ️ عن الموقع</a>
+       <a href="{{ url_for('trips') }}">🌍 الرحلات</a>
+       <a href="{{ url_for('guides') }}">🧑‍✈️ المرشدين</a>
+    #}
+  </nav>
+
+  <!-- زر إظهار/إخفاء في الشاشات الصغيرة (اختياري) -->
+  <button class="side-toggle" type="button" onclick="document.body.classList.toggle('side-open')">
+    ☰ القائمة
+  </button>
+</aside>
