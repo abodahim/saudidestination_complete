@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}تعديل حجز #{{ b[0] }}{% endblock %}
+
+{% block header %}
+<header class="header small">
+  <h1>✏️ تعديل الحجز</h1>
+  <p>رقم الحجز: #{{ b[0] }}</p>
+</header>
+{% endblock %}
+
+{% block content %}
+<section class="section" style="max-width:720px;margin-inline:auto">
+  {# b = (id,name,email,phone,trip,date,people,notes,created_at,user_id,payment_status,stripe_session_id, coupon_code, discount_halala, invoice_no) #}
+  <form method="post" action="{{ url_for('admin_edit', bid=b[0]) }}" class="form card">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+
+    <label for="name">الاسم</label>
+    <input id="name" name="name" value="{{ b[1] }}" required>
+
+    <label for="email">البريد</label>
+    <input id="email" name="email" value="{{ b[2] }}" required>
+
+    <label for="phone">الجوال</label>
+    <input id="phone" name="phone" value="{{ b[3] }}" required>
+
+    <label for="trip">الرحلة</label>
+    <input id="trip" name="trip" value="{{ b[4] }}" required>
+
+    <label for="date">التاريخ</label>
+    <input id="date" type="date" name="date" value="{{ b[5] }}">
+
+    <label for="people">الأشخاص</label>
+    <input id="people" type="number" min="1" name="people" value="{{ b[6] or 1 }}">
+
+    <label for="notes">ملاحظات</label>
+    <textarea id="notes" name="notes" rows="3">{{ b[7] or '' }}</textarea>
+
+    <label for="payment_status">حالة الدفع</label>
+    <select id="payment_status" name="payment_status">
+      <option value="unpaid" {{ 'selected' if (b[10] or '')=='unpaid' else '' }}>غير مدفوع</option>
+      <option value="paid"   {{ 'selected' if (b[10] or '')=='paid' else '' }}>مدفوع</option>
+      <option value="refunded" {{ 'selected' if (b[10] or '')=='refunded' else '' }}>مسترد</option>
+      <option value="failed" {{ 'selected' if (b[10] or '')=='failed' else '' }}>فشل</option>
+    </select>
+
+    <div class="hint" style="font-size:.9rem;color:#555">
+      <p>🎫 الكوبون المطبق: <strong>{{ b[12] or '-' }}</strong> — الخصم: <strong>{{ (b[13] or 0) // 100 }} ريال</strong></p>
+      <p>🧾 رقم الفاتورة: <strong>{{ b[14] or '-' }}</strong></p>
+      <p>🔗 Stripe Session: <span dir="ltr">{{ b[11] or '-' }}</span></p>
+      <p>⏱️ أُنشئ في: {{ b[8] }}</p>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button class="btn" type="submit">حفظ التعديلات</button>
+      <a class="btn btn-outline" href="{{ url_for('admin_dashboard') }}">رجوع</a>
+      <a class="btn btn-outline" href="{{ url_for('booking_pdf', bid=b[0]) }}">🧾 إيصال</a>
+      {% if (b[10] or '') == 'paid' %}
+        <a class="btn btn-outline" href="{{ url_for('invoice_pdf', bid=b[0]) }}">📑 فاتورة</a>
+      {% endif %}
+    </div>
+  </form>
+</section>
+{% endblock %}
