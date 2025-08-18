@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>نموذج الحجز</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=15">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة الحجز</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <header class="site-header">
-    <h1 class="brand">نموذج الحجز</h1>
-  </header>
 
-  <section class="section">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div style="max-width:540px;margin:0 auto 12px;text-align:right;">
-          {% for cat, msg in messages %}
-            <div class="flash {{cat}}">{{ msg }}</div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
+    {% include 'sidebar.html' %}
 
-    <form class="booking-form" method="post" action="{{ url_for('booking') }}">
-      <input type="text"  name="name"  placeholder="اسمك">
-      <input type="email" name="email" placeholder="بريدك الإلكتروني">
-      <input type="tel"   name="phone" placeholder="رقم الجوال">
-      <select name="trip">
-        <option value="">اختر الرحلة</option>
-        <option>رحلة جدة</option>
-        <option>رحلة الرياض</option>
-      </select>
-      <button class="btn" type="submit">احجز الآن</button>
-    </form>
-  </section>
+    <section class="booking-section">
+        <h1>📝 نموذج الحجز</h1>
+        <form action="{{ url_for('submit_booking') }}" method="POST" class="booking-form">
+            <label>الاسم الكامل:</label>
+            <input type="text" name="name" required>
+
+            <label>البريد الإلكتروني:</label>
+            <input type="email" name="email" required>
+
+            <label>رقم الجوال:</label>
+            <input type="text" name="phone" required>
+
+            <label>اختيار الرحلة:</label>
+            <select name="trip_id" required>
+                <option value="1">رحلة الرياض</option>
+                <option value="2">رحلة جدة</option>
+                <option value="3">رحلة ينبع</option>
+            </select>
+
+            <label>تاريخ الرحلة:</label>
+            <input type="date" name="date" required>
+
+            <button type="submit" class="btn">احجز الآن</button>
+        </form>
+    </section>
+
 </body>
 </html>
