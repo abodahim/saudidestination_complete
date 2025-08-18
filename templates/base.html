@@ -1,66 +1,73 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{% block title %}وجهة السعودية | الرئيسية{% endblock %}</title>
-  <meta name="description" content="{% block meta_desc %}منصة وجهة السعودية: باقات سياحية ومرشدون محليون بخبرات عالية.{% endblock %}" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <!-- خطوط محلية -->
-  <link rel="preload" href="/static/fonts/Tajawal-Regular.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="/static/fonts/Tajawal-Bold.ttf" as="font" type="font/ttf" crossorigin>
+  <!-- SEO -->
+  <meta name="description" content="وجهة السعودية: رحلات وتجارب تراثية مع مرشدين سعوديين معتمدين.">
+  <link rel="canonical" href="{{ request.url_root }}">
+  <meta property="og:locale" content="ar_SA">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="وجهة السعودية">
+  <meta property="og:description" content="رحلات وتجارب تراثية في أنحاء المملكة">
+  <meta property="og:image" content="{{ url_for('static', filename='images/banner.PNG', _external=True) }}">
+  <meta name="theme-color" content="#1c5">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/static/css/styles.css">
-  {% block head_extra %}{% endblock %}
+  <link rel="preload" as="image" href="{{ url_for('static', filename='images/banner.PNG') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  {% if GA_ID %}
+  <!-- GA4 (اختياري) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_ID }}"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments)}
+    gtag('js', new Date()); gtag('config', '{{ GA_ID }}');
+  </script>
+  {% endif %}
 </head>
+
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <button class="menu-toggle" aria-label="فتح القائمة" aria-controls="sidenav" aria-expanded="false">☰</button>
-      <a class="brand" href="/">
-        <img src="/static/images/logo.JPG" alt="شعار وجهة السعودية" class="brand-logo" />
-        <span class="brand-name">وجهة السعودية</span>
-      </a>
-      <nav class="top-links" aria-label="روابط سريعة">
-        <a href="/" class="top-link">الرحلات</a>
-        <a href="/about" class="top-link">عن المنصة</a>
-        <a href="#" class="top-link btn-primary">احجز الآن</a>
-      </nav>
-    </div>
+  <!-- شريط علوي بسيط يسند التنقل -->
+  <header class="topbar" role="banner" aria-label="الشريط العلوي">
+    <a class="logo" href="{{ url_for('home') }}" aria-label="الذهاب للرئيسية">وجهة السعودية</a>
+    <nav role="navigation" aria-label="التنقل">
+      <a href="{{ url_for('home') }}">الرئيسية</a>
+      <a href="{{ url_for('booking') }}">الحجز</a>
+      <a href="{{ url_for('gallery') }}">المعرض</a>
+      <a href="{{ url_for('contact') }}">تواصل</a>
+      <a href="{{ url_for('admin_login') }}">لوحة الإدارة</a>
+    </nav>
+    <button class="nav-toggle" aria-label="فتح/إغلاق القائمة" onclick="document.body.classList.toggle('nav-open')">☰</button>
   </header>
 
-  <aside id="sidenav" class="sidenav" aria-hidden="true" aria-label="القائمة الجانبية">
-    <div class="sidenav-head">
-      <img src="/static/images/logo.JPG" alt="شعار" />
-      <button class="close-nav" aria-label="إغلاق القائمة">×</button>
+  <!-- رسائل فلاش موحّدة -->
+  {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    <div class="flash-wrap" role="status" aria-live="polite">
+      {% for cat, msg in messages %}
+        <div class="flash {{ cat }}">{{ msg|safe }}</div>
+      {% endfor %}
     </div>
-    <ul class="sidenav-list">
-      <li><a href="/"><span class="emoji">🏠</span> الرئيسية</a></li>
-      <li><a href="#"><span class="emoji">🧭</span> الرحلات</a></li>
-      <li><a href="#"><span class="emoji">👨‍🏫</span> المرشدون</a></li>
-      <li><a href="#"><span class="emoji">📝</span> تقييمات</a></li>
-      <li><a href="#"><span class="emoji">📅</span> الحجز</a></li>
-      <li><a href="#"><span class="emoji">☎️</span> تواصل معنا</a></li>
-    </ul>
-  </aside>
+    {% endif %}
+  {% endwith %}
 
-  <div class="backdrop" hidden></div>
+  <!-- مساحة رأس الصفحة الخاصة بكل صفحة -->
+  {% block header %}{% endblock %}
 
-  {% block content %}{% endblock %}
+  <!-- المحتوى الرئيسي -->
+  <main class="container" role="main">
+    {% block content %}{% endblock %}
+  </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> وجهة السعودية. جميع الحقوق محفوظة.</p>
-      <nav class="footer-nav" aria-label="روابط التذييل">
-        <a href="#">الشروط والسياسات</a>
-        <a href="#">الأسئلة الشائعة</a>
-        <a href="#">تواصل معنا</a>
-      </nav>
-    </div>
+  <footer class="footer" role="contentinfo">
+    © {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة
   </footer>
 
-  <script src="/static/js/script.js"></script>
-  {% block body_end %}{% endblock %}
+  <!-- سكربتات (مؤجلة) -->
+  <script defer src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
