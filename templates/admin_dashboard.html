@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم الإدارية</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>لوحة الإدارة</h2>
+        <ul>
+            <li><a href="{{ url_for('admin_dashboard') }}">📋 الحجوزات</a></li>
+            <li><a href="{{ url_for('admin_reports') }}">📊 التقارير</a></li>
+            <li><a href="{{ url_for('admin_payments') }}">💳 المدفوعات</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>📋 قائمة الحجوزات</h1>
+        <table>
+            <tr>
+                <th>الاسم</th>
+                <th>البريد</th>
+                <th>الجوال</th>
+                <th>الرحلة</th>
+                <th>التاريخ</th>
+                <th>الإجراءات</th>
+            </tr>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.name }}</td>
+                <td>{{ booking.email }}</td>
+                <td>{{ booking.phone }}</td>
+                <td>{{ booking.trip }}</td>
+                <td>{{ booking.date }}</td>
+                <td>
+                    <a href="{{ url_for('delete_booking', booking_id=booking.id) }}" class="btn-danger">🗑️ حذف</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
