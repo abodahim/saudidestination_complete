@@ -1,18 +1,40 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>dashboard.html</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    
-        <section>
-            <h2>لوحة التحكم</h2>
-            <p>من هنا يمكنك إدارة الرحلات، المستخدمين، والمرشدين.</p>
-            <img src="/static/images/admin_dashboard.jpg" alt="لوحة التحكم" style="width:100%; border-radius: 12px;">
-        </section>
-    
+
+    {% include 'sidebar.html' %}
+
+    <section class="dashboard">
+        <h1>📊 لوحة التحكم</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>الاسم</th>
+                    <th>البريد</th>
+                    <th>الهاتف</th>
+                    <th>الرحلة</th>
+                    <th>التاريخ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.name }}</td>
+                    <td>{{ booking.email }}</td>
+                    <td>{{ booking.phone }}</td>
+                    <td>{{ booking.trip }}</td>
+                    <td>{{ booking.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
 </body>
 </html>
