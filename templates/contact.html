@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>تواصل معنا - وجهة السعودية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تواصل معنا - وجهة السعودية</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <div class="sidebar">
+        <h2>وجهة السعودية</h2>
+        <ul>
+            <li><a href="{{ url_for('home') }}">🏠 الرئيسية</a></li>
+            <li><a href="{{ url_for('trips') }}">🌍 الرحلات</a></li>
+            <li><a href="{{ url_for('gallery') }}">🖼️ المعرض</a></li>
+            <li><a href="{{ url_for('contact') }}">📞 تواصل معنا</a></li>
+        </ul>
+    </div>
 
-  <div class="content">
-    <h1>📞 تواصل معنا</h1>
-    <p>نحن هنا للإجابة على استفساراتك بكل سرور!</p>
-
-    <form method="POST" action="{{ url_for('contact') }}">
-      <input type="text" name="name" placeholder="الاسم الكامل" required><br>
-      <input type="email" name="email" placeholder="البريد الإلكتروني" required><br>
-      <textarea name="message" placeholder="اكتب رسالتك هنا..." required></textarea><br>
-      <button type="submit" class="btn">إرسال</button>
-    </form>
-  </div>
-
+    <div class="content">
+        <h1>📞 تواصل معنا</h1>
+        <form action="{{ url_for('contact') }}" method="POST" class="form">
+            <label>الاسم:</label>
+            <input type="text" name="name" required>
+            <label>البريد الإلكتروني:</label>
+            <input type="email" name="email" required>
+            <label>الرسالة:</label>
+            <textarea name="message" required></textarea>
+            <button type="submit">إرسال</button>
+        </form>
+    </div>
 </body>
 </html>
