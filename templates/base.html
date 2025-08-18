@@ -5,61 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <!-- SEO -->
-  <meta name="description" content="وجهة السعودية: رحلات وتجارب تراثية مع مرشدين سعوديين معتمدين.">
-  <link rel="canonical" href="{{ request.url_root }}">
+  <!-- SEO أساسية -->
+  <meta name="description" content="وجهة السعودية: رحلات وتجارب تراثية مع مرشدين سعوديين.">
   <meta property="og:locale" content="ar_SA">
   <meta property="og:type" content="website">
   <meta property="og:title" content="وجهة السعودية">
   <meta property="og:description" content="رحلات وتجارب تراثية في أنحاء المملكة">
   <meta property="og:image" content="{{ url_for('static', filename='images/banner.PNG', _external=True) }}">
-  <meta name="theme-color" content="#1c5">
+  <meta name="theme-color" content="#1c5a39">
 
   <!-- CSS -->
-  <link rel="preload" as="image" href="{{ url_for('static', filename='images/banner.PNG') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-  {% if GA_ID %}
-  <!-- GA4 (اختياري) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_ID }}"></script>
-  <script>
-    window.dataLayer=window.dataLayer||[];
-    function gtag(){dataLayer.push(arguments)}
-    gtag('js', new Date()); gtag('config', '{{ GA_ID }}');
-  </script>
-  {% endif %}
 </head>
 
 <body>
-  <!-- شريط علوي بسيط يسند التنقل -->
-  <header class="topbar" role="banner" aria-label="الشريط العلوي">
-    <a class="logo" href="{{ url_for('home') }}" aria-label="الذهاب للرئيسية">وجهة السعودية</a>
-    <nav role="navigation" aria-label="التنقل">
-      <a href="{{ url_for('home') }}">الرئيسية</a>
-      <a href="{{ url_for('booking') }}">الحجز</a>
-      <a href="{{ url_for('gallery') }}">المعرض</a>
-      <a href="{{ url_for('contact') }}">تواصل</a>
-      <a href="{{ url_for('admin_login') }}">لوحة الإدارة</a>
-    </nav>
-    <button class="nav-toggle" aria-label="فتح/إغلاق القائمة" onclick="document.body.classList.toggle('nav-open')">☰</button>
+  <!-- الهيدر الموحد مع الشعار -->
+  <header class="site-header" role="banner" aria-label="الترويسة">
+    <div class="container header-content">
+      <a href="{{ url_for('home') }}" class="brand">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+        <span class="site-title">وجهة السعودية</span>
+      </a>
+      <nav class="main-nav" role="navigation" aria-label="التنقّل">
+        <a href="{{ url_for('home') }}">الرئيسية</a>
+        <a href="{{ url_for('booking') }}">الحجز</a>
+        <a href="{{ url_for('gallery') }}">المعرض</a>
+        <a href="{{ url_for('contact') }}">تواصل</a>
+        <a href="{{ url_for('reviews') }}">آراء العملاء</a>
+        <a href="{{ url_for('admin_login') }}">لوحة الإدارة</a>
+      </nav>
+      <button class="nav-toggle" onclick="document.body.classList.toggle('nav-open')" aria-label="فتح/إغلاق القائمة">☰</button>
+    </div>
   </header>
 
-  <!-- رسائل فلاش موحّدة -->
+  <!-- رسائل فلاش إن وجدت -->
   {% with messages = get_flashed_messages(with_categories=True) %}
     {% if messages %}
-    <div class="flash-wrap" role="status" aria-live="polite">
-      {% for cat, msg in messages %}
-        <div class="flash {{ cat }}">{{ msg|safe }}</div>
-      {% endfor %}
-    </div>
+      <div class="flash-wrap container" role="status" aria-live="polite">
+        {% for cat, msg in messages %}
+          <div class="flash {{ cat }}">{{ msg|safe }}</div>
+        {% endfor %}
+      </div>
     {% endif %}
   {% endwith %}
 
-  <!-- مساحة رأس الصفحة الخاصة بكل صفحة -->
+  <!-- هيدر خاص بالصفحة (اختياري) -->
   {% block header %}{% endblock %}
 
   <!-- المحتوى الرئيسي -->
-  <main class="container" role="main">
+  <main class="container">
     {% block content %}{% endblock %}
   </main>
 
@@ -67,7 +61,7 @@
     © {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة
   </footer>
 
-  <!-- سكربتات (مؤجلة) -->
-  <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+  <!-- سكربت عام -->
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
