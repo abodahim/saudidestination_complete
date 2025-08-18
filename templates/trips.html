@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرحلات</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    {% include 'sidebar.html' %}
+
+    <section class="trips-section">
+        <h1>رحلاتنا</h1>
+        <div class="trips-container">
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
+                <h3>رحلة الرياض</h3>
+                <a href="{{ url_for('trip_details', trip_id=1) }}" class="btn">عرض التفاصيل</a>
+            </div>
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
+                <h3>رحلة جدة</h3>
+                <a href="{{ url_for('trip_details', trip_id=2) }}" class="btn">عرض التفاصيل</a>
+            </div>
+            <div class="trip-card">
+                <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع">
+                <h3>رحلة ينبع</h3>
+                <a href="{{ url_for('trip_details', trip_id=3) }}" class="btn">عرض التفاصيل</a>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
