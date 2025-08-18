@@ -10,7 +10,10 @@
       <td align="center">
         <table role="presentation" width="92%" cellpadding="0" cellspacing="0" style="max-width:700px;background:#ffffff;border-radius:12px;overflow:hidden">
           <tr>
-            <td style="background:#1c5a39;color:#fff;padding:18px 22px">
+            <td style="background:#1c5a39;color:#fff;padding:18px 22px;text-align:center">
+              <img src="{{ request.url_root.rstrip('/') }}/static/images/logo.JPG" 
+                   alt="شعار وجهة السعودية" 
+                   style="height:60px;display:block;margin:0 auto 8px">
               <h1 style="margin:0;font-size:20px">وجهة السعودية</h1>
               <p style="margin:6px 0 0;font-size:13px;opacity:.9">تأكيد استلام طلب الحجز</p>
             </td>
@@ -28,18 +31,12 @@
                 <p style="margin:6px 0"><strong>عدد الأشخاص:</strong> {{ people }}</p>
               </div>
 
-              <p style="margin:10px 0 14px">يمكنك متابعة الحجز أو إكمال الدفع من خلال الزر التالي:</p>
-
               {% set base = request.url_root.rstrip('/') %}
               <p style="margin:0 0 14px">
                 <a href="{{ base }}/payment/{{ bid }}" 
                    style="display:inline-block;background:#1c5a39;color:#fff;text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:bold">
                   متابعة / الدفع
                 </a>
-              </p>
-
-              <p style="margin:18px 0 0;font-size:13px;color:#666">
-                إن لم تكن قد طلبت هذا الحجز، فيُرجى تجاهل هذه الرسالة.
               </p>
             </td>
           </tr>
