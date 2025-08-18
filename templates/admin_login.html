@@ -1,23 +1,20 @@
-<!-- templates/admin_login.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل دخول الإدارة</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="trips-page">
-    {% include 'menu.html' %}
-    <div class="main-content" style="max-width:400px; margin:50px auto;">
-        <h2 class="page-title">تسجيل دخول الإدارة</h2>
-        <form method="POST" action="{{ url_for('admin_login') }}" class="booking-form">
-            <label for="username">اسم المستخدم</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="password">كلمة المرور</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit" class="submit-btn">دخول</button>
+<body>
+    <div class="login-container">
+        <h2>🔐 تسجيل دخول الإدارة</h2>
+        <form action="{{ url_for('admin_login') }}" method="POST">
+            <label>اسم المستخدم:</label>
+            <input type="text" name="username" required>
+            <label>كلمة المرور:</label>
+            <input type="password" name="password" required>
+            <button type="submit">تسجيل الدخول</button>
         </form>
     </div>
 </body>
