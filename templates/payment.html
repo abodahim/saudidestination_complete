@@ -2,57 +2,45 @@
 {% block title %}الدفع{% endblock %}
 
 {% block header %}
-<header class="header small">
+<section class="header small">
   <h1>💳 الدفع</h1>
-  <p>راجع تفاصيل حجزك واختر طريقة الدفع المناسبة</p>
-</header>
+</section>
 {% endblock %}
 
 {% block content %}
 <section class="section" style="max-width:820px;margin-inline:auto">
   {% if b %}
-  <article class="side-card">
-    <h2 style="margin-top:0">تفاصيل الحجز</h2>
-    <div class="grid-2">
-      <p>رقم الحجز: <strong>#{{ b[0] }}</strong></p>
-      <p>الحالة: <strong>{{ b[10] or 'unpaid' }}</strong></p>
-      <p>الاسم: <strong>{{ b[1] }}</strong></p>
-      <p>البريد: <strong dir="ltr">{{ b[2] }}</strong></p>
-      <p>الجوال: <strong dir="ltr">{{ b[3] }}</strong></p>
-      <p>الرحلة: <strong>{{ b[4] }}</strong></p>
-      <p>التاريخ: <strong>{{ b[5] }}</strong></p>
-      <p>عدد الأشخاص: <strong>{{ b[6] }}</strong></p>
-    </div>
-  </article>
-
-  {% if (b[10] or 'unpaid') == 'paid' %}
-    <div class="note-card" style="margin-top:12px">
-      <p>✅ تم الدفع بنجاح. يمكنك تحميل <a href="{{ url_for('invoice_pdf', bid=b[0]) }}">فاتورة الدفع</a> أو <a href="{{ url_for('booking_pdf', bid=b[0]) }}">إيصال الحجز</a>.</p>
-      <a class="btn" href="{{ url_for('home') }}">العودة للرئيسية</a>
-    </div>
-  {% else %}
-    <div class="side-card" style="margin-top:12px">
-      <h2 style="margin-top:0">كود الخصم</h2>
-      <form method="get" action="{{ url_for('pay_moyasar', bid=b[0]) }}" class="coupon-form" style="display:flex;gap:8px;flex-wrap:wrap">
-        <input name="code" placeholder="أدخل كوبون الخصم" class="search-input" autocomplete="off" inputmode="text" style="min-width:240px">
-        <button class="btn btn-outline" type="submit">تطبيق</button>
-      </form>
-    </div>
-
-    <div class="side-card" style="margin-top:12px">
-      <h2 style="margin-top:0">اختر طريقة الدفع</h2>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <a href="{{ url_for('pay_moyasar', bid=b[0]) }}" class="btn" aria-label="الدفع المحلي (مدى/Apple Pay)">الدفع المحلي (Moyasar)</a>
-        <a href="{{ url_for('pay_now', bid=b[0]) }}" class="btn" aria-label="الدفع عبر بطاقة (Stripe)">الدفع ببطاقة (Stripe)</a>
-        <a href="{{ url_for('booking_pdf', bid=b[0]) }}" class="btn btn-outline">تحميل إيصال الحجز</a>
+    <article class="side-card">
+      <h2 style="margin-top:0">تفاصيل الحجز</h2>
+      <div class="grid-2">
+        <p>رقم الحجز: <strong>#{{ b[0] }}</strong></p>
+        <p>الحالة: <strong>{{ b[10] or 'unpaid' }}</strong></p>
+        <p>الاسم: <strong>{{ b[1] }}</strong></p>
+        <p>البريد: <strong dir="ltr">{{ b[2] }}</strong></p>
+        <p>الجوال: <strong dir="ltr">{{ b[3] }}</strong></p>
+        <p>الرحلة: <strong>{{ b[4] }}</strong></p>
+        <p>التاريخ: <strong>{{ b[5] }}</strong></p>
+        <p>عدد الأشخاص: <strong>{{ b[6] }}</strong></p>
       </div>
-    </div>
-  {% endif %}
+    </article>
 
+    {% if (b[10] or 'unpaid') == 'paid' %}
+      <div class="note-card mt-2">
+        <p>✅ تم الدفع بنجاح.</p>
+        <a class="btn" href="{{ url_for('invoice_pdf', bid=b[0]) }}">تحميل الفاتورة</a>
+        <a class="btn btn-outline" href="{{ url_for('booking_pdf', bid=b[0]) }}">إيصال الحجز</a>
+      </div>
+    {% else %}
+      <div class="side-card mt-2">
+        <h2 style="margin-top:0">اختر طريقة الدفع</h2>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn" href="{{ url_for('pay_moyasar', bid=b[0]) }}">الدفع المحلي (Moyasar)</a>
+          <a class="btn" href="{{ url_for('pay_now', bid=b[0]) }}">الدفع ببطاقة (Stripe)</a>
+        </div>
+      </div>
+    {% endif %}
   {% else %}
-    <div class="note-card">
-      <p>لا توجد تفاصيل حجز لعرضها. يرجى العودة إلى <a href="{{ url_for('booking') }}">نموذج الحجز</a>.</p>
-    </div>
+    <p>لا توجد بيانات لعرضها.</p>
   {% endif %}
 </section>
 {% endblock %}
