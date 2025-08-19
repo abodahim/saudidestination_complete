@@ -2,38 +2,50 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
+  <meta name="description" content="وجهة السعودية: رحلات وتجارب تراثية مع مرشدين سعوديين.">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
 </head>
 <body>
 
   <!-- Header -->
   <header class="site-header">
     <div class="container header-content">
-      <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+      <a href="{{ url_for('home') }}" class="brand-link" aria-label="الرئيسية">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+      </a>
       <h1 class="site-title">وجهة السعودية</h1>
-      <button class="nav-toggle">☰</button>
-      <nav class="main-nav">
+      <button class="nav-toggle" aria-label="فتح/إغلاق القائمة">☰</button>
+      <nav class="main-nav" aria-label="التنقّل">
         <a href="{{ url_for('home') }}">الرئيسية</a>
-        <a href="{{ url_for('gallery') }}">المعرض</a>
-        <a href="{{ url_for('trips') }}">الرحلات</a>
         <a href="{{ url_for('booking') }}">الحجز</a>
-        <a href="{{ url_for('reviews') }}">الآراء</a>
-        <a href="{{ url_for('contact') }}">تواصل معنا</a>
+        <a href="{{ url_for('gallery') }}">المعرض</a>
+        <a href="{{ url_for('contact') }}">تواصل</a>
+        <a href="{{ url_for('reviews') }}">آراء العملاء</a>
+        <a href="{{ url_for('admin_login') }}">لوحة الإدارة</a>
       </nav>
     </div>
   </header>
 
-  <!-- محتوى الصفحة -->
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <div class="flash-wrap container">
+        {% for cat, msg in messages %}
+          <div class="flash {{ cat }}">{{ msg|safe }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block header %}{% endblock %}
+
   <main class="container">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>© 2025 وجهة السعودية. جميع الحقوق محفوظة.</p>
-  </footer>
-
+  <footer class="footer">© {{ 2025 }} وجهة السعودية</footer>
 </body>
 </html>
