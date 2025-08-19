@@ -1,50 +1,92 @@
 {% extends "base.html" %}
-{% block title %}الرئيسية – وجهة السعودية{% endblock %}
-
-{% block header %}
-<section class="banner">
-  <img src="{{ url_for('static', filename='images/banner.PNG') }}" alt="بنر وجهة السعودية">
-</section>
-{% endblock %}
+{% block title %}الرئيسية{% endblock %}
 
 {% block content %}
-<section class="section">
-  <h2>نبذة</h2>
-  <p>وجهة السعودية منصتك لاكتشاف أجمل الوجهات داخل المملكة مع أفضل المرشدين المحليين وتجارب تراثية أصيلة.</p>
-</section>
 
-<section class="section">
-  <h2>🌍 باقات مختارة</h2>
-  <div class="grid-2">
-    <a class="card" href="{{ url_for('booking') }}">
-      <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض" style="width:100%;border-radius:12px">
-      <h3>رحلة الرياض</h3>
-      <p>جولة في العاصمة ومعالمها التراثية.</p>
-    </a>
-    <a class="card" href="{{ url_for('booking') }}">
-      <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="جدة" style="width:100%;border-radius:12px">
-      <h3>رحلة جدة</h3>
-      <p>زيارة جدة التاريخية والأسواق الشعبية.</p>
-    </a>
-  </div>
-  <div class="center mt-2">
-    <a class="btn" href="{{ url_for('booking') }}">احجز الآن</a>
+<!-- HERO / BANNER -->
+<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}');">
+  <div class="hero-overlay"></div>
+  <div class="hero-inner container">
+    <h1 class="hero-title">وجهة السعودية</h1>
+    <p class="hero-subtitle">استكشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
+    <a href="#trips" class="btn btn-primary">اكتشف رحلاتنا</a>
   </div>
 </section>
 
-<section class="section">
-  <h2>👨‍✈️ مرشدونا</h2>
-  <div class="grid-2">
-    <div class="card">
-      <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="مرشد سياحي" style="width:100%;border-radius:12px">
-      <h3>المرشد أحمد</h3>
-      <p>خبرة 7 سنوات في جولات جدة التاريخية.</p>
-    </div>
-    <div class="card">
-      <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="مرشد سياحي" style="width:100%;border-radius:12px">
-      <h3>المرشد سارة</h3>
-      <p>متخصصة في تجارب العلا والدرعية التراثية.</p>
+<!-- ABOUT -->
+<section class="section about" id="about">
+  <div class="container">
+    <h2 class="section-title">نبذة عن المنصة</h2>
+    <p class="section-lead">
+      منصة سعودية لتجربة سياحية أصيلة داخل المملكة، مع خيارات تناسب العائلات، المدارس، والشركات.
+      نعتمد على مرشدين محليين معتمدين لنضمن لك رحلة مريحة وآمنة وثرية بالمعلومات.
+    </p>
+  </div>
+</section>
+
+<!-- TRIPS -->
+<section class="section" id="trips">
+  <div class="container">
+    <h2 class="section-title">رحلاتنا</h2>
+
+    <div class="cards-grid">
+      <article class="card">
+        <img class="card-img" src="{{ url_for('static', filename='images/jeddah.jpg') }}" alt="رحلة جدة">
+        <div class="card-body">
+          <h3 class="card-title">رحلة جدة</h3>
+          <p class="card-text">جولة على الكورنيش ومعالم جدة التاريخية والأسواق الشعبية.</p>
+          <a href="{{ url_for('booking') }}" class="btn btn-accent">احجز هذه الرحلة</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="card-img" src="{{ url_for('static', filename='images/riyadh.jpg') }}" alt="رحلة الرياض">
+        <div class="card-body">
+          <h3 class="card-title">رحلة الرياض</h3>
+          <p class="card-text">تعرف على العاصمة بتوازن معالمها الحديثة والتراثية.</p>
+          <a href="{{ url_for('booking') }}" class="btn btn-accent">احجز هذه الرحلة</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="card-img" src="{{ url_for('static', filename='images/alula.jpg') }}" alt="رحلة العلا">
+        <div class="card-body">
+          <h3 class="card-title">رحلة العلا</h3>
+          <p class="card-text">زيارة مواقع تراثية ومناظر طبيعية خلابة في قلب العلا.</p>
+          <a href="{{ url_for('booking') }}" class="btn btn-accent">احجز هذه الرحلة</a>
+        </div>
+      </article>
     </div>
   </div>
 </section>
+
+<!-- GUIDES -->
+<section class="section" id="guides">
+  <div class="container">
+    <h2 class="section-title">مرشدونا</h2>
+
+    <div class="cards-grid guides-grid">
+      <article class="guide-card">
+        <div class="guide-photo">
+          <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="مرشد سياحي">
+        </div>
+        <div class="guide-body">
+          <h3 class="guide-name">أحمد السعيد</h3>
+          <p class="guide-role">مرشد سياحي — خبرة 10 سنوات في السياحة الداخلية.</p>
+        </div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-photo">
+          <img src="{{ url_for('static', filename='images/guide2.jpg') }}" alt="مرشدة سياحية" onerror="this.src='{{ url_for('static', filename='images/guide1.PNG') }}'">
+        </div>
+        <div class="guide-body">
+          <h3 class="guide-name">نورة القحطاني</h3>
+          <p class="guide-role">مرشدة سياحية — متخصصة في التراث والثقافة المحلية.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
