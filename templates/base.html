@@ -1,83 +1,195 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  <meta name="theme-color" content="#0E4F2D" />
+  <!-- Primary SEO -->
+  <meta name="description" content="{% block meta_description %}اكتشف المملكة مع باقات سياحية ومرشدين بخبرات عالية.{% endblock %}">
+  <meta name="theme-color" content="#174D29" />
+
+  <!-- Open Graph (اختياري) -->
+  <meta property="og:locale" content="ar_SA">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}وجهة السعودية{% endblock %}">
+  <meta property="og:description" content="{% block og_desc %}اكتشف المملكة مع باقات سياحية ومرشدين بخبرات عالية.{% endblock %}">
+  <meta property="og:image" content="{{ url_for('static', filename='images/banner.PNG') }}">
+
+  <!-- أيقونة وفافيكون -->
+  <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}" type="image/jpeg" />
+
+  <!-- الخطوط - يمكن استبدالها لاحقًا -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    /* خط عربي بسيط بدون إتصال خارجي إن رغبت، أو اترك المتصفح يختار النظامي */
+    :root{
+      --brand:#174D29;        /* أخضر */
+      --brand-2:#C8A16A;      /* ذهبي */
+      --paper:#F3EFE6;        /* خلفية كريمية */
+      --ink:#1a1a1a;
+    }
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; background:var(--paper); color:var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Naskh Arabic UI", "Geeza Pro", "Tahoma", Arial, sans-serif;
+      line-height:1.8;
+    }
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* شريط علوي */
+    .topbar{
+      background:var(--brand); color:#fff;
+      position:sticky; top:0; z-index:1000;
+      box-shadow:0 2px 10px rgba(0,0,0,.06);
+    }
+    .container{width:min(1200px, 92%); margin:auto}
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; padding:10px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .brand img{width:40px; height:40px; object-fit:contain; border-radius:6px}
+    .brand span{font-weight:700; letter-spacing:.5px}
+    .menu{
+      display:flex; align-items:center; gap:18px; list-style:none; padding:0; margin:0;
+    }
+    .menu a{color:#fff; font-weight:600}
+    .menu a.active{border-bottom:2px solid var(--brand-2)}
+    .burger{display:none; color:#fff; font-size:28px; background:none; border:0}
+
+    /* هيرو افتراضي (إن لم تُعرّف block hero) */
+    .hero {
+      background:linear-gradient(0deg, rgba(23,77,41,.85), rgba(23,77,41,.85)), url('{{ url_for("static", filename="images/banner.PNG") }}') center/cover no-repeat;
+      color:#fff; text-align:center; padding:58px 0;
+    }
+    .hero h1{font-size:clamp(26px, 4.2vw, 44px); margin:10px 0}
+    .hero p{opacity:.95; margin:0; font-size:clamp(14px, 2.2vw, 18px)}
+
+    /* محتوى الصفحات */
+    main{padding:28px 0}
+
+    /* فوتر */
+    footer{background:#113820; color:#cfe1d6; padding:28px 0; margin-top:48px}
+    footer a{color:#cfe1d6}
+    .footer-grid{
+      display:grid; gap:18px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .footer-grid > div{grid-column: span 12}
+    .footer-brand{display:flex; align-items:center; gap:12px}
+    .footer-brand img{width:36px; height:36px; object-fit:contain; border-radius:6px}
+    .copyright{margin-top:10px; font-size:14px; opacity:.8}
+
+    /* استجابة */
+    @media (max-width: 900px){
+      .menu{display:none; position:absolute; right:0; left:0; top:60px; background:#1c5f34; padding:14px 18px; flex-direction:column}
+      .menu.show{display:flex}
+      .burger{display:block}
+    }
+  </style>
+
+  <!-- ملف CSS الرئيسي (حلّيًا لإضافاتك المخصّصة) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+
+  {% block extra_head %}{% endblock %}
 </head>
 <body>
 
-  <!-- ===== Header / Navbar ===== -->
-  <header class="site-header">
-    <div class="nav-wrap container">
-      <a class="brand" href="{{ url_for('home') }}" aria-label="الصفحة الرئيسية">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="brand-logo" />
-        <span class="brand-text">وجهة السعودية</span>
-      </a>
+  <!-- الشريط العلوي -->
+  <header class="topbar">
+    <div class="container">
+      <nav class="nav" aria-label="التنقل الرئيسي">
+        <a class="brand" href="{{ url_for('home') }}">
+          <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية">
+          <span>وجهة السعودية</span>
+        </a>
 
-      <!-- زر قائمة الجوال -->
-      <button class="nav-toggle" aria-label="فتح القائمة" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+        <button class="burger" id="burger" aria-label="فتح القائمة" aria-expanded="false">☰</button>
 
-      <!-- روابط التنقل -->
-      <nav class="nav-links" role="navigation">
-        <a href="{{ url_for('home') }}#about">من نحن</a>
-        <a href="{{ url_for('home') }}#trips">رحلاتنا</a>
-        <a href="{{ url_for('home') }}#guides">مرشدونا</a>
-        <a href="{{ url_for('contact') }}">تواصل معنا</a>
-        <a href="{{ url_for('booking') }}" class="btn btn-accent small">احجز الآن</a>
+        <ul class="menu" id="menu">
+          <li><a href="{{ url_for('home') }}" class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
+          <li><a href="{{ url_for('trips') }}" class="{% if request.endpoint=='trips' %}active{% endif %}">الرحلات</a></li>
+          <li><a href="{{ url_for('guides') }}" class="{% if request.endpoint=='guides' %}active{% endif %}">المرشدون</a></li>
+          <li><a href="{{ url_for('gallery') }}" class="{% if request.endpoint=='gallery' %}active{% endif %}">المعرض</a></li>
+          <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint=='contact' %}active{% endif %}">تواصل</a></li>
+          <li><a href="{{ url_for('booking') }}" class="{% if request.endpoint=='booking' %}active{% endif %}">احجز الآن</a></li>
+          <li><a href="{{ url_for('login') }}" class="{% if request.endpoint=='login' %}active{% endif %}">دخول</a></li>
+        </ul>
       </nav>
     </div>
   </header>
 
-  <!-- مسافة تعويض للـ header الثابت -->
-  <div style="height:74px"></div>
+  {% block hero %}
+  <!-- هيرو افتراضي يظهر إن لم تُعرِّف block hero في الصفحة -->
+  <section class="hero">
+    <div class="container">
+      <h1>وجهة السعودية</h1>
+      <p>اكتشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
+    </div>
+  </section>
+  {% endblock %}
 
-  <!-- ===== Main ===== -->
-  <main id="main">
+  <main id="content" class="container">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- ===== Footer ===== -->
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div class="footer-brand">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار" class="footer-logo" />
-        <p>منصة سياحية سعودية تقدّم رحلات وتجارب أصيلة مع مرشدين معتمدين.</p>
-      </div>
-
-      <div class="footer-links">
-        <h4>روابط سريعة</h4>
-        <ul>
-          <li><a href="{{ url_for('home') }}#about">من نحن</a></li>
-          <li><a href="{{ url_for('home') }}#trips">الرحلات</a></li>
-          <li><a href="{{ url_for('home') }}#guides">المرشدون</a></li>
-          <li><a href="{{ url_for('contact') }}">تواصل معنا</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-contact">
-        <h4>تواصل</h4>
-        <ul>
-          <li>البريد: <a href="mailto:{{ config.get('MAIL_FROM','info@example.com') }}">{{ config.get('MAIL_FROM','info@example.com') }}</a></li>
-          <li>الهاتف: <a href="tel:+966000000000">+966 00 000 0000</a></li>
-          <li>العنوان: الرياض، المملكة العربية السعودية</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="footer-copy">
-      <div class="container">
-        <small>© {{  now().year if callable(now) else 2025  }} وجهة السعودية — جميع الحقوق محفوظة.</small>
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار">
+            <div>
+              <strong>وجهة السعودية</strong>
+              <div class="copyright">© <span id="year"></span> جميع الحقوق محفوظة</div>
+            </div>
+          </div>
+        </div>
+        <div style="grid-column: span 12">
+          <small>
+            <a href="{{ url_for('privacy') }}">سياسة الخصوصية</a> ·
+            <a href="{{ url_for('terms') }}">الشروط والأحكام</a> ·
+            <a href="{{ url_for('contact') }}">اتصل بنا</a>
+          </small>
+        </div>
       </div>
     </div>
   </footer>
 
+  <!-- سكربتات أساسية -->
+  <script>
+    // سنة الفوتر
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // قائمة الهاتف
+    const burger = document.getElementById('burger');
+    const menu = document.getElementById('menu');
+    if (burger && menu){
+      burger.addEventListener('click', () => {
+        const open = menu.classList.toggle('show');
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+
+    // تسجيل الـ Service Worker من ملف static بدون جافاسكربت Jinja
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker
+          .register('/service-worker.js', { scope: '/' })
+          .catch(function (err) {
+            console.log('SW registration failed:', err);
+          });
+      });
+    }
+  </script>
+
+  <!-- ملف JS الرئيسي للموقع -->
   <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+  {% block extra_scripts %}{% endblock %}
 </body>
 </html>
