@@ -2,70 +2,41 @@
 {% block title %}لوحة التحكم – التقارير{% endblock %}
 
 {% block header %}
-<header class="header small">
-  <h1>📊 التقارير</h1>
-  <p>ملخّص المدفوعات والحجوزات</p>
-</header>
+<section class="header small"><h1>📊 التقارير</h1></section>
 {% endblock %}
 
 {% block content %}
 <section class="section" style="display:grid;gap:16px">
-
   <div class="side-card">
-    <h2 style="margin-top:0">الإيرادات الشهرية (مدفوع)</h2>
+    <h2 style="margin:0 0 10px">الإيرادات الشهرية</h2>
     <div class="table-wrap">
       <table class="table">
-        <thead>
-          <tr><th>الشهر</th><th>عدد العمليات</th><th>الإيراد (SAR)</th></tr>
-        </thead>
+        <thead><tr><th>الشهر</th><th>العمليات</th><th>الإيراد (SAR)</th></tr></thead>
         <tbody>
-          {% if monthly %}
-            {% for r in monthly %}
-            {# r = (ym, count, sum_amount_halala) #}
-            <tr>
-              <td>{{ r[0] }}</td>
-              <td>{{ r[1] }}</td>
-              <td>{{ (r[2] or 0) / 100 | round(2) }}</td>
-            </tr>
-            {% endfor %}
+          {% for r in monthly %}
+          <tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td><td>{{ (r[2] or 0)/100 }}</td></tr>
           {% else %}
-            <tr><td colspan="3" style="text-align:center">لا توجد بيانات بعد</td></tr>
-          {% endif %}
+          <tr><td colspan="3" class="center">لا بيانات</td></tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 
   <div class="side-card">
-    <h2 style="margin-top:0">الأداء حسب الرحلة</h2>
+    <h2 style="margin:0 0 10px">الأداء حسب الرحلة</h2>
     <div class="table-wrap">
       <table class="table">
-        <thead>
-          <tr><th>الرحلة</th><th>عدد المدفوعات</th><th>الإيراد (SAR)</th></tr>
-        </thead>
+        <thead><tr><th>الرحلة</th><th>مدفوعات</th><th>الإيراد (SAR)</th></tr></thead>
         <tbody>
-          {% if by_trip %}
-            {% for r in by_trip %}
-            {# r = (trip, count_paid, sum_amount_halala) #}
-            <tr>
-              <td>{{ r[0] }}</td>
-              <td>{{ r[1] }}</td>
-              <td>{{ (r[2] or 0) / 100 | round(2) }}</td>
-            </tr>
-            {% endfor %}
+          {% for r in by_trip %}
+          <tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td><td>{{ (r[2] or 0)/100 }}</td></tr>
           {% else %}
-            <tr><td colspan="3" style="text-align:center">لا توجد بيانات بعد</td></tr>
-          {% endif %}
+          <tr><td colspan="3" class="center">لا بيانات</td></tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
-  </div>
-
-  <div class="note-card">
-    <ul>
-      <li>المبالغ المعروضة هنا تعتمد فقط على العمليات التي حالتها <strong>paid</strong>.</li>
-      <li>يمكنك تصدير المدفوعات كاملة كـ CSV من شاشة المدفوعات.</li>
-    </ul>
   </div>
 </section>
 {% endblock %}
