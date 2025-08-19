@@ -1,16 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>فاتورة الدفع</title>
-  <style>
-    body { font-family: "Tajawal", sans-serif; margin: 30px; }
-    h1 { text-align: center; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    .footer { margin-top: 30px; text-align: center; font-size: 0.9rem; color: #555; }
-  </style>
-</head>
+<head><meta charset="utf-8"><title>فاتورة الدفع</title>
+<style>
+  body{font-family:Tajawal,Arial;margin:30px}
+  table{width:100%;border-collapse:collapse;margin-top:16px}
+  th,td{border:1px solid #ddd;padding:8px;text-align:center}
+</style></head>
 <body>
   <h1>فاتورة الدفع</h1>
   <p>رقم الحجز: <strong>#{{ b[0] }}</strong></p>
@@ -19,16 +14,8 @@
   <p>الرحلة: {{ b[4] }}</p>
   <p>التاريخ: {{ b[5] }}</p>
   <p>عدد الأشخاص: {{ b[6] }}</p>
-
   <table>
-    <thead>
-      <tr>
-        <th>الوصف</th>
-        <th>العدد</th>
-        <th>السعر (ريال)</th>
-        <th>الإجمالي</th>
-      </tr>
-    </thead>
+    <thead><tr><th>الوصف</th><th>العدد</th><th>سعر الفرد</th><th>الإجمالي</th></tr></thead>
     <tbody>
       <tr>
         <td>{{ b[4] }}</td>
@@ -38,12 +25,6 @@
       </tr>
     </tbody>
   </table>
-
-  <p style="margin-top:20px"><strong>حالة الدفع:</strong> {{ b[10] or 'غير مدفوع' }}</p>
-  <p><strong>رقم الفاتورة:</strong> {{ b[14] or '—' }}</p>
-
-  <div class="footer">
-    <p>وجهة السعودية – www.saudidest.com</p>
-  </div>
+  <p><strong>الحالة:</strong> {{ b[10] or 'غير مدفوع' }}</p>
 </body>
 </html>
