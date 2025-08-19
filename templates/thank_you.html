@@ -1,61 +1,12 @@
 {% extends "base.html" %}
-{% block title %}شكراً لحجزك{% endblock %}
-
-{% block header %}
-<header class="header small">
-  <h1>🎉 تم استلام طلبك</h1>
-  <p>سنراجع التفاصيل ونتواصل معك قريبًا.</p>
-</header>
-{% endblock %}
-
+{% block title %}شكرًا لك - وجهة السعودية{% endblock %}
 {% block content %}
-<section class="section" aria-labelledby="order-info" style="max-width:780px;margin-inline:auto">
-  {% if b %}
-    <h2 id="order-info" class="sr-only">تفاصيل الحجز</h2>
 
-    <article class="side-card">
-      <div class="grid-2">
-        <p>رقم الحجز: <strong>#{{ b[0] }}</strong></p>
-        <p>الحالة: <strong>{{ b[10] or 'unpaid' }}</strong></p>
-        <p>الاسم: <strong>{{ b[1] }}</strong></p>
-        <p>البريد: <strong>{{ b[2] }}</strong></p>
-        <p>الجوال: <strong>{{ b[3] }}</strong></p>
-        <p>الرحلة: <strong>{{ b[4] }}</strong></p>
-        <p>التاريخ: <strong>{{ b[5] }}</strong></p>
-        <p>عدد الأشخاص: <strong>{{ b[6] }}</strong></p>
-      </div>
-    </article>
-
-    <div class="success-actions" style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
-      <!-- إيصال الحجز متاح للجميع -->
-      <a href="{{ url_for('booking_pdf', bid=b[0]) }}" class="btn" aria-label="تحميل إيصال الحجز PDF">تحميل إيصال الحجز PDF</a>
-
-      {% if (b[10] or 'unpaid') == 'paid' %}
-        <!-- الفاتورة تظهر فقط إذا تم الدفع -->
-        <a href="{{ url_for('invoice_pdf', bid=b[0]) }}" class="btn" aria-label="تحميل فاتورة الدفع PDF">تحميل فاتورة الدفع PDF</a>
-      {% else %}
-        <!-- إدخال كوبون خصم + خيارات الدفع -->
-        <form method="get" action="{{ url_for('pay_moyasar', bid=b[0]) }}" class="coupon-form" style="display:inline-flex;gap:8px;flex-wrap:wrap;">
-          <input name="code" placeholder="أدخل كوبون الخصم" class="search-input" autocomplete="off" inputmode="text" style="min-width:220px">
-          <button class="btn btn-outline" type="submit">تطبيق</button>
-        </form>
-
-        <a href="{{ url_for('pay_moyasar', bid=b[0]) }}" class="btn" aria-label="الدفع المحلي (مدى/Apple Pay)">الدفع المحلي (Moyasar)</a>
-        <a href="{{ url_for('pay_now', bid=b[0]) }}" class="btn" aria-label="الدفع عبر بطاقة (Stripe)">الدفع ببطاقة (Stripe)</a>
-      {% endif %}
-
-      <a href="{{ url_for('home') }}" class="btn btn-outline" aria-label="العودة للرئيسية">العودة للرئيسية</a>
-    </div>
-
-    <div class="note-card" role="note" style="margin-top:14px">
-      <p>📧 تم إرسال رسالة تأكيد إلى بريدك المسجل. إذا لم تجدها، راجع مجلد البريد غير الهام.</p>
-      <p>للاستفسار العاجل تفضّل بزيارة صفحة <a href="{{ url_for('contact') }}">تواصل</a>.</p>
-    </div>
-
-  {% else %}
-    <h2>لم يتم العثور على تفاصيل الحجز</h2>
-    <p>يبدو أن الرابط مفقود أو انتهت الجلسة.</p>
-    <a href="{{ url_for('booking') }}" class="btn">العودة إلى نموذج الحجز</a>
-  {% endif %}
+<section class="section center">
+  <h2>🎉 شكرًا {{ b[1] }}!</h2>
+  <p>تم استلام طلب حجزك رقم <strong>#{{ b[0] }}</strong> بنجاح.</p>
+  <p>سنقوم بالتواصل معك قريبًا لتأكيد التفاصيل.</p>
+  <a href="{{ url_for('home') }}" class="btn">العودة للرئيسية</a>
 </section>
+
 {% endblock %}
