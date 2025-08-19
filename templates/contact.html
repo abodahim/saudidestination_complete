@@ -2,31 +2,27 @@
 {% block title %}تواصل معنا{% endblock %}
 
 {% block header %}
-<header class="header small">
+<section class="header small">
   <h1>📞 تواصل معنا</h1>
-  <p>يسعدنا الرد على استفساراتك وملاحظاتك</p>
-</header>
+</section>
 {% endblock %}
 
 {% block content %}
-<section class="contact-wrap" style="max-width:720px;margin-inline:auto">
-  <form method="POST" action="{{ url_for('contact') }}" class="form">
-    <label for="name">الاسم</label>
-    <input type="text" id="name" name="name" required>
-
-    <label for="email">البريد الإلكتروني</label>
-    <input type="email" id="email" name="email" required>
-
-    <label for="message">الرسالة</label>
-    <textarea id="message" name="message" rows="5" required></textarea>
-
-    <button type="submit" class="btn">إرسال</button>
+<section class="section" style="max-width:720px;margin-inline:auto">
+  <form method="post" action="{{ url_for('contact') }}" class="form card">
+    <label>الاسم</label>
+    <input name="name" required>
+    <label>البريد الإلكتروني</label>
+    <input type="email" name="email" required>
+    <label>الرسالة</label>
+    <textarea name="message" rows="5" required></textarea>
+    <button class="btn mt-2" type="submit">إرسال</button>
   </form>
 
-  <div class="contact-info" style="margin-top:20px">
-    <p>📍 الموقع: ينبع، المملكة العربية السعودية</p>
-    <p>✉️ البريد: support@saudidest.com</p>
-    <p>📞 الهاتف: +966500000000</p>
+  <div class="note-card mt-2">
+    <p>📍 ينبع، المملكة العربية السعودية</p>
+    <p>✉️ support@saudidest.com</p>
+    <p>📞 +966500000000</p>
   </div>
 </section>
 {% endblock %}
