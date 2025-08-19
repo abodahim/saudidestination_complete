@@ -1,10 +1,9 @@
 {% extends "base.html" %}
-{% block title %}الصفحة غير موجودة{% endblock %}
-
+{% block title %}404 – الصفحة غير موجودة{% endblock %}
 {% block content %}
-<section class="section" style="text-align:center;max-width:640px;margin-inline:auto">
+<section class="section center" style="max-width:640px;margin-inline:auto">
   <h1>404</h1>
-  <p>عذراً، الصفحة التي تبحث عنها غير موجودة.</p>
-  <a href="{{ url_for('home') }}" class="btn">العودة للرئيسية</a>
+  <p>عذراً، الصفحة غير موجودة.</p>
+  <a class="btn" href="{{ url_for('home') }}">العودة للرئيسية</a>
 </section>
 {% endblock %}
