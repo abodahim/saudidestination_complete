@@ -2,10 +2,9 @@
 {% block title %}آراء العملاء{% endblock %}
 
 {% block header %}
-<header class="header small">
-  <h1>⭐ آراء عملائنا</h1>
-  <p>تجارب حقيقية من زوار وجهة السعودية</p>
-</header>
+<section class="header small">
+  <h1>⭐ آراء العملاء</h1>
+</section>
 {% endblock %}
 
 {% block content %}
@@ -16,13 +15,13 @@
     <form class="form" method="post" action="{{ url_for('reviews') }}">
       <div class="grid-2">
         <div>
-          <label for="name">الاسم</label>
-          <input id="name" name="name" required>
+          <label>الاسم</label>
+          <input name="name" required>
         </div>
         <div>
-          <label for="rating">التقييم</label>
-          <select id="rating" name="rating" required>
-            <option value="" selected disabled>اختر</option>
+          <label>التقييم</label>
+          <select name="rating" required>
+            <option value="" disabled selected>اختر</option>
             <option value="5">5 ⭐⭐⭐⭐⭐</option>
             <option value="4">4 ⭐⭐⭐⭐</option>
             <option value="3">3 ⭐⭐⭐</option>
@@ -31,21 +30,17 @@
           </select>
         </div>
       </div>
-
-      <label for="comment">تعليقك</label>
-      <textarea id="comment" name="comment" rows="4" required></textarea>
-
-      <button class="btn" type="submit">إرسال التقييم</button>
+      <label>تعليقك</label>
+      <textarea name="comment" rows="4" required></textarea>
+      <button class="btn mt-2" type="submit">إرسال التقييم</button>
     </form>
   </article>
 
   <article class="side-card">
     <h2 style="margin-top:0">التقييمات الأخيرة</h2>
-
-    {% if reviews and reviews|length > 0 %}
+    {% if reviews and reviews|length %}
       <ul class="list" style="display:grid;gap:12px;list-style:none;padding:0;margin:0">
         {% for r in reviews %}
-          {# r = (id, name, rating, comment, created_at) #}
           <li class="card" style="padding:14px">
             <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
               <strong>{{ r[1] }}</strong>
@@ -54,13 +49,13 @@
                 {% for _ in range(5 - (r[2]|int)) %}☆{% endfor %}
               </span>
             </div>
-            <p style="margin:8px 0">{{ r[3] }}</p>
+            <p class="m-0 mt-1">{{ r[3] }}</p>
             <small style="color:#666">{{ r[4] }}</small>
           </li>
         {% endfor %}
       </ul>
     {% else %}
-      <p>لا توجد تقييمات بعد. كن أول من يشارك رأيه! 🎉</p>
+      <p>لا توجد تقييمات بعد.</p>
     {% endif %}
   </article>
 
