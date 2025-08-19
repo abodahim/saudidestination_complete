@@ -2,22 +2,19 @@
 {% block title %}تسجيل دخول الإدارة{% endblock %}
 
 {% block header %}
-<header class="header small">
+<section class="header small">
   <h1>🔐 تسجيل دخول الإدارة</h1>
-  <p>ادخل بياناتك للوصول إلى لوحة التحكم</p>
-</header>
+</section>
 {% endblock %}
 
 {% block content %}
-<section style="max-width:420px;margin-inline:auto">
+<section class="section" style="max-width:420px;margin-inline:auto">
   <form method="post" action="{{ url_for('admin_login') }}" class="form card">
-    <label for="username">اسم المستخدم</label>
-    <input id="username" name="username" required autocomplete="username">
-
-    <label for="password">كلمة المرور</label>
-    <input id="password" name="password" type="password" required autocomplete="current-password">
-
-    <button class="btn" type="submit" style="width:100%;margin-top:10px">تسجيل الدخول</button>
+    <label>اسم المستخدم</label>
+    <input name="username" required>
+    <label>كلمة المرور</label>
+    <input name="password" type="password" required>
+    <button class="btn mt-2" type="submit" style="width:100%">تسجيل الدخول</button>
   </form>
 </section>
 {% endblock %}
