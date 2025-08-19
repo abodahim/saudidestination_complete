@@ -1,26 +1,25 @@
 {% extends "base.html" %}
-{% block title %}معرض الصور{% endblock %}
+{% block title %}المعرض{% endblock %}
 
 {% block header %}
-<header class="header small">
+<section class="header small">
   <h1>🖼️ معرض الصور</h1>
-  <p>لقطات من رحلاتنا وتجاربنا السياحية</p>
-</header>
+</section>
 {% endblock %}
 
 {% block content %}
-<section class="gallery-grid">
+<section class="section gallery-grid">
   <figure>
-    <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
-    <figcaption>رحلة الرياض</figcaption>
+    <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض">
+    <figcaption>الرياض</figcaption>
   </figure>
   <figure>
-    <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
-    <figcaption>رحلة جدة</figcaption>
+    <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="جدة">
+    <figcaption>جدة</figcaption>
   </figure>
   <figure>
-    <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع">
-    <figcaption>رحلة ينبع</figcaption>
+    <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="ينبع">
+    <figcaption>ينبع</figcaption>
   </figure>
 </section>
 {% endblock %}
