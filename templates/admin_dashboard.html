@@ -2,64 +2,38 @@
 {% block title %}لوحة التحكم – الحجوزات{% endblock %}
 
 {% block header %}
-<header class="header small">
+<section class="header small">
   <h1>📋 لوحة التحكم – الحجوزات</h1>
-  <p>إدارة الحجوزات والبحث والتصدير</p>
-</header>
+</section>
 {% endblock %}
 
 {% block content %}
 <section class="section">
 
-  <!-- شريط أدوات -->
   <div class="toolbar" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:12px">
     <form method="get" action="{{ url_for('admin_dashboard') }}" class="form" style="display:flex;gap:8px;flex-wrap:wrap">
-      <div>
-        <label for="q">بحث</label>
-        <input id="q" name="q" value="{{ q or '' }}" placeholder="الاسم / البريد / الجوال / الرحلة / التاريخ">
-      </div>
-      <div>
-        <label for="start">من تاريخ</label>
-        <input id="start" name="start" type="date" value="{{ start or '' }}">
-      </div>
-      <div>
-        <label for="end">إلى تاريخ</label>
-        <input id="end" name="end" type="date" value="{{ end or '' }}">
-      </div>
-      <button class="btn" type="submit" style="align-self:flex-end">تصفية</button>
-      <a class="btn btn-outline" href="{{ url_for('admin_dashboard') }}" style="align-self:flex-end">إعادة ضبط</a>
+      <div><label>بحث</label><input name="q" value="{{ q or '' }}" placeholder="الاسم/البريد/الجوال/الرحلة"></div>
+      <button class="btn" type="submit">بحث</button>
+      <a class="btn btn-outline" href="{{ url_for('admin_dashboard') }}">إعادة ضبط</a>
     </form>
-
     <div style="margin-inline-start:auto;display:flex;gap:8px">
-      <a class="btn" href="{{ url_for('export_bookings_csv', q=q, start=start, end=end) }}">⬇️ تصدير CSV</a>
       <a class="btn btn-outline" href="{{ url_for('admin_payments') }}">💳 المدفوعات</a>
       <a class="btn btn-outline" href="{{ url_for('admin_reports') }}">📊 التقارير</a>
-      <a class="btn btn-outline" href="{{ url_for('admin_logout') }}">🚪 تسجيل الخروج</a>
+      <a class="btn btn-outline" href="{{ url_for('admin_logout') }}">🚪 خروج</a>
     </div>
   </div>
 
-  <!-- جدول الحجوزات -->
   <div class="table-wrap">
     <table class="table">
       <thead>
         <tr>
-          <th>#</th>
-          <th>الاسم</th>
-          <th>البريد</th>
-          <th>الجوال</th>
-          <th>الرحلة</th>
-          <th>التاريخ</th>
-          <th>الأشخاص</th>
-          <th>الحالة</th>
-          <th>أُنشئ في</th>
-          <th style="width:180px">إجراءات</th>
+          <th>#</th><th>الاسم</th><th>البريد</th><th>الجوال</th><th>الرحلة</th>
+          <th>التاريخ</th><th>الأشخاص</th><th>الحالة</th><th>أُنشئ</th><th>إجراءات</th>
         </tr>
       </thead>
       <tbody>
-        {% if bookings %}
-          {% for b in bookings %}
-          {# ترتيب الأعمدة حسب SELECT في main.py #}
-          {# b = (id,name,email,phone,trip,date,people,notes,created_at,user_id,payment_status,stripe_session_id) #}
+        {% if rows %}
+          {% for b in rows %}
           <tr>
             <td>{{ b[0] }}</td>
             <td>{{ b[1] }}</td>
@@ -68,22 +42,11 @@
             <td>{{ b[4] }}</td>
             <td>{{ b[5] }}</td>
             <td>{{ b[6] }}</td>
-            <td>
-              <span class="badge {{ 'paid' if (b[10] or '') == 'paid' else 'unpaid' }}">
-                {{ b[10] or 'unpaid' }}
-              </span>
-            </td>
+            <td><span class="badge {{ 'paid' if (b[10] or '')=='paid' else 'unpaid' }}">{{ b[10] or 'unpaid' }}</span></td>
             <td>{{ b[8] }}</td>
             <td>
               <div style="display:flex;gap:6px;flex-wrap:wrap">
                 <a class="btn btn-outline" href="{{ url_for('admin_edit', bid=b[0]) }}">✏️ تعديل</a>
-
-                <form method="post" action="{{ url_for('admin_delete', bid=b[0]) }}"
-                      onsubmit="return confirm('هل أنت متأكد من حذف الحجز #{{ b[0] }}؟')">
-                  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
-                  <button class="btn btn-danger" type="submit">🗑️ حذف</button>
-                </form>
-
                 <a class="btn btn-outline" href="{{ url_for('booking_pdf', bid=b[0]) }}">🧾 إيصال</a>
                 {% if (b[10] or '') == 'paid' %}
                   <a class="btn btn-outline" href="{{ url_for('invoice_pdf', bid=b[0]) }}">📑 فاتورة</a>
@@ -93,29 +56,11 @@
           </tr>
           {% endfor %}
         {% else %}
-          <tr><td colspan="10" style="text-align:center">لا توجد نتائج مطابقة حالياً</td></tr>
+          <tr><td colspan="10" class="center">لا توجد حجوزات حالياً</td></tr>
         {% endif %}
       </tbody>
     </table>
   </div>
 
-  <!-- ترقيم الصفحات -->
-  {% if pages and pages > 1 %}
-  <nav class="pagination" aria-label="ترقيم الصفحات">
-    {% set qp = {'q': q, 'start': start, 'end': end} %}
-    <a class="page{{ ' disabled' if page<=1 }}" href="{{ url_for('admin_dashboard', **qp, page=page-1) }}">السابق</a>
-    <span class="page-info">صفحة {{ page }} من {{ pages }}</span>
-    <a class="page{{ ' disabled' if page>=pages }}" href="{{ url_for('admin_dashboard', **qp, page=page+1) }}">التالي</a>
-  </nav>
-  {% endif %}
-
-  <!-- تلميحات -->
-  <div class="note-card" style="margin-top:12px">
-    <ul>
-      <li>تغيير حالة الدفع يتم من شاشة <strong>تعديل</strong> الحجز.</li>
-      <li>يمكن تصفية النتائج بالتاريخ أو بالكلمات المفتاحية (مثل رقم الجوال أو اسم الرحلة).</li>
-      <li>استخدم تصدير CSV لنسخ البيانات إلى Excel أو Google Sheets.</li>
-    </ul>
-  </div>
 </section>
 {% endblock %}
