@@ -1,40 +1,37 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة الحجز</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}حجز رحلة - وجهة السعودية{% endblock %}
+{% block content %}
 
-    {% include 'sidebar.html' %}
+<section class="section">
+  <h2>نموذج الحجز</h2>
+  <form method="post" class="form">
+    <label>الاسم الكامل</label>
+    <input type="text" name="name" required>
 
-    <section class="booking-section">
-        <h1>📝 نموذج الحجز</h1>
-        <form action="{{ url_for('submit_booking') }}" method="POST" class="booking-form">
-            <label>الاسم الكامل:</label>
-            <input type="text" name="name" required>
+    <label>البريد الإلكتروني</label>
+    <input type="email" name="email" required>
 
-            <label>البريد الإلكتروني:</label>
-            <input type="email" name="email" required>
+    <label>رقم الجوال</label>
+    <input type="text" name="phone" required>
 
-            <label>رقم الجوال:</label>
-            <input type="text" name="phone" required>
+    <label>اختر الرحلة</label>
+    <select name="trip" required>
+      <option value="جدة">جدة</option>
+      <option value="الرياض">الرياض</option>
+      <option value="ينبع">ينبع</option>
+    </select>
 
-            <label>اختيار الرحلة:</label>
-            <select name="trip_id" required>
-                <option value="1">رحلة الرياض</option>
-                <option value="2">رحلة جدة</option>
-                <option value="3">رحلة ينبع</option>
-            </select>
+    <label>التاريخ</label>
+    <input type="date" name="date">
 
-            <label>تاريخ الرحلة:</label>
-            <input type="date" name="date" required>
+    <label>عدد الأشخاص</label>
+    <input type="number" name="people" min="1" value="1">
 
-            <button type="submit" class="btn">احجز الآن</button>
-        </form>
-    </section>
+    <label>ملاحظات إضافية</label>
+    <textarea name="notes"></textarea>
 
-</body>
-</html>
+    <button class="btn">إرسال الحجز</button>
+  </form>
+</section>
+
+{% endblock %}
