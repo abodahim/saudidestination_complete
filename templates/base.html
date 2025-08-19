@@ -2,66 +2,38 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
-
-  <!-- SEO أساسية -->
-  <meta name="description" content="وجهة السعودية: رحلات وتجارب تراثية مع مرشدين سعوديين.">
-  <meta property="og:locale" content="ar_SA">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="وجهة السعودية">
-  <meta property="og:description" content="رحلات وتجارب تراثية في أنحاء المملكة">
-  <meta property="og:image" content="{{ url_for('static', filename='images/banner.PNG', _external=True) }}">
-  <meta name="theme-color" content="#1c5a39">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
 </head>
-
 <body>
-  <!-- الهيدر الموحد مع الشعار -->
-  <header class="site-header" role="banner" aria-label="الترويسة">
+
+  <!-- Header -->
+  <header class="site-header">
     <div class="container header-content">
-      <a href="{{ url_for('home') }}" class="brand">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
-        <span class="site-title">وجهة السعودية</span>
-      </a>
-      <nav class="main-nav" role="navigation" aria-label="التنقّل">
+      <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية" class="logo">
+      <h1 class="site-title">وجهة السعودية</h1>
+      <button class="nav-toggle">☰</button>
+      <nav class="main-nav">
         <a href="{{ url_for('home') }}">الرئيسية</a>
-        <a href="{{ url_for('booking') }}">الحجز</a>
         <a href="{{ url_for('gallery') }}">المعرض</a>
-        <a href="{{ url_for('contact') }}">تواصل</a>
-        <a href="{{ url_for('reviews') }}">آراء العملاء</a>
-        <a href="{{ url_for('admin_login') }}">لوحة الإدارة</a>
+        <a href="{{ url_for('trips') }}">الرحلات</a>
+        <a href="{{ url_for('booking') }}">الحجز</a>
+        <a href="{{ url_for('reviews') }}">الآراء</a>
+        <a href="{{ url_for('contact') }}">تواصل معنا</a>
       </nav>
-      <button class="nav-toggle" onclick="document.body.classList.toggle('nav-open')" aria-label="فتح/إغلاق القائمة">☰</button>
     </div>
   </header>
 
-  <!-- رسائل فلاش إن وجدت -->
-  {% with messages = get_flashed_messages(with_categories=True) %}
-    {% if messages %}
-      <div class="flash-wrap container" role="status" aria-live="polite">
-        {% for cat, msg in messages %}
-          <div class="flash {{ cat }}">{{ msg|safe }}</div>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
-
-  <!-- هيدر خاص بالصفحة (اختياري) -->
-  {% block header %}{% endblock %}
-
-  <!-- المحتوى الرئيسي -->
+  <!-- محتوى الصفحة -->
   <main class="container">
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="footer" role="contentinfo">
-    © {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 وجهة السعودية. جميع الحقوق محفوظة.</p>
   </footer>
 
-  <!-- سكربت عام -->
-  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
