@@ -1,108 +1,132 @@
-/* =========================
-   Saudi Destination – Styles
-   ========================= */
-
+/* ===== ألوان وهوية ===== */
 :root{
-  --bg:#F3EBDC;
-  --card:#ffffff;
-  --brand:#1c5a39;
-  --brand-2:#9B7E4B;
-  --text:#1b1b1b;
-  --muted:#6a6a6a;
-  --ring: rgba(28,90,57,.2);
-  --shadow: 0 8px 30px rgba(0,0,0,.06);
-  --radius: 14px;
+  --green:#0E4F2D;
+  --green-700:#0c3f24;
+  --sand:#F3EAD9;
+  --accent:#B9905A;
+  --text:#333;
+  --muted:#666;
+  --radius:14px;
+  --shadow:0 10px 30px rgba(0,0,0,.08);
 }
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{ scroll-behavior:smooth; }
+*{ box-sizing:border-box; }
 body{
   margin:0;
-  font-family:"Tajawal",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
-  background:var(--bg);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Kufi Arabic", "Tajawal", Arial, sans-serif;
+  background:#f7f5f2;
   color:var(--text);
   line-height:1.7;
 }
+.container{ width:min(1100px, 92%); margin-inline:auto; }
 
-/* Header & Nav */
-.site-header{background:var(--brand);padding:12px 0;box-shadow:0 2px 6px rgba(0,0,0,.08)}
-.container{max-width:1100px;margin-inline:auto;padding:0 16px}
-.header-content{display:flex;align-items:center;gap:12px}
-.logo{height:55px;width:auto;border-radius:6px;background:#fff;padding:3px}
-.site-title{color:#fff;margin:0;font-size:1.4rem}
-.main-nav{margin-inline-start:auto;display:flex;gap:12px;align-items:center}
-.main-nav a{color:#fff;text-decoration:none;opacity:.95}
-.main-nav a:hover{opacity:1}
-.nav-toggle{display:none;margin-inline-start:8px}
+/* ===== Header / Navbar ===== */
+.site-header{
+  position:fixed; top:0; inset-inline:0; z-index:1000;
+  background:var(--green);
+  box-shadow: 0 4px 18px rgba(0,0,0,.08);
+}
+.nav-wrap{
+  height:74px; display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+.brand{ display:flex; align-items:center; gap:10px; color:#fff; text-decoration:none; }
+.brand-logo{ width:42px; height:42px; object-fit:contain; border-radius:8px; background:#fff; padding:4px; }
+.brand-text{ font-weight:800; letter-spacing:.3px; }
 
-@media (max-width:860px){
-  .main-nav{display:none}
-  .nav-toggle{display:inline-block;background:#fff;color:var(--brand);border:0;border-radius:10px;padding:8px 10px}
-  body.nav-open .main-nav{display:flex;position:absolute;inset-inline:0;top:64px;background:var(--brand);padding:12px;flex-direction:column;gap:10px}
+.nav-links{ display:flex; align-items:center; gap:16px; }
+.nav-links a{ color:#fff; text-decoration:none; font-weight:600; opacity:.95; }
+.nav-links a:hover{ opacity:1; }
+.nav-links .btn.small{ padding:8px 12px; border-radius:10px; }
+
+.nav-toggle{
+  display:none; background:transparent; border:0; width:38px; height:34px; cursor:pointer;
+}
+.nav-toggle span{
+  display:block; height:3px; background:#fff; margin:6px 0; border-radius:3px;
 }
 
-/* Banner / Header sections */
-.section{padding:28px 0}
-.header{background:var(--brand);color:#fff;padding:46px 0 24px;text-align:center}
-.header.small{padding:26px 0 16px}
-.header h1{margin:0 0 8px;font-size:clamp(22px,4.5vw,36px)}
-.header p{margin:0;color:#e6f0ea}
-.banner img{width:100%;height:clamp(180px,38vw,340px);object-fit:cover;display:block}
-
-/* Cards & Tables */
-.card, .side-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
-.side-card h2{font-size:1.15rem;margin:0 0 10px}
-.table-wrap{overflow:auto}
-.table{width:100%;border-collapse:collapse}
-.table th,.table td{padding:10px 12px;border-bottom:1px solid #eee;text-align:start}
-.table th{background:#fafafa}
-.badge{padding:3px 10px;border-radius:999px;font-size:.8rem}
-.badge.paid{background:#e6f9ee;color:#0d6b3f}
-.badge.unpaid{background:#fff3cd;color:#8a6d3b}
-
-/* Forms & Buttons */
-.form input,.form select,.form textarea,input,select,textarea{
-  width:100%;border:1px solid #ddd;background:#fff;padding:10px 12px;border-radius:12px;outline:none;transition:.18s ease
+/* جوال */
+@media (max-width: 860px){
+  .nav-toggle{ display:block; }
+  .nav-links{
+    position:fixed; top:74px; inset-inline:0; background:var(--green);
+    display:flex; flex-direction:column; gap:14px; padding:16px; transform:translateY(-110%);
+    transition:.2s ease; box-shadow:0 12px 30px rgba(0,0,0,.12);
+  }
+  .nav-links.open{ transform:translateY(0); }
 }
-.form input:focus,.form select:focus,.form textarea:focus,input:focus,select:focus,textarea:focus{
-  border-color:var(--brand);box-shadow:0 0 0 4px var(--ring)
-}
-label{display:block;margin:8px 0 6px;color:#2a2a2a}
+
+/* ===== Buttons ===== */
 .btn{
-  display:inline-block;border:none;background:var(--brand);color:#fff;padding:10px 14px;border-radius:12px;
-  text-decoration:none;cursor:pointer;transition:.18s ease;
+  display:inline-block; padding:12px 20px; border-radius: 10px;
+  text-decoration:none; font-weight:700; transition:.2s ease;
 }
-.btn:hover{transform:translateY(-1px);opacity:.95}
-.btn-outline{background:#fff;color:var(--brand);border:1px solid var(--brand)}
-.btn-mini{padding:6px 10px;border-radius:10px}
+.btn-primary{ background:#fff; color:var(--green-700); }
+.btn-primary:hover{ transform:translateY(-2px); }
+.btn-accent{ background:var(--accent); color:#fff; }
+.btn-accent:hover{ filter:brightness(1.05); transform:translateY(-1px); }
 
-.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-@media (max-width:720px){.grid-2{grid-template-columns:1fr}}
+/* ===== Hero / Banner ===== */
+.hero{
+  position:relative; min-height: 54vh;
+  background-size: cover; background-position:center; background-repeat:no-repeat;
+  display:flex; align-items:center;
+}
+.hero-overlay{ position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.2) 40%, rgba(0,0,0,.05) 100%);
+}
+.hero-inner{ position:relative; text-align:center; color:#fff; padding-block: 40px; }
+.hero-title{ font-size: clamp(28px, 4.5vw, 48px); margin:0 0 10px; font-weight:800; letter-spacing:.5px; }
+.hero-subtitle{ font-size: clamp(15px, 2.3vw, 20px); opacity:.95; margin-bottom: 22px; }
 
-.note-card{background:#fff8e5;border:1px dashed #e8d19c;border-radius:12px;padding:14px}
+/* ===== Sections ===== */
+.section{ padding-block: 60px; background: #fff; }
+.section + .section{ margin-top: 20px; }
+.section-title{
+  color:var(--green); font-size: clamp(22px, 3.5vw, 32px);
+  text-align:center; margin:0 0 24px; font-weight:800;
+}
+.section-lead{ text-align:center; color:var(--muted); font-size:16px; max-width:800px; margin:0 auto; }
 
-/* Gallery */
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.gallery-grid figure{margin:0}
-.gallery-grid img{width:100%;height:200px;object-fit:cover;border-radius:12px;display:block}
-.gallery-grid figcaption{text-align:center;margin-top:6px;color:#444}
-
-/* Pagination */
-.pagination{display:flex;align-items:center;gap:10px;margin-top:12px}
-.pagination .page{padding:8px 12px;border-radius:10px;background:#fff;border:1px solid #ddd;text-decoration:none;color:#333}
-.pagination .page.disabled{opacity:.5;pointer-events:none}
-.page-info{color:#555}
-
-/* Footer */
-.footer{padding:18px 0;color:#333;text-align:center}
-
-/* Toast (flash) */
-.toast{
-  position:fixed;inset-inline:12px;bottom:12px;padding:12px 14px;border-radius:12px;color:#fff;
-  background:rgba(28,90,57,.95);box-shadow:var(--shadow);z-index:99
+/* خلفية لطيفة لقسم نبذة */
+.about{
+  background:linear-gradient(180deg, #fff, #fff7f0);
+  border-block: 1px solid #f0ece6;
 }
 
-/* Helpers */
-.center{text-align:center}
-.m-0{margin:0}
-.mt-1{margin-top:.5rem}.mt-2{margin-top:1rem}.mt-3{margin-top:1.5rem}
+/* ===== Cards ===== */
+.cards-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; }
+@media (max-width: 900px){ .cards-grid{ grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px){ .cards-grid{ grid-template-columns: 1fr; } }
+
+.card{
+  background:#fff; border-radius: var(--radius); box-shadow: var(--shadow);
+  overflow:hidden; display:flex; flex-direction:column;
+}
+.card-img{ width:100%; aspect-ratio: 16/10; object-fit:cover; }
+.card-body{ padding:18px; }
+.card-title{ margin:0 0 8px; font-size:20px; color:var(--green-700); }
+.card-text{ color:#555; margin:0 0 14px; font-size:15px; }
+
+/* ===== Guides ===== */
+.guides-grid{ align-items:stretch; }
+.guide-card{
+  background:#fff; border-radius: var(--radius); box-shadow: var(--shadow);
+  padding:16px; display:flex; gap:14px; align-items:center;
+}
+.guide-photo{ width:88px; height:88px; border-radius:50%; overflow:hidden; flex:0 0 88px; border:3px solid #eee; }
+.guide-photo img{ width:100%; height:100%; object-fit:cover; }
+.guide-name{ margin:0 0 6px; font-size:18px; color:var(--green); font-weight:800; }
+.guide-role{ margin:0; color:#666; font-size:14px; }
+
+/* ===== Footer ===== */
+.site-footer{ background:#113b24; color:#dfe7e1; margin-top:26px; }
+.footer-grid{ display:grid; grid-template-columns: 2fr 1fr 1fr; gap:26px; padding-block:28px; }
+@media (max-width: 860px){ .footer-grid{ grid-template-columns: 1fr; } }
+.footer-logo{ width:54px; height:54px; border-radius:10px; background:#fff; padding:6px; object-fit:contain; margin-bottom:10px; }
+.footer-links h4, .footer-contact h4{ margin:0 0 10px; color:#fff; }
+.footer-links ul, .footer-contact ul{ list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+.footer-links a, .footer-contact a{ color:#dfe7e1; text-decoration:none; }
+.footer-links a:hover, .footer-contact a:hover{ text-decoration:underline; }
+.footer-copy{ background:#0c2c1a; color:#cfe0d7; padding:10px 0; text-align:center; }
