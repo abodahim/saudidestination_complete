@@ -1,57 +1,108 @@
-body {
-  margin: 0;
-  font-family: 'Tajawal', sans-serif;
-  background-color: #f9f6f1;
-  color: #333;
-  text-align: center;
+/* =========================
+   Saudi Destination – Styles
+   ========================= */
+
+:root{
+  --bg:#F3EBDC;
+  --card:#ffffff;
+  --brand:#1c5a39;
+  --brand-2:#9B7E4B;
+  --text:#1b1b1b;
+  --muted:#6a6a6a;
+  --ring: rgba(28,90,57,.2);
+  --shadow: 0 8px 30px rgba(0,0,0,.06);
+  --radius: 14px;
 }
 
-.header {
-  background-color: #2f4f2f;
-  color: #fff;
-  padding: 20px;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Tajawal",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
 }
 
-.banner img {
-  width: 100%;
-  max-height: 350px;
-  object-fit: cover;
-  border-bottom: 3px solid #c2a77d;
+/* Header & Nav */
+.site-header{background:var(--brand);padding:12px 0;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.container{max-width:1100px;margin-inline:auto;padding:0 16px}
+.header-content{display:flex;align-items:center;gap:12px}
+.logo{height:55px;width:auto;border-radius:6px;background:#fff;padding:3px}
+.site-title{color:#fff;margin:0;font-size:1.4rem}
+.main-nav{margin-inline-start:auto;display:flex;gap:12px;align-items:center}
+.main-nav a{color:#fff;text-decoration:none;opacity:.95}
+.main-nav a:hover{opacity:1}
+.nav-toggle{display:none;margin-inline-start:8px}
+
+@media (max-width:860px){
+  .main-nav{display:none}
+  .nav-toggle{display:inline-block;background:#fff;color:var(--brand);border:0;border-radius:10px;padding:8px 10px}
+  body.nav-open .main-nav{display:flex;position:absolute;inset-inline:0;top:64px;background:var(--brand);padding:12px;flex-direction:column;gap:10px}
 }
 
-section {
-  padding: 30px 15px;
+/* Banner / Header sections */
+.section{padding:28px 0}
+.header{background:var(--brand);color:#fff;padding:46px 0 24px;text-align:center}
+.header.small{padding:26px 0 16px}
+.header h1{margin:0 0 8px;font-size:clamp(22px,4.5vw,36px)}
+.header p{margin:0;color:#e6f0ea}
+.banner img{width:100%;height:clamp(180px,38vw,340px);object-fit:cover;display:block}
+
+/* Cards & Tables */
+.card, .side-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+.side-card h2{font-size:1.15rem;margin:0 0 10px}
+.table-wrap{overflow:auto}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:10px 12px;border-bottom:1px solid #eee;text-align:start}
+.table th{background:#fafafa}
+.badge{padding:3px 10px;border-radius:999px;font-size:.8rem}
+.badge.paid{background:#e6f9ee;color:#0d6b3f}
+.badge.unpaid{background:#fff3cd;color:#8a6d3b}
+
+/* Forms & Buttons */
+.form input,.form select,.form textarea,input,select,textarea{
+  width:100%;border:1px solid #ddd;background:#fff;padding:10px 12px;border-radius:12px;outline:none;transition:.18s ease
+}
+.form input:focus,.form select:focus,.form textarea:focus,input:focus,select:focus,textarea:focus{
+  border-color:var(--brand);box-shadow:0 0 0 4px var(--ring)
+}
+label{display:block;margin:8px 0 6px;color:#2a2a2a}
+.btn{
+  display:inline-block;border:none;background:var(--brand);color:#fff;padding:10px 14px;border-radius:12px;
+  text-decoration:none;cursor:pointer;transition:.18s ease;
+}
+.btn:hover{transform:translateY(-1px);opacity:.95}
+.btn-outline{background:#fff;color:var(--brand);border:1px solid var(--brand)}
+.btn-mini{padding:6px 10px;border-radius:10px}
+
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:720px){.grid-2{grid-template-columns:1fr}}
+
+.note-card{background:#fff8e5;border:1px dashed #e8d19c;border-radius:12px;padding:14px}
+
+/* Gallery */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.gallery-grid figure{margin:0}
+.gallery-grid img{width:100%;height:200px;object-fit:cover;border-radius:12px;display:block}
+.gallery-grid figcaption{text-align:center;margin-top:6px;color:#444}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;gap:10px;margin-top:12px}
+.pagination .page{padding:8px 12px;border-radius:10px;background:#fff;border:1px solid #ddd;text-decoration:none;color:#333}
+.pagination .page.disabled{opacity:.5;pointer-events:none}
+.page-info{color:#555}
+
+/* Footer */
+.footer{padding:18px 0;color:#333;text-align:center}
+
+/* Toast (flash) */
+.toast{
+  position:fixed;inset-inline:12px;bottom:12px;padding:12px 14px;border-radius:12px;color:#fff;
+  background:rgba(28,90,57,.95);box-shadow:var(--shadow);z-index:99
 }
 
-h2 {
-  color: #2f4f2f;
-  margin-bottom: 20px;
-}
-
-.trip-card, .guide-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 15px;
-  margin: 15px auto;
-  max-width: 350px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.trip-card img, .guide-card img {
-  width: 100%;
-  border-radius: 8px;
-}
-
-.btn {
-  display: inline-block;
-  background-color: #c2a77d;
-  color: white;
-  padding: 10px 20px;
-  margin-top: 10px;
-  border-radius: 6px;
-  text-decoration: none;
-}
-
-.btn:hover {
-  background-color: #a88d62;
-}
+/* Helpers */
+.center{text-align:center}
+.m-0{margin:0}
+.mt-1{margin-top:.5rem}.mt-2{margin-top:1rem}.mt-3{margin-top:1.5rem}
