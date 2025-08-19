@@ -2,75 +2,35 @@
 {% block title %}لوحة التحكم – المدفوعات{% endblock %}
 
 {% block header %}
-<header class="header small">
-  <h1>💳 المدفوعات</h1>
-  <p>سجل عمليات الدفع عبر البوابات</p>
-</header>
+<section class="header small"><h1>💳 المدفوعات</h1></section>
 {% endblock %}
 
 {% block content %}
 <section class="section">
-
-  <div class="toolbar" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:12px">
-    <form method="get" action="{{ url_for('admin_payments') }}" class="form" style="display:flex;gap:8px;flex-wrap:wrap">
-      <div>
-        <label for="q">بحث</label>
-        <input id="q" name="q" value="{{ q or '' }}" placeholder="المعالجة/البوابة/الحالة/رقم الحجز">
-      </div>
-      <button class="btn" type="submit" style="align-self:flex-end">بحث</button>
-      <a class="btn btn-outline" href="{{ url_for('admin_payments') }}" style="align-self:flex-end">إعادة ضبط</a>
-    </form>
-    <div style="margin-inline-start:auto">
-      <a class="btn btn-outline" href="{{ url_for('admin_dashboard') }}">📋 الحجوزات</a>
-      <a class="btn btn-outline" href="{{ url_for('admin_reports') }}">📊 التقارير</a>
-      <a class="btn btn-outline" href="{{ url_for('admin_logout') }}">🚪 خروج</a>
-    </div>
-  </div>
-
   <div class="table-wrap">
     <table class="table">
       <thead>
-        <tr>
-          <th>#</th>
-          <th>الحجز</th>
-          <th>البوابة</th>
-          <th>رقم العملية</th>
-          <th>الحالة</th>
-          <th>المبلغ</th>
-          <th>العملة</th>
-          <th>التاريخ</th>
-        </tr>
+        <tr><th>#</th><th>الحجز</th><th>البوابة</th><th>رقم العملية</th><th>الحالة</th><th>المبلغ</th><th>العملة</th><th>التاريخ</th></tr>
       </thead>
       <tbody>
         {% if payments %}
           {% for p in payments %}
-          {# p = (id,booking_id,gateway,payment_id,status,amount,currency,created_at) #}
           <tr>
             <td>{{ p[0] }}</td>
-            <td><a href="{{ url_for('admin_edit', bid=p[1]) }}" class="btn btn-mini">#{{ p[1] }}</a></td>
+            <td>#{{ p[1] }}</td>
             <td>{{ p[2] }}</td>
-            <td dir="ltr" style="max-width:280px;overflow:auto">{{ p[3] }}</td>
-            <td>
-              <span class="badge {{ 'paid' if (p[4] or '') == 'paid' else 'unpaid' }}">{{ p[4] }}</span>
-            </td>
-            <td>{{ (p[5] or 0) / 100 | round(2) }}</td>
+            <td dir="ltr">{{ p[3] }}</td>
+            <td><span class="badge {{ 'paid' if (p[4] or '')=='paid' else 'unpaid' }}">{{ p[4] }}</span></td>
+            <td>{{ (p[5] or 0) / 100 }}</td>
             <td>{{ p[6] or 'SAR' }}</td>
             <td>{{ p[7] }}</td>
           </tr>
           {% endfor %}
         {% else %}
-          <tr><td colspan="8" style="text-align:center">لا توجد مدفوعات مسجلة حالياً</td></tr>
+          <tr><td colspan="8" class="center">لا توجد مدفوعات</td></tr>
         {% endif %}
       </tbody>
     </table>
   </div>
-
-  {% if pages and pages > 1 %}
-  <nav class="pagination" aria-label="ترقيم الصفحات">
-    <a class="page{{ ' disabled' if page<=1 }}" href="{{ url_for('admin_payments', q=q, page=page-1) }}">السابق</a>
-    <span class="page-info">صفحة {{ page }} من {{ pages }}</span>
-    <a class="page{{ ' disabled' if page>=pages }}" href="{{ url_for('admin_payments', q=q, page=page+1) }}">التالي</a>
-  </nav>
-  {% endif %}
 </section>
 {% endblock %}
