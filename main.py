@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from flask import send_from_directory
+import os
 import os, sqlite3, io, smtplib, ssl, secrets
 from datetime import datetime
 from flask import (
@@ -455,6 +457,13 @@ def admin_reports():
 def e404(e): return render_template("404.html"), 404
 @app.errorhandler(500)
 def e500(e): return render_template("500.html"), 500
+    
+# --- ضع هذا الراوت في أي مكان بعد إنشاء app ---
+@app.route('/service-worker.js')
+def service_worker():
+    # لو تضع الملف في static/js/service-worker.js
+    sw_path = os.path.join(app.static_folder, 'js')
+    return send_from_directory(sw_path, 'service-worker.js', mimetype='application/javascript')
 
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
