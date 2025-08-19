@@ -1,195 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <!-- Primary SEO -->
-  <meta name="description" content="{% block meta_description %}اكتشف المملكة مع باقات سياحية ومرشدين بخبرات عالية.{% endblock %}">
-  <meta name="theme-color" content="#174D29" />
+  <meta name="description" content="اكتشف المملكة مع باقات سياحية ومرشدين بخبرات عالية" />
+  <link rel="icon" href="{{ url_for('static', filename='img/logo.JPG') }}" />
+  <link rel="manifest" href="{{ url_for('manifest') }}">
+  <link rel="preload" as="image" href="{{ url_for('static', filename='img/banner.PNG') }}">
 
-  <!-- Open Graph (اختياري) -->
-  <meta property="og:locale" content="ar_SA">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="{% block og_title %}وجهة السعودية{% endblock %}">
-  <meta property="og:description" content="{% block og_desc %}اكتشف المملكة مع باقات سياحية ومرشدين بخبرات عالية.{% endblock %}">
-  <meta property="og:image" content="{{ url_for('static', filename='images/banner.PNG') }}">
-
-  <!-- أيقونة وفافيكون -->
-  <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}" type="image/jpeg" />
-
-  <!-- الخطوط - يمكن استبدالها لاحقًا -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <style>
-    /* خط عربي بسيط بدون إتصال خارجي إن رغبت، أو اترك المتصفح يختار النظامي */
-    :root{
-      --brand:#174D29;        /* أخضر */
-      --brand-2:#C8A16A;      /* ذهبي */
-      --paper:#F3EFE6;        /* خلفية كريمية */
-      --ink:#1a1a1a;
-    }
-    html{scroll-behavior:smooth}
-    body{
-      margin:0; background:var(--paper); color:var(--ink);
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Naskh Arabic UI", "Geeza Pro", "Tahoma", Arial, sans-serif;
-      line-height:1.8;
-    }
-    a{color:var(--brand); text-decoration:none}
-    a:hover{text-decoration:underline}
-
-    /* شريط علوي */
-    .topbar{
-      background:var(--brand); color:#fff;
-      position:sticky; top:0; z-index:1000;
-      box-shadow:0 2px 10px rgba(0,0,0,.06);
-    }
-    .container{width:min(1200px, 92%); margin:auto}
-    .nav{
-      display:flex; align-items:center; justify-content:space-between; gap:16px; padding:10px 0;
-    }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-    }
-    .brand img{width:40px; height:40px; object-fit:contain; border-radius:6px}
-    .brand span{font-weight:700; letter-spacing:.5px}
-    .menu{
-      display:flex; align-items:center; gap:18px; list-style:none; padding:0; margin:0;
-    }
-    .menu a{color:#fff; font-weight:600}
-    .menu a.active{border-bottom:2px solid var(--brand-2)}
-    .burger{display:none; color:#fff; font-size:28px; background:none; border:0}
-
-    /* هيرو افتراضي (إن لم تُعرّف block hero) */
-    .hero {
-      background:linear-gradient(0deg, rgba(23,77,41,.85), rgba(23,77,41,.85)), url('{{ url_for("static", filename="images/banner.PNG") }}') center/cover no-repeat;
-      color:#fff; text-align:center; padding:58px 0;
-    }
-    .hero h1{font-size:clamp(26px, 4.2vw, 44px); margin:10px 0}
-    .hero p{opacity:.95; margin:0; font-size:clamp(14px, 2.2vw, 18px)}
-
-    /* محتوى الصفحات */
-    main{padding:28px 0}
-
-    /* فوتر */
-    footer{background:#113820; color:#cfe1d6; padding:28px 0; margin-top:48px}
-    footer a{color:#cfe1d6}
-    .footer-grid{
-      display:grid; gap:18px;
-      grid-template-columns: repeat(12, 1fr);
-    }
-    .footer-grid > div{grid-column: span 12}
-    .footer-brand{display:flex; align-items:center; gap:12px}
-    .footer-brand img{width:36px; height:36px; object-fit:contain; border-radius:6px}
-    .copyright{margin-top:10px; font-size:14px; opacity:.8}
-
-    /* استجابة */
-    @media (max-width: 900px){
-      .menu{display:none; position:absolute; right:0; left:0; top:60px; background:#1c5f34; padding:14px 18px; flex-direction:column}
-      .menu.show{display:flex}
-      .burger{display:block}
-    }
-  </style>
-
-  <!-- ملف CSS الرئيسي (حلّيًا لإضافاتك المخصّصة) -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
-
-  {% block extra_head %}{% endblock %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
 
-  <!-- الشريط العلوي -->
-  <header class="topbar">
-    <div class="container">
-      <nav class="nav" aria-label="التنقل الرئيسي">
-        <a class="brand" href="{{ url_for('home') }}">
-          <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية">
-          <span>وجهة السعودية</span>
-        </a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="{{ url_for('home') }}">
+      <img src="{{ url_for('static', filename='img/logo.JPG') }}" alt="شعار وجهة السعودية" width="56" height="56" />
+      <span class="brand-text">وجهة السعودية</span>
+    </a>
 
-        <button class="burger" id="burger" aria-label="فتح القائمة" aria-expanded="false">☰</button>
+    <nav class="main-nav" aria-label="القائمة الرئيسية">
+      <button class="nav-toggle" aria-expanded="false" aria-controls="navMenu">☰</button>
+      <ul id="navMenu" class="nav-list">
+        <li><a class="{{ 'active' if active=='home' else '' }}"    href="{{ url_for('home') }}">الرئيسية</a></li>
+        <li><a class="{{ 'active' if active=='trips' else '' }}"    href="{{ url_for('trips') }}">الرحلات</a></li>
+        <li><a class="{{ 'active' if active=='guides' else '' }}"   href="{{ url_for('guides') }}">مرشدونا</a></li>
+        <li><a class="{{ 'active' if active=='gallery' else '' }}"  href="{{ url_for('gallery') }}">المعرض</a></li>
+        <li><a class="{{ 'active' if active=='reviews' else '' }}"  href="{{ url_for('reviews') }}">التقييمات</a></li>
+        <li><a class="{{ 'active' if active=='contact' else '' }}"  href="{{ url_for('contact') }}">تواصل معنا</a></li>
+        <li><a class="btn btn-primary {{ 'active' if active=='book' else '' }}" href="{{ url_for('book') }}">احجز الآن</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-        <ul class="menu" id="menu">
-          <li><a href="{{ url_for('home') }}" class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
-          <li><a href="{{ url_for('trips') }}" class="{% if request.endpoint=='trips' %}active{% endif %}">الرحلات</a></li>
-          <li><a href="{{ url_for('guides') }}" class="{% if request.endpoint=='guides' %}active{% endif %}">المرشدون</a></li>
-          <li><a href="{{ url_for('gallery') }}" class="{% if request.endpoint=='gallery' %}active{% endif %}">المعرض</a></li>
-          <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint=='contact' %}active{% endif %}">تواصل</a></li>
-          <li><a href="{{ url_for('booking') }}" class="{% if request.endpoint=='booking' %}active{% endif %}">احجز الآن</a></li>
-          <li><a href="{{ url_for('login') }}" class="{% if request.endpoint=='login' %}active{% endif %}">دخول</a></li>
-        </ul>
-      </nav>
+{% with msgs = get_flashed_messages(with_categories=true) %}
+  {% if msgs %}
+    <div class="flash-wrap container" role="status" aria-live="polite">
+      {% for cat, m in msgs %}
+        <div class="flash flash-{{ cat }}">{{ m }}</div>
+      {% endfor %}
     </div>
-  </header>
+  {% endif %}
+{% endwith %}
 
-  {% block hero %}
-  <!-- هيرو افتراضي يظهر إن لم تُعرِّف block hero في الصفحة -->
-  <section class="hero">
-    <div class="container">
-      <h1>وجهة السعودية</h1>
-      <p>اكتشف المملكة مع باقات سياحية ومرشدين بخبرات عالية</p>
-    </div>
-  </section>
-  {% endblock %}
+<main id="main" class="site-main">
+  {% block content %}{% endblock %}
+</main>
 
-  <main id="content" class="container">
-    {% block content %}{% endblock %}
-  </main>
+<footer class="site-footer">
+  <div class="container">
+    <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة.</p>
+    <p class="muted">
+      <a href="{{ url_for('reviews') }}">آراء العملاء</a> •
+      <a href="{{ url_for('payment') }}">الدفع</a>
+    </p>
+  </div>
+</footer>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-brand">
-            <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار">
-            <div>
-              <strong>وجهة السعودية</strong>
-              <div class="copyright">© <span id="year"></span> جميع الحقوق محفوظة</div>
-            </div>
-          </div>
-        </div>
-        <div style="grid-column: span 12">
-          <small>
-            <a href="{{ url_for('privacy') }}">سياسة الخصوصية</a> ·
-            <a href="{{ url_for('terms') }}">الشروط والأحكام</a> ·
-            <a href="{{ url_for('contact') }}">اتصل بنا</a>
-          </small>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- سكربتات أساسية -->
-  <script>
-    // سنة الفوتر
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // قائمة الهاتف
-    const burger = document.getElementById('burger');
-    const menu = document.getElementById('menu');
-    if (burger && menu){
-      burger.addEventListener('click', () => {
-        const open = menu.classList.toggle('show');
-        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+<script>
+  // زر فتح/إغلاق القائمة على الجوال
+  (function(){
+    const btn = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('navMenu');
+    if (btn && menu) {
+      btn.addEventListener('click', function () {
+        const expanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', String(!expanded));
+        menu.classList.toggle('open');
       });
     }
-
-    // تسجيل الـ Service Worker من ملف static بدون جافاسكربت Jinja
+    // تسجيل Service Worker إن وُجد
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker
-          .register('/service-worker.js', { scope: '/' })
-          .catch(function (err) {
-            console.log('SW registration failed:', err);
-          });
-      });
+      navigator.serviceWorker.register('{{ url_for("service_worker") }}').catch(()=>{});
     }
-  </script>
-
-  <!-- ملف JS الرئيسي للموقع -->
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
-
-  {% block extra_scripts %}{% endblock %}
+  })();
+</script>
+<script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </body>
 </html>
