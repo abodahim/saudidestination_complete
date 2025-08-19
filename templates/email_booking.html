@@ -1,54 +1,36 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <title>تأكيد استلام طلب الحجز</title>
-</head>
-<body style="margin:0;padding:0;background:#f6f6f6;font-family:Tahoma, Arial, sans-serif;direction:rtl;text-align:right">
+<head><meta charset="utf-8"><title>تأكيد استلام طلب الحجز</title></head>
+<body style="margin:0;padding:0;background:#f6f6f6;font-family:Tahoma,Arial,sans-serif;direction:rtl;text-align:right">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f6f6f6;padding:20px 0">
-    <tr>
-      <td align="center">
-        <table role="presentation" width="92%" cellpadding="0" cellspacing="0" style="max-width:700px;background:#ffffff;border-radius:12px;overflow:hidden">
-          <tr>
-            <td style="background:#1c5a39;color:#fff;padding:18px 22px;text-align:center">
-              <img src="{{ request.url_root.rstrip('/') }}/static/images/logo.JPG" 
-                   alt="شعار وجهة السعودية" 
-                   style="height:60px;display:block;margin:0 auto 8px">
-              <h1 style="margin:0;font-size:20px">وجهة السعودية</h1>
-              <p style="margin:6px 0 0;font-size:13px;opacity:.9">تأكيد استلام طلب الحجز</p>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:18px 22px;color:#222">
-              <p style="margin:0 0 10px">مرحباً <strong>{{ name }}</strong>،</p>
-              <p style="margin:0 0 12px">تم استلام طلب حجزك بنجاح 👌 وسنقوم بمراجعته والتواصل معك قريبًا.</p>
-
-              <div style="background:#f9f9f9;border:1px solid #eee;border-radius:10px;padding:12px 14px;margin:12px 0">
-                <p style="margin:6px 0"><strong>رقم الحجز:</strong> #{{ bid }}</p>
-                <p style="margin:6px 0"><strong>الرحلة:</strong> {{ trip }}</p>
-                <p style="margin:6px 0"><strong>التاريخ:</strong> {{ date or '—' }}</p>
-                <p style="margin:6px 0"><strong>عدد الأشخاص:</strong> {{ people }}</p>
-              </div>
-
-              {% set base = request.url_root.rstrip('/') %}
-              <p style="margin:0 0 14px">
-                <a href="{{ base }}/payment/{{ bid }}" 
-                   style="display:inline-block;background:#1c5a39;color:#fff;text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:bold">
-                  متابعة / الدفع
-                </a>
-              </p>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:14px 22px;background:#fafafa;color:#666;font-size:12px;text-align:center">
-              © {{ 2025 }} وجهة السعودية — ينبع، المملكة العربية السعودية
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
+    <tr><td align="center">
+      <table role="presentation" width="92%" cellpadding="0" cellspacing="0" style="max-width:700px;background:#ffffff;border-radius:12px;overflow:hidden">
+        <tr><td style="background:#1c5a39;color:#fff;padding:18px 22px;text-align:center">
+          <img src="{{ request.url_root.rstrip('/') }}/static/images/logo.JPG" alt="شعار وجهة السعودية" style="height:60px;display:block;margin:0 auto 8px">
+          <h1 style="margin:0;font-size:20px">وجهة السعودية</h1>
+          <p style="margin:6px 0 0;font-size:13px;opacity:.9">تأكيد استلام طلب الحجز</p>
+        </td></tr>
+        <tr><td style="padding:18px 22px;color:#222">
+          <p style="margin:0 0 10px">مرحباً <strong>{{ name }}</strong>،</p>
+          <p style="margin:0 0 12px">تم استلام طلب حجزك بنجاح 👌 وسنقوم بمراجعته والتواصل معك قريبًا.</p>
+          <div style="background:#f9f9f9;border:1px solid #eee;border-radius:10px;padding:12px 14px;margin:12px 0">
+            <p style="margin:6px 0"><strong>رقم الحجز:</strong> #{{ bid }}</p>
+            <p style="margin:6px 0"><strong>الرحلة:</strong> {{ trip }}</p>
+            <p style="margin:6px 0"><strong>التاريخ:</strong> {{ date or '—' }}</p>
+            <p style="margin:6px 0"><strong>عدد الأشخاص:</strong> {{ people }}</p>
+          </div>
+          {% set base = request.url_root.rstrip('/') %}
+          <p style="margin:0 0 14px">
+            <a href="{{ base }}/payment/{{ bid }}" style="display:inline-block;background:#1c5a39;color:#fff;text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:bold">
+              متابعة / الدفع
+            </a>
+          </p>
+        </td></tr>
+        <tr><td style="padding:14px 22px;background:#fafafa;color:#666;font-size:12px;text-align:center">
+          © {{ 2025 }} وجهة السعودية — المملكة العربية السعودية
+        </td></tr>
+      </table>
+    </td></tr>
   </table>
 </body>
 </html>
