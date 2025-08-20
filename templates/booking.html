@@ -1,25 +1,29 @@
 {% extends "base.html" %}
-{% block title %}الحجز{% endblock %}
+{% block title %}الحجز - وجهة السعودية{% endblock %}
+
+{% block hero %}
+<section class="hero hero--small" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
+  <div class="hero__overlay"><div class="container hero__content">
+    <h1 class="hero__title">طلب حجز</h1>
+    <p class="hero__lead">املأ البيانات التالية لإتمام الطلب</p>
+  </div></div>
+</section>
+{% endblock %}
 
 {% block content %}
-<section class="section" style="max-width:720px;margin-inline:auto">
-  <h1>📝 نموذج الحجز</h1>
-  <form method="post" class="form card">
-    <label>الاسم الكامل</label>
-    <input name="name" required>
-    <label>البريد الإلكتروني</label>
-    <input type="email" name="email" required>
-    <label>رقم الجوال</label>
-    <input name="phone" required>
-    <label>الرحلة</label>
-    <input name="trip" placeholder="مثال: رحلة الرياض" required>
-    <label>التاريخ</label>
-    <input type="date" name="date">
-    <label>عدد الأشخاص</label>
-    <input type="number" name="people" min="1" value="1">
-    <label>ملاحظات</label>
-    <textarea name="notes" rows="3"></textarea>
-    <button class="btn mt-2" type="submit">إرسال</button>
-  </form>
+<section class="card">
+  <div class="card__body">
+    <form method="post" class="form" novalidate>
+      <div style="display:grid; gap:.8rem;">
+        <label>الاسم الكامل<input name="name" required></label>
+        <label>البريد الإلكتروني<input name="email" type="email" required></label>
+        <label>رقم الجوال<input name="phone" type="tel" required></label>
+        <label>اسم الرحلة<input name="trip_name" required></label>
+      </div>
+      <div style="margin-top:.8rem;">
+        <button class="btn btn--primary" type="submit">إرسال الطلب</button>
+      </div>
+    </form>
+  </div>
 </section>
 {% endblock %}
