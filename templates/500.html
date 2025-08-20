@@ -1,9 +1,5 @@
 {% extends "base.html" %}
-{% block title %}خطأ داخلي{% endblock %}
+{% block title %}خطأ بالخادم{% endblock %}
 {% block content %}
-<section class="section center" style="max-width:640px;margin-inline:auto">
-  <h1>حدث خطأ</h1>
-  <p>نواجه مشكلة غير متوقعة. الرجاء المحاولة لاحقاً.</p>
-  <a class="btn" href="{{ url_for('home') }}">العودة للرئيسية</a>
-</section>
+<section class="card"><h1>حدث خطأ غير متوقع</h1><p>جرّب لاحقًا.</p></section>
 {% endblock %}
