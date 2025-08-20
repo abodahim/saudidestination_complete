@@ -1,84 +1,67 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <meta name="description" content="اكتشف المملكة مع باقات سياحية ومرشدين بخبرات عالية" />
-  <link rel="icon" href="{{ url_for('static', filename='img/logo.JPG') }}" />
-  <link rel="manifest" href="{{ url_for('manifest') }}">
-  <link rel="preload" as="image" href="{{ url_for('static', filename='img/banner.PNG') }}">
+  <!-- أيقونات المتصفح (اختياري) -->
+  <link rel="icon" href="{{ url_for('static', filename='logo.JPG') }}" type="image/jpeg">
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <!-- الأنماط -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+  {% block head_extra %}{% endblock %}
 </head>
 <body>
+  <!-- شريط علوي + شعار -->
+  <header class="topbar">
+    <div class="container topbar__wrap">
+      <a class="brand" href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='logo.JPG') }}" alt="وجهة السعودية" width="44" height="44" loading="eager">
+        <span>وجهة السعودية</span>
+      </a>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="{{ url_for('home') }}">
-      <img src="{{ url_for('static', filename='img/logo.JPG') }}" alt="شعار وجهة السعودية" width="56" height="56" />
-      <span class="brand-text">وجهة السعودية</span>
-    </a>
-
-    <nav class="main-nav" aria-label="القائمة الرئيسية">
-      <button class="nav-toggle" aria-expanded="false" aria-controls="navMenu">☰</button>
-      <ul id="navMenu" class="nav-list">
-        <li><a class="{{ 'active' if active=='home' else '' }}"    href="{{ url_for('home') }}">الرئيسية</a></li>
-        <li><a class="{{ 'active' if active=='trips' else '' }}"    href="{{ url_for('trips') }}">الرحلات</a></li>
-        <li><a class="{{ 'active' if active=='guides' else '' }}"   href="{{ url_for('guides') }}">مرشدونا</a></li>
-        <li><a class="{{ 'active' if active=='gallery' else '' }}"  href="{{ url_for('gallery') }}">المعرض</a></li>
-        <li><a class="{{ 'active' if active=='reviews' else '' }}"  href="{{ url_for('reviews') }}">التقييمات</a></li>
-        <li><a class="{{ 'active' if active=='contact' else '' }}"  href="{{ url_for('contact') }}">تواصل معنا</a></li>
-        <li><a class="btn btn-primary {{ 'active' if active=='book' else '' }}" href="{{ url_for('book') }}">احجز الآن</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-{% with msgs = get_flashed_messages(with_categories=true) %}
-  {% if msgs %}
-    <div class="flash-wrap container" role="status" aria-live="polite">
-      {% for cat, m in msgs %}
-        <div class="flash flash-{{ cat }}">{{ m }}</div>
-      {% endfor %}
+      <nav class="nav">
+        <button id="menuToggle" class="nav__toggle" aria-label="فتح القائمة">☰</button>
+        <ul class="nav__list" id="mainNav">
+          <li><a href="{{ url_for('home') }}"   class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
+          <li><a href="{{ url_for('trips') }}"  class="{% if request.endpoint=='trips' %}active{% endif %}">الرحلات</a></li>
+          <li><a href="{{ url_for('guides') }}" class="{% if request.endpoint=='guides' %}active{% endif %}">مرشدونا</a></li>
+          <li><a href="{{ url_for('gallery') }}" class="{% if request.endpoint=='gallery' %}active{% endif %}">المعرض</a></li>
+          <li><a href="{{ url_for('reviews') }}" class="{% if request.endpoint=='reviews' %}active{% endif %}">التقييمات</a></li>
+          <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint=='contact' %}active{% endif %}">تواصل معنا</a></li>
+          <li><a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a></li>
+        </ul>
+      </nav>
     </div>
-  {% endif %}
-{% endwith %}
+  </header>
 
-<main id="main" class="site-main">
-  {% block content %}{% endblock %}
-</main>
+  <!-- بنر الصفحة الرئيسية (استخدمه في home عبر block) -->
+  {% block hero %}{% endblock %}
 
-<footer class="site-footer">
-  <div class="container">
-    <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة.</p>
-    <p class="muted">
-      <a href="{{ url_for('reviews') }}">آراء العملاء</a> •
-      <a href="{{ url_for('payment') }}">الدفع</a>
-    </p>
-  </div>
-</footer>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
 
-<script>
-  // زر فتح/إغلاق القائمة على الجوال
-  (function(){
-    const btn = document.querySelector('.nav-toggle');
-    const menu = document.getElementById('navMenu');
-    if (btn && menu) {
-      btn.addEventListener('click', function () {
-        const expanded = this.getAttribute('aria-expanded') === 'true';
-        this.setAttribute('aria-expanded', String(!expanded));
-        menu.classList.toggle('open');
+  <footer class="footer">
+    <div class="container">
+      <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+
+  <!-- تسجيل Service Worker من داخل static فقط -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register("{{ url_for('static', filename='service-worker.js') }}")
+          .catch(console.error);
       });
     }
-    // تسجيل Service Worker إن وُجد
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('{{ url_for("service_worker") }}').catch(()=>{});
-    }
-  })();
-</script>
-<script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  </script>
+  {% block body_extra %}{% endblock %}
 </body>
 </html>
