@@ -1,28 +1,73 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المرشدون السياحيون</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}مرشدونا - وجهة السعودية{% endblock %}
 
-    {% include 'sidebar.html' %}
+{% block hero %}
+<section class="hero" style="background-image:url('{{ url_for('static', filename='banner.PNG') }}')">
+  <div class="hero__overlay">
+    <div class="container hero__content">
+      <h1 class="hero__title">مرشدونا</h1>
+      <p class="hero__lead">نخبة من المرشدين المحليين المعتمدين بخبرة عالية</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
 
-    <section class="guides-section">
-        <h1>🧑‍✈️ المرشدون</h1>
-        <div class="guides-container">
-            {% for guide in guides %}
-            <div class="guide-card">
-                <img src="{{ url_for('static', filename='images/' + guide.image) }}" alt="مرشد سياحي">
-                <h3>{{ guide.name }}</h3>
-                <p>{{ guide.experience }}</p>
-                <a href="{{ url_for('guide_details', guide_id=guide.id) }}" class="btn">التفاصيل</a>
-            </div>
-            {% endfor %}
+{% block content %}
+  <!-- نبذة قصيرة -->
+  <section>
+    <h2 class="section-title">لماذا مرشدونا؟</h2>
+    <p class="container" style="text-align:center; max-width:800px; margin:auto;">
+      نحرص على تقديم تجربة أصيلة وممتعة عبر مرشدين محليين معتمدين، بخبرةٍ في إدارة الرحلات العائلية،
+      المدرسية، ورحلات الشركات. يتحدثون العربية والإنجليزية، ويعرفون مناطق الجذب وأفضل الأوقات لزيارتها.
+    </p>
+  </section>
+
+  <!-- شبكة بطاقات المرشدين -->
+  <section class="container">
+    <div class="cards">
+      <!-- مرشد 1 -->
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/guide1.PNG') }}"
+             alt="أحمد السبيعي - مرشد سياحي"
+             onerror="this.src='{{ url_for('static', filename='images/guide1.PNG') }}'">
+        <div class="card__body">
+          <h3>أحمد السبيعي</h3>
+          <p>مرشد معتمد بخبرة 7 سنوات في تنظيم الرحلات العائلية ورحلات الشركات داخل المملكة.</p>
+          <a href="{{ url_for('contact') }}" class="btn">تواصل معه</a>
         </div>
-    </section>
+      </div>
 
-</body>
-</html>
+      <!-- مرشدة 2 -->
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/guide2.PNG') }}"
+             alt="سارة العتيبي - مرشدة سياحية"
+             onerror="this.src='{{ url_for('static', filename='images/guide1.PNG') }}'">
+        <div class="card__body">
+          <h3>سارة العتيبي</h3>
+          <p>متخصصة في السياحة الثقافية والتراثية، وإعداد برامج للمدارس والمجموعات السياحية.</p>
+          <a href="{{ url_for('contact') }}" class="btn">تواصل معها</a>
+        </div>
+      </div>
+
+      <!-- مرشد 3 -->
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/guide3.PNG') }}"
+             alt="خالد الزهراني - مرشد سياحي"
+             onerror="this.src='{{ url_for('static', filename='images/guide1.PNG') }}'">
+        <div class="card__body">
+          <h3>خالد الزهراني</h3>
+          <p>خبرة واسعة في الوجهات الطبيعية والأنشطة الخارجية، مع إتقان إدارة الوقت والسلامة.</p>
+          <a href="{{ url_for('contact') }}" class="btn">تواصل معه</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ملاحظة -->
+  <section class="container" style="margin-top:24px; text-align:center;">
+    <p style="color:#4b5b53">
+      لا ترى مرشدك المفضل؟ يسعدنا توفير مرشدين إضافيين حسب الطلب.
+      <a href="{{ url_for('contact') }}">تواصل معنا</a>
+    </p>
+  </section>
+{% endblock %}
