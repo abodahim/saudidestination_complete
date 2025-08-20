@@ -1,22 +1,21 @@
 import os
 from flask import (
     Flask, render_template, request, redirect,
-    url_for, flash, send_from_directory, jsonify
+    url_for, flash, send_from_directory
 )
 
 app = Flask(__name__, static_url_path="/static")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "change-this-secret")
 
-# ---------------------------
+# ===========================
 # صفحات عامة
-# ---------------------------
+# ===========================
 @app.route("/")
 def home():
     return render_template("home.html", active="home")
 
 @app.route("/trips")
 def trips():
-    # إن كانت لديك صفحة رحلات مستقلة
     return render_template("trips.html", active="trips")
 
 @app.route("/guides")
@@ -34,22 +33,21 @@ def reviews():
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
-        # مثال بسيط لمعالجة الرسالة
         name = request.form.get("name", "").strip()
         email = request.form.get("email", "").strip()
         message = request.form.get("message", "").strip()
-        # TODO: احفظ/أرسل الرسالة كما تريد
+        # TODO: احفظ/أرسل الرسالة
         flash("تم استلام رسالتك بنجاح، وسنعاود التواصل قريبًا.", "success")
         return redirect(url_for("thank_you"))
     return render_template("contact.html", active="contact")
 
-# ---------------------------
+# ===========================
 # الحجز والدفع
-# ---------------------------
-@app.route("/book", methods=["GET", "POST"])
-def book():
+# ===========================
+# endpoint الرسمي المتوافق مع القالب: /booking
+@app.route("/booking", methods=["GET", "POST"])
+def booking():
     if request.method == "POST":
-        # التحقق السريع
         name = request.form.get("name", "").strip()
         email = request.form.get("email", "").strip()
         phone = request.form.get("phone", "").strip()
@@ -57,16 +55,21 @@ def book():
 
         if not name or not email or not phone or not trip_name:
             flash("الرجاء تعبئة جميع الحقول المطلوبة.", "danger")
-            return redirect(url_for("book"))
+            return redirect(url_for("booking"))
 
-        # TODO: خزّن الحجز – أرسل بريدًا – أنشئ فاتورة … إلخ
+        # TODO: خزّن الحجز/أرسل بريد/أنشئ فاتورة
         flash("تم إرسال طلب الحجز بنجاح.", "success")
         return redirect(url_for("thank_you"))
+
     return render_template("booking.html", active="book")
+
+# تحويل أي استخدام قديم لـ /book إلى /booking
+@app.route("/book", methods=["GET", "POST"])
+def book_legacy():
+    return redirect(url_for("booking"), code=301)
 
 @app.route("/payment", methods=["GET", "POST"])
 def payment():
-    # صفحة دفع تجريبية/توضيحية
     if request.method == "POST":
         flash("تم استلام عملية الدفع بنجاح.", "success")
         return redirect(url_for("thank_you"))
@@ -74,20 +77,18 @@ def payment():
 
 @app.route("/invoice/<string:booking_id>")
 def invoice(booking_id):
-    # نموذج بسيط لعرض فاتورة
     return render_template("invoice.html", booking_id=booking_id, active=None)
 
 @app.route("/thank-you")
 def thank_you():
     return render_template("thank_you.html", active=None)
 
-# ---------------------------
-# الدخول والإدارة (شكل مبدئي)
-# ---------------------------
+# ===========================
+# الدخول والإدارة (مبدئي)
+# ===========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        # تحقق بسيط – بدّلها لاحقًا بنظام حقيقي
         if request.form.get("username") == "admin" and request.form.get("password") == "admin":
             flash("تم تسجيل الدخول.", "success")
             return redirect(url_for("admin_dashboard"))
@@ -96,15 +97,14 @@ def login():
 
 @app.route("/admin")
 def admin_dashboard():
-    # لوحة إدارية مبدئية
     return render_template("admin_dashboard.html", active=None)
 
-# ---------------------------
-# ملفات ثابتة مطلوبة لتجنّب أخطاء 404 في السجلات
-# ---------------------------
+# ===========================
+# ملفات ثابتة مطلوبة لتجنّب 404
+# ===========================
+# نخدم SW من الجذر، والملف موجود داخل static/service-worker.js
 @app.route("/service-worker.js")
 def service_worker():
-    # تأكد من وجود هذا الملف داخل static/ حتى لو فارغ
     return send_from_directory("static", "service-worker.js", mimetype="application/javascript")
 
 @app.route("/manifest.webmanifest")
@@ -113,14 +113,11 @@ def manifest():
 
 @app.route("/robots.txt")
 def robots():
-    return send_from_directory("static", "robots.txt")
+    return send_from_directory("static", "robots.txt", mimetype="text/plain")
 
-@app.route('/booking')
-def booking():
-    return render_template('booking.html')
-# ---------------------------
-# نقطة التشغيل
-# ---------------------------
+# ===========================
+# التشغيل
+# ===========================
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
