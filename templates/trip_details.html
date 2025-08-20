@@ -1,37 +1,30 @@
 {% extends "base.html" %}
-{% block title %}تفاصيل الرحلة{% endblock %}
+{% block title %}تفاصيل الرحلة #{{ trip_id }} - وجهة السعودية{% endblock %}
 
 {% block hero %}
 <section class="hero hero--small" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
-  <div class="hero__overlay">
-    <div class="container hero__content">
-      <h1 class="hero__title">تفاصيل الرحلة #{{ trip_id }}</h1>
-      <p class="hero__lead">كل ما تحتاج معرفته عن الرحلة المختارة</p>
-    </div>
-  </div>
+  <div class="hero__overlay"><div class="container hero__content">
+    <h1 class="hero__title">تفاصيل الرحلة #{{ trip_id }}</h1>
+    <p class="hero__lead">برنامج الرحلة والمعلومات</p>
+  </div></div>
 </section>
 {% endblock %}
 
 {% block content %}
 <article class="trip">
   <div class="trip__gallery">
-    <!-- عدّل الصور حسب الرحلة الحقيقية -->
     <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="صورة 1" loading="lazy">
-    <img src="{{ url_for('static', filename='images/jeddah_2.JPG') }}" alt="صورة 2" loading="lazy">
-    <img src="{{ url_for('static', filename='images/jeddah_3.JPG') }}" alt="صورة 3" loading="lazy">
+    <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="صورة 2" loading="lazy">
+    <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}"  alt="صورة 3" loading="lazy">
   </div>
-
   <div class="trip__body">
-    <h2>وصف الرحلة</h2>
-    <p>
-      تجربة ممتعة للتعرف على أبرز المعالم، مع مرشد محلي وخيارات نقل مريحة.
-      تشمل الزيارة نقاط توقف للتصوير وتذوّق المأكولات المحلية.
-    </p>
+    <h2>وصف مختصر</h2>
+    <p>تجربة ممتعة للتعرّف على أبرز المعالم مع مرشد محلي وخيارات نقل مريحة.</p>
 
-    <h3>البرنامج اليومي</h3>
+    <h3>البرنامج</h3>
     <ul class="checklist">
-      <li>التجمّع والانطلاق</li>
-      <li>زيارة أهم المعالم</li>
+      <li>انطلاق من نقطة اللقاء</li>
+      <li>زيارة المعالم الرئيسية</li>
       <li>استراحة وغداء</li>
       <li>جولة مسائية واختتام</li>
     </ul>
