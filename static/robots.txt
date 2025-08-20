@@ -1,4 +1,2 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://saudidestination-complete-1.onrender.com/sitemap.xml
