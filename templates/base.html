@@ -6,16 +6,16 @@
   <meta name="color-scheme" content="light">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <!-- أيقونات المتصفح (اختياري) -->
+  <!-- Favicon -->
   <link rel="icon" href="{{ url_for('static', filename='logo.JPG') }}" type="image/jpeg">
 
-  <!-- الأنماط -->
+  <!-- Styles -->
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
   {% block head_extra %}{% endblock %}
 </head>
 <body>
-  <!-- شريط علوي + شعار -->
+  <!-- Header -->
   <header class="topbar">
     <div class="container topbar__wrap">
       <a class="brand" href="{{ url_for('home') }}">
@@ -23,12 +23,12 @@
         <span>وجهة السعودية</span>
       </a>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="القائمة الرئيسية">
         <button id="menuToggle" class="nav__toggle" aria-label="فتح القائمة">☰</button>
         <ul class="nav__list" id="mainNav">
-          <li><a href="{{ url_for('home') }}"   class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
-          <li><a href="{{ url_for('trips') }}"  class="{% if request.endpoint=='trips' %}active{% endif %}">الرحلات</a></li>
-          <li><a href="{{ url_for('guides') }}" class="{% if request.endpoint=='guides' %}active{% endif %}">مرشدونا</a></li>
+          <li><a href="{{ url_for('home') }}"    class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
+          <li><a href="{{ url_for('trips') }}"   class="{% if request.endpoint=='trips' %}active{% endif %}">الرحلات</a></li>
+          <li><a href="{{ url_for('guides') }}"  class="{% if request.endpoint=='guides' %}active{% endif %}">مرشدونا</a></li>
           <li><a href="{{ url_for('gallery') }}" class="{% if request.endpoint=='gallery' %}active{% endif %}">المعرض</a></li>
           <li><a href="{{ url_for('reviews') }}" class="{% if request.endpoint=='reviews' %}active{% endif %}">التقييمات</a></li>
           <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint=='contact' %}active{% endif %}">تواصل معنا</a></li>
@@ -38,7 +38,7 @@
     </div>
   </header>
 
-  <!-- بنر الصفحة الرئيسية (استخدمه في home عبر block) -->
+  <!-- Hero قابل للاستبدال من الصفحة -->
   {% block hero %}{% endblock %}
 
   <main class="container">
@@ -51,17 +51,18 @@
     </div>
   </footer>
 
+  <!-- سكربتات -->
   <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 
-  <!-- تسجيل Service Worker من داخل static فقط -->
+  <!-- تسجيل Service Worker من الجذر (الملف داخل static/) -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register("{{ url_for('static', filename='service-worker.js') }}")
-          .catch(console.error);
+        navigator.serviceWorker.register('/service-worker.js').catch(console.error);
       });
     }
   </script>
+
   {% block body_extra %}{% endblock %}
 </body>
 </html>
