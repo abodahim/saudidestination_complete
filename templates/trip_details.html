@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفاصيل الرحلة</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}{{ trip.title }} | وجهة السعودية{% endblock %}
 
-    {% include 'sidebar.html' %}
-
-    <section class="trip-details">
-        <h1>{{ trip.name }}</h1>
-        <img src="{{ url_for('static', filename='images/' + trip.image) }}" alt="صورة الرحلة">
-        <p>{{ trip.description }}</p>
-        <p><strong>المدة:</strong> {{ trip.duration }}</p>
-        <p><strong>السعر:</strong> {{ trip.price }} ريال</p>
-
-        <a href="{{ url_for('booking') }}" class="btn">احجز الآن</a>
-    </section>
-
-</body>
-</html>
+{% block content %}
+<section class="card">
+  <h1>{{ trip.title }}</h1>
+  <ul>
+    <li>الوجهة: {{ trip.city }}</li>
+    <li>المدة: {{ trip.days }} أيام</li>
+    <li>السعر: {{ trip.price }} ريال</li>
+  </ul>
+  <div class="actions">
+    <a href="{{ url_for('booking') }}" class="btn btn--primary">احجز الآن</a>
+    <a href="{{ url_for('trips') }}" class="btn">رجوع للرحلات</a>
+  </div>
+</section>
+{% endblock %}
