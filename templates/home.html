@@ -2,7 +2,7 @@
 {% block title %}وجهة السعودية - الرئيسية{% endblock %}
 
 {% block hero %}
-<section class="hero" style="background-image:url('{{ url_for('static', filename='banner.PNG') }}')">
+<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
   <div class="hero__overlay">
     <div class="container hero__content">
       <h1 class="hero__title">وجهة السعودية</h1>
@@ -27,29 +27,29 @@
     <h2 class="section-title">باقات مختارة</h2>
     <div class="cards">
       <div class="card">
-        <img src="{{ url_for('static', filename='jeddah_1.JPG') }}" alt="رحلة جدة">
+        <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
         <div class="card__body">
           <h3>رحلة جدة</h3>
           <p>جولة مميزة على كورنيش جدة ومعالمها الحديثة.</p>
-          <a href="{{ url_for('trip_details', trip_id=1) }}" class="btn btn--primary">عرض التفاصيل</a>
+          <a href="{{ url_for('trips') }}" class="btn btn--primary">عرض التفاصيل</a>
         </div>
       </div>
 
       <div class="card">
-        <img src="{{ url_for('static', filename='riyadh_1.JPG') }}" alt="رحلة الرياض">
+        <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
         <div class="card__body">
           <h3>رحلة الرياض</h3>
           <p>اكتشف تاريخ العاصمة ومعالمها التراثية.</p>
-          <a href="{{ url_for('trip_details', trip_id=2) }}" class="btn btn--primary">عرض التفاصيل</a>
+          <a href="{{ url_for('trips') }}" class="btn btn--primary">عرض التفاصيل</a>
         </div>
       </div>
 
       <div class="card">
-        <img src="{{ url_for('static', filename='yanbu_1.JPG') }}" alt="رحلة ينبع">
+        <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع">
         <div class="card__body">
           <h3>رحلة ينبع</h3>
           <p>استمتع بجمال الشواطئ والأنشطة البحرية في ينبع.</p>
-          <a href="{{ url_for('trip_details', trip_id=3) }}" class="btn btn--primary">عرض التفاصيل</a>
+          <a href="{{ url_for('trips') }}" class="btn btn--primary">عرض التفاصيل</a>
         </div>
       </div>
     </div>
