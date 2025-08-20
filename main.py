@@ -115,6 +115,9 @@ def manifest():
 def robots():
     return send_from_directory("static", "robots.txt")
 
+@app.route('/booking')
+def booking():
+    return render_template('booking.html')
 # ---------------------------
 # نقطة التشغيل
 # ---------------------------
