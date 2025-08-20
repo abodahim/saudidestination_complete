@@ -1,17 +1,48 @@
 {% extends "base.html" %}
-{% block title %}{{ trip.title }} | وجهة السعودية{% endblock %}
+{% block title %}تفاصيل الرحلة{% endblock %}
 
-{% block content %}
-<section class="card">
-  <h1>{{ trip.title }}</h1>
-  <ul>
-    <li>الوجهة: {{ trip.city }}</li>
-    <li>المدة: {{ trip.days }} أيام</li>
-    <li>السعر: {{ trip.price }} ريال</li>
-  </ul>
-  <div class="actions">
-    <a href="{{ url_for('booking') }}" class="btn btn--primary">احجز الآن</a>
-    <a href="{{ url_for('trips') }}" class="btn">رجوع للرحلات</a>
+{% block hero %}
+<section class="hero hero--small" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
+  <div class="hero__overlay">
+    <div class="container hero__content">
+      <h1 class="hero__title">تفاصيل الرحلة #{{ trip_id }}</h1>
+      <p class="hero__lead">كل ما تحتاج معرفته عن الرحلة المختارة</p>
+    </div>
   </div>
 </section>
+{% endblock %}
+
+{% block content %}
+<article class="trip">
+  <div class="trip__gallery">
+    <!-- عدّل الصور حسب الرحلة الحقيقية -->
+    <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="صورة 1" loading="lazy">
+    <img src="{{ url_for('static', filename='images/jeddah_2.JPG') }}" alt="صورة 2" loading="lazy">
+    <img src="{{ url_for('static', filename='images/jeddah_3.JPG') }}" alt="صورة 3" loading="lazy">
+  </div>
+
+  <div class="trip__body">
+    <h2>وصف الرحلة</h2>
+    <p>
+      تجربة ممتعة للتعرف على أبرز المعالم، مع مرشد محلي وخيارات نقل مريحة.
+      تشمل الزيارة نقاط توقف للتصوير وتذوّق المأكولات المحلية.
+    </p>
+
+    <h3>البرنامج اليومي</h3>
+    <ul class="checklist">
+      <li>التجمّع والانطلاق</li>
+      <li>زيارة أهم المعالم</li>
+      <li>استراحة وغداء</li>
+      <li>جولة مسائية واختتام</li>
+    </ul>
+
+    <h3>السعر</h3>
+    <p class="price">ابتداءً من <strong>299 ر.س</strong> للشخص</p>
+
+    <div class="trip__actions">
+      <a class="btn" href="{{ url_for('trips') }}">رجوع للرحلات</a>
+      <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
+    </div>
+  </div>
+</article>
 {% endblock %}
