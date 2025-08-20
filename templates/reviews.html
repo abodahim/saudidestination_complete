@@ -1,63 +1,22 @@
 {% extends "base.html" %}
-{% block title %}آراء العملاء{% endblock %}
+{% block title %}التقييمات - وجهة السعودية{% endblock %}
 
-{% block header %}
-<section class="header small">
-  <h1>⭐ آراء العملاء</h1>
+{% block hero %}
+<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
+  <div class="hero__overlay"><div class="container hero__content">
+    <h1 class="hero__title">التقييمات</h1>
+    <p class="hero__lead">ماذا قال ضيوفنا؟</p>
+  </div></div>
 </section>
 {% endblock %}
 
 {% block content %}
-<section class="section" style="display:grid;gap:18px;max-width:900px;margin-inline:auto">
-
-  <article class="side-card">
-    <h2 style="margin-top:0">أضف رأيك</h2>
-    <form class="form" method="post" action="{{ url_for('reviews') }}">
-      <div class="grid-2">
-        <div>
-          <label>الاسم</label>
-          <input name="name" required>
-        </div>
-        <div>
-          <label>التقييم</label>
-          <select name="rating" required>
-            <option value="" disabled selected>اختر</option>
-            <option value="5">5 ⭐⭐⭐⭐⭐</option>
-            <option value="4">4 ⭐⭐⭐⭐</option>
-            <option value="3">3 ⭐⭐⭐</option>
-            <option value="2">2 ⭐⭐</option>
-            <option value="1">1 ⭐</option>
-          </select>
-        </div>
-      </div>
-      <label>تعليقك</label>
-      <textarea name="comment" rows="4" required></textarea>
-      <button class="btn mt-2" type="submit">إرسال التقييم</button>
-    </form>
-  </article>
-
-  <article class="side-card">
-    <h2 style="margin-top:0">التقييمات الأخيرة</h2>
-    {% if reviews and reviews|length %}
-      <ul class="list" style="display:grid;gap:12px;list-style:none;padding:0;margin:0">
-        {% for r in reviews %}
-          <li class="card" style="padding:14px">
-            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
-              <strong>{{ r[1] }}</strong>
-              <span aria-label="تقييم {{ r[2] }} من 5">
-                {% for _ in range(r[2]|int) %}⭐{% endfor %}
-                {% for _ in range(5 - (r[2]|int)) %}☆{% endfor %}
-              </span>
-            </div>
-            <p class="m-0 mt-1">{{ r[3] }}</p>
-            <small style="color:#666">{{ r[4] }}</small>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>لا توجد تقييمات بعد.</p>
-    {% endif %}
-  </article>
-
+<section>
+  <h2 class="section-title">آراء الزوار</h2>
+  <div class="cards">
+    <article class="card"><div class="card__body"><h3>محمد</h3><p>تجربة رائعة والتنظيم ممتاز.</p></div></article>
+    <article class="card"><div class="card__body"><h3>نوف</h3><p>المرشدون محترفون والمحتوى ثري.</p></div></article>
+    <article class="card"><div class="card__body"><h3>سلمان</h3><p>رحلة لا تُنسى.. شكرًا لكم!</p></div></article>
+  </div>
 </section>
 {% endblock %}
