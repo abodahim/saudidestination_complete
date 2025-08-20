@@ -1,28 +1,28 @@
 {% extends "base.html" %}
-{% block title %}تواصل معنا{% endblock %}
+{% block title %}تواصل معنا - وجهة السعودية{% endblock %}
 
-{% block header %}
-<section class="header small">
-  <h1>📞 تواصل معنا</h1>
+{% block hero %}
+<section class="hero hero--small" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
+  <div class="hero__overlay"><div class="container hero__content">
+    <h1 class="hero__title">تواصل معنا</h1>
+    <p class="hero__lead">يسعدنا خدمتك</p>
+  </div></div>
 </section>
 {% endblock %}
 
 {% block content %}
-<section class="section" style="max-width:720px;margin-inline:auto">
-  <form method="post" action="{{ url_for('contact') }}" class="form card">
-    <label>الاسم</label>
-    <input name="name" required>
-    <label>البريد الإلكتروني</label>
-    <input type="email" name="email" required>
-    <label>الرسالة</label>
-    <textarea name="message" rows="5" required></textarea>
-    <button class="btn mt-2" type="submit">إرسال</button>
-  </form>
-
-  <div class="note-card mt-2">
-    <p>📍 ينبع، المملكة العربية السعودية</p>
-    <p>✉️ support@saudidest.com</p>
-    <p>📞 +966500000000</p>
+<section class="card">
+  <div class="card__body">
+    <form method="post" class="form" novalidate>
+      <div style="display:grid; gap:.8rem;">
+        <label>الاسم<input name="name" required></label>
+        <label>البريد الإلكتروني<input name="email" type="email" required></label>
+        <label>رسالتك<textarea name="message" rows="5" required></textarea></label>
+      </div>
+      <div style="margin-top:.8rem;">
+        <button class="btn btn--primary" type="submit">إرسال</button>
+      </div>
+    </form>
   </div>
 </section>
 {% endblock %}
