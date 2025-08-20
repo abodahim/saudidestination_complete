@@ -2,34 +2,11 @@
 {% block title %}شكرًا لك{% endblock %}
 
 {% block content %}
-<section class="section center" style="max-width:780px;margin-inline:auto">
-  {% if b %}
-    <h2>🎉 شكرًا {{ b[1] }}!</h2>
-    <p>تم استلام طلب حجزك رقم <strong>#{{ b[0] }}</strong> بنجاح.</p>
-
-    <div class="side-card mt-2">
-      <div class="grid-2">
-        <p>الاسم: <strong>{{ b[1] }}</strong></p>
-        <p>الحالة: <strong>{{ b[10] or 'unpaid' }}</strong></p>
-        <p>البريد: <strong dir="ltr">{{ b[2] }}</strong></p>
-        <p>الجوال: <strong dir="ltr">{{ b[3] }}</strong></p>
-        <p>الرحلة: <strong>{{ b[4] }}</strong></p>
-        <p>التاريخ: <strong>{{ b[5] }}</strong></p>
-        <p>الأشخاص: <strong>{{ b[6] }}</strong></p>
-      </div>
-    </div>
-
-    <div class="mt-2" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
-      <a class="btn btn-outline" href="{{ url_for('home') }}">العودة للرئيسية</a>
-      {% if (b[10] or 'unpaid') == 'paid' %}
-        <a class="btn" href="{{ url_for('invoice_pdf', bid=b[0]) }}">تحميل الفاتورة PDF</a>
-        <a class="btn btn-outline" href="{{ url_for('booking_pdf', bid=b[0]) }}">إيصال الحجز</a>
-      {% else %}
-        <a class="btn" href="{{ url_for('payment', bid=b[0]) }}">الانتقال للدفع</a>
-      {% endif %}
-    </div>
-  {% else %}
-    <p>لم يتم العثور على الحجز.</p>
-  {% endif %}
+<section class="card" style="margin-top:2rem;">
+  <div class="card__body" style="text-align:center;">
+    <h1>شكرًا لك!</h1>
+    <p>تم استلام طلبك/رسالتك بنجاح وسنتواصل معك قريبًا.</p>
+    <a href="{{ url_for('home') }}" class="btn btn--primary">العودة للرئيسية</a>
+  </div>
 </section>
 {% endblock %}
