@@ -1,25 +1,22 @@
 {% extends "base.html" %}
-{% block title %}المعرض{% endblock %}
+{% block title %}المعرض - وجهة السعودية{% endblock %}
 
-{% block header %}
-<section class="header small">
-  <h1>🖼️ معرض الصور</h1>
+{% block hero %}
+<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
+  <div class="hero__overlay"><div class="container hero__content">
+    <h1 class="hero__title">المعرض</h1>
+    <p class="hero__lead">لقطات من رحلاتنا</p>
+  </div></div>
 </section>
 {% endblock %}
 
 {% block content %}
-<section class="section gallery-grid">
-  <figure>
-    <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض">
-    <figcaption>الرياض</figcaption>
-  </figure>
-  <figure>
-    <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="جدة">
-    <figcaption>جدة</figcaption>
-  </figure>
-  <figure>
-    <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="ينبع">
-    <figcaption>ينبع</figcaption>
-  </figure>
+<section>
+  <h2 class="section-title">صور مختارة</h2>
+  <div class="cards">
+    <figure class="card"><img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="جدة" loading="lazy"></figure>
+    <figure class="card"><img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="الرياض" loading="lazy"></figure>
+    <figure class="card"><img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}"  alt="ينبع" loading="lazy"></figure>
+  </div>
 </section>
 {% endblock %}
