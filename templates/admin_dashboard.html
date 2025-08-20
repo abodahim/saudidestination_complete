@@ -1,66 +1,10 @@
 {% extends "base.html" %}
-{% block title %}لوحة التحكم – الحجوزات{% endblock %}
-
-{% block header %}
-<section class="header small">
-  <h1>📋 لوحة التحكم – الحجوزات</h1>
-</section>
-{% endblock %}
-
+{% block title %}لوحة الإدارة{% endblock %}
 {% block content %}
-<section class="section">
-
-  <div class="toolbar" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:12px">
-    <form method="get" action="{{ url_for('admin_dashboard') }}" class="form" style="display:flex;gap:8px;flex-wrap:wrap">
-      <div><label>بحث</label><input name="q" value="{{ q or '' }}" placeholder="الاسم/البريد/الجوال/الرحلة"></div>
-      <button class="btn" type="submit">بحث</button>
-      <a class="btn btn-outline" href="{{ url_for('admin_dashboard') }}">إعادة ضبط</a>
-    </form>
-    <div style="margin-inline-start:auto;display:flex;gap:8px">
-      <a class="btn btn-outline" href="{{ url_for('admin_payments') }}">💳 المدفوعات</a>
-      <a class="btn btn-outline" href="{{ url_for('admin_reports') }}">📊 التقارير</a>
-      <a class="btn btn-outline" href="{{ url_for('admin_logout') }}">🚪 خروج</a>
-    </div>
+<section class="card" style="margin-top:2rem;">
+  <div class="card__body">
+    <h2>لوحة التحكم</h2>
+    <p>مرحبًا بك في لوحة الإدارة (تصميم مبدئي).</p>
   </div>
-
-  <div class="table-wrap">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>#</th><th>الاسم</th><th>البريد</th><th>الجوال</th><th>الرحلة</th>
-          <th>التاريخ</th><th>الأشخاص</th><th>الحالة</th><th>أُنشئ</th><th>إجراءات</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% if rows %}
-          {% for b in rows %}
-          <tr>
-            <td>{{ b[0] }}</td>
-            <td>{{ b[1] }}</td>
-            <td dir="ltr">{{ b[2] }}</td>
-            <td dir="ltr">{{ b[3] }}</td>
-            <td>{{ b[4] }}</td>
-            <td>{{ b[5] }}</td>
-            <td>{{ b[6] }}</td>
-            <td><span class="badge {{ 'paid' if (b[10] or '')=='paid' else 'unpaid' }}">{{ b[10] or 'unpaid' }}</span></td>
-            <td>{{ b[8] }}</td>
-            <td>
-              <div style="display:flex;gap:6px;flex-wrap:wrap">
-                <a class="btn btn-outline" href="{{ url_for('admin_edit', bid=b[0]) }}">✏️ تعديل</a>
-                <a class="btn btn-outline" href="{{ url_for('booking_pdf', bid=b[0]) }}">🧾 إيصال</a>
-                {% if (b[10] or '') == 'paid' %}
-                  <a class="btn btn-outline" href="{{ url_for('invoice_pdf', bid=b[0]) }}">📑 فاتورة</a>
-                {% endif %}
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        {% else %}
-          <tr><td colspan="10" class="center">لا توجد حجوزات حالياً</td></tr>
-        {% endif %}
-      </tbody>
-    </table>
-  </div>
-
 </section>
 {% endblock %}
