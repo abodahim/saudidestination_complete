@@ -1,7 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
-
-app = Flask(__name__, static_url_path="/static")
+app = Flask(__name__, static_folder="static", static_url_path="/static")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "change-this-secret")
 
 # ---------------------------
