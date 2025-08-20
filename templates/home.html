@@ -1,44 +1,57 @@
 {% extends "base.html" %}
-
-{% block title %}الرئيسية - وجهة السعودية{% endblock %}
+{% block title %}وجهة السعودية - الرئيسية{% endblock %}
 
 {% block hero %}
-<section class="hero" style="
-  background: linear-gradient(0deg, rgba(23,77,41,.65), rgba(23,77,41,.65)),
-              url('{{ url_for('static', filename='images/banner.PNG') }}') center/cover no-repeat;
-  color: #fff; text-align:center; padding:80px 0;
-">
-  <div class="container">
-    <h1>مرحبا بك في وجهة السعودية</h1>
-    <p>منصة سعودية لرحلات سياحية مميزة مع مرشدين محليين</p>
-    <a href="{{ url_for('trips') }}" style="background:#C8A16A; color:#fff; padding:12px 24px; border-radius:6px; margin-top:20px; display:inline-block; font-weight:600">
-      استكشف الرحلات
-    </a>
+<section class="hero" style="background-image:url('{{ url_for('static', filename='banner.PNG') }}')">
+  <div class="hero__overlay">
+    <div class="container hero__content">
+      <h1 class="hero__title">وجهة السعودية</h1>
+      <p class="hero__lead">استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
+    </div>
   </div>
 </section>
 {% endblock %}
 
 {% block content %}
-<section>
-  <h2>نبذة</h2>
-  <p>
-    وجهة السعودية تسهّل لك استكشاف أجمل الوجهات داخل المملكة مع باقات متنوعة تناسب العائلات، المدارس، والشركات.
-  </p>
-</section>
+  <!-- قسم نبذة -->
+  <section>
+    <h2 class="section-title">نبذة</h2>
+    <p>
+      وجهة السعودية تسهّل لك استكشاف أجمل الوجهات داخل المملكة 
+      مع باقات متنوعة تناسب العائلات، المدارس، والشركات.
+    </p>
+  </section>
 
-<section>
-  <h2>باقات مختارة</h2>
-  <div class="cards">
-    <div class="card">
-      <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
-      <h3>جدة التاريخية</h3>
-      <p>استمتع بجولة في البلد وزيارة المتاحف والأسواق الشعبية.</p>
+  <!-- قسم باقات مختارة -->
+  <section>
+    <h2 class="section-title">باقات مختارة</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="{{ url_for('static', filename='jeddah_1.JPG') }}" alt="رحلة جدة">
+        <div class="card__body">
+          <h3>رحلة جدة</h3>
+          <p>جولة مميزة على كورنيش جدة ومعالمها الحديثة.</p>
+          <a href="{{ url_for('trip_details', trip_id=1) }}" class="btn btn--primary">عرض التفاصيل</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='riyadh_1.JPG') }}" alt="رحلة الرياض">
+        <div class="card__body">
+          <h3>رحلة الرياض</h3>
+          <p>اكتشف تاريخ العاصمة ومعالمها التراثية.</p>
+          <a href="{{ url_for('trip_details', trip_id=2) }}" class="btn btn--primary">عرض التفاصيل</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='yanbu_1.JPG') }}" alt="رحلة ينبع">
+        <div class="card__body">
+          <h3>رحلة ينبع</h3>
+          <p>استمتع بجمال الشواطئ والأنشطة البحرية في ينبع.</p>
+          <a href="{{ url_for('trip_details', trip_id=3) }}" class="btn btn--primary">عرض التفاصيل</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
-      <h3>الرياض الحديثة</h3>
-      <p>تعرف على ناطحات السحاب والأسواق المميزة.</p>
-    </div>
-  </div>
-</section>
+  </section>
 {% endblock %}
