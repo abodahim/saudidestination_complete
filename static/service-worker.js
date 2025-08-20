@@ -1,13 +1,9 @@
-// static/js/service-worker.js
-self.addEventListener('install', (event) => {
+self.addEventListener('install', (e) => {
   self.skipWaiting();
 });
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
+self.addEventListener('activate', (e) => {
+  return clients.claim();
 });
-
-// لا نعمل كاش الآن لتبسيط الأمور (تقدر تطور لاحقًا)
-self.addEventListener('fetch', (event) => {
-  // تمرير الطلبات بدون تدخل
+self.addEventListener('fetch', (e) => {
+  // تمرير الطلبات بدون كاش معقّد
 });
