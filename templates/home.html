@@ -7,14 +7,17 @@
     <div class="container hero__content">
       <h1 class="hero__title">وجهة السعودية</h1>
       <p class="hero__lead">استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
-      <a href="{{ url_for('booking') }}" class="btn btn--primary" style="margin-top:1rem;">احجز الآن</a>
+      <div class="hero__cta">
+        <a href="{{ url_for('booking') }}" class="btn btn--primary">احجز الآن</a>
+        <a href="{{ url_for('trips') }}" class="btn">تصفح الرحلات</a>
+      </div>
     </div>
   </div>
 </section>
 {% endblock %}
 
 {% block content %}
-  <!-- قسم نبذة -->
+  <!-- نبذة -->
   <section>
     <h2 class="section-title">نبذة</h2>
     <p>
@@ -23,36 +26,47 @@
     </p>
   </section>
 
-  <!-- قسم الباقات -->
+  <!-- باقات مختارة -->
   <section>
     <h2 class="section-title">باقات مختارة</h2>
     <div class="cards">
       {% for trip in trips %}
-      <div class="card">
+      <article class="card">
+        <!-- ملاحظة: يتوقع صوراً مثل jeddah_1.JPG, riyadh_1.JPG, yanbu_1.JPG في مجلد static/ -->
         <img src="{{ url_for('static', filename=trip.name|lower|replace(' ', '_') ~ '_1.JPG') }}" alt="{{ trip.name }}">
         <div class="card__body">
           <h3>{{ trip.name }}</h3>
-          <p>السعر: {{ trip.price }} {{ currency }}</p>
-          <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn btn--primary">عرض التفاصيل</a>
+          <p class="price">
+            <strong>{{ trip.price }} {{ currency }}</strong>
+            <small style="opacity:.8;">(تُحتسب الضريبة عند الدفع)</small>
+          </p>
+          <div class="card__actions">
+            <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn btn--primary">عرض التفاصيل</a>
+            <a href="{{ url_for('booking', trip_id=trip.id) }}" class="btn">احجز الآن</a>
+          </div>
         </div>
-      </div>
+      </article>
       {% endfor %}
     </div>
   </section>
 
-  <!-- قسم المرشدين -->
+  <!-- مرشدونا -->
   <section>
-    <h2 class="section-title">مرشدونا</h2>
+    <div class="section-head">
+      <h2 class="section-title">مرشدونا</h2>
+      <a class="btn" href="{{ url_for('guides') }}">كل المرشدين</a>
+    </div>
     <div class="cards">
       {% for guide in guides %}
-      <div class="card">
+      <article class="card">
+        <!-- يتوقع صورة المرشد في static/images/guide1.PNG (كما ذكرت أن الاسم guide1.PNG) -->
         <img src="{{ url_for('static', filename=guide.img) }}" alt="{{ guide.name }}">
         <div class="card__body">
           <h3>{{ guide.name }}</h3>
           <p>المدينة: {{ guide.city }}</p>
-          <a href="{{ url_for('booking', trip_id=trips[0].id, guide_id=guide.id) }}" class="btn btn--primary">احجز مع المرشد</a>
+          <a class="btn btn--primary" href="{{ url_for('booking', guide_id=guide.id, trip_id=trips[0].id) }}">احجز مع المرشد</a>
         </div>
-      </div>
+      </article>
       {% endfor %}
     </div>
   </section>
