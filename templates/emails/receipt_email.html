@@ -2,21 +2,44 @@
 <html lang="ar" dir="rtl">
   <body style="font-family:Tahoma, Arial, sans-serif; background:#f6f6f6; padding:16px; color:#222;">
     <div style="max-width:600px; margin:auto; background:#ffffff; border:1px solid #eee; border-radius:10px; overflow:hidden;">
+      <!-- رأس -->
       <div style="padding:16px; background:#0d1a12; color:#caffdf;">
         <h2 style="margin:0;">تأكيد حجزك #{{ booking.booking_id }}</h2>
       </div>
+
+      <!-- المحتوى -->
       <div style="padding:16px;">
-        <p>شكرًا لثقتك بنا! تم تأكيد حجزك لرحلة <strong>{{ trip.name }}</strong>.</p>
-        <p><strong>الإجمالي المدفوع:</strong> {{ booking.total }} {{ currency }} (شامل ضريبة القيمة المضافة {{ booking.vat_rate }}%).</p>
-        <p>يمكنك عرض الإيصال وتنزيل الفاتورة من هنا:</p>
-        <p><a href="{{ receipt_url }}" style="display:inline-block; background:#2aa560; color:#072012; padding:10px 14px; border-radius:8px; text-decoration:none;">عرض الإيصال</a></p>
-        <hr style="border:none;border-top:1px solid #eee;">
-        <p style="color:#666; font-size:12px;">
+        <p>أهلًا {{ booking.name }}،</p>
+        <p>شكرًا لك! تم تأكيد حجزك لرحلة <strong>{{ trip.name }}</strong>.</p>
+
+        <div style="background:#f7fbf9; border:1px solid #e3efe8; border-radius:8px; padding:12px; margin:12px 0;">
+          <p style="margin:.2rem 0;">السعر قبل الضريبة: <strong>{{ booking.subtotal }} {{ currency }}</strong></p>
+          <p style="margin:.2rem 0;">الضريبة ({{ booking.vat_rate }}%): <strong>{{ booking.vat_amount }} {{ currency }}</strong></p>
+          <p style="margin:.2rem 0;">الإجمالي المدفوع: <strong>{{ booking.total }} {{ currency }}</strong></p>
+        </div>
+
+        <p>يمكنك عرض الإيصال وتنزيل الفاتورة من الرابط التالي:</p>
+        <p>
+          <a href="{{ receipt_url }}" style="display:inline-block; background:#2aa560; color:#072012; padding:10px 14px; border-radius:8px; text-decoration:none;">
+            عرض الإيصال / تنزيل الفاتورة
+          </a>
+        </p>
+
+        <hr style="border:none; border-top:1px solid #eee; margin:16px 0;">
+
+        <p style="margin:0 0 6px;"><strong>بيانات الشركة</strong></p>
+        <p style="margin:0; color:#555;">
           {{ company.name }} — الرقم الضريبي: {{ company.tax_id }}<br>
           {{ company.address }} — هاتف: {{ company.phone }} — بريد: {{ company.email }}<br>
           <a href="{{ company.website }}" target="_blank" rel="noopener">{{ company.website }}</a>
         </p>
+
+        <p style="margin-top:16px; font-size:.9rem; color:#666;">
+          للاطلاع على بيانات التواصل مع المرشد، يرجى فتح صفحة الإيصال من الزر أعلاه.
+        </p>
       </div>
+
+      <!-- تذييل -->
       <div style="padding:12px; background:#fafafa; color:#777; font-size:12px; text-align:center;">
         © 2025 {{ company.name }} — جميع الحقوق محفوظة
       </div>
