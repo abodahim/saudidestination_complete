@@ -1,45 +1,21 @@
 {% extends "base.html" %}
-{% block title %}الرحلات - وجهة السعودية{% endblock %}
-
-{% block hero %}
-<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
-  <div class="hero__overlay"><div class="container hero__content">
-    <h1 class="hero__title">الرحلات</h1>
-    <p class="hero__lead">اختر من بين باقاتنا السياحية داخل المملكة</p>
-  </div></div>
-</section>
-{% endblock %}
+{% block title %}الرحلات{% endblock %}
 
 {% block content %}
 <section>
-  <h2 class="section-title">باقات متاحة</h2>
+  <h2 class="section-title">جميع الرحلات</h2>
   <div class="cards">
-    <article class="card">
-      <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة" loading="lazy">
+    {% for trip in trips %}
+    <div class="card">
+      <img src="{{ url_for('static', filename=trip.name|lower|replace(' ', '_') ~ '_1.JPG') }}" alt="{{ trip.name }}">
       <div class="card__body">
-        <h3>رحلة جدة</h3>
-        <p>جولة على الكورنيش والبلد.</p>
-        <a class="btn btn--primary" href="{{ url_for('trip_details', trip_id=1) }}">عرض التفاصيل</a>
+        <h3>{{ trip.name }}</h3>
+        <p>السعر: {{ trip.price }} {{ currency }}</p>
+        <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn btn--primary">عرض التفاصيل</a>
+        <a href="{{ url_for('booking', trip_id=trip.id) }}" class="btn">احجز الآن</a>
       </div>
-    </article>
-
-    <article class="card">
-      <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض" loading="lazy">
-      <div class="card__body">
-        <h3>رحلة الرياض</h3>
-        <p>تاريخ وتراث العاصمة.</p>
-        <a class="btn btn--primary" href="{{ url_for('trip_details', trip_id=2) }}">عرض التفاصيل</a>
-      </div>
-    </article>
-
-    <article class="card">
-      <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع" loading="lazy">
-      <div class="card__body">
-        <h3>رحلة ينبع</h3>
-        <p>شواطئ وأنشطة بحرية.</p>
-        <a class="btn btn--primary" href="{{ url_for('trip_details', trip_id=3) }}">عرض التفاصيل</a>
-      </div>
-    </article>
+    </div>
+    {% endfor %}
   </div>
 </section>
 {% endblock %}
