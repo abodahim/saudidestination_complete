@@ -32,7 +32,6 @@
     <div class="cards">
       {% for trip in trips %}
       <article class="card">
-        <!-- يتوقع صور jeddah_1.JPG / riyadh_1.JPG / yanbu_1.JPG داخل static/images/ -->
         <img src="{{ url_for('static', filename='images/' ~ (trip.name|lower|replace(' ', '_')) ~ '_1.JPG') }}" alt="{{ trip.name }}">
         <div class="card__body">
           <h3>{{ trip.name }}</h3>
@@ -59,9 +58,7 @@
     <div class="cards">
       {% for guide in guides %}
       {% set img_path = guide.img %}
-      {% if 'images/' not in img_path %}
-        {% set img_path = 'images/' ~ img_path %}
-      {% endif %}
+      {% if 'images/' not in img_path %}{% set img_path = 'images/' ~ img_path %}{% endif %}
       <article class="card">
         <img src="{{ url_for('static', filename=img_path) }}" alt="{{ guide.name }}">
         <div class="card__body">
