@@ -2,7 +2,7 @@
 {% block title %}وجهة السعودية - الرئيسية{% endblock %}
 
 {% block hero %}
-<section class="hero" style="background-image:url('{{ url_for('static', filename='banner.PNG') }}')">
+<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
   <div class="hero__overlay">
     <div class="container hero__content">
       <h1 class="hero__title">وجهة السعودية</h1>
@@ -32,8 +32,8 @@
     <div class="cards">
       {% for trip in trips %}
       <article class="card">
-        <!-- ملاحظة: يتوقع صوراً مثل jeddah_1.JPG, riyadh_1.JPG, yanbu_1.JPG في مجلد static/ -->
-        <img src="{{ url_for('static', filename=trip.name|lower|replace(' ', '_') ~ '_1.JPG') }}" alt="{{ trip.name }}">
+        <!-- يتوقع صور jeddah_1.JPG / riyadh_1.JPG / yanbu_1.JPG داخل static/images/ -->
+        <img src="{{ url_for('static', filename='images/' ~ (trip.name|lower|replace(' ', '_')) ~ '_1.JPG') }}" alt="{{ trip.name }}">
         <div class="card__body">
           <h3>{{ trip.name }}</h3>
           <p class="price">
@@ -58,9 +58,12 @@
     </div>
     <div class="cards">
       {% for guide in guides %}
+      {% set img_path = guide.img %}
+      {% if 'images/' not in img_path %}
+        {% set img_path = 'images/' ~ img_path %}
+      {% endif %}
       <article class="card">
-        <!-- يتوقع صورة المرشد في static/images/guide1.PNG (كما ذكرت أن الاسم guide1.PNG) -->
-        <img src="{{ url_for('static', filename=guide.img) }}" alt="{{ guide.name }}">
+        <img src="{{ url_for('static', filename=img_path) }}" alt="{{ guide.name }}">
         <div class="card__body">
           <h3>{{ guide.name }}</h3>
           <p>المدينة: {{ guide.city }}</p>
