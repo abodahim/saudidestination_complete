@@ -1,7 +1,11 @@
 تأكيد حجزك #{{ booking.booking_id }}
 
+أهلًا {{ booking.name }},
 تم تأكيد حجزك لرحلة: {{ trip.name }}
-الإجمالي المدفوع: {{ booking.total }} {{ currency }} (شامل ضريبة القيمة المضافة {{ booking.vat_rate }}%)
+
+السعر قبل الضريبة: {{ booking.subtotal }} {{ currency }}
+الضريبة ({{ booking.vat_rate }}%): {{ booking.vat_amount }} {{ currency }}
+الإجمالي المدفوع: {{ booking.total }} {{ currency }}
 
 لعرض الإيصال وتنزيل الفاتورة:
 {{ receipt_url }}
@@ -10,3 +14,5 @@
 {{ company.name }} — الرقم الضريبي: {{ company.tax_id }}
 {{ company.address }} — هاتف: {{ company.phone }} — بريد: {{ company.email }}
 {{ company.website }}
+
+للاطلاع على بيانات التواصل مع المرشد، افتح صفحة الإيصال من الرابط أعلاه.
