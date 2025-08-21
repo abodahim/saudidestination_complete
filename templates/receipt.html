@@ -8,6 +8,12 @@
     <p>رقم الحجز: <strong>{{ booking.booking_id }}</strong></p>
     <p>الرحلة: <strong>{{ trip.name }}</strong></p>
 
+    <div style="margin:.6rem 0;">
+      <p>السعر قبل الضريبة: <strong>{{ booking.subtotal }} {{ currency }}</strong></p>
+      <p>الضريبة ({{ booking.vat_rate }}%): <strong>{{ booking.vat_amount }} {{ currency }}</strong></p>
+      <p>الإجمالي المدفوع: <strong>{{ booking.total }} {{ currency }}</strong></p>
+    </div>
+
     <div class="form-actions" style="margin:.8rem 0;">
       <a class="btn" href="{{ url_for('download_invoice', booking_id=booking.booking_id, fmt='pdf') }}">تنزيل الفاتورة PDF</a>
       <a class="btn" href="{{ url_for('download_invoice', booking_id=booking.booking_id, fmt='html') }}">تنزيل الفاتورة HTML</a>
@@ -20,6 +26,13 @@
       <a class="btn btn--primary" href="tel:{{ guide.phone }}">اتصال مباشر</a>
       <a class="btn" href="https://wa.me/{{ guide.whatsapp|replace('+','') }}?text={{ ('مرحبًا ' ~ guide.name ~ '، لدي استفسار بخصوص الحجز رقم ' ~ booking.booking_id)|urlencode }}">واتساب</a>
     </p>
+
+    <hr>
+    <div style="color:#a7c9b8;">
+      <p><strong>{{ company.name }}</strong> — رقم ضريبي: {{ company.tax_id }}</p>
+      <p>{{ company.address }} — هاتف: {{ company.phone }} — بريد: {{ company.email }}</p>
+      <p>الموقع: <a href="{{ company.website }}" target="_blank" rel="noopener">{{ company.website }}</a></p>
+    </div>
 
     <div class="form-actions" style="margin-top:.8rem;">
       <a class="btn" href="{{ url_for('home') }}">العودة للرئيسية</a>
