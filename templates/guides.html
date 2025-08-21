@@ -1,43 +1,25 @@
 {% extends "base.html" %}
-{% block title %}مرشدونا - وجهة السعودية{% endblock %}
-
-{% block hero %}
-<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
-  <div class="hero__overlay"><div class="container hero__content">
-    <h1 class="hero__title">مرشدونا</h1>
-    <p class="hero__lead">مرشدون محليون معتمدون بخبرة عالية</p>
-  </div></div>
-</section>
-{% endblock %}
+{% block title %}مرشدونا{% endblock %}
 
 {% block content %}
 <section>
-  <h2 class="section-title">فريق الإرشاد</h2>
+  <h2 class="section-title">فريق المرشدين السياحيين</h2>
+  <p>جميع المرشدين لدينا معتمدون ولديهم خبرة واسعة في تنظيم الجولات السياحية داخل المملكة.</p>
+  
   <div class="cards">
-    <article class="card">
-      <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="مرشد 1" loading="lazy">
+    {% for guide in guides %}
+    <div class="card">
+      <img src="{{ url_for('static', filename=guide.img) }}" alt="{{ guide.name }}">
       <div class="card__body">
-        <h3>أحمد السبيعي</h3>
-        <p>خبرة 7 سنوات في رحلات العوائل والشركات.</p>
-        <a class="btn" href="{{ url_for('contact') }}">تواصل معه</a>
+        <h3>{{ guide.name }}</h3>
+        <p>المدينة: {{ guide.city }}</p>
+        <p style="font-size:.9rem; opacity:.8;">{{ guide.bio }}</p>
+        <div class="card__actions">
+          <a href="{{ url_for('booking', guide_id=guide.id) }}" class="btn btn--primary">احجز مع المرشد</a>
+        </div>
       </div>
-    </article>
-    <article class="card">
-      <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="مرشد 2" loading="lazy">
-      <div class="card__body">
-        <h3>سارة العتيبي</h3>
-        <p>متخصصة في السياحة الثقافية والتراثية.</p>
-        <a class="btn" href="{{ url_for('contact') }}">تواصل معها</a>
-      </div>
-    </article>
-    <article class="card">
-      <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="مرشد 3" loading="lazy">
-      <div class="card__body">
-        <h3>خالد الزهراني</h3>
-        <p>خبير بالأنشطة الخارجية والوجهات الطبيعية.</p>
-        <a class="btn" href="{{ url_for('contact') }}">تواصل معه</a>
-      </div>
-    </article>
+    </div>
+    {% endfor %}
   </div>
 </section>
 {% endblock %}
