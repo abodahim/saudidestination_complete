@@ -1,41 +1,61 @@
 {% extends "base.html" %}
-{% block title %}تفاصيل الرحلة #{{ trip_id }} - وجهة السعودية{% endblock %}
+{% block title %}تفاصيل {{ trip.name }}{% endblock %}
 
 {% block hero %}
-<section class="hero hero--small" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
-  <div class="hero__overlay"><div class="container hero__content">
-    <h1 class="hero__title">تفاصيل الرحلة #{{ trip_id }}</h1>
-    <p class="hero__lead">برنامج الرحلة والمعلومات</p>
-  </div></div>
+<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
+  <div class="hero__overlay">
+    <div class="container hero__content">
+      <h1 class="hero__title">{{ trip.name }}</h1>
+      <p class="hero__lead">جولة منظمة مع مرشدين محليين وتجربة لا تُنسى</p>
+      <div class="hero__cta">
+        <a href="{{ url_for('booking', trip_id=trip.id) }}" class="btn btn--primary">احجز الآن</a>
+        <a href="{{ url_for('trips') }}" class="btn">رجوع للرحلات</a>
+      </div>
+    </div>
+  </div>
 </section>
 {% endblock %}
 
 {% block content %}
-<article class="trip">
+<section class="trip">
+  <!-- المعرض -->
   <div class="trip__gallery">
-    <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="صورة 1" loading="lazy">
-    <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="صورة 2" loading="lazy">
-    <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}"  alt="صورة 3" loading="lazy">
+    <img src="{{ url_for('static', filename=(trip.name|lower|replace(' ', '_') ~ '_1.JPG') ) }}" alt="{{ trip.name }} صورة 1">
+    <img src="{{ url_for('static', filename=(trip.name|lower|replace(' ', '_') ~ '_2.JPG') ) }}" alt="{{ trip.name }} صورة 2">
+    <img src="{{ url_for('static', filename=(trip.name|lower|replace(' ', '_') ~ '_3.JPG') ) }}" alt="{{ trip.name }} صورة 3">
   </div>
-  <div class="trip__body">
-    <h2>وصف مختصر</h2>
-    <p>تجربة ممتعة للتعرّف على أبرز المعالم مع مرشد محلي وخيارات نقل مريحة.</p>
 
-    <h3>البرنامج</h3>
-    <ul class="checklist">
-      <li>انطلاق من نقطة اللقاء</li>
-      <li>زيارة المعالم الرئيسية</li>
-      <li>استراحة وغداء</li>
-      <li>جولة مسائية واختتام</li>
-    </ul>
-
-    <h3>السعر</h3>
-    <p class="price">ابتداءً من <strong>299 ر.س</strong> للشخص</p>
+  <!-- التفاصيل -->
+  <aside class="trip__body">
+    <h2 style="margin-top:0;">تفاصيل الرحلة</h2>
+    <p class="price">السعر: <strong>{{ trip.price }} {{ currency }}</strong> <small style="opacity:.8;">(تُضاف ضريبة القيمة المضافة عند الدفع)</small></p>
 
     <div class="trip__actions">
-      <a class="btn" href="{{ url_for('trips') }}">رجوع للرحلات</a>
-      <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
+      <a class="btn btn--primary" href="{{ url_for('booking', trip_id=trip.id) }}">احجز الآن</a>
+      <a class="btn" href="{{ url_for('trips') }}">جميع الرحلات</a>
     </div>
-  </div>
-</article>
+
+    <hr style="border-color:#1b3b2a; opacity:.6; margin:1rem 0;">
+
+    <h3>البرنامج المقترح</h3>
+    <ul>
+      <li>الاستقبال والتعريف بالبرنامج.</li>
+      <li>زيارة أبرز المعالم السياحية والثقافية.</li>
+      <li>تجربة محلية (مطاعم/أنشطة) حسب تفضيل المجموعة.</li>
+      <li>خيار إضافة نشاط مغامرات أو جولة تسوق.</li>
+    </ul>
+
+    <h3>يشمل السعر</h3>
+    <ul>
+      <li>مرشد سياحي معتمد.</li>
+      <li>تنسيق البرنامج وجدول الزيارات.</li>
+      <li>دعم أثناء الرحلة.</li>
+    </ul>
+
+    <h3>معلومات إضافية</h3>
+    <p style="margin:0;">
+      المدة والمتطلبات قابلة للتعديل حسب احتياجك. عند الحجز يمكنك إضافة ملاحظاتك وسنقوم بالتواصل للتأكيد.
+    </p>
+  </aside>
+</section>
 {% endblock %}
