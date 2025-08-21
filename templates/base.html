@@ -6,17 +6,17 @@
   <meta name="color-scheme" content="light">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <!-- أيقونة ومانفست -->
+  <!-- أيقونة -->
   <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}" type="image/jpeg">
+  <!-- PWA Manifest -->
   <link rel="manifest" href="{{ url_for('manifest') }}">
-
   <!-- الأنماط -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
   {% block head_extra %}{% endblock %}
 </head>
 <body>
-  <!-- الهيدر -->
+  <!-- شريط علوي -->
   <header class="topbar">
     <div class="container topbar__wrap">
       <a class="brand" href="{{ url_for('home') }}">
@@ -24,7 +24,7 @@
         <span>وجهة السعودية</span>
       </a>
 
-      <nav class="nav" aria-label="القائمة الرئيسية">
+      <nav class="nav">
         <button id="menuToggle" class="nav__toggle" aria-label="فتح القائمة">☰</button>
         <ul class="nav__list" id="mainNav">
           <li><a href="{{ url_for('home') }}"     class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
@@ -32,17 +32,16 @@
           <li><a href="{{ url_for('guides') }}"   class="{% if request.endpoint=='guides' %}active{% endif %}">مرشدونا</a></li>
           <li><a href="{{ url_for('gallery') }}"  class="{% if request.endpoint=='gallery' %}active{% endif %}">المعرض</a></li>
           <li><a href="{{ url_for('reviews') }}"  class="{% if request.endpoint=='reviews' %}active{% endif %}">التقييمات</a></li>
-          <li><a href="{{ url_for('contact') }}"  class="{% if request.endpoint=='contact' %}active{% endif %}">تواصل معنا</a></li>
+          <li><a href="{{ url_for('contact') }}"  class="{% if request.endpoint=='contact' %}active{% endif %}">تواصل</a></li>
           <li><a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <!-- البانر (تضعه الصفحات عبر block) -->
+  <!-- بنر اختياري -->
   {% block hero %}{% endblock %}
 
-  <!-- المحتوى -->
   <main class="container">
     {% with msgs = get_flashed_messages(with_categories=true) %}
       {% if msgs %}
@@ -53,26 +52,23 @@
         </div>
       {% endif %}
     {% endwith %}
+
     {% block content %}{% endblock %}
   </main>
 
-  <!-- الفوتر -->
   <footer class="footer">
     <div class="container">
       <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
     </div>
   </footer>
 
-  <!-- سكربتات -->
-  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 
-  <!-- تسجيل Service Worker من static -->
+  <!-- تسجيل Service Worker من داخل static -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker
-          .register("{{ url_for('static', filename='service-worker.js') }}")
-          .catch(console.error);
+        navigator.serviceWorker.register("{{ url_for('static', filename='service-worker.js') }}").catch(console.error);
       });
     }
   </script>
