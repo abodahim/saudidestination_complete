@@ -2,65 +2,30 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <title>فاتورة #{{ booking.booking_id }}</title>
+  <title>فاتورة #{{ booking_id }}</title>
   <style>
-    body { font-family: "Tahoma", Arial, sans-serif; color:#222; margin: 20px; }
-    .header { display:flex; align-items:center; justify-content:space-between; }
-    .brand { display:flex; align-items:center; gap:10px; }
-    .brand img { width:48px; height:48px; object-fit:cover; border-radius:8px; }
-    h1,h2,h3 { margin: 0 0 10px; }
-    .meta, .items, .totals { width:100%; border-collapse: collapse; margin-top:12px; }
-    .meta td, .items th, .items td, .totals td { border:1px solid #ccc; padding:8px; }
-    .items th { background:#f3f3f3; }
-    .right { text-align:left; } /* لأن RTL */
-    small { color:#666; }
+    body{font-family:Tahoma,Arial,sans-serif; margin:40px; line-height:1.6;}
+    h1{border-bottom:2px solid #333; padding-bottom:10px}
+    .info{margin:20px 0}
+    table{width:100%; border-collapse:collapse; margin:20px 0}
+    th,td{border:1px solid #ccc; padding:8px}
+    th{background:#f4f4f4}
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="brand">
-      <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="Logo">
-      <div>
-        <h2>{{ company.name }}</h2>
-        <small>{{ company.website }}</small>
-      </div>
-    </div>
-    <div>
-      <h3>فاتورة #{{ booking.booking_id }}</h3>
-      <small>رحلة: {{ trip.name }}</small><br>
-      <small>الرقم الضريبي: {{ company.tax_id }}</small>
-    </div>
+  <h1>فاتورة</h1>
+  <p><strong>رقم الحجز:</strong> {{ booking_id }}</p>
+  <div class="info">
+    <p><strong>العميل:</strong> {{ name }}</p>
+    <p><strong>البريد:</strong> {{ email }}</p>
+    <p><strong>الجوال:</strong> {{ phone }}</p>
   </div>
 
-  <table class="meta">
-    <tr><td>اسم العميل</td><td>{{ booking.name }}</td></tr>
-    <tr><td>البريد</td><td>{{ booking.email }}</td></tr>
-    <tr><td>الجوال</td><td>{{ booking.phone }}</td></tr>
-    <tr><td>العنوان</td><td>{{ company.address }}</td></tr>
+  <table>
+    <tr><th>الرحلة</th><th>المبلغ</th></tr>
+    <tr><td>{{ trip_name }}</td><td>{{ total }} {{ currency }}</td></tr>
   </table>
 
-  <table class="items">
-    <thead>
-      <tr><th>الوصف</th><th>الكمية</th><th>السعر (قبل الضريبة)</th><th>الإجمالي (قبل الضريبة)</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ trip.name }}</td>
-        <td>1</td>
-        <td>{{ booking.subtotal }} {{ currency }}</td>
-        <td>{{ booking.subtotal }} {{ currency }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="totals">
-    <tr><td>الضريبة ({{ booking.vat_rate }}%)</td><td class="right">{{ booking.vat_amount }} {{ currency }}</td></tr>
-    <tr><td><strong>الإجمالي</strong></td><td class="right"><strong>{{ booking.total }} {{ currency }}</strong></td></tr>
-  </table>
-
-  <p style="margin-top:16px;">
-    المرشد: {{ guide.name }} — {{ guide.city }}<br>
-    <small>هاتف: {{ company.phone }} — بريد: {{ company.email }}</small>
-  </p>
+  <p>شكرًا لاستخدامك منصة وجهة السعودية</p>
 </body>
 </html>
