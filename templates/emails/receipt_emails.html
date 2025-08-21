@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <body style="font-family:Tahoma, Arial, sans-serif; background:#f6f6f6; padding:16px; color:#222;">
+    <div style="max-width:600px; margin:auto; background:#ffffff; border:1px solid #eee; border-radius:10px; overflow:hidden;">
+      <div style="padding:16px; background:#0d1a12; color:#caffdf;">
+        <h2 style="margin:0;">تأكيد حجزك #{{ booking.booking_id }}</h2>
+      </div>
+      <div style="padding:16px;">
+        <p>شكرًا لثقتك بنا! تم تأكيد حجزك لرحلة <strong>{{ trip.name }}</strong>.</p>
+        <p><strong>الإجمالي المدفوع:</strong> {{ booking.total }} {{ currency }} (شامل ضريبة القيمة المضافة {{ booking.vat_rate }}%).</p>
+        <p>يمكنك عرض الإيصال وتنزيل الفاتورة من هنا:</p>
+        <p><a href="{{ receipt_url }}" style="display:inline-block; background:#2aa560; color:#072012; padding:10px 14px; border-radius:8px; text-decoration:none;">عرض الإيصال</a></p>
+        <hr style="border:none;border-top:1px solid #eee;">
+        <p style="color:#666; font-size:12px;">
+          {{ company.name }} — الرقم الضريبي: {{ company.tax_id }}<br>
+          {{ company.address }} — هاتف: {{ company.phone }} — بريد: {{ company.email }}<br>
+          <a href="{{ company.website }}" target="_blank" rel="noopener">{{ company.website }}</a>
+        </p>
+      </div>
+      <div style="padding:12px; background:#fafafa; color:#777; font-size:12px; text-align:center;">
+        © 2025 {{ company.name }} — جميع الحقوق محفوظة
+      </div>
+    </div>
+  </body>
+</html>
