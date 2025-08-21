@@ -104,8 +104,11 @@ def home(): return render_template("home.html",active="home",trips=TRIPS,guides=
 @app.route("/trips")
 def trips(): return render_template("trips.html",active="trips",trips=TRIPS,currency=CURRENCY)
 @app.route("/trips/<int:trip_id>")
-def trip_details(trip_id): trip=get_trip(trip_id); 
-if not trip: abort(404); return render_template("trip_details.html",trip=trip,currency=CURRENCY,active="trips")
+def trip_details(trip_id):
+    trip = next((t for t in TRIPS if t["id"] == trip_id), None)
+    if not trip:
+        abort(404)
+    return render_template("trip_details.html", trip=trip, currency=CURRENCY, active="trips")
 @app.route("/guides")
 def guides(): return render_template("guides.html",active="guides",guides=GUIDES)
 @app.route("/gallery")
