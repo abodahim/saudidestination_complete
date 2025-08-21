@@ -1,16 +1,17 @@
 // فتح/إغلاق قائمة الجوال
-document.addEventListener('DOMContentLoaded', () => {
-  const toggle = document.getElementById('menuToggle');
-  const list   = document.getElementById('mainNav');
-
-  if (toggle && list) {
-    toggle.addEventListener('click', () => {
-      list.classList.toggle('open');
+document.addEventListener('DOMContentLoaded', function () {
+  var toggle = document.getElementById('menuToggle');
+  var nav = document.getElementById('mainNav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function(){
+      nav.classList.toggle('show');
     });
+  }
 
-    // إغلاق القائمة بعد اختيار رابط
-    list.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => list.classList.remove('open'));
+  // تحسين: إغلاق القائمة عند الضغط على رابط في الشاشات الصغيرة
+  if (nav) {
+    nav.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){ nav.classList.remove('show'); });
     });
   }
 });
