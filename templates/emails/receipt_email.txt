@@ -1,0 +1,12 @@
+تأكيد حجزك #{{ booking.booking_id }}
+
+تم تأكيد حجزك لرحلة: {{ trip.name }}
+الإجمالي المدفوع: {{ booking.total }} {{ currency }} (شامل ضريبة القيمة المضافة {{ booking.vat_rate }}%)
+
+لعرض الإيصال وتنزيل الفاتورة:
+{{ receipt_url }}
+
+بيانات الشركة:
+{{ company.name }} — الرقم الضريبي: {{ company.tax_id }}
+{{ company.address }} — هاتف: {{ company.phone }} — بريد: {{ company.email }}
+{{ company.website }}
