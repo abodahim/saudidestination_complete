@@ -2,26 +2,30 @@
 {% block title %}الدفع{% endblock %}
 
 {% block content %}
-<section class="card" style="margin-top:2rem;">
-  <div class="card__body">
-    <h2>إتمام عملية الدفع</h2>
-    <p>رقم الحجز: <strong>{{ booking.booking_id }}</strong></p>
-    <p>الرحلة: <strong>{{ trip.name }}</strong></p>
+<section>
+  <h2 class="section-title">الدفع</h2>
+  <p>الرجاء إدخال بيانات الدفع لإكمال الحجز.</p>
 
-    <div style="margin:.6rem 0;">
-      <p>السعر قبل الضريبة: <strong>{{ subtotal }} {{ currency }}</strong></p>
-      <p>الضريبة ({{ vat_rate }}%): <strong>{{ vat_amount }} {{ currency }}</strong></p>
-      <p>الإجمالي: <strong>{{ total }} {{ currency }}</strong></p>
+  <form method="POST" class="form-grid">
+    <label>
+      رقم البطاقة
+      <input type="text" maxlength="16" required>
+    </label>
+    <label>
+      تاريخ الانتهاء
+      <input type="month" required>
+    </label>
+    <label>
+      CVV
+      <input type="password" maxlength="4" required>
+    </label>
+    <label>
+      الاسم على البطاقة
+      <input type="text" required>
+    </label>
+    <div class="form-actions">
+      <button class="btn btn--primary" type="submit">إتمام الدفع</button>
     </div>
-
-    <form method="post">
-      <input type="hidden" name="booking_id" value="{{ booking.booking_id }}">
-      <!-- نموذج دفع تجريبي: زر واحد يكمل العملية -->
-      <div class="form-actions" style="margin-top:.8rem;">
-        <button class="btn btn--primary" type="submit">ادفع {{ total }} {{ currency }}</button>
-        <a class="btn" href="{{ url_for('booking', trip_id=booking.trip_id) }}">تعديل الطلب</a>
-      </div>
-    </form>
-  </div>
+  </form>
 </section>
 {% endblock %}
