@@ -2,11 +2,12 @@
 {% block title %}وجهة السعودية - الرئيسية{% endblock %}
 
 {% block hero %}
-<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
+<section class="hero" style="background-image:url('{{ url_for('static', filename='banner.PNG') }}')">
   <div class="hero__overlay">
     <div class="container hero__content">
       <h1 class="hero__title">وجهة السعودية</h1>
       <p class="hero__lead">استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
+      <a href="{{ url_for('booking') }}" class="btn btn--primary" style="margin-top:1rem;">احجز الآن</a>
     </div>
   </div>
 </section>
@@ -22,36 +23,37 @@
     </p>
   </section>
 
-  <!-- قسم باقات مختارة -->
+  <!-- قسم الباقات -->
   <section>
     <h2 class="section-title">باقات مختارة</h2>
     <div class="cards">
+      {% for trip in trips %}
       <div class="card">
-        <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة" loading="lazy">
+        <img src="{{ url_for('static', filename=trip.name|lower|replace(' ', '_') ~ '_1.JPG') }}" alt="{{ trip.name }}">
         <div class="card__body">
-          <h3>رحلة جدة</h3>
-          <p>جولة مميزة على كورنيش جدة ومعالمها الحديثة.</p>
-          <a href="{{ url_for('trip_details', trip_id=1) }}" class="btn btn--primary">عرض التفاصيل</a>
+          <h3>{{ trip.name }}</h3>
+          <p>السعر: {{ trip.price }} {{ currency }}</p>
+          <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn btn--primary">عرض التفاصيل</a>
         </div>
       </div>
+      {% endfor %}
+    </div>
+  </section>
 
+  <!-- قسم المرشدين -->
+  <section>
+    <h2 class="section-title">مرشدونا</h2>
+    <div class="cards">
+      {% for guide in guides %}
       <div class="card">
-        <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض" loading="lazy">
+        <img src="{{ url_for('static', filename=guide.img) }}" alt="{{ guide.name }}">
         <div class="card__body">
-          <h3>رحلة الرياض</h3>
-          <p>اكتشف تاريخ العاصمة ومعالمها التراثية.</p>
-          <a href="{{ url_for('trip_details', trip_id=2) }}" class="btn btn--primary">عرض التفاصيل</a>
+          <h3>{{ guide.name }}</h3>
+          <p>المدينة: {{ guide.city }}</p>
+          <a href="{{ url_for('booking', trip_id=trips[0].id, guide_id=guide.id) }}" class="btn btn--primary">احجز مع المرشد</a>
         </div>
       </div>
-
-      <div class="card">
-        <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع" loading="lazy">
-        <div class="card__body">
-          <h3>رحلة ينبع</h3>
-          <p>استمتع بجمال الشواطئ والأنشطة البحرية في ينبع.</p>
-          <a href="{{ url_for('trip_details', trip_id=3) }}" class="btn btn--primary">عرض التفاصيل</a>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </section>
 {% endblock %}
