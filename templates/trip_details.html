@@ -1,61 +1,48 @@
 {% extends "base.html" %}
-{% block title %}تفاصيل {{ trip.name }}{% endblock %}
-
-{% block hero %}
-<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
-  <div class="hero__overlay">
-    <div class="container hero__content">
-      <h1 class="hero__title">{{ trip.name }}</h1>
-      <p class="hero__lead">جولة منظمة مع مرشدين محليين وتجربة لا تُنسى</p>
-      <div class="hero__cta">
-        <a href="{{ url_for('booking', trip_id=trip.id) }}" class="btn btn--primary">احجز الآن</a>
-        <a href="{{ url_for('trips') }}" class="btn">رجوع للرحلات</a>
-      </div>
-    </div>
-  </div>
-</section>
-{% endblock %}
+{% block title %}تفاصيل الرحلة{% endblock %}
 
 {% block content %}
-<section class="trip">
-  <!-- المعرض -->
-  <div class="trip__gallery">
-    <img src="{{ url_for('static', filename=(trip.name|lower|replace(' ', '_') ~ '_1.JPG') ) }}" alt="{{ trip.name }} صورة 1">
-    <img src="{{ url_for('static', filename=(trip.name|lower|replace(' ', '_') ~ '_2.JPG') ) }}" alt="{{ trip.name }} صورة 2">
-    <img src="{{ url_for('static', filename=(trip.name|lower|replace(' ', '_') ~ '_3.JPG') ) }}" alt="{{ trip.name }} صورة 3">
+<section class="trip-details">
+  <h2 class="section-title">{{ trip.name }}</h2>
+  
+  <!-- صور الرحلة -->
+  <div class="gallery">
+    {% for i in range(1, 5) %}
+      <img src="{{ url_for('static', filename='images/' ~ (trip.name|lower|replace(' ', '_')) ~ '_' ~ i ~ '.JPG') }}" 
+           alt="{{ trip.name }} صورة {{ i }}">
+    {% endfor %}
   </div>
 
-  <!-- التفاصيل -->
-  <aside class="trip__body">
-    <h2 style="margin-top:0;">تفاصيل الرحلة</h2>
-    <p class="price">السعر: <strong>{{ trip.price }} {{ currency }}</strong> <small style="opacity:.8;">(تُضاف ضريبة القيمة المضافة عند الدفع)</small></p>
+  <!-- وصف الرحلة -->
+  <p class="trip-desc">{{ trip.description }}</p>
 
-    <div class="trip__actions">
-      <a class="btn btn--primary" href="{{ url_for('booking', trip_id=trip.id) }}">احجز الآن</a>
-      <a class="btn" href="{{ url_for('trips') }}">جميع الرحلات</a>
-    </div>
+  <!-- جدول الرحلة -->
+  {% if trip.itinerary %}
+  <table class="trip-table">
+    <thead>
+      <tr>
+        <th>اليوم</th>
+        <th>البرنامج</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for day, plan in trip.itinerary.items() %}
+      <tr>
+        <td>اليوم {{ day }}</td>
+        <td>{{ plan }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
 
-    <hr style="border-color:#1b3b2a; opacity:.6; margin:1rem 0;">
-
-    <h3>البرنامج المقترح</h3>
-    <ul>
-      <li>الاستقبال والتعريف بالبرنامج.</li>
-      <li>زيارة أبرز المعالم السياحية والثقافية.</li>
-      <li>تجربة محلية (مطاعم/أنشطة) حسب تفضيل المجموعة.</li>
-      <li>خيار إضافة نشاط مغامرات أو جولة تسوق.</li>
-    </ul>
-
-    <h3>يشمل السعر</h3>
-    <ul>
-      <li>مرشد سياحي معتمد.</li>
-      <li>تنسيق البرنامج وجدول الزيارات.</li>
-      <li>دعم أثناء الرحلة.</li>
-    </ul>
-
-    <h3>معلومات إضافية</h3>
-    <p style="margin:0;">
-      المدة والمتطلبات قابلة للتعديل حسب احتياجك. عند الحجز يمكنك إضافة ملاحظاتك وسنقوم بالتواصل للتأكيد.
+  <!-- السعر وزر الحجز -->
+  <div class="trip-booking">
+    <p class="price">
+      <strong>{{ trip.price }} {{ currency }}</strong>
+      <small style="opacity:.8;">(تُحتسب الضريبة عند الدفع)</small>
     </p>
-  </aside>
+    <a href="{{ url_for('booking', trip_id=trip.id) }}" class="btn btn--primary">احجز الآن</a>
+  </div>
 </section>
 {% endblock %}
