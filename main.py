@@ -30,6 +30,17 @@ EMAIL_FROM = os.getenv("EMAIL_FROM", EMAIL_USER)  # غالبًا نفس الحس
 EMAIL_BCC  = os.getenv("EMAIL_BCC")               # اختياري: نسخة خفية إدارية
 BASE_URL   = os.getenv("BASE_URL")                # مثال: https://...onrender.com
 
+# ====== إعدادات الشركة/الضرائب (من البيئة مع قيم افتراضية) ======
+COMPANY_NAME     = os.getenv("COMPANY_NAME", "وجهة السعودية")
+COMPANY_TAX_ID   = os.getenv("COMPANY_TAX_ID", "3100000000")   # الرقم الضريبي
+COMPANY_VAT_RATE = float(os.getenv("COMPANY_VAT_RATE", "15"))  # نسبة الضريبة % (مثلاً 15)
+COMPANY_ADDRESS  = os.getenv("COMPANY_ADDRESS", "المملكة العربية السعودية")
+COMPANY_PHONE    = os.getenv("COMPANY_PHONE", "+9665XXXXXXX")
+COMPANY_EMAIL    = os.getenv("COMPANY_EMAIL", "info@example.com")
+COMPANY_WEBSITE  = os.getenv("COMPANY_WEBSITE", "https://saudidestination")
+
+CURRENCY = "ر.س"
+
 def send_email(to_email: str, subject: str, html_body: str, text_body: str = None, bcc: str = None, attachments=None):
     """إرسال بريد عبر SMTP باستخدام TLS، مع دعم BCC ومرفقات."""
     if not all([EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS, EMAIL_FROM]):
@@ -48,7 +59,6 @@ def send_email(to_email: str, subject: str, html_body: str, text_body: str = Non
     msg.set_content(text_body)
     msg.add_alternative(html_body, subtype="html")
 
-    # مرفقات (قائمة من dict: {"filename":..., "data": bytes, "mime": "application/pdf"})
     if attachments:
         for att in attachments:
             fname = att.get("filename", "attachment")
@@ -68,11 +78,11 @@ def send_email(to_email: str, subject: str, html_body: str, text_body: str = Non
         print("Email send error:", e)
         return False
 
-# ====== بيانات الرحلات والمرشدين ======
+# ====== بيانات الرحلات (تسعير ديناميكي) ======
 TRIPS = [
-    {"id": 1, "name": "رحلة جدة",   "default_guide_id": 1},
-    {"id": 2, "name": "رحلة الرياض", "default_guide_id": 2},
-    {"id": 3, "name": "رحلة ينبع",   "default_guide_id": 3},
+    {"id": 1, "name": "رحلة جدة",   "default_guide_id": 1, "price": 299.0},
+    {"id": 2, "name": "رحلة الرياض", "default_guide_id": 2, "price": 349.0},
+    {"id": 3, "name": "رحلة ينبع",   "default_guide_id": 3, "price": 399.0},
 ]
 
 GUIDES = [
@@ -87,6 +97,15 @@ def get_trip(trip_id):
 def get_guide(guide_id):
     return next((g for g in GUIDES if str(g["id"]) == str(guide_id)), None)
 
+def calc_totals(price: float, vat_rate_percent: float):
+    """إرجاع (قبل الضريبة، الضريبة، الإجمالي)."""
+    price = float(price or 0)
+    rate  = float(vat_rate_percent or 0) / 100.0
+    vat_amount = round(price * rate, 2)
+    subtotal   = round(price, 2)
+    total      = round(subtotal + vat_amount, 2)
+    return subtotal, vat_amount, total
+
 # حافظات للجلسة
 def get_pending():
     return session.setdefault("pending_bookings", {})
@@ -99,18 +118,18 @@ def get_confirmed():
 # ===========================
 @app.route("/")
 def home():
-    return render_template("home.html", active="home", trips=TRIPS, guides=GUIDES)
+    return render_template("home.html", active="home", trips=TRIPS, guides=GUIDES, currency=CURRENCY)
 
 @app.route("/trips")
 def trips():
-    return render_template("trips.html", active="trips", trips=TRIPS)
+    return render_template("trips.html", active="trips", trips=TRIPS, currency=CURRENCY)
 
 @app.route("/trips/<int:trip_id>")
 def trip_details(trip_id):
     trip = get_trip(trip_id)
     if not trip:
         abort(404)
-    return render_template("trip_details.html", trip_id=trip_id, trip=trip, active="trips")
+    return render_template("trip_details.html", trip_id=trip_id, trip=trip, active="trips", currency=CURRENCY)
 
 @app.route("/guides")
 def guides():
@@ -166,6 +185,7 @@ def booking():
 
         booking_id = uuid.uuid4().hex[:8].upper()
 
+        # نخزن فقط المعلومة الدنيا؛ الأسعار تُحسب وقت الدفع لضمان التناسق
         pending = get_pending()
         pending[booking_id] = {
             "booking_id": booking_id,
@@ -203,10 +223,25 @@ def payment():
         flash("لا يوجد حجز صالح للدفع.", "danger")
         return redirect(url_for("booking"))
 
+    trip = get_trip(booking["trip_id"])
+    if not trip:
+        flash("الرحلة غير موجودة.", "danger")
+        return redirect(url_for("booking"))
+
+    price = float(trip["price"])
+    subtotal, vat_amount, total = calc_totals(price, COMPANY_VAT_RATE)
+
     if request.method == "POST":
         # (تجريبي) يعتبر الدفع ناجحًا
         confirmed = get_confirmed()
-        confirmed[booking_id] = booking
+        confirmed[booking_id] = {
+            **booking,
+            "price": price,
+            "subtotal": subtotal,
+            "vat_amount": vat_amount,
+            "total": total,
+            "vat_rate": COMPANY_VAT_RATE,
+        }
         session["confirmed_bookings"] = confirmed
 
         # إزالة من المعلّقة
@@ -221,7 +256,17 @@ def payment():
 
         # تجهيز مرفق الفاتورة PDF (إذا توفّر WeasyPrint)
         attachments = []
-        invoice_html = render_template("invoice_print.html", booking=booking, trip=get_trip(booking["trip_id"]), guide=get_guide(booking["guide_id"]))
+        invoice_html = render_template(
+            "invoice_print.html",
+            booking=confirmed[booking_id],
+            trip=trip,
+            guide=get_guide(booking["guide_id"]),
+            company=dict(
+                name=COMPANY_NAME, tax_id=COMPANY_TAX_ID, address=COMPANY_ADDRESS,
+                phone=COMPANY_PHONE, email=COMPANY_EMAIL, website=COMPANY_WEBSITE
+            ),
+            currency=CURRENCY
+        )
         if WEASYPRINT_AVAILABLE:
             try:
                 pdf_bytes = HTML(string=invoice_html, base_url=BASE_URL or "").write_pdf()
@@ -230,11 +275,31 @@ def payment():
                 print("PDF generation error:", e)
 
         # إرسال بريد تأكيد + BCC إداري (إن وُجِد)
-        html_body = render_template("emails/receipt_email.html", booking=booking, receipt_url=receipt_url)
-        text_body = render_template("emails/receipt_email.txt",   booking=booking, receipt_url=receipt_url)
+        html_body = render_template(
+            "emails/receipt_email.html",
+            booking=confirmed[booking_id],
+            trip=trip,
+            receipt_url=receipt_url,
+            company=dict(
+                name=COMPANY_NAME, tax_id=COMPANY_TAX_ID, address=COMPANY_ADDRESS,
+                phone=COMPANY_PHONE, email=COMPANY_EMAIL, website=COMPANY_WEBSITE
+            ),
+            currency=CURRENCY
+        )
+        text_body = render_template(
+            "emails/receipt_email.txt",
+            booking=confirmed[booking_id],
+            trip=trip,
+            receipt_url=receipt_url,
+            company=dict(
+                name=COMPANY_NAME, tax_id=COMPANY_TAX_ID, address=COMPANY_ADDRESS,
+                phone=COMPANY_PHONE, email=COMPANY_EMAIL, website=COMPANY_WEBSITE
+            ),
+            currency=CURRENCY
+        )
         sent = send_email(
             to_email=booking["email"],
-            subject=f"تأكيد حجزك #{booking_id} - وجهة السعودية",
+            subject=f"تأكيد حجزك #{booking_id} - {COMPANY_NAME}",
             html_body=html_body,
             text_body=text_body,
             bcc=EMAIL_BCC,
@@ -248,7 +313,17 @@ def payment():
         return redirect(url_for("receipt", booking_id=booking_id))
 
     # GET: عرض صفحة الدفع
-    return render_template("payment.html", active="payment", booking=booking)
+    return render_template(
+        "payment.html",
+        active="payment",
+        booking=booking,
+        trip=trip,
+        subtotal=subtotal,
+        vat_amount=vat_amount,
+        total=total,
+        vat_rate=COMPANY_VAT_RATE,
+        currency=CURRENCY
+    )
 
 @app.route("/receipt/<string:booking_id>")
 def receipt(booking_id):
@@ -259,7 +334,18 @@ def receipt(booking_id):
 
     trip = get_trip(booking["trip_id"])
     guide = get_guide(booking["guide_id"])
-    return render_template("receipt.html", booking=booking, trip=trip, guide=guide, active=None)
+    return render_template(
+        "receipt.html",
+        booking=booking,
+        trip=trip,
+        guide=guide,
+        company=dict(
+            name=COMPANY_NAME, tax_id=COMPANY_TAX_ID, address=COMPANY_ADDRESS,
+            phone=COMPANY_PHONE, email=COMPANY_EMAIL, website=COMPANY_WEBSITE
+        ),
+        currency=CURRENCY,
+        active=None
+    )
 
 # تنزيل الفاتورة (HTML/PDF) — يظهر الرابط فقط في صفحة الإيصال المدفوع
 @app.route("/invoice/<string:booking_id>/download")
@@ -272,16 +358,23 @@ def download_invoice(booking_id):
     trip  = get_trip(booking["trip_id"])
     guide = get_guide(booking["guide_id"])
 
-    fmt = request.args.get("fmt", "pdf").lower()
-    html = render_template("invoice_print.html", booking=booking, trip=trip, guide=guide)
+    html = render_template(
+        "invoice_print.html",
+        booking=booking, trip=trip, guide=guide,
+        company=dict(
+            name=COMPANY_NAME, tax_id=COMPANY_TAX_ID, address=COMPANY_ADDRESS,
+            phone=COMPANY_PHONE, email=COMPANY_EMAIL, website=COMPANY_WEBSITE
+        ),
+        currency=CURRENCY
+    )
 
+    fmt = request.args.get("fmt", "pdf").lower()
     if fmt == "html" or not WEASYPRINT_AVAILABLE:
         resp = make_response(html)
         resp.headers["Content-Type"] = "text/html; charset=utf-8"
         resp.headers["Content-Disposition"] = f'attachment; filename=invoice_{booking_id}.html'
         return resp
 
-    # PDF عبر WeasyPrint
     pdf_bytes = HTML(string=html, base_url=BASE_URL or "").write_pdf()
     resp = make_response(pdf_bytes)
     resp.headers["Content-Type"] = "application/pdf"
