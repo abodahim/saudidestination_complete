@@ -2,28 +2,138 @@
 {% block title %}الحجز - وجهة السعودية{% endblock %}
 
 {% block hero %}
-<section class="hero hero--small" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
-  <div class="hero__overlay"><div class="container hero__content">
-    <h1 class="hero__title">طلب حجز</h1>
-    <p class="hero__lead">املأ البيانات التالية لإتمام الطلب</p>
-  </div></div>
+<section class="hero hero--small" style="background-image:url('{{ url_for('static', filename='banner.PNG') }}')">
+  <div class="hero__overlay">
+    <div class="container hero__content">
+      <h1 class="hero__title">طلب حجز</h1>
+      <p class="hero__lead">اختر الرحلة وأدخل بياناتك لإتمام الطلب</p>
+    </div>
+  </div>
 </section>
 {% endblock %}
 
 {% block content %}
 <section class="card">
   <div class="card__body">
+
     <form method="post" class="form" novalidate>
-      <div style="display:grid; gap:.8rem;">
-        <label>الاسم الكامل<input name="name" required></label>
-        <label>البريد الإلكتروني<input name="email" type="email" required></label>
-        <label>رقم الجوال<input name="phone" type="tel" required></label>
-        <label>اسم الرحلة<input name="trip_name" required></label>
+      {# لو تم تمرير guide_id من الرابط، نخفي حقل المرشد ونُظهر بطاقة تعريف #}
+      {% if selected_guide_id %}
+        <input type="hidden" name="guide_id" value="{{ selected_guide_id }}">
+      {% endif %}
+
+      <div class="form-grid">
+        <label>الاسم الكامل
+          <input name="name" required placeholder="الاسم كما في الهوية">
+        </label>
+
+        <label>البريد الإلكتروني
+          <input name="email" type="email" required placeholder="example@email.com">
+        </label>
+
+        <label>رقم الجوال
+          <input name="phone" type="tel" required pattern="^[0-9+\-\s()]{8,}$" placeholder="+9665XXXXXXXX">
+        </label>
+
+        <label>اختر الرحلة
+          <select id="tripSelect" name="trip_id" required>
+            <option value="" disabled {% if not selected_trip_id %}selected{% endif %}>— اختر —</option>
+            {% for t in trips %}
+              <option
+                value="{{ t.id }}"
+                data-price="{{ '%.2f'|format(t.price) }}"
+                {% if selected_trip_id and (selected_trip_id|string == t.id|string) %}selected{% endif %}
+              >
+                #{{ t.id }} — {{ t.name }} ({{ t.price }} {{ currency }})
+              </option>
+            {% endfor %}
+          </select>
+        </label>
+
+        {# إن لم يكن هناك guide_id مُمرر من الرابط، يمكن عرض اختيار مرشد (اختياري) #}
+        {% if not selected_guide_id %}
+        <label>اختيار المرشد (اختياري)
+          <select name="guide_id">
+            <option value="">— تلقائي (مرشد الرحلة الافتراضي) —</option>
+            {% for g in guides %}
+              <option value="{{ g.id }}">{{ g.name }} — {{ g.city }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        {% endif %}
       </div>
-      <div style="margin-top:.8rem;">
+
+      {# بطاقة المرشد المختار من الرابط #}
+      {% if selected_guide_id %}
+      {% set g = (guides | selectattr('id', 'equalto', selected_guide_id|int) | list | first) %}
+      {% if g %}
+      <div class="guide-selected" style="margin:.8rem 0; display:flex; gap:12px; align-items:center;">
+        <img src="{{ url_for('static', filename=g.img) }}" alt="{{ g.name }}" style="width:64px;height:64px;border-radius:10px;object-fit:cover;">
+        <div>
+          <strong>المرشد المختار:</strong> {{ g.name }} — {{ g.city }}<br>
+          <small style="opacity:.8;">يمكن تغيير المرشد لاحقًا عند التأكيد إذا لزم</small>
+        </div>
+      </div>
+      {% endif %}
+      {% endif %}
+
+      <!-- معاينة السعر (قبل/ضريبة/إجمالي) -->
+      <div id="pricePreview" class="price-box" style="display:none; margin:1rem 0; border:1px dashed #2aa560; border-radius:10px; padding:.8rem;">
+        <strong>ملخص السعر</strong>
+        <ul style="margin:.5rem 0 0; padding:0 1rem;">
+          <li>السعر قبل الضريبة: <span id="ppSubtotal">—</span> {{ currency }}</li>
+          <li>الضريبة (%{{ vat_rate|default(15) }}): <span id="ppVat">—</span> {{ currency }}</li>
+          <li><strong>الإجمالي</strong>: <strong id="ppTotal">—</strong> {{ currency }}</li>
+        </ul>
+        <small style="opacity:.8;">* يتم اعتماد نفس الأرقام في صفحة الدفع.</small>
+      </div>
+
+      <div class="form-actions">
         <button class="btn btn--primary" type="submit">إرسال الطلب</button>
+        <a class="btn" href="{{ url_for('trips') }}">استعراض الرحلات</a>
       </div>
     </form>
+
   </div>
 </section>
+{% endblock %}
+
+{% block body_extra %}
+<script>
+  (function(){
+    // نسبة الضريبة من السيرفر (إن لم تصل، افتراض 15)
+    var VAT_RATE = Number('{{ vat_rate if vat_rate is defined else 15 }}');
+    var currency = '{{ currency|e }}';
+
+    // عناصر DOM
+    var selectEl = document.getElementById('tripSelect');
+    var box = document.getElementById('pricePreview');
+    var elSub = document.getElementById('ppSubtotal');
+    var elVat = document.getElementById('ppVat');
+    var elTot = document.getElementById('ppTotal');
+
+    function fmt(n){ try { return Number(n).toFixed(2); } catch(e){ return n; } }
+
+    function updatePrice(){
+      if(!selectEl) return;
+      var opt = selectEl.options[selectEl.selectedIndex];
+      if(!opt || !opt.value){ box.style.display='none'; return; }
+
+      var price = Number(opt.getAttribute('data-price') || 0);
+      var vat   = Math.round(price * (VAT_RATE/100) * 100)/100;
+      var total = Math.round((price + vat) * 100)/100;
+
+      elSub.textContent = fmt(price);
+      elVat.textContent = fmt(vat);
+      elTot.textContent = fmt(total);
+      box.style.display = 'block';
+    }
+
+    if(selectEl){
+      selectEl.addEventListener('change', updatePrice);
+      // حدّث عند التحميل إن كان محددًا مسبقًا
+      updatePrice();
+    }
+  })();
+</script>
 {% endblock %}
