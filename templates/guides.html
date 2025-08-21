@@ -8,12 +8,16 @@
   
   <div class="cards">
     {% for guide in guides %}
+    {% set img_path = guide.img %}
+    {% if 'images/' not in img_path %}
+      {% set img_path = 'images/' ~ img_path %}
+    {% endif %}
     <div class="card">
-      <img src="{{ url_for('static', filename=guide.img) }}" alt="{{ guide.name }}">
+      <img src="{{ url_for('static', filename=img_path) }}" alt="{{ guide.name }}">
       <div class="card__body">
         <h3>{{ guide.name }}</h3>
         <p>المدينة: {{ guide.city }}</p>
-        <p style="font-size:.9rem; opacity:.8;">{{ guide.bio }}</p>
+        {% if guide.bio %}<p style="font-size:.9rem; opacity:.8;">{{ guide.bio }}</p>{% endif %}
         <div class="card__actions">
           <a href="{{ url_for('booking', guide_id=guide.id) }}" class="btn btn--primary">احجز مع المرشد</a>
         </div>
