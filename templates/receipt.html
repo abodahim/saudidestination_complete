@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}إيصال حجز {{ booking.booking_id }}{% endblock %}
+
+{% block content %}
+<section class="card" style="margin-top:2rem;">
+  <div class="card__body">
+    <h2>تم تأكيد الحجز</h2>
+    <p>رقم الحجز: <strong>{{ booking.booking_id }}</strong></p>
+    <p>الرحلة: <strong>{{ trip.name }}</strong></p>
+
+    <div class="form-actions" style="margin:.8rem 0;">
+      <a class="btn" href="{{ url_for('download_invoice', booking_id=booking.booking_id, fmt='pdf') }}">تنزيل الفاتورة PDF</a>
+      <a class="btn" href="{{ url_for('download_invoice', booking_id=booking.booking_id, fmt='html') }}">تنزيل الفاتورة HTML</a>
+    </div>
+
+    <hr>
+    <h3>بيانات التواصل مع المرشد</h3>
+    <p>المرشد: <strong>{{ guide.name }}</strong> — <span>{{ guide.city }}</span></p>
+    <p style="display:flex; gap:.6rem; flex-wrap:wrap;">
+      <a class="btn btn--primary" href="tel:{{ guide.phone }}">اتصال مباشر</a>
+      <a class="btn" href="https://wa.me/{{ guide.whatsapp|replace('+','') }}?text={{ ('مرحبًا ' ~ guide.name ~ '، لدي استفسار بخصوص الحجز رقم ' ~ booking.booking_id)|urlencode }}">واتساب</a>
+    </p>
+
+    <div class="form-actions" style="margin-top:.8rem;">
+      <a class="btn" href="{{ url_for('home') }}">العودة للرئيسية</a>
+      <a class="btn" href="{{ url_for('guides') }}">عرض جميع المرشدين</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
