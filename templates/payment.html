@@ -1,12 +1,26 @@
 {% extends "base.html" %}
 {% block title %}الدفع{% endblock %}
+
 {% block content %}
 <section class="card" style="margin-top:2rem;">
   <div class="card__body">
-    <h2>صفحة دفع تجريبية</h2>
+    <h2>إتمام عملية الدفع</h2>
+    <p>رقم الحجز: <strong>{{ booking.booking_id }}</strong></p>
+    <p>الرحلة: <strong>{{ trip.name }}</strong></p>
+
+    <div style="margin:.6rem 0;">
+      <p>السعر قبل الضريبة: <strong>{{ subtotal }} {{ currency }}</strong></p>
+      <p>الضريبة ({{ vat_rate }}%): <strong>{{ vat_amount }} {{ currency }}</strong></p>
+      <p>الإجمالي: <strong>{{ total }} {{ currency }}</strong></p>
+    </div>
+
     <form method="post">
-      <label>المبلغ<input name="amount" type="number" min="1" value="299" required></label>
-      <button class="btn btn--primary" type="submit">إتمام الدفع</button>
+      <input type="hidden" name="booking_id" value="{{ booking.booking_id }}">
+      <!-- نموذج دفع تجريبي: زر واحد يكمل العملية -->
+      <div class="form-actions" style="margin-top:.8rem;">
+        <button class="btn btn--primary" type="submit">ادفع {{ total }} {{ currency }}</button>
+        <a class="btn" href="{{ url_for('booking', trip_id=booking.trip_id) }}">تعديل الطلب</a>
+      </div>
     </form>
   </div>
 </section>
