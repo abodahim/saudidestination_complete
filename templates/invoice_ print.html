@@ -13,6 +13,7 @@
     .meta td, .items th, .items td, .totals td { border:1px solid #ccc; padding:8px; }
     .items th { background:#f3f3f3; }
     .right { text-align:left; } /* لأن RTL */
+    small { color:#666; }
   </style>
 </head>
 <body>
@@ -20,13 +21,14 @@
     <div class="brand">
       <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="Logo">
       <div>
-        <h2>وجهة السعودية</h2>
-        <small>www.saudidestination</small>
+        <h2>{{ company.name }}</h2>
+        <small>{{ company.website }}</small>
       </div>
     </div>
     <div>
       <h3>فاتورة #{{ booking.booking_id }}</h3>
-      <small>رحلة: {{ trip.name }}</small>
+      <small>رحلة: {{ trip.name }}</small><br>
+      <small>الرقم الضريبي: {{ company.tax_id }}</small>
     </div>
   </div>
 
@@ -34,22 +36,31 @@
     <tr><td>اسم العميل</td><td>{{ booking.name }}</td></tr>
     <tr><td>البريد</td><td>{{ booking.email }}</td></tr>
     <tr><td>الجوال</td><td>{{ booking.phone }}</td></tr>
+    <tr><td>العنوان</td><td>{{ company.address }}</td></tr>
   </table>
 
   <table class="items">
     <thead>
-      <tr><th>الوصف</th><th>الكمية</th><th>السعر</th><th>الإجمالي</th></tr>
+      <tr><th>الوصف</th><th>الكمية</th><th>السعر (قبل الضريبة)</th><th>الإجمالي (قبل الضريبة)</th></tr>
     </thead>
     <tbody>
-      <tr><td>{{ trip.name }}</td><td>1</td><td>299 ر.س</td><td>299 ر.س</td></tr>
+      <tr>
+        <td>{{ trip.name }}</td>
+        <td>1</td>
+        <td>{{ booking.subtotal }} {{ currency }}</td>
+        <td>{{ booking.subtotal }} {{ currency }}</td>
+      </tr>
     </tbody>
   </table>
 
   <table class="totals">
-    <tr><td>الإجمالي</td><td class="right">299 ر.س</td></tr>
+    <tr><td>الضريبة ({{ booking.vat_rate }}%)</td><td class="right">{{ booking.vat_amount }} {{ currency }}</td></tr>
+    <tr><td><strong>الإجمالي</strong></td><td class="right"><strong>{{ booking.total }} {{ currency }}</strong></td></tr>
   </table>
 
-  <p style="margin-top:16px;">المرشد: {{ guide.name }} — {{ guide.city }}</p>
-  <p><small>هذه فاتورة آلية صالحة لسجلاتك.</small></p>
+  <p style="margin-top:16px;">
+    المرشد: {{ guide.name }} — {{ guide.city }}<br>
+    <small>هاتف: {{ company.phone }} — بريد: {{ company.email }}</small>
+  </p>
 </body>
 </html>
