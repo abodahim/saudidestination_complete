@@ -6,15 +6,21 @@
   <h2 class="section-title">جميع الرحلات</h2>
   <div class="cards">
     {% for trip in trips %}
-    <div class="card">
-      <img src="{{ url_for('static', filename=trip.name|lower|replace(' ', '_') ~ '_1.JPG') }}" alt="{{ trip.name }}">
+    <article class="card">
+      <!-- صور الرحلات داخل static/images/ -->
+      <img src="{{ url_for('static', filename='images/' ~ (trip.name|lower|replace(' ', '_')) ~ '_1.JPG') }}" alt="{{ trip.name }}">
       <div class="card__body">
         <h3>{{ trip.name }}</h3>
-        <p>السعر: {{ trip.price }} {{ currency }}</p>
-        <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn btn--primary">عرض التفاصيل</a>
-        <a href="{{ url_for('booking', trip_id=trip.id) }}" class="btn">احجز الآن</a>
+        <p class="price">
+          <strong>{{ trip.price }} {{ currency }}</strong>
+          <small style="opacity:.8;">(تُحتسب الضريبة عند الدفع)</small>
+        </p>
+        <div class="card__actions">
+          <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn btn--primary">عرض التفاصيل</a>
+          <a href="{{ url_for('booking', trip_id=trip.id) }}" class="btn">احجز الآن</a>
+        </div>
       </div>
-    </div>
+    </article>
     {% endfor %}
   </div>
 </section>
