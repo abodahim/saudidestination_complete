@@ -2,33 +2,44 @@
 {% block title %}حجز رحلة{% endblock %}
 
 {% block content %}
-<section>
-  <h2 class="section-title">نموذج الحجز</h2>
-  <form method="POST" class="form-grid">
-    <label>
-      الاسم الكامل
-      <input type="text" name="name" required>
-    </label>
-    <label>
-      البريد الإلكتروني
-      <input type="email" name="email" required>
-    </label>
-    <label>
-      رقم الجوال
-      <input type="tel" name="phone" required>
-    </label>
-    <label>
-      اختر الرحلة
-      <select name="trip_name" required>
-        <option value="">-- اختر --</option>
-        {% for trip in trips %}
-        <option value="{{ trip.name }}">{{ trip.name }} ({{ trip.price }} {{ currency }})</option>
-        {% endfor %}
-      </select>
-    </label>
+<section class="section">
+  <h1 class="section-title">نموذج الحجز</h1>
+
+  <form class="form card--pad" action="{{ url_for('booking') }}" method="post">
+    <div class="grid form-grid">
+      <div>
+        <label>الاسم الكامل</label>
+        <input type="text" name="name" required>
+      </div>
+      <div>
+        <label>البريد الإلكتروني</label>
+        <input type="email" name="email" required>
+      </div>
+      <div>
+        <label>رقم الجوال</label>
+        <input type="tel" name="phone" required>
+      </div>
+      <div>
+        <label>اختر الرحلة</label>
+        <select name="trip_id" id="tripSelect" required>
+          <option value="">-- اختر --</option>
+          {% for t in trips %}
+            <option value="{{ t.id }}" data-price="{{ t.price }}"
+              {% if request.args.get('trip_id') == t.id %}selected{% endif %}>
+              {{ t.name }} — {{ t.price }} ر.س
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label>السعر</label>
+        <input type="text" id="tripPrice" value="" readonly>
+      </div>
+    </div>
+
     <div class="form-actions">
-      <button class="btn btn--primary" type="submit">تأكيد الحجز</button>
-      <a href="{{ url_for('home') }}" class="btn">إلغاء</a>
+      <button class="btn btn--primary" type="submit">متابعة إلى الدفع</button>
+      <a class="btn btn--ghost" href="{{ url_for('trips') }}">العودة للرحلات</a>
     </div>
   </form>
 </section>
