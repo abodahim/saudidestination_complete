@@ -1,24 +1,52 @@
 {% extends "base.html" %}
-{% block title %}الرحلات{% endblock %}
+{% block title %}الرحلات - وجهة السعودية{% endblock %}
 
 {% block content %}
-<section class="section">
-  <h1 class="section-title">كل الرحلات</h1>
+<section>
+  <h1 class="section-title">الرحلات المتاحة</h1>
+
   <div class="cards">
-    {% for t in trips %}
+    <!-- جدة -->
     <article class="card">
-      <img src="{{ url_for('static', filename=t.image) }}" alt="{{ t.title }}">
+      <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
       <div class="card__body">
-        <h3>{{ t.title }}</h3>
-        <p class="muted">{{ t.city }} • {{ t.days }} يوم</p>
-        <p class="price">{{ t.price }} {{ currency }}</p>
-        <div class="row-actions">
-          <a class="btn btn--ghost"   href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
-          <a class="btn btn--primary" href="{{ url_for('booking') }}?trip_id={{ t.id }}">احجز الآن</a>
+        <h3>رحلة جدة</h3>
+        <p>جولة على كورنيش جدة ومتحف جدة ومعالم البلد التاريخية.</p>
+        <p class="muted">اليوم الكامل • جدة</p>
+        <div class="card__actions">
+          <a class="btn btn--primary" href="{{ url_for('trip_details', trip_id=1) }}">عرض التفاصيل</a>
+          <a class="btn btn--outline" href="{{ url_for('book', trip='رحلة جدة', price='299') }}">احجز الآن</a>
         </div>
       </div>
     </article>
-    {% endfor %}
+
+    <!-- الرياض -->
+    <article class="card">
+      <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
+      <div class="card__body">
+        <h3>رحلة الرياض</h3>
+        <p>الدرعية التاريخية، بوليفارد، وسوق الزل العريق.</p>
+        <p class="muted">اليوم الكامل • الرياض</p>
+        <div class="card__actions">
+          <a class="btn btn--primary" href="{{ url_for('trip_details', trip_id=2) }}">عرض التفاصيل</a>
+          <a class="btn btn--outline" href="{{ url_for('book', trip='رحلة الرياض', price='349') }}">احجز الآن</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ينبع -->
+    <article class="card">
+      <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع">
+      <div class="card__body">
+        <h3>رحلة ينبع</h3>
+        <p>سنوركلينج وبحيرات وواجهات بحرية وحدائق جميلة.</p>
+        <p class="muted">اليوم الكامل • ينبع</p>
+        <div class="card__actions">
+          <a class="btn btn--primary" href="{{ url_for('trip_details', trip_id=3) }}">عرض التفاصيل</a>
+          <a class="btn btn--outline" href="{{ url_for('book', trip='رحلة ينبع', price='399') }}">احجز الآن</a>
+        </div>
+      </div>
+    </article>
   </div>
 </section>
 {% endblock %}
