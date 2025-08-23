@@ -1,46 +1,43 @@
 {% extends "base.html" %}
-{% block title %}حجز رحلة{% endblock %}
+{% block title %}الحجز{% endblock %}
 
 {% block content %}
 <section class="section">
   <h1 class="section-title">نموذج الحجز</h1>
 
-  <form class="form card--pad" action="{{ url_for('booking') }}" method="post">
-    <div class="grid form-grid">
-      <div>
-        <label>الاسم الكامل</label>
-        <input type="text" name="name" required>
-      </div>
-      <div>
-        <label>البريد الإلكتروني</label>
-        <input type="email" name="email" required>
-      </div>
-      <div>
-        <label>رقم الجوال</label>
-        <input type="tel" name="phone" required>
-      </div>
-      <div>
-        <label>اختر الرحلة</label>
-        <select name="trip_id" id="tripSelect" required>
-          <option value="">-- اختر --</option>
-          {% for t in trips %}
-            <option value="{{ t.id }}" data-price="{{ t.price }}"
-              {% if request.args.get('trip_id') == t.id %}selected{% endif %}>
-              {{ t.name }} — {{ t.price }} ر.س
-            </option>
-          {% endfor %}
-        </select>
-      </div>
-      <div>
-        <label>السعر</label>
-        <input type="text" id="tripPrice" value="" readonly>
-      </div>
+  <form method="post" class="form" id="bookingForm">
+    <div class="field">
+      <label>الاسم الكامل</label>
+      <input type="text" name="name" required>
     </div>
 
-    <div class="form-actions">
-      <button class="btn btn--primary" type="submit">متابعة إلى الدفع</button>
-      <a class="btn btn--ghost" href="{{ url_for('trips') }}">العودة للرحلات</a>
+    <div class="field">
+      <label>البريد الإلكتروني</label>
+      <input type="email" name="email" required>
     </div>
+
+    <div class="field">
+      <label>رقم الجوال</label>
+      <input type="tel" name="phone" placeholder="05xxxxxxxx" required>
+    </div>
+
+    <div class="field">
+      <label>اختر الرحلة</label>
+      <select name="trip_id" id="tripSelect" required>
+        {% for t in trips %}
+          <option value="{{ t.id }}" data-price="{{ t.price }}">{{ t.title }} – {{ t.price }} {{ currency }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label>السعر</label>
+      <input type="text" id="priceBox" value="{{ trips[0].price }} {{ currency }}" readonly>
+    </div>
+
+    <button class="btn btn--primary" type="submit">إرسال الحجز</button>
   </form>
+
+  <p class="muted small">* ستظهر بيانات تواصل المرشد عبر واتساب والهاتف بعد إتمام الدفع.</p>
 </section>
 {% endblock %}
