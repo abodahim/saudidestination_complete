@@ -3,28 +3,18 @@
 
 {% block content %}
 <section class="section">
-  <h1 class="section-title">الرحلات المتاحة</h1>
-
-  <div class="filters">
-    <span class="badge">عائلية</span>
-    <span class="badge">مدارس</span>
-    <span class="badge">شركات</span>
-  </div>
-
-  <div class="grid cards">
+  <h1 class="section-title">كل الرحلات</h1>
+  <div class="cards">
     {% for t in trips %}
     <article class="card">
-      <img class="card__img" src="{{ url_for('static', filename=t.image) }}" alt="{{ t.name }}">
+      <img src="{{ url_for('static', filename=t.image) }}" alt="{{ t.title }}">
       <div class="card__body">
-        <h3 class="card__title">{{ t.name }}</h3>
-        <p class="card__txt">{{ t.short }}</p>
-        <div class="card__meta">
-          <span>المدينة: {{ t.city }}</span>
-          <span class="price">{{ t.price }} ر.س</span>
-        </div>
-        <div class="card__actions">
-          <a href="{{ url_for('trip_details', trip_id=t.id) }}" class="btn btn--primary">عرض التفاصيل</a>
-          <a href="{{ url_for('booking') }}?trip_id={{ t.id }}" class="btn btn--ghost">احجز الآن</a>
+        <h3>{{ t.title }}</h3>
+        <p class="muted">{{ t.city }} • {{ t.days }} يوم</p>
+        <p class="price">{{ t.price }} {{ currency }}</p>
+        <div class="row-actions">
+          <a class="btn btn--ghost"   href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
+          <a class="btn btn--primary" href="{{ url_for('booking') }}?trip_id={{ t.id }}">احجز الآن</a>
         </div>
       </div>
     </article>
