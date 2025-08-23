@@ -1,42 +1,20 @@
 {% extends "base.html" %}
-{% block title %}{{ trip.name }}{% endblock %}
+{% block title %}{{ trip.title }}{% endblock %}
 
 {% block content %}
 <section class="section">
-  <div class="trip-head">
-    <img class="trip-cover" src="{{ url_for('static', filename=trip.image) }}" alt="{{ trip.name }}">
-    <div class="trip-info">
-      <h1 class="section-title">{{ trip.name }}</h1>
+  <article class="details">
+    <img class="details__img" src="{{ url_for('static', filename=trip.image) }}" alt="{{ trip.title }}">
+    <div class="details__body">
+      <h1>{{ trip.title }}</h1>
       <p class="muted">{{ trip.city }} • {{ trip.days }} يوم</p>
-      <p>{{ trip.short }}</p>
-      <ul class="bullets">
-        {% for inc in trip.includes %}<li>{{ inc }}</li>{% endfor %}
-      </ul>
-      <div class="price-lg">{{ trip.price }} ر.س</div>
-      <div class="gap-8">
+      <p>{{ trip.summary }}</p>
+      <p class="price">{{ trip.price }} {{ currency }}</p>
+      <div class="row-actions">
+        <a class="btn btn--ghost" href="{{ url_for('trips') }}">رجوع للرحلات</a>
         <a class="btn btn--primary" href="{{ url_for('booking') }}?trip_id={{ trip.id }}">احجز الآن</a>
-        <a class="btn btn--ghost" href="{{ url_for('trips') }}">العودة للرحلات</a>
-      </div>
-
-      <div class="contact-box">
-        {% if session.get('paid_booking_id') %}
-          <p><strong>بيانات التواصل:</strong></p>
-          <p>واتساب: <a class="link" target="_blank" href="https://wa.me/{{ CONTACT_WHATSAPP }}">{{ CONTACT_WHATSAPP }}</a></p>
-          <p>اتصال: <a class="link" href="tel:{{ CONTACT_PHONE }}">{{ CONTACT_PHONE }}</a></p>
-        {% else %}
-          <p class="muted">🔒 لعرض بيانات التواصل برجاء إتمام الدفع بعد الحجز.</p>
-        {% endif %}
       </div>
     </div>
-  </div>
-
-  {% if trip.gallery %}
-  <h2 class="section-title">صور من الرحلة</h2>
-  <div class="grid gallery">
-    {% for img in trip.gallery %}
-      <img src="{{ url_for('static', filename=img) }}" alt="{{ trip.name }}">
-    {% endfor %}
-  </div>
-  {% endif %}
+  </article>
 </section>
 {% endblock %}
