@@ -2,22 +2,29 @@
 {% block title %}الرحلات{% endblock %}
 
 {% block content %}
-<section>
-  <h2 class="section-title">جميع الرحلات</h2>
-  <div class="cards">
-    {% for trip in trips %}
+<section class="section">
+  <h1 class="section-title">الرحلات المتاحة</h1>
+
+  <div class="filters">
+    <span class="badge">عائلية</span>
+    <span class="badge">مدارس</span>
+    <span class="badge">شركات</span>
+  </div>
+
+  <div class="grid cards">
+    {% for t in trips %}
     <article class="card">
-      <!-- صور الرحلات داخل static/images/ -->
-      <img src="{{ url_for('static', filename='images/' ~ (trip.name|lower|replace(' ', '_')) ~ '_1.JPG') }}" alt="{{ trip.name }}">
+      <img class="card__img" src="{{ url_for('static', filename=t.image) }}" alt="{{ t.name }}">
       <div class="card__body">
-        <h3>{{ trip.name }}</h3>
-        <p class="price">
-          <strong>{{ trip.price }} {{ currency }}</strong>
-          <small style="opacity:.8;">(تُحتسب الضريبة عند الدفع)</small>
-        </p>
+        <h3 class="card__title">{{ t.name }}</h3>
+        <p class="card__txt">{{ t.short }}</p>
+        <div class="card__meta">
+          <span>المدينة: {{ t.city }}</span>
+          <span class="price">{{ t.price }} ر.س</span>
+        </div>
         <div class="card__actions">
-          <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn btn--primary">عرض التفاصيل</a>
-          <a href="{{ url_for('booking', trip_id=trip.id) }}" class="btn">احجز الآن</a>
+          <a href="{{ url_for('trip_details', trip_id=t.id) }}" class="btn btn--primary">عرض التفاصيل</a>
+          <a href="{{ url_for('booking') }}?trip_id={{ t.id }}" class="btn btn--ghost">احجز الآن</a>
         </div>
       </div>
     </article>
