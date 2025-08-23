@@ -6,17 +6,14 @@
   <meta name="color-scheme" content="light">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <!-- أيقونة -->
   <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}" type="image/jpeg">
-  <!-- PWA Manifest -->
   <link rel="manifest" href="{{ url_for('manifest') }}">
-  <!-- الأنماط -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   {% block head_extra %}{% endblock %}
 </head>
 <body>
-  <!-- شريط علوي -->
   <header class="topbar">
     <div class="container topbar__wrap">
       <a class="brand" href="{{ url_for('home') }}">
@@ -27,19 +24,15 @@
       <nav class="nav">
         <button id="menuToggle" class="nav__toggle" aria-label="فتح القائمة">☰</button>
         <ul class="nav__list" id="mainNav">
-          <li><a href="{{ url_for('home') }}"     class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
-          <li><a href="{{ url_for('trips') }}"    class="{% if request.endpoint in ['trips','trip_details'] %}active{% endif %}">الرحلات</a></li>
-          <li><a href="{{ url_for('guides') }}"   class="{% if request.endpoint=='guides' %}active{% endif %}">مرشدونا</a></li>
-          <li><a href="{{ url_for('gallery') }}"  class="{% if request.endpoint=='gallery' %}active{% endif %}">المعرض</a></li>
-          <li><a href="{{ url_for('reviews') }}"  class="{% if request.endpoint=='reviews' %}active{% endif %}">التقييمات</a></li>
-          <li><a href="{{ url_for('contact') }}"  class="{% if request.endpoint=='contact' %}active{% endif %}">تواصل</a></li>
+          <li><a href="{{ url_for('home') }}"   class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
+          <li><a href="{{ url_for('trips') }}"  class="{% if request.endpoint in ['trips','trip_details'] %}active{% endif %}">الرحلات</a></li>
+          <li><a href="{{ url_for('guides') }}" class="{% if request.endpoint=='guides' %}active{% endif %}">مرشدونا</a></li>
           <li><a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <!-- بنر اختياري -->
   {% block hero %}{% endblock %}
 
   <main class="container">
@@ -52,7 +45,6 @@
         </div>
       {% endif %}
     {% endwith %}
-
     {% block content %}{% endblock %}
   </main>
 
@@ -62,9 +54,16 @@
     </div>
   </footer>
 
-  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+  {# أزرار تواصل (تظهر فقط بعد الدفع) #}
+  {% if session.get('paid_booking_id') %}
+  <div class="fab">
+    <a class="fab__btn" title="اتصال" href="tel:{{ CONTACT_PHONE }}">📞</a>
+    <a class="fab__btn" title="واتساب" target="_blank" rel="noopener"
+       href="https://wa.me/{{ CONTACT_WHATSAPP }}">💬</a>
+  </div>
+  {% endif %}
 
-  <!-- تسجيل Service Worker من داخل static -->
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -72,7 +71,6 @@
       });
     }
   </script>
-
   {% block body_extra %}{% endblock %}
 </body>
 </html>
