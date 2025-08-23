@@ -2,58 +2,35 @@
 {% block title %}نموذج الحجز{% endblock %}
 
 {% block content %}
-<section>
-  <h1 class="section-title">نموذج الحجز</h1>
+<h1 class="page-title">نموذج الحجز</h1>
 
-  <form method="post" class="card" style="padding:16px;">
-    <div class="cards" style="grid-template-columns:1fr 1fr; gap:14px;">
-      <div>
-        <label>الاسم الكامل</label>
-        <input type="text" name="name" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #ddd">
-      </div>
-      <div>
-        <label>البريد الإلكتروني</label>
-        <input type="email" name="email" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #ddd">
-      </div>
-      <div>
-        <label>رقم الجوال</label>
-        <input type="tel" name="phone" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #ddd">
-      </div>
+<form class="form" method="post" action="{{ url_for('book') }}">
+  <div class="form__row">
+    <label>الاسم الكامل</label>
+    <input type="text" name="name" required>
+  </div>
 
-      <!-- اختيار الرحلة -->
-      <div>
-        <label>اختر الرحلة</label>
-        {% set qtrip  = request.args.get('trip', '') %}
-        {% set qprice = request.args.get('price', '') %}
-        <select name="trip_name" data-trip-select style="width:100%;padding:12px;border-radius:12px;border:1px solid #ddd" required>
-          <option value="" data-price="">— اختر —</option>
-          <option value="رحلة جدة"   data-price="299" {% if qtrip=='رحلة جدة' %}selected{% endif %}>رحلة جدة — 299 ر.س</option>
-          <option value="رحلة الرياض" data-price="349" {% if qtrip=='رحلة الرياض' %}selected{% endif %}>رحلة الرياض — 349 ر.س</option>
-          <option value="رحلة ينبع"   data-price="399" {% if qtrip=='رحلة ينبع' %}selected{% endif %}>رحلة ينبع — 399 ر.س</option>
-        </select>
-      </div>
+  <div class="form__row">
+    <label>البريد الإلكتروني</label>
+    <input type="email" name="email" required>
+  </div>
 
-      <div>
-        <label>السعر</label>
-        <input type="text" name="price" data-trip-price readonly
-               value="{% if qprice %}{{ qprice }} ر.س{% endif %}"
-               style="width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;background:#f7f7f8">
-      </div>
+  <div class="form__row">
+    <label>رقم الجوال</label>
+    <input type="tel" name="phone" required>
+  </div>
 
-      <div style="grid-column:1/-1;">
-        <label>ملاحظات</label>
-        <textarea name="notes" rows="4" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ddd"></textarea>
-      </div>
-    </div>
+  <div class="form__row">
+    <label>اختر الرحلة</label>
+    <select name="trip_id" required>
+      {% for t in trips %}
+      <option value="{{ t.id }}" {% if trip and trip.id==t.id %}selected{% endif %}>
+        {{ t.title }} – {{ t.price }} ر.س
+      </option>
+      {% endfor %}
+    </select>
+  </div>
 
-    <div style="margin-top:12px; display:flex; gap:10px;">
-      <button class="btn btn--primary" type="submit">إرسال الطلب</button>
-      <a class="btn btn--outline" href="{{ url_for('home') }}">إلغاء</a>
-    </div>
-  </form>
-
-  <p class="muted" style="margin-top:10px">
-    بيانات تواصل المرشد (واتساب/اتصال) ستظهر بعد إتمام الدفع وتأكيد الحجز.
-  </p>
-</section>
+  <button class="btn btn--primary" type="submit">إرسال الحجز</button>
+</form>
 {% endblock %}
