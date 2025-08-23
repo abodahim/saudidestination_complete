@@ -8,8 +8,8 @@
       <h1 class="hero__title">وجهة السعودية</h1>
       <p class="hero__lead">استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
       <div class="hero__actions">
-        <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
-        <a class="btn btn--ghost"   href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+        <a class="btn btn--primary" href="{{ url_for('book') }}">احجز الآن</a>
+        <a class="btn btn--outline" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
       </div>
     </div>
   </div>
@@ -17,46 +17,85 @@
 {% endblock %}
 
 {% block content %}
-<section class="section">
-  <h2 class="section-title">نبذة</h2>
-  <p>وجهة السعودية تسهّل لك استكشاف أجمل الوجهات داخل المملكة مع باقات تناسب العائلات والمدارس والشركات.</p>
-</section>
+  <!-- نبذة -->
+  <section>
+    <h2 class="section-title">نبذة</h2>
+    <p>وجهة السعودية تسهّل لك استكشاف أجمل الوجهات داخل المملكة مع باقات متنوعة تناسب العائلات، المدارس، والشركات.</p>
+  </section>
 
-<section class="section">
-  <h2 class="section-title">باقات مختارة</h2>
-  <div class="cards">
-    {% for t in trips %}
-    <article class="card">
-      <img src="{{ url_for('static', filename=t.image) }}" alt="{{ t.title }}">
-      <div class="card__body">
-        <h3>{{ t.title }}</h3>
-        <p class="muted">{{ t.city }} • {{ t.days }} يوم</p>
-        <p class="price">{{ t.price }} {{ currency }}</p>
-        <div class="row-actions">
-          <a class="btn btn--ghost"   href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
-          <a class="btn btn--primary" href="{{ url_for('booking') }}?trip_id={{ t.id }}">احجز الآن</a>
+  <!-- باقات مختارة -->
+  <section>
+    <h2 class="section-title">باقات مختارة</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة">
+        <div class="card__body">
+          <h3>رحلة جدة</h3>
+          <p>جولة مميزة على كورنيش جدة ومعالمها الحديثة.</p>
+          <div class="card__actions">
+            <a href="{{ url_for('trip_details', trip_id=1) }}" class="btn btn--primary">عرض التفاصيل</a>
+            <a href="{{ url_for('book', trip='رحلة جدة') }}" class="btn btn--outline">احجز الآن</a>
+          </div>
         </div>
       </div>
-    </article>
-    {% endfor %}
-  </div>
-</section>
 
-<section class="section">
-  <div class="section-head">
-    <h2 class="section-title">مرشدونا</h2>
-    <a class="link-arrow" href="{{ url_for('guides') }}">كل المرشدين →</a>
-  </div>
-  <div class="cards cards--guides">
-    {% for g in guides %}
-    <article class="card guide">
-      <img src="{{ url_for('static', filename=g.image) }}" alt="{{ g.name }}">
-      <div class="card__body">
-        <h3>{{ g.name }}</h3>
-        <p class="muted">{{ g.city }} • {{ g.years }} سنوات خبرة</p>
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض">
+        <div class="card__body">
+          <h3>رحلة الرياض</h3>
+          <p>اكتشف تاريخ العاصمة ومعالمها التراثية.</p>
+          <div class="card__actions">
+            <a href="{{ url_for('trip_details', trip_id=2) }}" class="btn btn--primary">عرض التفاصيل</a>
+            <a href="{{ url_for('book', trip='رحلة الرياض') }}" class="btn btn--outline">احجز الآن</a>
+          </div>
+        </div>
       </div>
-    </article>
-    {% endfor %}
-  </div>
-</section>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع">
+        <div class="card__body">
+          <h3>رحلة ينبع</h3>
+          <p>استمتع بجمال الشواطئ والأنشطة البحرية في ينبع.</p>
+          <div class="card__actions">
+            <a href="{{ url_for('trip_details', trip_id=3) }}" class="btn btn--primary">عرض التفاصيل</a>
+            <a href="{{ url_for('book', trip='رحلة ينبع') }}" class="btn btn--outline">احجز الآن</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- مرشدونا (رجال فقط دون تكرار) -->
+  <section>
+    <div class="section-head">
+      <h2 class="section-title">مرشدونا</h2>
+      <a class="section-link" href="{{ url_for('guides') }}">كل المرشدين →</a>
+    </div>
+
+    <div class="cards guides">
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/guide1.PNG') }}" alt="سامي الحربي">
+        <div class="card__body">
+          <h3>سامي الحربي</h3>
+          <p class="muted">الرياض • 7 سنوات خبرة</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/guide2.PNG') }}" alt="عبدالله الغامدي">
+        <div class="card__body">
+          <h3>عبدالله الغامدي</h3>
+          <p class="muted">جدة • 5 سنوات خبرة</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/guide3.PNG') }}" alt="فهد القحطاني">
+        <div class="card__body">
+          <h3>فهد القحطاني</h3>
+          <p class="muted">المدينة • 6 سنوات خبرة</p>
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock %}
