@@ -1,40 +1,49 @@
-// فتح/إغلاق القائمة في الجوال
-document.addEventListener("DOMContentLoaded", function () {
-  const toggle = document.getElementById("menuToggle");
-  const nav = document.getElementById("mainNav");
-  if (toggle && nav) {
-    toggle.addEventListener("click", () => {
-      nav.classList.toggle("open");
-    });
+// ===== منيو الجوال (قائمة جانبية) =====
+(function () {
+  const toggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('mainNav');
+  const backdrop = document.getElementById('navBackdrop');
+
+  function openMenu() {
+    nav.classList.add('is-open');
+    backdrop.hidden = false;
+    document.body.classList.add('noscroll');
+    toggle.setAttribute('aria-expanded', 'true');
+  }
+  function closeMenu() {
+    nav.classList.remove('is-open');
+    backdrop.hidden = true;
+    document.body.classList.remove('noscroll');
+    toggle.setAttribute('aria-expanded', 'false');
   }
 
-  // تحديث السعر في صفحة الحجز
-  const tripSelect = document.getElementById("tripSelect");
-  const priceBox = document.getElementById("priceBox");
-  if (tripSelect && priceBox) {
-    const updatePrice = () => {
-      const opt = tripSelect.options[tripSelect.selectedIndex];
-      const price = opt.getAttribute("data-price");
-      priceBox.value = `${price} ر.س`;
-    };
-    tripSelect.addEventListener("change", updatePrice);
-    updatePrice();
-  }
-
-  // تحقق بسيط للنموذج
-  const bookingForm = document.getElementById("bookingForm");
-  if (bookingForm) {
-    bookingForm.addEventListener("submit", (e) => {
-      const email = bookingForm.querySelector('input[name="email"]').value.trim();
-      const phone = bookingForm.querySelector('input[name="phone"]').value.trim();
-      if (!email.includes("@")) {
-        alert("يرجى إدخال بريد إلكتروني صحيح.");
-        e.preventDefault();
-      }
-      if (!/^[0-9]{10}$/.test(phone) || !phone.startsWith("05")) {
-        alert("يرجى إدخال رقم جوال سعودي صحيح يبدأ بـ 05.");
-        e.preventDefault();
-      }
+  if (toggle && nav && backdrop) {
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (nav.classList.contains('is-open')) closeMenu();
+      else openMenu();
+    });
+    backdrop.addEventListener('click', closeMenu);
+    // أغلق عند الضغط على أي رابط داخل المنيو
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+    // Esc لإغلاق
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) closeMenu();
     });
   }
-});
+})();
+
+// ===== نموذج الحجز: تحديث السعر تلقائياً من القائمة =====
+(function () {
+  const select = document.querySelector('[data-trip-select]');
+  const priceInput = document.querySelector('[data-trip-price]');
+  if (!select || !priceInput) return;
+
+  function updatePrice() {
+    const opt = select.options[select.selectedIndex];
+    const price = opt.getAttribute('data-price') || '';
+    priceInput.value = price ? `${price} ر.س` : '';
+  }
+  select.addEventListener('change', updatePrice);
+  updatePrice();
+})();
