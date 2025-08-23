@@ -2,30 +2,16 @@
 {% block title %}الدفع{% endblock %}
 
 {% block content %}
-<section>
-  <h2 class="section-title">الدفع</h2>
-  <p>الرجاء إدخال بيانات الدفع لإكمال الحجز.</p>
-
-  <form method="POST" class="form-grid">
-    <label>
-      رقم البطاقة
-      <input type="text" maxlength="16" required>
-    </label>
-    <label>
-      تاريخ الانتهاء
-      <input type="month" required>
-    </label>
-    <label>
-      CVV
-      <input type="password" maxlength="4" required>
-    </label>
-    <label>
-      الاسم على البطاقة
-      <input type="text" required>
-    </label>
-    <div class="form-actions">
-      <button class="btn btn--primary" type="submit">إتمام الدفع</button>
-    </div>
-  </form>
+<section class="section">
+  <h1 class="section-title">الدفع</h1>
+  <div class="card--pad">
+    <p>العميل: <strong>{{ booking.name }}</strong></p>
+    <p>الرحلة: <strong>{{ trip.name }}</strong></p>
+    <p>المبلغ المستحق: <strong>{{ trip.price }} ر.س</strong></p>
+    <form method="post">
+      <button class="btn btn--primary" type="submit">ادفع الآن (تجريبي)</button>
+      <a class="btn btn--ghost" href="{{ url_for('booking') }}">تعديل الحجز</a>
+    </form>
+  </div>
 </section>
 {% endblock %}
