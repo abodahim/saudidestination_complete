@@ -8,8 +8,8 @@
       <h1 class="hero__title">وجهة السعودية</h1>
       <p class="hero__lead">استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
       <div class="hero__cta">
-        <a href="{{ url_for('booking') }}" class="btn btn--primary">احجز الآن</a>
-        <a href="{{ url_for('trips') }}" class="btn">تصفح الرحلات</a>
+        <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
+        <a class="btn btn--ghost" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
       </div>
     </div>
   </div>
@@ -17,57 +17,51 @@
 {% endblock %}
 
 {% block content %}
-  <!-- نبذة -->
-  <section>
-    <h2 class="section-title">نبذة</h2>
-    <p>
-      وجهة السعودية تسهّل لك استكشاف أجمل الوجهات داخل المملكة 
-      مع باقات متنوعة تناسب العائلات، المدارس، والشركات.
-    </p>
-  </section>
+<section class="section">
+  <h2 class="section-title">نبذة</h2>
+  <p>
+    وجهة السعودية تسهّل لك استكشاف أجمل الوجهات داخل المملكة 
+    مع باقات متنوعة تناسب العائلات والمدارس والشركات.
+  </p>
+</section>
 
-  <!-- باقات مختارة -->
-  <section>
-    <h2 class="section-title">باقات مختارة</h2>
-    <div class="cards">
-      {% for trip in trips %}
-      <article class="card">
-        <img src="{{ url_for('static', filename='images/' ~ (trip.name|lower|replace(' ', '_')) ~ '_1.JPG') }}" alt="{{ trip.name }}">
-        <div class="card__body">
-          <h3>{{ trip.name }}</h3>
-          <p class="price">
-            <strong>{{ trip.price }} {{ currency }}</strong>
-            <small style="opacity:.8;">(تُحتسب الضريبة عند الدفع)</small>
-          </p>
-          <div class="card__actions">
-            <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn btn--primary">عرض التفاصيل</a>
-            <a href="{{ url_for('booking', trip_id=trip.id) }}" class="btn">احجز الآن</a>
-          </div>
+<section class="section">
+  <h2 class="section-title">باقات مختارة</h2>
+  <div class="grid cards">
+    {% for t in trips %}
+    <article class="card">
+      <img class="card__img" src="{{ url_for('static', filename=t.image) }}" alt="{{ t.name }}">
+      <div class="card__body">
+        <h3 class="card__title">{{ t.name }}</h3>
+        <p class="card__txt">{{ t.short }}</p>
+        <div class="card__meta">
+          <span class="price">{{ t.price }} ر.س</span>
         </div>
-      </article>
-      {% endfor %}
-    </div>
-  </section>
+        <div class="card__actions">
+          <a href="{{ url_for('trip_details', trip_id=t.id) }}" class="btn btn--primary">عرض التفاصيل</a>
+          <a href="{{ url_for('booking') }}?trip_id={{ t.id }}" class="btn btn--ghost">احجز الآن</a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
 
-  <!-- مرشدونا -->
-  <section>
-    <div class="section-head">
-      <h2 class="section-title">مرشدونا</h2>
-      <a class="btn" href="{{ url_for('guides') }}">كل المرشدين</a>
-    </div>
-    <div class="cards">
-      {% for guide in guides %}
-      {% set img_path = guide.img %}
-      {% if 'images/' not in img_path %}{% set img_path = 'images/' ~ img_path %}{% endif %}
-      <article class="card">
-        <img src="{{ url_for('static', filename=img_path) }}" alt="{{ guide.name }}">
-        <div class="card__body">
-          <h3>{{ guide.name }}</h3>
-          <p>المدينة: {{ guide.city }}</p>
-          <a class="btn btn--primary" href="{{ url_for('booking', guide_id=guide.id, trip_id=trips[0].id) }}">احجز مع المرشد</a>
-        </div>
-      </article>
-      {% endfor %}
-    </div>
-  </section>
+<section class="section">
+  <div class="section-head">
+    <h2 class="section-title">مرشدونا</h2>
+    <a href="{{ url_for('guides') }}" class="link">كل المرشدين →</a>
+  </div>
+  <div class="grid cards cards--guides">
+    {% for g in guides %}
+    <article class="card guide">
+      <img class="card__img" src="{{ url_for('static', filename=g.image) }}" alt="{{ g.name }}">
+      <div class="card__body">
+        <h3 class="card__title">{{ g.name }}</h3>
+        <p class="card__txt">{{ g.city }} • {{ g.exp }}</p>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}
