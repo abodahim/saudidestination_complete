@@ -2,27 +2,26 @@
 {% block title %}مرشدونا{% endblock %}
 
 {% block content %}
-<section>
-  <h2 class="section-title">فريق المرشدين السياحيين</h2>
-  <p>جميع المرشدين لدينا معتمدون ولديهم خبرة واسعة في تنظيم الجولات السياحية داخل المملكة.</p>
-  
-  <div class="cards">
-    {% for guide in guides %}
-    {% set img_path = guide.img %}
-    {% if 'images/' not in img_path %}
-      {% set img_path = 'images/' ~ img_path %}
-    {% endif %}
-    <div class="card">
-      <img src="{{ url_for('static', filename=img_path) }}" alt="{{ guide.name }}">
+<section class="section">
+  <h1 class="section-title">فريق المرشدين</h1>
+  <div class="grid cards cards--guides">
+    {% for g in guides %}
+    <article class="card guide">
+      <img class="card__img" src="{{ url_for('static', filename=g.image) }}" alt="{{ g.name }}">
       <div class="card__body">
-        <h3>{{ guide.name }}</h3>
-        <p>المدينة: {{ guide.city }}</p>
-        {% if guide.bio %}<p style="font-size:.9rem; opacity:.8;">{{ guide.bio }}</p>{% endif %}
-        <div class="card__actions">
-          <a href="{{ url_for('booking', guide_id=guide.id) }}" class="btn btn--primary">احجز مع المرشد</a>
+        <h3 class="card__title">{{ g.name }}</h3>
+        <p class="card__txt">{{ g.city }} • {{ g.exp }}</p>
+
+        <div class="contact-box">
+          {% if session.get('paid_booking_id') %}
+            <a class="btn btn--primary" target="_blank" href="https://wa.me/{{ CONTACT_WHATSAPP }}">مراسلة واتساب</a>
+            <a class="btn btn--ghost" href="tel:{{ CONTACT_PHONE }}">اتصال</a>
+          {% else %}
+            <p class="muted">🔒 تظهر وسائل التواصل بعد إتمام الدفع.</p>
+          {% endif %}
         </div>
       </div>
-    </div>
+    </article>
     {% endfor %}
   </div>
 </section>
