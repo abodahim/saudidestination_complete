@@ -3,13 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
   <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}" type="image/jpeg">
   <link rel="manifest" href="{{ url_for('manifest') }}">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   {% block head_extra %}{% endblock %}
 </head>
@@ -17,16 +15,16 @@
   <header class="topbar">
     <div class="container topbar__wrap">
       <a class="brand" href="{{ url_for('home') }}">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" width="44" height="44" loading="eager">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" width="40" height="40" loading="eager">
         <span>وجهة السعودية</span>
       </a>
 
       <nav class="nav">
         <button id="menuToggle" class="nav__toggle" aria-label="فتح القائمة">☰</button>
         <ul class="nav__list" id="mainNav">
-          <li><a href="{{ url_for('home') }}"   class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
-          <li><a href="{{ url_for('trips') }}"  class="{% if request.endpoint in ['trips','trip_details'] %}active{% endif %}">الرحلات</a></li>
-          <li><a href="{{ url_for('guides') }}" class="{% if request.endpoint=='guides' %}active{% endif %}">مرشدونا</a></li>
+          <li><a href="{{ url_for('home') }}"     class="{% if active=='home' %}active{% endif %}">الرئيسية</a></li>
+          <li><a href="{{ url_for('trips') }}"    class="{% if active=='trips' %}active{% endif %}">الرحلات</a></li>
+          <li><a href="{{ url_for('guides') }}"   class="{% if active=='guides' %}active{% endif %}">مرشدونا</a></li>
           <li><a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a></li>
         </ul>
       </nav>
@@ -53,15 +51,6 @@
       <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
     </div>
   </footer>
-
-  {# أزرار تواصل (تظهر فقط بعد الدفع) #}
-  {% if session.get('paid_booking_id') %}
-  <div class="fab">
-    <a class="fab__btn" title="اتصال" href="tel:{{ CONTACT_PHONE }}">📞</a>
-    <a class="fab__btn" title="واتساب" target="_blank" rel="noopener"
-       href="https://wa.me/{{ CONTACT_WHATSAPP }}">💬</a>
-  </div>
-  {% endif %}
 
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
   <script>
