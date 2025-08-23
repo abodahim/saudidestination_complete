@@ -1,14 +1,22 @@
 {% extends "base.html" %}
-{% block title %}تم الدفع{% endblock %}
+{% block title %}تم الحجز{% endblock %}
 
 {% block content %}
 <section class="section">
-  {% if paid_booking_id %}
-    <h1 class="section-title">شكرًا لك!</h1>
-    <p>تم الدفع وتأكيد الحجز. يمكنك الآن الوصول لبيانات التواصل في صفحة تفاصيل الرحلة أو صفحة المرشدين.</p>
-  {% else %}
-    <h1 class="section-title">لا توجد عملية دفع</h1>
-    <p>يبدو أنك لم تُكمل عملية الدفع. الرجاء البدء من <a class="link" href="{{ url_for('booking') }}">صفحة الحجز</a>.</p>
+  <h1 class="section-title">شكرًا لك!</h1>
+  <p>تم استلام طلب الحجز. لإتمام الحجز يرجى إتمام الدفع.</p>
+
+  {% if trip %}
+    <div class="success-box">
+      <p><strong>تفاصيل الرحلة:</strong> {{ trip.title }} — {{ trip.price }} {{ currency }}</p>
+      <p class="muted">بعد تأكيد الدفع ستصلك بيانات التواصل مع المرشد.</p>
+      <!-- مثال لبيانات تظهر بعد الدفع الحقيقي -->
+      <details class="contact-locked">
+        <summary>بيانات التواصل (مثال — تظهر بعد الدفع)</summary>
+        <p>واتساب: 0550000000</p>
+        <p>اتصال: 0550000000</p>
+      </details>
+    </div>
   {% endif %}
 </section>
 {% endblock %}
