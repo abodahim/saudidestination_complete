@@ -1,20 +1,35 @@
 {% extends "base.html" %}
-{% block title %}{{ trip.title }}{% endblock %}
+{% block title %}تفاصيل الرحلة{% endblock %}
 
 {% block content %}
-<section class="section">
-  <article class="details">
-    <img class="details__img" src="{{ url_for('static', filename=trip.image) }}" alt="{{ trip.title }}">
-    <div class="details__body">
-      <h1>{{ trip.title }}</h1>
-      <p class="muted">{{ trip.city }} • {{ trip.days }} يوم</p>
-      <p>{{ trip.summary }}</p>
-      <p class="price">{{ trip.price }} {{ currency }}</p>
-      <div class="row-actions">
-        <a class="btn btn--ghost" href="{{ url_for('trips') }}">رجوع للرحلات</a>
-        <a class="btn btn--primary" href="{{ url_for('booking') }}?trip_id={{ trip.id }}">احجز الآن</a>
-      </div>
+<section>
+  {% set T = {
+    1: {"title": "رحلة جدة",   "img": "jeddah_1.JPG", "price": 299, "city": "جدة",
+        "desc": "كورنيش جدة، بيت نصيف، البلد التاريخية، ومتحف جدة."},
+    2: {"title": "رحلة الرياض", "img": "riyadh_1.JPG", "price": 349, "city": "الرياض",
+        "desc": "الدرعية، المتحف الوطني، سوق الزل، وحدائق العاصمة."},
+    3: {"title": "رحلة ينبع",   "img": "yanbu_1.JPG",  "price": 399, "city": "ينبع",
+        "desc": "الشواطئ، السنوركلينج، بحيرة ينبع، والواجهة البحرية."}
+  } %}
+  {% set trip = T.get(trip_id|int) %}
+  {% if not trip %}
+    <p>عذرًا، لم يتم العثور على الرحلة.</p>
+  {% else %}
+    <div class="cards" style="grid-template-columns:1fr;">
+      <article class="card">
+        <img src="{{ url_for('static', filename='images/' + trip.img) }}" alt="{{ trip.title }}">
+        <div class="card__body">
+          <h1 class="section-title" style="margin:0">{{ trip.title }}</h1>
+          <p class="muted">{{ trip.city }} • يوم واحد</p>
+          <p>{{ trip.desc }}</p>
+          <p><strong>{{ trip.price }} ر.س</strong> للفرد (قد تختلف بحسب الموسم)</p>
+          <div class="card__actions">
+            <a class="btn btn--primary" href="{{ url_for('book', trip=trip.title, price=trip.price) }}">احجز الآن</a>
+            <a class="btn btn--outline" href="{{ url_for('trips') }}">العودة للرحلات</a>
+          </div>
+        </div>
+      </article>
     </div>
-  </article>
+  {% endif %}
 </section>
 {% endblock %}
