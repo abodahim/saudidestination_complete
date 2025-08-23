@@ -3,23 +3,14 @@
 
 {% block content %}
 <section class="section">
-  <h1 class="section-title">فريق المرشدين</h1>
-  <div class="grid cards cards--guides">
+  <h1 class="section-title">مرشدونا</h1>
+  <div class="cards cards--guides">
     {% for g in guides %}
     <article class="card guide">
-      <img class="card__img" src="{{ url_for('static', filename=g.image) }}" alt="{{ g.name }}">
+      <img src="{{ url_for('static', filename=g.image) }}" alt="{{ g.name }}">
       <div class="card__body">
-        <h3 class="card__title">{{ g.name }}</h3>
-        <p class="card__txt">{{ g.city }} • {{ g.exp }}</p>
-
-        <div class="contact-box">
-          {% if session.get('paid_booking_id') %}
-            <a class="btn btn--primary" target="_blank" href="https://wa.me/{{ CONTACT_WHATSAPP }}">مراسلة واتساب</a>
-            <a class="btn btn--ghost" href="tel:{{ CONTACT_PHONE }}">اتصال</a>
-          {% else %}
-            <p class="muted">🔒 تظهر وسائل التواصل بعد إتمام الدفع.</p>
-          {% endif %}
-        </div>
+        <h3>{{ g.name }}</h3>
+        <p class="muted">{{ g.city }} • {{ g.years }} سنوات خبرة</p>
       </div>
     </article>
     {% endfor %}
