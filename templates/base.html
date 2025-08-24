@@ -8,23 +8,26 @@
 
   <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}" type="image/jpeg">
   <link rel="manifest" href="{{ url_for('manifest') }}">
+
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   {% block head_extra %}{% endblock %}
 </head>
 <body>
   <header class="topbar">
     <div class="container topbar__wrap">
+      <button id="menuToggle" class="nav__toggle" aria-label="فتح القائمة">☰</button>
+
       <a class="brand" href="{{ url_for('home') }}">
         <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" width="44" height="44" loading="eager">
         <span>وجهة السعودية</span>
       </a>
-      <nav class="nav">
-        <button id="menuToggle" class="nav__toggle" aria-label="فتح القائمة">☰</button>
-        <ul class="nav__list" id="mainNav">
-          <li><a href="{{ url_for('home') }}"     class="{% if active=='home' %}active{% endif %}">الرئيسية</a></li>
-          <li><a href="{{ url_for('trips') }}"    class="{% if active in ['trips'] %}active{% endif %}">الرحلات</a></li>
-          <li><a href="{{ url_for('guides') }}"   class="{% if active=='guides' %}active{% endif %}">مرشدونا</a></li>
-          <li class="nav__cta"><a class="btn btn--primary" href="{{ url_for('book') }}">احجز الآن</a></li>
+
+      <nav class="nav" id="siteNav">
+        <ul class="nav__list">
+          <li><a href="{{ url_for('home') }}"   class="{% if active=='home' %}active{% endif %}">الرئيسية</a></li>
+          <li><a href="{{ url_for('trips') }}"  class="{% if active=='trips' %}active{% endif %}">الرحلات</a></li>
+          <li><a href="{{ url_for('guides') }}" class="{% if active=='guides' %}active{% endif %}">مرشدونا</a></li>
+          <li><a class="btn btn--primary" href="{{ url_for('book') }}">احجز الآن</a></li>
         </ul>
       </nav>
     </div>
@@ -36,7 +39,9 @@
     {% with msgs = get_flashed_messages(with_categories=true) %}
       {% if msgs %}
         <div class="flash">
-          {% for cat, msg in msgs %}<p class="flash__msg {{cat}}">{{ msg }}</p>{% endfor %}
+          {% for cat, msg in msgs %}
+            <p class="flash__msg {{cat}}">{{ msg }}</p>
+          {% endfor %}
         </div>
       {% endif %}
     {% endwith %}
@@ -44,10 +49,12 @@
   </main>
 
   <footer class="footer">
-    <div class="container"><p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p></div>
+    <div class="container">
+      <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
+    </div>
   </footer>
 
-  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
