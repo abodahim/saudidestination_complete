@@ -1,34 +1,54 @@
 {% extends "base.html" %}
-{% block title %}نموذج الحجز{% endblock %}
+{% block title %}احجز الآن{% endblock %}
 
 {% block content %}
 <h1 class="page-title">نموذج الحجز</h1>
 
-<form class="form" method="post" action="{{ url_for('book') }}">
+<form class="form" method="POST" action="{{ url_for('book') }}" id="bookingForm">
   <div class="form__row">
     <label>الاسم الكامل</label>
-    <input type="text" name="name" required>
+    <input required type="text" name="name" placeholder="الاسم">
   </div>
 
   <div class="form__row">
     <label>البريد الإلكتروني</label>
-    <input type="email" name="email" required>
+    <input required type="email" name="email" placeholder="name@email.com">
   </div>
 
   <div class="form__row">
     <label>رقم الجوال</label>
-    <input type="tel" name="phone" required>
+    <input required type="tel" name="phone" placeholder="05xxxxxxxx">
   </div>
 
   <div class="form__row">
     <label>اختر الرحلة</label>
-    <select name="trip_id" required>
+    <select name="trip_id" id="tripSelect">
       {% for t in trips %}
-      <option value="{{ t.id }}" {% if trip and trip.id==t.id %}selected{% endif %}>
-        {{ t.title }} – {{ t.price }} ر.س
+      <option value="{{ t.id }}" {% if t.id == preselect_id %}selected{% endif %}
+              data-price="{{ t.price_per_day }}"
+              data-min="{{ t.days_min }}"
+              data-max="{{ t.days_max }}"
+              data-default="{{ t.days_default }}">
+        {{ t.name }} – {{ t.price_per_day }} {{ currency }} / اليوم
       </option>
       {% endfor %}
     </select>
+  </div>
+
+  <div class="form__row">
+    <label>عدد الأيام</label>
+    <input type="number" name="days" id="daysInput" min="1" value="1">
+    <small class="hint" id="daysHint"></small>
+  </div>
+
+  <div class="form__row total-row">
+    <span>السعر لليوم:</span>
+    <strong id="priceCell">--</strong>
+  </div>
+
+  <div class="form__row total-row">
+    <span>الإجمالي:</span>
+    <strong id="totalCell">--</strong>
   </div>
 
   <button class="btn btn--primary" type="submit">إرسال الحجز</button>
