@@ -8,8 +8,8 @@
       <h1 class="hero__title">وجهة السعودية</h1>
       <p class="hero__lead">استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
       <div class="hero__actions">
-        <a href="{{ url_for('book') }}" class="btn btn--primary">احجز الآن</a>
-        <a href="{{ url_for('trips') }}" class="btn btn--outline">تصفّح الرحلات</a>
+        <a class="btn btn--primary" href="{{ url_for('book') }}">احجز الآن</a>
+        <a class="btn btn--outline" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
       </div>
     </div>
   </div>
@@ -17,22 +17,48 @@
 {% endblock %}
 
 {% block content %}
-<section>
-  <h2 class="section-title">باقات مختارة</h2>
-  <div class="cards">
-    {% for t in trips %}
-    <div class="card">
-      <img src="{{ url_for('static', filename=t.img) }}" alt="{{ t.title }}">
-      <div class="card__body">
-        <h3>{{ t.title }}</h3>
-        <p>{{ t.city }} • يوم {{ t.days }}</p>
-        <div class="card__actions">
-          <a href="{{ url_for('trip_details', trip_id=t.id) }}" class="btn btn--primary">عرض التفاصيل</a>
-          <a href="{{ url_for('book', trip_id=t.id) }}" class="btn btn--outline">احجز الآن</a>
+  <section>
+    <h2 class="section-title">نبذة</h2>
+    <p>
+      وجهة السعودية تسهّل لك استكشاف أجمل الوجهات داخل المملكة
+      مع باقات متنوعة تناسب العائلات، المدارس، والشركات.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="section-title">باقات مختارة</h2>
+    <div class="cards">
+      {% for t in featured_trips %}
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/' ~ t.image) }}" alt="{{ t.name }}">
+        <div class="card__body">
+          <h3>{{ t.name }}</h3>
+          <p>{{ t.summary }}</p>
+          <div class="card__actions">
+            <a href="{{ url_for('trip_details', trip_id=t.id) }}" class="btn btn--primary">عرض التفاصيل</a>
+            <a href="{{ url_for('book', trip_id=t.id) }}" class="btn btn--outline">احجز الآن</a>
+          </div>
         </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-</section>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2 class="section-title">مرشدونا</h2>
+      <a href="{{ url_for('guides') }}" class="section-link">كل المرشدين →</a>
+    </div>
+    <div class="cards cards--guides">
+      {% for g in featured_guides %}
+      <div class="card guide">
+        <img src="{{ url_for('static', filename='images/' ~ g.photo) }}" alt="{{ g.name }}">
+        <div class="card__body">
+          <h3>{{ g.name }}</h3>
+          <p>{{ g.city }} • {{ g.exp }} سنوات خبرة</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
 {% endblock %}
