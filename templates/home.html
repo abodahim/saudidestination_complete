@@ -2,14 +2,14 @@
 {% block title %}وجهة السعودية - الرئيسية{% endblock %}
 
 {% block hero %}
-<section class="hero" style="--hero:url('{{ url_for('static', filename='images/banner.PNG') }}')">
+<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
   <div class="hero__overlay">
     <div class="container hero__content">
       <h1 class="hero__title">وجهة السعودية</h1>
       <p class="hero__lead">استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
       <div class="hero__actions">
-        <a href="{{ url_for('book') }}"  class="btn btn--primary">احجز الآن</a>
-        <a href="{{ url_for('trips') }}" class="btn btn--outline">تصفّح الرحلات</a>
+        <a class="btn btn--primary" href="{{ url_for('book') }}">احجز الآن</a>
+        <a class="btn btn--outline" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
       </div>
     </div>
   </div>
@@ -18,50 +18,71 @@
 
 {% block content %}
   <!-- نبذة -->
-  <section>
+  <section class="section">
     <h2 class="section-title">نبذة</h2>
-    <p>وجهة السعودية تسهّل لك استكشاف أجمل الوجهات داخل المملكة مع باقات متنوعة تناسب العائلات، المدارس، والشركات.</p>
+    <p>
+      وجهة السعودية تسهّل لك استكشاف أجمل الوجهات داخل المملكة
+      مع باقات متنوعة تناسب العائلات، المدارس، والشركات — بإشراف مرشدين محليين معتمدين.
+    </p>
   </section>
 
   <!-- باقات مختارة -->
-  <section>
-    <h2 class="section-title">باقات مختارة</h2>
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">باقات مختارة</h2>
+      <a class="section-link" href="{{ url_for('trips') }}">عرض كل الرحلات →</a>
+    </div>
+
     <div class="cards">
-      {% for trip in trips %}
+      {% for t in trips %}
       <article class="card">
-        <img src="{{ url_for('static', filename='images/' ~ trip.images[0]) }}" alt="{{ trip.name }}">
+        <img src="{{ url_for('static', filename='images/' ~ t.images[0]) }}" alt="{{ t.name }}">
         <div class="card__body">
-          <h3 class="card__title">{{ trip.name }}</h3>
-          <p class="card__meta">{{ trip.city }} • {{ trip.days }} يوم</p>
+          <h3 class="card__title">{{ t.name }}</h3>
+          <p class="card__meta">{{ t.city }} • {{ t.days }} يوم</p>
+          <p class="card__price">{{ t.price }} ر.س</p>
           <div class="card__actions">
-            <a href="{{ url_for('trip_details', trip_id=trip.id) }}" class="btn btn--primary">عرض التفاصيل</a>
-            <a href="{{ url_for('book', trip_id=trip.id) }}" class="btn btn--outline">احجز الآن</a>
+            <a class="btn btn--primary" href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
+            <a class="btn btn--outline" href="{{ url_for('book') }}?trip_id={{ t.id }}">احجز الآن</a>
           </div>
         </div>
       </article>
       {% endfor %}
     </div>
-    <div class="center mt-16">
-      <a class="btn" href="{{ url_for('trips') }}">عرض كل الرحلات</a>
-    </div>
   </section>
 
-  <!-- مرشدونا -->
-  <section>
+  <!-- مرشدونا (سلايدر) -->
+  <section class="section">
     <div class="section-head">
       <h2 class="section-title">مرشدونا</h2>
-      <a href="{{ url_for('guides') }}" class="section-link">كل المرشدين →</a>
+      <a class="section-link" href="{{ url_for('guides') }}">كل المرشدين →</a>
     </div>
-    <div class="cards">
-      {% for g in guides[:3] %}
-      <article class="card card--guide">
-        <img src="{{ url_for('static', filename='images/' ~ g.photo) }}" alt="{{ g.name }}">
-        <div class="card__body">
-          <h3 class="card__title">{{ g.name }}</h3>
-          <p class="card__meta">{{ g.city }} • {{ g.years }} سنوات خبرة</p>
-        </div>
-      </article>
-      {% endfor %}
+
+    <div class="slider" id="guidesSlider" dir="rtl" aria-roledescription="carousel">
+      <button class="slider__btn slider__btn--prev" aria-label="السابق">‹</button>
+
+      <div class="slider__track" data-track>
+        {% for g in guides %}
+        <article class="card card--guide slider__slide">
+          <img src="{{ url_for('static', filename='images/' ~ g.photo) }}" alt="{{ g.name }}">
+          <div class="card__body">
+            <h3 class="card__title">{{ g.name }}</h3>
+            <p class="card__meta">{{ g.city }} • {{ g.years }} سنوات خبرة</p>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+
+      <button class="slider__btn slider__btn--next" aria-label="التالي">›</button>
     </div>
   </section>
+{% endblock %}
+
+{% block body_extra %}
+<script>
+  // تفعيل السلايدر بعد تحميل الصفحة
+  window.addEventListener('DOMContentLoaded', () => {
+    window.initSlider && window.initSlider('#guidesSlider', {autoplay: 3500});
+  });
+</script>
 {% endblock %}
