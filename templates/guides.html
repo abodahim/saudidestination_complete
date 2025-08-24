@@ -2,18 +2,20 @@
 {% block title %}مرشدونا{% endblock %}
 
 {% block content %}
-<section class="section">
-  <h1 class="section-title">مرشدونا</h1>
-  <div class="cards cards--guides">
-    {% for g in guides %}
-    <article class="card guide">
-      <img src="{{ url_for('static', filename=g.image) }}" alt="{{ g.name }}">
-      <div class="card__body">
-        <h3>{{ g.name }}</h3>
-        <p class="muted">{{ g.city }} • {{ g.years }} سنوات خبرة</p>
+<h1 class="page-title">مرشدونا</h1>
+
+<div class="cards cards--guides">
+  {% for g in guides %}
+  <div class="card guide">
+    <img src="{{ url_for('static', filename='images/' ~ g.photo) }}" alt="{{ g.name }}">
+    <div class="card__body">
+      <h3>{{ g.name }}</h3>
+      <p class="hint">{{ g.city }} • {{ g.exp }} سنوات خبرة</p>
+      <div class="card__actions">
+        <a class="btn btn--outline" href="{{ url_for('trips') }}">احجز رحلة مع {{ g.name }}</a>
       </div>
-    </article>
-    {% endfor %}
+    </div>
   </div>
-</section>
+  {% endfor %}
+</div>
 {% endblock %}
