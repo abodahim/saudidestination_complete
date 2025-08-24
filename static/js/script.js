@@ -1,49 +1,62 @@
-// ===== منيو الجوال (قائمة جانبية) =====
+// === القائمة الجانبية (تعمل في كل الصفحات) ===
 (function () {
   const toggle = document.getElementById('menuToggle');
-  const nav = document.getElementById('mainNav');
-  const backdrop = document.getElementById('navBackdrop');
-
-  function openMenu() {
-    nav.classList.add('is-open');
-    backdrop.hidden = false;
-    document.body.classList.add('noscroll');
-    toggle.setAttribute('aria-expanded', 'true');
-  }
-  function closeMenu() {
-    nav.classList.remove('is-open');
-    backdrop.hidden = true;
-    document.body.classList.remove('noscroll');
-    toggle.setAttribute('aria-expanded', 'false');
-  }
-
-  if (toggle && nav && backdrop) {
-    toggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (nav.classList.contains('is-open')) closeMenu();
-      else openMenu();
+  const nav = document.getElementById('siteNav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('nav--open');
     });
-    backdrop.addEventListener('click', closeMenu);
-    // أغلق عند الضغط على أي رابط داخل المنيو
-    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-    // Esc لإغلاق
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && nav.classList.contains('is-open')) closeMenu();
+    // إغلاق عند الضغط خارج القائمة
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && e.target !== toggle) {
+        nav.classList.remove('nav--open');
+      }
     });
   }
 })();
 
-// ===== نموذج الحجز: تحديث السعر تلقائياً من القائمة =====
+// === نموذج الحجز: حساب السعر والإجمالي + ضبط حدود الأيام ===
 (function () {
-  const select = document.querySelector('[data-trip-select]');
-  const priceInput = document.querySelector('[data-trip-price]');
-  if (!select || !priceInput) return;
+  const tripSelect = document.getElementById('tripSelect');
+  const daysInput = document.getElementById('daysInput');
+  const priceCell = document.getElementById('priceCell');
+  const totalCell = document.getElementById('totalCell');
+  const daysHint = document.getElementById('daysHint');
 
-  function updatePrice() {
-    const opt = select.options[select.selectedIndex];
-    const price = opt.getAttribute('data-price') || '';
-    priceInput.value = price ? `${price} ر.س` : '';
+  function updateFromTrip() {
+    if (!tripSelect || !daysInput) return;
+    const opt = tripSelect.options[tripSelect.selectedIndex];
+    const price = parseInt(opt.getAttribute('data-price'), 10);
+    const dmin = parseInt(opt.getAttribute('data-min'), 10);
+    const dmax = parseInt(opt.getAttribute('data-max'), 10);
+    const ddef = parseInt(opt.getAttribute('data-default'), 10);
+
+    daysInput.min = dmin;
+    daysInput.max = dmax;
+    if (!daysInput.value) daysInput.value = ddef;
+    let days = Math.max(dmin, Math.min(parseInt(daysInput.value || ddef, 10), dmax));
+    daysInput.value = days;
+
+    priceCell.textContent = `${price} ر.س`;
+    totalCell.textContent = `${price * days} ر.س`;
+    daysHint.textContent = `الحد الأدنى ${dmin} والحد الأقصى ${dmax} أيام`;
   }
-  select.addEventListener('change', updatePrice);
-  updatePrice();
+
+  function updateTotal() {
+    if (!tripSelect || !daysInput) return;
+    const opt = tripSelect.options[tripSelect.selectedIndex];
+    const price = parseInt(opt.getAttribute('data-price'), 10);
+    let days = parseInt(daysInput.value || '1', 10);
+    const dmin = parseInt(opt.getAttribute('data-min'), 10);
+    const dmax = parseInt(opt.getAttribute('data-max'), 10);
+    days = Math.max(dmin, Math.min(days, dmax));
+    daysInput.value = days;
+    totalCell.textContent = `${price * days} ر.س`;
+  }
+
+  if (tripSelect && daysInput) {
+    tripSelect.addEventListener('change', updateFromTrip);
+    daysInput.addEventListener('input', updateTotal);
+    updateFromTrip();
+  }
 })();
