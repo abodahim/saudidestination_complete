@@ -6,31 +6,46 @@
   <meta name="color-scheme" content="light">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
+  <!-- أيقونة -->
   <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}" type="image/jpeg">
-  <link rel="manifest" href="{{ url_for('manifest') }}">
+  <!-- ملف PWA (عدّل الاسم هنا إذا كان مختلفاً لديك) -->
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
 
+  <!-- الأنماط -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   {% block head_extra %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
+  <!-- تراك خلفي عند فتح القائمة -->
+  <div id="overlay" class="overlay" hidden></div>
+
   <header class="topbar">
     <div class="container topbar__wrap">
       <button id="menuToggle" class="nav__toggle" aria-label="فتح القائمة">☰</button>
 
       <a class="brand" href="{{ url_for('home') }}">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" width="44" height="44" loading="eager">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" width="40" height="40" loading="eager">
         <span>وجهة السعودية</span>
       </a>
 
-      <nav class="nav" id="siteNav">
-        <ul class="nav__list">
-          <li><a href="{{ url_for('home') }}"   class="{% if active=='home' %}active{% endif %}">الرئيسية</a></li>
-          <li><a href="{{ url_for('trips') }}"  class="{% if active=='trips' %}active{% endif %}">الرحلات</a></li>
-          <li><a href="{{ url_for('guides') }}" class="{% if active=='guides' %}active{% endif %}">مرشدونا</a></li>
-          <li><a class="btn btn--primary" href="{{ url_for('book') }}">احجز الآن</a></li>
+      <nav class="nav">
+        <ul class="nav__list" id="mainNav">
+          <li><a href="{{ url_for('home') }}"   class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
+          <li><a href="{{ url_for('trips') }}"  class="{% if request.endpoint in ['trips','trip_details'] %}active{% endif %}">الرحلات</a></li>
+          <li><a href="{{ url_for('guides') }}" class="{% if request.endpoint=='guides' %}active{% endif %}">مرشدونا</a></li>
+          <li class="nav__cta"><a class="btn btn--primary" href="{{ url_for('book') }}">احجز الآن</a></li>
         </ul>
       </nav>
     </div>
+
+    <!-- درج جانبي للجوال -->
+    <aside id="drawer" class="drawer" aria-hidden="true">
+      <button id="drawerClose" class="drawer__close" aria-label="إغلاق">✕</button>
+      <a href="{{ url_for('home') }}"   class="drawer__link {% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a>
+      <a href="{{ url_for('trips') }}"  class="drawer__link {% if request.endpoint in ['trips','trip_details'] %}active{% endif %}">الرحلات</a>
+      <a href="{{ url_for('guides') }}" class="drawer__link {% if request.endpoint=='guides' %}active{% endif %}">مرشدونا</a>
+      <a href="{{ url_for('book') }}"   class="drawer__btn">احجز الآن</a>
+    </aside>
   </header>
 
   {% block hero %}{% endblock %}
@@ -54,7 +69,7 @@
     </div>
   </footer>
 
-  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
