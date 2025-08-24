@@ -1,166 +1,111 @@
-import os
-from flask import (
-    Flask, render_template, request, redirect,
-    url_for, flash, send_from_directory, jsonify
-)
+from flask import Flask, render_template, request, redirect, url_for, flash
 
-app = Flask(__name__, static_url_path="/static")
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "change-this-secret")
-CURRENCY = "ر.س"
+app = Flask(__name__)
+app.secret_key = "secret-key"  # غيّرها لقيمة سرية في الإنتاج
 
-# ---------------------------
-# بيانات الرحلات والمرشدين
-# ---------------------------
+# بيانات الرحلات
 TRIPS = [
     {
-        "id": 1, "name": "رحلة جدة", "city": "جدة",
-        "days_default": 1, "days_min": 1, "days_max": 7,
-        "price_per_day": 299,
-        "image": "jeddah_1.JPG",
-        "summary": "جولة على كورنيش جدة ومعالمها الحديثة."
+        "id": 1,
+        "slug": "jeddah",
+        "name": "رحلة جدة",
+        "city": "جدة",
+        "days": 1,
+        "price": 299,
+        "images": ["jeddah_1.JPG", "jeddah_2.JPG", "jeddah_3.JPG", "jeddah_4.JPG"],
+        "desc": "اكتشف سحر مدينة جدة مع جولة تشمل المعالم التراثية والكورنيش."
     },
     {
-        "id": 2, "name": "رحلة الرياض", "city": "الرياض",
-        "days_default": 1, "days_min": 1, "days_max": 7,
-        "price_per_day": 349,
-        "image": "riyadh_1.JPG",
-        "summary": "تاريخ العاصمة ومعالمها التراثية."
+        "id": 2,
+        "slug": "riyadh",
+        "name": "رحلة الرياض",
+        "city": "الرياض",
+        "days": 1,
+        "price": 399,
+        "images": ["riyadh_1.JPG", "riyadh_2.JPG", "riyadh_3.JPG", "riyadh_4.JPG"],
+        "desc": "جولة مميزة لاستكشاف معالم العاصمة السعودية بين التراث والحداثة."
     },
     {
-        "id": 3, "name": "رحلة ينبع", "city": "ينبع",
-        "days_default": 1, "days_min": 1, "days_max": 7,
-        "price_per_day": 399,
-        "image": "yanbu_1.JPG",
-        "summary": "جمال الشواطئ والأنشطة البحرية."
+        "id": 3,
+        "slug": "yanbu",
+        "name": "رحلة ينبع",
+        "city": "ينبع",
+        "days": 1,
+        "price": 399,
+        "images": ["yanbu_1.JPG", "yanbu_2.JPG", "yanbu_3.JPG", "yanbu_4.JPG"],
+        "desc": "استمتع بجمال الشواطئ والأنشطة البحرية في مدينة ينبع."
+    },
+    {
+        "id": 4,
+        "slug": "ala",
+        "name": "رحلة العلا",
+        "city": "العلا",
+        "days": 1,
+        "price": 499,
+        "images": ["ala_1.JPG", "ala_2.JPG", "ala_3.JPG", "ala_4.JPG"],
+        "desc": "رحلة لاكتشاف العلا التاريخية وجبالها الساحرة ومناظرها الفريدة."
     },
 ]
 
+# بيانات المرشدين (رجال فقط - بدون تكرار)
 GUIDES = [
-    {"name": "سامي الحربي",   "city": "الرياض", "exp": 7, "photo": "guide1.PNG"},
-    {"name": "ماجد المطيري",  "city": "جدة",   "exp": 6, "photo": "guide2.PNG"},
-    {"name": "عبدالله الشهري","city": "ينبع",  "exp": 5, "photo": "guide3.PNG"},
+    {"id": 1, "name": "سامي الحربي", "city": "الرياض", "years": 7, "photo": "guide1.JPG"},
+    {"id": 2, "name": "خالد الفيفي", "city": "جدة", "years": 5, "photo": "guide2.JPG"},
+    {"id": 3, "name": "عبدالله الشهري", "city": "ينبع", "years": 6, "photo": "guide3.JPG"},
+    {"id": 4, "name": "ماجد القحطاني", "city": "العلا", "years": 8, "photo": "guide4.JPG"},
 ]
 
-def get_trip(trip_id):
-    for t in TRIPS:
-        if t["id"] == int(trip_id):
-            return t
-    return None
-
-# ---------------------------
-# صفحات عامة
-# ---------------------------
+# الصفحة الرئيسية
 @app.route("/")
 def home():
-    return render_template(
-        "home.html",
-        active="home",
-        featured_trips=TRIPS,      # نعرضهم كلهم حالياً
-        featured_guides=GUIDES     # يظهر في الهوم
-    )
+    return render_template("home.html", trips=TRIPS, guides=GUIDES)
 
+# صفحة الرحلات
 @app.route("/trips")
 def trips():
-    return render_template("trips.html", active="trips", trips=TRIPS)
+    return render_template("trips.html", trips=TRIPS)
 
+# تفاصيل الرحلة
+@app.route("/trips/<int:trip_id>")
+def trip_details(trip_id):
+    trip = next((t for t in TRIPS if t["id"] == trip_id), None)
+    if not trip:
+        flash("الرحلة غير موجودة", "danger")
+        return redirect(url_for("trips"))
+    return render_template("trip_details.html", trip=trip)
+
+# صفحة المرشدين
 @app.route("/guides")
 def guides():
-    return render_template("guides.html", active="guides", guides=GUIDES)
+    return render_template("guides.html", guides=GUIDES)
 
-@app.route("/trip/<int:trip_id>")
-def trip_details(trip_id):
-    trip = get_trip(trip_id)
-    if not trip:
-        return redirect(url_for("trips"))
-    return render_template("trip_details.html", active="trips", trip=trip, currency=CURRENCY)
-
-@app.route("/gallery")
-def gallery():
-    return render_template("gallery.html", active="gallery")
-
-@app.route("/reviews")
-def reviews():
-    return render_template("reviews.html", active="reviews")
-
-@app.route("/contact", methods=["GET", "POST"])
-def contact():
-    if request.method == "POST":
-        flash("تم استلام رسالتك بنجاح، وسنعاود التواصل قريبًا.", "success")
-        return redirect(url_for("thank_you"))
-    return render_template("contact.html", active="contact")
-
-# ---------------------------
-# الحجز والدفع
-# ---------------------------
+# الحجز
 @app.route("/book", methods=["GET", "POST"])
 def book():
     if request.method == "POST":
-        name   = request.form.get("name", "").strip()
-        email  = request.form.get("email", "").strip()
-        phone  = request.form.get("phone", "").strip()
-        trip_id= request.form.get("trip_id", "").strip()
-        days   = request.form.get("days", "1").strip()
+        name = request.form.get("name")
+        email = request.form.get("email")
+        phone = request.form.get("phone")
+        trip_id = int(request.form.get("trip_id"))
+        days = int(request.form.get("days", 1))
+        total = int(request.form.get("total_amount", 0))
 
-        if not name or not email or not phone or not trip_id:
-            flash("الرجاء تعبئة جميع الحقول المطلوبة.", "danger")
+        trip = next((t for t in TRIPS if t["id"] == trip_id), None)
+
+        if trip:
+            flash(f"تم إرسال طلب الحجز بنجاح. الإجمالي: {total} ر.س", "success")
+            return redirect(url_for("book_success"))
+        else:
+            flash("فشل الحجز: الرحلة غير صحيحة", "danger")
             return redirect(url_for("book"))
 
-        trip = get_trip(trip_id)
-        if not trip:
-            flash("الرحلة غير موجودة.", "danger")
-            return redirect(url_for("book"))
+    return render_template("booking.html", trips=TRIPS)
 
-        try:
-            days = max(trip["days_min"], min(int(days), trip["days_max"]))
-        except ValueError:
-            days = trip["days_default"]
+# صفحة نجاح الحجز
+@app.route("/book/success")
+def book_success():
+    return render_template("book_success.html")
 
-        total = days * trip["price_per_day"]
-        # هنا تحفظ الحجز بقاعدتك أو ترسله لبريدك...
-        flash("تم إرسال طلب الحجز بنجاح.", "success")
-        return redirect(url_for("thank_you"))
-
-    # GET
-    preselect_id = request.args.get("trip_id", type=int) or TRIPS[0]["id"]
-    return render_template("booking.html", active="book", trips=TRIPS, preselect_id=preselect_id, currency=CURRENCY)
-
-@app.route("/api/trip/<int:trip_id>")
-def api_trip(trip_id):
-    trip = get_trip(trip_id)
-    if not trip:
-        return jsonify({"ok": False}), 404
-    return jsonify({
-        "ok": True,
-        "id": trip["id"],
-        "price_per_day": trip["price_per_day"],
-        "days_default": trip["days_default"],
-        "days_min": trip["days_min"],
-        "days_max": trip["days_max"],
-        "name": trip["name"]
-    })
-
-@app.route("/thank-you")
-def thank_you():
-    return render_template("thank_you.html", active=None)
-
-# ---------------------------
-# ملفات ثابتة (PWA وغيره)
-# ---------------------------
-@app.route("/service-worker.js")
-def service_worker():
-    return send_from_directory("static", "service-worker.js", mimetype="application/javascript")
-
-@app.route("/manifest.webmanifest")
-def manifest():
-    return send_from_directory("static", "manifest.webmanifest", mimetype="application/manifest+json")
-
-@app.route("/robots.txt")
-def robots():
-    return send_from_directory("static", "robots.txt")
-
-# ---------------------------
-# نقطة التشغيل
-# ---------------------------
+# تشغيل التطبيق محلياً
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
