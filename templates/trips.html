@@ -3,17 +3,18 @@
 
 {% block content %}
 <h1 class="page-title">الرحلات المتاحة</h1>
+
 <div class="cards">
   {% for t in trips %}
   <div class="card">
-    <img src="{{ url_for('static', filename=t.img) }}" alt="{{ t.title }}">
+    <img src="{{ url_for('static', filename='images/' ~ t.image) }}" alt="{{ t.name }}">
     <div class="card__body">
-      <h3>{{ t.title }}</h3>
-      <p>{{ t.city }} • يوم {{ t.days }}</p>
-      <p class="price">{{ t.price }} ر.س</p>
+      <h3>{{ t.name }}</h3>
+      <p>{{ t.city }} • {{ t.days_default }} يوم</p>
+      <p class="hint">{{ t.summary }}</p>
       <div class="card__actions">
-        <a href="{{ url_for('trip_details', trip_id=t.id) }}" class="btn btn--primary">عرض التفاصيل</a>
-        <a href="{{ url_for('book', trip_id=t.id) }}" class="btn btn--outline">احجز الآن</a>
+        <a class="btn btn--primary" href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
+        <a class="btn btn--outline" href="{{ url_for('book', trip_id=t.id) }}">احجز الآن</a>
       </div>
     </div>
   </div>
