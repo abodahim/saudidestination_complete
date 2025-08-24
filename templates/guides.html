@@ -1,21 +1,33 @@
 {% extends "base.html" %}
-{% block title %}مرشدونا{% endblock %}
+{% block title %}مرشدونا — وجهة السعودية{% endblock %}
 
-{% block content %}
-<h1 class="page-title">مرشدونا</h1>
-
-<div class="cards cards--guides">
-  {% for g in guides %}
-  <div class="card guide">
-    <img src="{{ url_for('static', filename='images/' ~ g.photo) }}" alt="{{ g.name }}">
-    <div class="card__body">
-      <h3>{{ g.name }}</h3>
-      <p class="hint">{{ g.city }} • {{ g.exp }} سنوات خبرة</p>
-      <div class="card__actions">
-        <a class="btn btn--outline" href="{{ url_for('trips') }}">احجز رحلة مع {{ g.name }}</a>
-      </div>
+{% block hero %}
+<section class="hero hero--sm" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
+  <div class="hero__overlay">
+    <div class="container hero__content">
+      <h1 class="hero__title">مرشدونا</h1>
+      <p class="hero__lead">مرشدون محليون بخبرات عالية في مختلف مدن المملكة</p>
     </div>
   </div>
-  {% endfor %}
-</div>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="cards">
+    {% for g in guides %}
+    <article class="card guide-card">
+      <div class="card__media">
+        <img src="{{ url_for('static', filename='images/' ~ g.photo) }}" alt="{{ g.name }}">
+      </div>
+      <div class="card__body">
+        <h3 class="card__title">{{ g.name }}</h3>
+        <p class="card__meta">{{ g.city }} • {{ g.years }} سنوات خبرة</p>
+        <p class="card__desc">متخصص في تنظيم الجولات وشرح المعالم السياحية بثلاث لغات.</p>
+        <a class="btn btn--primary" href="{{ url_for('book') }}">احجز مع مرشد</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}
