@@ -1,15 +1,29 @@
 {% extends "base.html" %}
-{% block title %}{{ trip.title }}{% endblock %}
+{% block title %}{{ trip.name }}{% endblock %}
 
 {% block content %}
-<article class="trip-details">
-  <img class="trip-details__cover" src="{{ url_for('static', filename=trip.img) }}" alt="{{ trip.title }}">
-  <h1>{{ trip.title }}</h1>
-  <p>{{ trip.city }} • يوم {{ trip.days }}</p>
-  <p class="price">{{ trip.price }} ر.س</p>
-  <div class="actions">
-    <a class="btn btn--primary" href="{{ url_for('book', trip_id=trip.id) }}">احجز الآن</a>
-    <a class="btn btn--outline" href="{{ url_for('trips') }}">العودة للرحلات</a>
+<article class="trip">
+  <img src="{{ url_for('static', filename='images/' ~ trip.image) }}" alt="{{ trip.name }}" style="width:100%;max-height:420px;object-fit:cover;border-radius:18px">
+  <h1 class="page-title" style="margin-top:1rem">{{ trip.name }}</h1>
+
+  <div class="hint" style="margin-bottom:.6rem">
+    {{ trip.city }} • من {{ trip.days_min }} إلى {{ trip.days_max }} أيام • {{ trip.price_per_day }} ر.س / اليوم
   </div>
+
+  <p style="margin-bottom:1rem">{{ trip.summary }}</p>
+
+  <div class="card__actions" style="gap:12px">
+    <a class="btn btn--primary" href="{{ url_for('book', trip_id=trip.id) }}">احجز الآن</a>
+    <a class="btn btn--outline" href="{{ url_for('trips') }}">رجوع للرحلات</a>
+  </div>
+
+  <section style="margin-top:1.4rem">
+    <h2 class="section-title">ما الذي يشمله البرنامج؟</h2>
+    <ul>
+      <li>مرشد سياحي معتمد.</li>
+      <li>تنسيق جدول الزيارات والأنشطة.</li>
+      <li>الدعم عبر واتساب طوال مدة الرحلة.</li>
+    </ul>
+  </section>
 </article>
 {% endblock %}
