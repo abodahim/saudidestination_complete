@@ -26,28 +26,34 @@
     </p>
   </section>
 
-  <!-- باقات مختارة -->
+  <!-- باقات مختارة (سلايدر) -->
   <section class="section">
     <div class="section-head">
       <h2 class="section-title">باقات مختارة</h2>
       <a class="section-link" href="{{ url_for('trips') }}">عرض كل الرحلات →</a>
     </div>
 
-    <div class="cards">
-      {% for t in trips %}
-      <article class="card">
-        <img src="{{ url_for('static', filename='images/' ~ t.images[0]) }}" alt="{{ t.name }}">
-        <div class="card__body">
-          <h3 class="card__title">{{ t.name }}</h3>
-          <p class="card__meta">{{ t.city }} • {{ t.days }} يوم</p>
-          <p class="card__price">{{ t.price }} ر.س</p>
-          <div class="card__actions">
-            <a class="btn btn--primary" href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
-            <a class="btn btn--outline" href="{{ url_for('book') }}?trip_id={{ t.id }}">احجز الآن</a>
+    <div class="slider" id="tripsSlider" dir="rtl" aria-roledescription="carousel">
+      <button class="slider__btn slider__btn--prev" aria-label="السابق">‹</button>
+
+      <div class="slider__track" data-track>
+        {% for t in trips %}
+        <article class="card slider__slide">
+          <img src="{{ url_for('static', filename='images/' ~ t.images[0]) }}" alt="{{ t.name }}">
+          <div class="card__body">
+            <h3 class="card__title">{{ t.name }}</h3>
+            <p class="card__meta">{{ t.city }} • {{ t.days }} يوم</p>
+            <p class="card__price">{{ t.price }} ر.س</p>
+            <div class="card__actions">
+              <a class="btn btn--primary" href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
+              <a class="btn btn--outline" href="{{ url_for('book') }}?trip_id={{ t.id }}">احجز الآن</a>
+            </div>
           </div>
-        </div>
-      </article>
-      {% endfor %}
+        </article>
+        {% endfor %}
+      </div>
+
+      <button class="slider__btn slider__btn--next" aria-label="التالي">›</button>
     </div>
   </section>
 
@@ -55,7 +61,6 @@
   <section class="section">
     <div class="section-head">
       <h2 class="section-title">مرشدونا</h2>
-      <a class="section-link" href="{{ url_for('guides') }}">كل المرشدين →</a>
     </div>
 
     <div class="slider" id="guidesSlider" dir="rtl" aria-roledescription="carousel">
@@ -80,8 +85,9 @@
 
 {% block body_extra %}
 <script>
-  // تفعيل السلايدر بعد تحميل الصفحة
+  // تفعيل سلايدر الرحلات والمرشدين
   window.addEventListener('DOMContentLoaded', () => {
+    window.initSlider && window.initSlider('#tripsSlider',  {autoplay: 4000});
     window.initSlider && window.initSlider('#guidesSlider', {autoplay: 3500});
   });
 </script>
