@@ -1,62 +1,69 @@
-// === القائمة الجانبية (تعمل في كل الصفحات) ===
+// فتح/إغلاق درج القائمة + Overlay
 (function () {
+  const drawer = document.getElementById('drawer');
   const toggle = document.getElementById('menuToggle');
-  const nav = document.getElementById('siteNav');
-  if (toggle && nav) {
-    toggle.addEventListener('click', () => {
-      nav.classList.toggle('nav--open');
-    });
-    // إغلاق عند الضغط خارج القائمة
-    document.addEventListener('click', (e) => {
-      if (!nav.contains(e.target) && e.target !== toggle) {
-        nav.classList.remove('nav--open');
-      }
-    });
+  const closeBtn = document.getElementById('drawerClose');
+  const overlay = document.getElementById('overlay');
+
+  function openDrawer() {
+    if (!drawer) return;
+    drawer.setAttribute('aria-hidden', 'false');
+    drawer.classList.add('open');
+    if (overlay) { overlay.hidden = false; overlay.classList.add('show'); }
+    document.body.style.overflow = 'hidden';
   }
+
+  function closeDrawer() {
+    if (!drawer) return;
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.classList.remove('open');
+    if (overlay) { overlay.classList.remove('show'); overlay.hidden = true; }
+    document.body.style.overflow = '';
+  }
+
+  toggle && toggle.addEventListener('click', openDrawer);
+  closeBtn && closeBtn.addEventListener('click', closeDrawer);
+  overlay && overlay.addEventListener('click', closeDrawer);
 })();
 
-// === نموذج الحجز: حساب السعر والإجمالي + ضبط حدود الأيام ===
-(function () {
-  const tripSelect = document.getElementById('tripSelect');
-  const daysInput = document.getElementById('daysInput');
-  const priceCell = document.getElementById('priceCell');
-  const totalCell = document.getElementById('totalCell');
-  const daysHint = document.getElementById('daysHint');
+// منطق نموذج الحجز (عدد الأيام + المجموع)
+window.bookingInit = function bookingInit () {
+  const tripSelect = document.getElementById('trip');
+  const daysInput  = document.getElementById('days');
+  const totalEl    = document.getElementById('total');
+  const totalInput = document.getElementById('totalInput');
+  const decBtn     = document.querySelector('.number__btn[data-op="dec"]');
+  const incBtn     = document.querySelector('.number__btn[data-op="inc"]');
 
-  function updateFromTrip() {
-    if (!tripSelect || !daysInput) return;
+  function priceForSelectedTrip() {
     const opt = tripSelect.options[tripSelect.selectedIndex];
-    const price = parseInt(opt.getAttribute('data-price'), 10);
-    const dmin = parseInt(opt.getAttribute('data-min'), 10);
-    const dmax = parseInt(opt.getAttribute('data-max'), 10);
-    const ddef = parseInt(opt.getAttribute('data-default'), 10);
+    return Number(opt.dataset.price || 0);
+  }
 
-    daysInput.min = dmin;
-    daysInput.max = dmax;
-    if (!daysInput.value) daysInput.value = ddef;
-    let days = Math.max(dmin, Math.min(parseInt(daysInput.value || ddef, 10), dmax));
-    daysInput.value = days;
-
-    priceCell.textContent = `${price} ر.س`;
-    totalCell.textContent = `${price * days} ر.س`;
-    daysHint.textContent = `الحد الأدنى ${dmin} والحد الأقصى ${dmax} أيام`;
+  function clampDays() {
+    const min = Number(daysInput.min || 1);
+    const max = Number(daysInput.max || 7);
+    let v = Number(daysInput.value || 1);
+    v = Math.max(min, Math.min(max, v));
+    daysInput.value = v;
+    return v;
   }
 
   function updateTotal() {
-    if (!tripSelect || !daysInput) return;
-    const opt = tripSelect.options[tripSelect.selectedIndex];
-    const price = parseInt(opt.getAttribute('data-price'), 10);
-    let days = parseInt(daysInput.value || '1', 10);
-    const dmin = parseInt(opt.getAttribute('data-min'), 10);
-    const dmax = parseInt(opt.getAttribute('data-max'), 10);
-    days = Math.max(dmin, Math.min(days, dmax));
-    daysInput.value = days;
-    totalCell.textContent = `${price * days} ر.س`;
+    const price = priceForSelectedTrip();
+    const days  = clampDays();
+    const total = price * days;
+    totalEl.textContent = total.toLocaleString('ar-EG');
+    totalInput.value = String(total);
   }
 
-  if (tripSelect && daysInput) {
-    tripSelect.addEventListener('change', updateFromTrip);
-    daysInput.addEventListener('input', updateTotal);
-    updateFromTrip();
-  }
-})();
+  // أزرار +/-
+  decBtn && decBtn.addEventListener('click', () => { daysInput.stepDown(); updateTotal(); });
+  incBtn && incBtn.addEventListener('click', () => { daysInput.stepUp();   updateTotal(); });
+
+  tripSelect && tripSelect.addEventListener('change', updateTotal);
+  daysInput  && daysInput.addEventListener('input', updateTotal);
+
+  // تشغيل أول حساب
+  updateTotal();
+};
