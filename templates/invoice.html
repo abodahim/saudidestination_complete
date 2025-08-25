@@ -1,13 +1,90 @@
-{% extends "base.html" %}
-{% block title %}الدفع{% endblock %}
-{% block content %}
-<section class="card" style="margin-top:2rem;">
-  <div class="card__body">
-    <h2>صفحة دفع تجريبية</h2>
-    <form method="post">
-      <label>المبلغ<input name="amount" type="number" min="1" value="299" required></label>
-      <button class="btn btn--primary" type="submit">إتمام الدفع</button>
-    </form>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title>فاتورة #{{ b.id }} — {{ company.name }}</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    :root{ --brand:#0f6a3e; --border:#e8e8e8; --muted:#666; --text:#111; }
+    *{box-sizing:border-box}
+    body{font-family:"Tajawal",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);margin:0;background:#f7f9f8}
+    .wrap{width:min(900px,94%);margin:24px auto;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.06);padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:16px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:48px;height:48px;border-radius:10px;object-fit:cover}
+    .brand h1{font-size:18px;margin:0}
+    .tools{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{background:#fff;border:1px solid var(--border);padding:8px 12px;border-radius:10px;text-decoration:none;color:inherit}
+    .btn--primary{background:var(--brand);border-color:var(--brand);color:#fff}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .card{border:1px solid var(--border);border-radius:12px;padding:12px}
+    h2{font-size:16px;margin:0 0 8px}
+    .muted{color:var(--muted)}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{border:1px solid var(--border);padding:10px;text-align:right}
+    th{background:#f3f7f5}
+    tfoot td{font-weight:700}
+    .note{margin-top:12px;color:var(--muted);font-size:.95rem}
+    .badge-paid{display:inline-block;background:#e7f6ec;color:#0f6a3e;border:1px solid #bfe5cc;padding:6px 10px;border-radius:10px;font-weight:700}
+    .inv-line{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .inv-no{font-weight:800}
+    @media print{ body{background:#fff} .wrap{box-shadow:none;border:none;margin:0;width:auto} header .tools{display:none} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="logo">
+        <div>
+          <h1>{{ company.name }}</h1>
+          <div class="muted" style="font-size:.95rem">
+            {{ company.email }} • {{ company.phone }} • {{ company.address }}
+          </div>
+        </div>
+      </div>
+      <div class="tools">
+        <a class="btn" href="{{ url_for('home') }}">الرئيسية</a>
+        <a class="btn" href="{{ url_for('booking_detail', booking_id=b.id) }}">تفاصيل الحجز</a>
+        <a class="btn" href="{{ url_for('booking_invoice_pdf', booking_id=b.id) }}" target="_blank">PDF</a>
+        <button class="btn btn--primary" onclick="window.print()">طباعة</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <h2>معلومات الفاتورة</h2>
+        <div class="inv-line">
+          <div>رقم الفاتورة: <span class="inv-no">{{ b.invoice_number or '—' }}</span></div>
+          {% if b.status == 'paid' %}<span class="badge-paid">مدفوع{% if b.paid_at %} • {{ b.paid_at.strftime('%Y-%m-%d %H:%M') }}{% endif %}</span>{% endif %}
+        </div>
+        <div>تاريخ الإصدار: <strong>{{ b.created_at.strftime('%Y-%m-%d %H:%M') }}</strong></div>
+      </div>
+      <div class="card">
+        <h2>بيانات العميل</h2>
+        <div>الاسم: <strong>{{ b.name }}</strong></div>
+        <div>البريد: <strong dir="ltr">{{ b.email }}</strong></div>
+        <div>الجوال: <strong dir="ltr">{{ b.phone }}</strong></div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h2>تفاصيل الحجز</h2>
+      <table>
+        <thead>
+          <tr><th>الرحلة</th><th>سعر اليوم (ر.س)</th><th>عدد الأيام</th><th>الإجمالي (ر.س)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ trip.name }}</td><td>{{ trip.price }}</td><td>{{ b.days }}</td><td>{{ b.total }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="3">الإجمالي المستحق</td><td>{{ b.total }}</td></tr>
+        </tfoot>
+      </table>
+      <p class="note">هذه الفاتورة صادرة آليًا. لأي استفسار الرجاء التواصل عبر البريد أو الجوال أعلاه.</p>
+    </section>
   </div>
-</section>
-{% endblock %}
+</body>
+</html>
