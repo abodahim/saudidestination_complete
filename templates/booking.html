@@ -1,62 +1,64 @@
 {% extends "base.html" %}
-{% block title %}احجز الآن - وجهة السعودية{% endblock %}
-
+{% block title %}الحجز{% endblock %}
 {% block content %}
-<section>
-  <h1 class="page-title">نموذج الحجز</h1>
-  <form class="form card--panel" method="post" action="{{ url_for('book') }}" id="bookingForm">
-    <div class="form__row">
-      <label for="name">الاسم الكامل</label>
-      <input id="name" name="name" type="text" placeholder="الاسم" required>
-    </div>
+<h1 class="page-title">نموذج الحجز</h1>
 
-    <div class="form__row">
-      <label for="email">البريد الإلكتروني</label>
-      <input id="email" name="email" type="email" placeholder="name@email.com" required>
-    </div>
+<form class="form card--panel" method="post" action="{{ url_for('book') }}">
+  <div class="form__row">
+    <label for="name">الاسم الكامل</label>
+    <input id="name" name="name" type="text" required>
+  </div>
 
-    <div class="form__row">
-      <label for="phone">رقم الجوال</label>
-      <input id="phone" name="phone" type="tel" inputmode="numeric" placeholder="05xxxxxxxx" required>
-    </div>
+  <div class="form__row">
+    <label for="email">البريد الإلكتروني</label>
+    <input id="email" name="email" type="email" required dir="ltr" placeholder="name@example.com">
+  </div>
 
-    <div class="form__row">
-      <label for="trip">اختر الرحلة</label>
-      <select id="trip" name="trip_id" required>
-        {% for t in trips %}
-        <option value="{{ t.id }}" data-price="{{ t.price }}">{{ t.name }} — {{ t.price }} ر.س / اليوم</option>
-        {% endfor %}
-      </select>
-    </div>
+  <div class="form__row">
+    <label for="phone">رقم الجوال</label>
+    <input id="phone" name="phone" type="tel" required dir="ltr" placeholder="+9665xxxxxxx">
+  </div>
 
-    <div class="form__row">
-      <label for="days">عدد الأيام</label>
-      <div class="number">
-        <button type="button" class="number__btn" data-op="dec" aria-label="نقص">−</button>
-        <input id="days" name="days" type="number" min="1" max="7" step="1" value="1" required>
-        <button type="button" class="number__btn" data-op="inc" aria-label="زد">+</button>
-      </div>
-      <small class="muted">الحد الأدنى 1 والحد الأقصى 7 أيام</small>
-    </div>
+  <div class="form__row">
+    <label for="trip_id">اختر الرحلة</label>
+    <select id="trip_id" name="trip_id" required>
+      {% for t in trips %}
+      <option value="{{ t.id }}" data-price="{{ t.price }}" {% if preselect==t.id %}selected{% endif %}>
+        {{ t.name }} — {{ t.price }} ر.س / اليوم
+      </option>
+      {% endfor %}
+    </select>
+  </div>
 
-    <div class="form__row">
-      <label>الإجمالي</label>
-      <div class="total"><span id="total">0</span> ر.س</div>
-      <input type="hidden" id="totalInput" name="total_amount" value="0">
-    </div>
+  <div class="form__row">
+    <label for="days">عدد الأيام</label>
+    <input id="days" name="days" type="number" min="1" max="30" value="1" required>
+  </div>
 
-    <div class="form__actions">
-      <button class="btn btn--primary" type="submit">إرسال الحجز</button>
-    </div>
-  </form>
-</section>
-{% endblock %}
+  <div class="form__row">
+    <label>الإجمالي المتوقع (ر.س)</label>
+    <input id="total_amount" name="total_amount" type="number" readonly value="0">
+  </div>
 
-{% block body_extra %}
+  <div class="form__actions">
+    <button class="btn btn--primary" type="submit">إرسال الحجز</button>
+    <a class="btn" href="{{ url_for('trips') }}">العودة للرحلات</a>
+  </div>
+</form>
+
 <script>
   window.addEventListener('DOMContentLoaded', () => {
-    // حساب الإجمالي فوراً
-    window.bookingInit && window.bookingInit();
+    const tripSel = document.getElementById('trip_id');
+    const daysInp = document.getElementById('days');
+    const totalInp = document.getElementById('total_amount');
+    function recalc(){
+      const price = parseInt(tripSel.selectedOptions[0].dataset.price || '0', 10);
+      const days  = parseInt(daysInp.value || '1', 10);
+      totalInp.value = (price * days) || 0;
+    }
+    tripSel.addEventListener('change', recalc);
+    daysInp.addEventListener('input', recalc);
+    recalc();
   });
 </script>
 {% endblock %}
