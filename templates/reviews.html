@@ -1,22 +1,17 @@
 {% extends "base.html" %}
-{% block title %}التقييمات - وجهة السعودية{% endblock %}
-
-{% block hero %}
-<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
-  <div class="hero__overlay"><div class="container hero__content">
-    <h1 class="hero__title">التقييمات</h1>
-    <p class="hero__lead">ماذا قال ضيوفنا؟</p>
-  </div></div>
-</section>
-{% endblock %}
-
+{% block title %}التقييمات{% endblock %}
 {% block content %}
-<section>
-  <h2 class="section-title">آراء الزوار</h2>
-  <div class="cards">
-    <article class="card"><div class="card__body"><h3>محمد</h3><p>تجربة رائعة والتنظيم ممتاز.</p></div></article>
-    <article class="card"><div class="card__body"><h3>نوف</h3><p>المرشدون محترفون والمحتوى ثري.</p></div></article>
-    <article class="card"><div class="card__body"><h3>سلمان</h3><p>رحلة لا تُنسى.. شكرًا لكم!</p></div></article>
+<h1 class="page-title">آراء العملاء</h1>
+<div class="reviews">
+  {% for r in reviews %}
+  <div class="review">
+    <div class="review__head">
+      <strong>{{ r.name }}</strong>
+      <span class="muted">{{ r.city }}</span>
+      <span class="stars">{% for i in range(r.rating) %}★{% endfor %}</span>
+    </div>
+    <p>{{ r.text }}</p>
   </div>
-</section>
+  {% endfor %}
+</div>
 {% endblock %}
