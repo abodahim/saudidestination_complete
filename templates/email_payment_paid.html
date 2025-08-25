@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><title>تأكيد الدفع</title></head>
+<body style="font-family:Tajawal,Arial,sans-serif">
+  <h2>تم استلام الدفع — شكرًا {{ booking.name }}!</h2>
+  <p>رحلتك: <strong>{{ trip.name }}</strong></p>
+  <p>رقم الفاتورة: <strong>{{ booking.invoice_number }}</strong> — المبلغ: <strong>{{ booking.total }} ر.س</strong></p>
+  <p>
+    تفاصيل الحجز:<br>
+    <a href="{{ detail_url }}">{{ detail_url }}</a>
+  </p>
+  <p>
+    تحميل الفاتورة PDF:<br>
+    <a href="{{ pdf_url }}">{{ pdf_url }}</a>
+  </p>
+  <hr>
+  <p>بيانات التواصل:</p>
+  <ul>
+    <li>البريد: <a href="mailto:{{ company.email }}">{{ company.email }}</a></li>
+    {% if company.whatsapp %}<li>واتساب: <a href="https://wa.me/{{ company.whatsapp }}">{{ company.whatsapp }}</a></li>{% endif %}
+    {% if company.phone %}<li>اتصال: <a href="tel:{{ company.phone }}">{{ company.phone }}</a></li>{% endif %}
+  </ul>
+  <p>مع الشكر،<br>{{ company.name }}</p>
+</body>
+</html>
