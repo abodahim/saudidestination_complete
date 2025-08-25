@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}تعديل الحجز #{{ b.id }}{% endblock %}
+{% block content %}
+<h1 class="page-title">تعديل الحجز #{{ b.id }}</h1>
+
+<form class="form card--panel" method="post" action="{{ url_for('admin_edit_booking', booking_id=b.id) }}">
+  <div class="form__row"><label for="name">الاسم الكامل</label><input id="name" name="name" type="text" value="{{ b.name }}" required></div>
+  <div class="form__row"><label for="email">البريد الإلكتروني</label><input id="email" name="email" type="email" value="{{ b.email }}" required></div>
+  <div class="form__row"><label for="phone">رقم الجوال</label><input id="phone" name="phone" type="tel" value="{{ b.phone }}" required></div>
+  <div class="form__row">
+    <label for="trip_id">الرحلة</label>
+    <select id="trip_id" name="trip_id" required>
+      {% for t in trips %}
+      <option value="{{ t.id }}" {% if t.id == b.trip_id %}selected{% endif %}>{{ t.name }} — {{ t.price }} ر.س / اليوم</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form__row"><label for="days">عدد الأيام</label><input id="days" name="days" type="number" min="1" max="30" value="{{ b.days }}" required></div>
+  <div class="form__row"><label for="total">الإجمالي (ر.س)</label><input id="total" name="total" type="number" min="0" step="1" value="{{ b.total }}" required></div>
+
+  <div class="form__row">
+    <label for="status">الحالة</label>
+    <select id="status" name="status" required>
+      <option value="pending" {% if b.status!='paid' %}selected{% endif %}>قيد الانتظار</option>
+      <option value="paid"    {% if b.status=='paid' %}selected{% endif %}>مدفوع</option>
+    </select>
+    {% if b.paid_at %}<small class="muted">تاريخ الدفع: {{ b.paid_at.strftime('%Y-%m-%d %H:%M') }}</small>{% endif %}
+  </div>
+
+  <div class="form__actions">
+    <button class="btn btn--primary" type="submit">حفظ التعديلات</button>
+    <a class="btn" href="{{ url_for('admin_dashboard') }}">إلغاء</a>
+  </div>
+</form>
+{% endblock %}
