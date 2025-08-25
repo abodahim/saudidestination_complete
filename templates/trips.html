@@ -1,37 +1,20 @@
 {% extends "base.html" %}
-{% block title %}الرحلات — وجهة السعودية{% endblock %}
-
-{% block hero %}
-<section class="hero hero--sm" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
-  <div class="hero__overlay">
-    <div class="container hero__content">
-      <h1 class="hero__title">الرحلات</h1>
-      <p class="hero__lead">اختر رحلتك المفضلة واستمتع بتجربة لا تُنسى داخل المملكة</p>
+{% block title %}الرحلات{% endblock %}
+{% block content %}
+<h1 class="page-title">الرحلات المتاحة</h1>
+<div class="cards">
+  {% for t in trips %}
+  <div class="card">
+    <img src="{{ url_for('static', filename='images/' ~ t.images[0]) }}" alt="{{ t.name }}">
+    <div class="card__body">
+      <h3>{{ t.name }}</h3>
+      <p>{{ t.desc }}</p>
+      <div class="card__actions">
+        <a href="{{ url_for('trip_details', trip_id=t.id) }}" class="btn btn--outline">عرض التفاصيل</a>
+        <a href="{{ url_for('book', trip_id=t.id) }}" class="btn btn--primary">احجز الآن</a>
+      </div>
     </div>
   </div>
-</section>
-{% endblock %}
-
-{% block content %}
-<section class="section">
-  <div class="cards">
-    {% for t in trips %}
-    <article class="card trip-card">
-      <a class="card__media" href="{{ url_for('trip_details', trip_id=t.id) }}">
-        <img src="{{ url_for('static', filename='images/' ~ t.images[0]) }}" alt="{{ t.name }}">
-      </a>
-      <div class="card__body">
-        <h3 class="card__title">{{ t.name }}</h3>
-        <p class="card__meta">{{ t.city }} • {{ t.days }} يوم</p>
-        <p class="card__desc">{{ t.desc }}</p>
-
-        <div class="card__actions">
-          <a class="btn btn--outline" href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
-          <a class="btn btn--primary" href="{{ url_for('book') }}?trip_id={{ t.id }}">احجز الآن</a>
-        </div>
-      </div>
-    </article>
-    {% endfor %}
-  </div>
-</section>
+  {% endfor %}
+</div>
 {% endblock %}
