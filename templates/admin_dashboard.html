@@ -1,10 +1,122 @@
 {% extends "base.html" %}
-{% block title %}لوحة الإدارة{% endblock %}
+{% block title %}لوحة الإدارة — الحجوزات{% endblock %}
 {% block content %}
-<section class="card" style="margin-top:2rem;">
-  <div class="card__body">
-    <h2>لوحة التحكم</h2>
-    <p>مرحبًا بك في لوحة الإدارة (تصميم مبدئي).</p>
+<h1 class="page-title">الحجوزات</h1>
+
+<form class="admin-toolbar" method="get" action="{{ url_for('admin_dashboard') }}">
+  <input type="text" name="q" value="{{ q }}" placeholder="ابحث بالاسم / البريد / الجوال / رقم الفاتورة">
+  <input type="date" id="start" name="start" value="{{ start }}" title="من تاريخ">
+  <input type="date" id="end"   name="end"   value="{{ end }}"   title="إلى تاريخ">
+
+  <div style="display:flex; gap:6px; flex-wrap:wrap">
+    <button class="btn" type="button" id="btnThisWeek">هذا الأسبوع</button>
+    <button class="btn" type="button" id="btnThisMonth">هذا الشهر</button>
+    <button class="btn" type="button" id="btnClearRange">مسح التاريخ</button>
   </div>
-</section>
+
+  <select name="sort">
+    <option value="created_desc" {% if sort=='created_desc' %}selected{% endif %}>الأحدث أولاً</option>
+    <option value="created_asc"  {% if sort=='created_asc'  %}selected{% endif %}>الأقدم أولاً</option>
+    <option value="name_asc"     {% if sort=='name_asc'     %}selected{% endif %}>الاسم (تصاعدي)</option>
+    <option value="name_desc"    {% if sort=='name_desc'    %}selected{% endif %}>الاسم (تنازلي)</option>
+    <option value="total_desc"   {% if sort=='total_desc'   %}selected{% endif %}>الإجمالي (أعلى)</option>
+    <option value="total_asc"    {% if sort=='total_asc'    %}selected{% endif %}>الإجمالي (أقل)</option>
+    <option value="days_desc"    {% if sort=='days_desc'    %}selected{% endif %}>الأيام (أكبر)</option>
+    <option value="days_asc"     {% if sort=='days_asc'     %}selected{% endif %}>الأيام (أقل)</option>
+  </select>
+
+  <button class="btn btn--primary" type="submit">تطبيق</button>
+
+  <div style="margin-inline-start:auto; display:flex; gap:8px; flex-wrap:wrap">
+    <a class="btn" href="{{ url_for('admin_export_csv', q=q, sort=sort, start=start, end=end) }}">⬇ CSV</a>
+    <a class="btn" href="{{ url_for('admin_export_xlsx', q=q, sort=sort, start=start, end=end) }}">⬇ Excel</a>
+  </div>
+</form>
+
+<div class="table-wrap">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th><th>الفاتورة</th><th>الحالة</th><th>الاسم</th><th>البريد</th><th>الجوال</th>
+        <th>الرحلة</th><th>الأيام</th><th>الإجمالي</th><th>تاريخ الإنشاء</th><th>إجراءات</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in bookings %}
+      <tr>
+        <td>{{ b.id }}</td>
+        <td>{{ b.invoice_number or '—' }}</td>
+        <td>
+          {% if b.status == 'paid' %}
+            <span style="color:#0f6a3e; font-weight:700">مدفوع</span>
+            {% if b.paid_at %}<div class="muted" style="font-size:.85rem">{{ b.paid_at.strftime('%Y-%m-%d %H:%M') }}</div>{% endif %}
+          {% else %}
+            <span class="muted">قيد الانتظار</span>
+          {% endif %}
+        </td>
+        <td>{{ b.name }}</td>
+        <td dir="ltr">{{ b.email }}</td>
+        <td dir="ltr">{{ b.phone }}</td>
+        <td>{{ trip_map[b.trip_id].name if b.trip_id in trip_map else b.trip_id }}</td>
+        <td>{{ b.days }}</td>
+        <td>{{ b.total }}</td>
+        <td>{{ b.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td style="white-space:nowrap; display:flex; gap:6px; flex-wrap:wrap;">
+          <a class="btn btn--outline" href="{{ url_for('admin_edit_booking', booking_id=b.id) }}">تعديل</a>
+          <a class="btn" href="{{ url_for('admin_invoice_html', booking_id=b.id) }}" target="_blank">فاتورة HTML</a>
+          <a class="btn" href="{{ url_for('admin_invoice_pdf', booking_id=b.id) }}" target="_blank">PDF</a>
+
+          {% if b.status != 'paid' %}
+          <form method="post" action="{{ url_for('admin_mark_paid', booking_id=b.id) }}">
+            <button class="btn" type="submit">تعيين كمدفوع</button>
+          </form>
+          {% else %}
+          <form method="post" action="{{ url_for('admin_mark_pending', booking_id=b.id) }}">
+            <button class="btn" type="submit">إرجاع للانتظار</button>
+          </form>
+          {% endif %}
+
+          <form method="post" action="{{ url_for('admin_delete_booking', booking_id=b.id) }}" onsubmit="return confirm('حذف هذا الحجز نهائيًا؟');">
+            <button class="btn" type="submit">حذف</button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="11" class="center muted">لا توجد حجوزات ضمن الفلتر المحدد.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if pages > 1 %}
+<nav class="pagination">
+  {% if has_prev %}<a class="page" href="{{ url_for('admin_dashboard', q=q, sort=sort, start=start, end=end, page=page-1) }}">السابق</a>
+  {% else %}<span class="page disabled">السابق</span>{% endif %}
+  <span class="page current">صفحة {{ page }} / {{ pages }}</span>
+  {% if has_next %}<a class="page" href="{{ url_for('admin_dashboard', q=q, sort=sort, start=start, end=end, page=page+1) }}">التالي</a>
+  {% else %}<span class="page disabled">التالي</span>{% endif %}
+</nav>
+{% endif %}
+
+<script>
+  (function(){
+    const pad = n => String(n).padStart(2,'0');
+    const fmt = dt => `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`;
+    const start = document.getElementById('start');
+    const end   = document.getElementById('end');
+
+    document.getElementById('btnThisWeek').addEventListener('click', () => {
+      const now = new Date();
+      const day = (now.getDay() + 6) % 7;
+      const monday = new Date(now); monday.setDate(now.getDate() - day);
+      const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+      start.value = fmt(monday); end.value = fmt(sunday);
+    });
+    document.getElementById('btnThisMonth').addEventListener('click', () => {
+      const d = new Date(); const y = d.getFullYear(); const m = d.getMonth();
+      start.value = fmt(new Date(y, m, 1)); end.value = fmt(new Date(y, m+1, 0));
+    });
+    document.getElementById('btnClearRange').addEventListener('click', () => { start.value = ""; end.value = ""; });
+  })();
+</script>
 {% endblock %}
