@@ -1,17 +1,15 @@
 {% extends "base.html" %}
-{% block title %}الدفع{% endblock %}
-
+{% block title %}إتمام الدفع — حجز #{{ b.id }}{% endblock %}
 {% block content %}
-<section class="section">
-  <h1 class="section-title">الدفع</h1>
-  <div class="card--pad">
-    <p>العميل: <strong>{{ booking.name }}</strong></p>
-    <p>الرحلة: <strong>{{ trip.name }}</strong></p>
-    <p>المبلغ المستحق: <strong>{{ trip.price }} ر.س</strong></p>
-    <form method="post">
-      <button class="btn btn--primary" type="submit">ادفع الآن (تجريبي)</button>
-      <a class="btn btn--ghost" href="{{ url_for('booking') }}">تعديل الحجز</a>
-    </form>
-  </div>
-</section>
+<h1 class="page-title">إتمام الدفع — حجز #{{ b.id }}</h1>
+
+<div class="card--panel">
+  <p>العميل: <strong>{{ b.name }}</strong> — المبلغ: <strong>{{ b.total }} ر.س</strong></p>
+  <p class="muted">هذه صفحة دفع تجريبية. عند ربط بوابة دفع حقيقية، سيتم تحويلك لها ثم العودة للتأكيد.</p>
+
+  <form method="post" action="{{ url_for('pay', booking_id=b.id) }}" style="margin-top:12px">
+    <button class="btn btn--primary" type="submit">ادفع الآن</button>
+    <a class="btn" href="{{ url_for('booking_detail', booking_id=b.id) }}">عودة لتفاصيل الحجز</a>
+  </form>
+</div>
 {% endblock %}
