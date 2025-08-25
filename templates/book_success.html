@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}تم استلام الحجز{% endblock %}
+{% block content %}
+<div class="card--panel center">
+  <h1>شكرًا لك!</h1>
+  <p>تم استلام طلب الحجز بنجاح. ستصلك رسالة تأكيد على بريدك قريبًا.</p>
+  <a class="btn btn--primary" href="{{ url_for('home') }}">عودة للرئيسية</a>
+</div>
+{% endblock %}
