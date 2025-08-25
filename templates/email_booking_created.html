@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><title>تأكيد حجز</title></head>
+<body style="font-family:Tajawal,Arial,sans-serif">
+  <h2>شكرًا {{ booking.name }}!</h2>
+  <p>تم استلام طلب الحجز الخاص بك لـ <strong>{{ trip.name }}</strong>.</p>
+  <p>رقم الفاتورة: <strong>{{ booking.invoice_number }}</strong></p>
+  <p>عدد الأيام: {{ booking.days }} — الإجمالي: {{ booking.total }} ر.س</p>
+  <p>
+    يمكنك متابعة حالة حجزك من الرابط التالي:<br>
+    <a href="{{ detail_url }}">{{ detail_url }}</a>
+  </p>
+  <p>
+    عرض الفاتورة (HTML):<br>
+    <a href="{{ inv_url }}">{{ inv_url }}</a>
+  </p>
+  <hr>
+  <p>تحياتنا،<br>{{ company.name }}</p>
+</body>
+</html>
