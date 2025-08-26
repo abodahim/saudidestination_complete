@@ -7,16 +7,18 @@
 <section class="section">
   <h1 class="page-title">نموذج الحجز</h1>
 
-  {% if get_flashed_messages() %}
-    <div class="flash">
-      {% for cat, msg in get_flashed_messages(with_categories=true) %}
-        <p class="flash__msg {{cat}}">{{ msg }}</p>
-      {% endfor %}
-    </div>
-  {% endif %}
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% if msgs %}
+      <div class="flash">
+        {% for cat, msg in msgs %}
+          <p class="flash__msg {{cat}}">{{ msg }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
 
   <div class="grid-2">
-    <!-- الفورم -->
+    <!-- النموذج -->
     <form id="bookingForm" class="form card" method="post" action="{{ url_for('booking') }}">
       <div class="form__group">
         <label for="fullName">الاسم الكامل</label>
@@ -36,7 +38,7 @@
       <div class="form__group">
         <label for="tripSelect">اختر الرحلة</label>
         <select id="tripSelect" name="trip_id" required>
-          {# نتوقع أن يأتي trips من الباك إند: قائمة قواميس/كائنات #}
+          {# يجب تمرير قائمة trips من الباك إند #}
           {% for t in trips %}
             <option value="{{ t.id }}"
                     data-id="{{ t.id }}"
@@ -88,7 +90,7 @@
       </p>
     </form>
 
-    <!-- تلميحات و أسئلة مختصرة -->
+    <!-- جانب معلومات -->
     <aside class="card card--soft">
       <h3 class="section-title">معلومات مهمة</h3>
       <ul class="list">
