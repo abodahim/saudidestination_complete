@@ -1,76 +1,61 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-currency="{{ currency|default('ر.س') }}">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>{% block title %}وجهة السعودية{% endblock %}</title>
-
-  <!-- Manifest + Icon -->
-  <link rel="manifest" href="{{ url_for('manifest') }}">
-  <link rel="icon" href="{{ url_for('static', filename='images/logo.JPG') }}" type="image/jpeg">
-
-  <!-- CSS الصحيح -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css', v=ASSET_VER) }}">
-
-  {% block head_extra %}{% endblock %}
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}{% endblock %} {% if self.title() %}-{% endif %} وجهة السعودية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-  <header class="topbar">
-    <div class="container topbar__wrap">
-      <a class="brand" href="{{ url_for('home') }}">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" width="44" height="44" loading="eager">
-        <span>وجهة السعودية</span>
-      </a>
 
-      <nav class="nav">
-        <button id="menuToggle" class="nav__toggle" aria-label="فتح القائمة" aria-expanded="false">☰</button>
-        <ul class="nav__list" id="mainNav">
-          <li><a href="{{ url_for('home') }}"     class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a></li>
-          <li><a href="{{ url_for('trips') }}"    class="{% if request.endpoint in ['trips','trip_details'] %}active{% endif %}">الرحلات</a></li>
-          <li><a href="{{ url_for('guides') }}"   class="{% if request.endpoint=='guides' %}active{% endif %}">مرشدونا</a></li>
-          <li><a href="{{ url_for('reviews') }}"  class="{% if request.endpoint=='reviews' %}active{% endif %}">التقييمات</a></li>
-          <li><a href="{{ url_for('faq') }}"      class="{% if request.endpoint=='faq' %}active{% endif %}">أسئلة شائعة</a></li>
-          <li><a href="{{ url_for('cancellation_policy') }}" class="{% if request.endpoint=='cancellation_policy' %}active{% endif %}">سياسة الإلغاء</a></li>
-          <li><a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a></li>
-        </ul>
-      </nav>
+<header class="site-header">
+  <div class="container header-bar">
+    <button id="menuToggle" class="hamburger" aria-label="قائمة"><span></span><span></span><span></span></button>
+
+    <a href="{{ url_for('home') }}" class="brand">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="وجهة السعودية" />
+      <span>وجهة السعودية</span>
+    </a>
+
+    <nav class="nav-desktop">
+      <a class="nav__link {% if active=='home' %}is-active{% endif %}" href="{{ url_for('home') }}">الرئيسية</a>
+      <a class="nav__link {% if active=='trips' %}is-active{% endif %}" href="{{ url_for('trips') }}">الرحلات</a>
+      <a class="nav__link {% if active=='guides' %}is-active{% endif %}" href="{{ url_for('trips') }}#guides">مرشدونا</a>
+      <a class="nav__link {% if active=='faq' %}is-active{% endif %}" href="{{ url_for('faq') }}">أسئلة شائعة</a>
+      <a class="nav__link {% if active=='cancellation' %}is-active{% endif %}" href="{{ url_for('cancellation') }}">سياسة الإلغاء</a>
+      <a class="btn btn--primary nav__cta" href="{{ url_for('book') }}">احجز الآن</a>
+    </nav>
+  </div>
+
+  <!-- قائمة الموبايل -->
+  <aside id="mobileMenu" class="offcanvas">
+    <div class="offcanvas__head">
+      <span>القائمة</span>
+      <button id="menuClose" class="icon-btn" aria-label="إغلاق">✕</button>
     </div>
-  </header>
+    <a class="nav__link" href="{{ url_for('home') }}">الرئيسية</a>
+    <a class="nav__link" href="{{ url_for('trips') }}">الرحلات</a>
+    <a class="nav__link" href="{{ url_for('trips') }}#guides">مرشدونا</a>
+    <a class="nav__link" href="{{ url_for('faq') }}">أسئلة شائعة</a>
+    <a class="nav__link" href="{{ url_for('cancellation') }}">سياسة الإلغاء</a>
+    <a class="btn btn--primary nav__cta" href="{{ url_for('book') }}">احجز الآن</a>
+  </aside>
+  <div id="menuBackdrop" class="backdrop"></div>
+</header>
 
-  {% block hero %}{% endblock %}
+<main>
+  {% block content %}{% endblock %}
+</main>
 
-  <main class="container">
-    {% with msgs = get_flashed_messages(with_categories=true) %}
-      {% if msgs %}
-        <div class="flash">
-          {% for cat, msg in msgs %}
-            <p class="flash__msg {{cat}}">{{ msg }}</p>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-    {% block content %}{% endblock %}
-  </main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
+  </div>
+</footer>
 
-  <footer class="footer">
-    <div class="container">
-      <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
-    </div>
-  </footer>
-
-  <!-- JS الصحيح -->
-  <script src="{{ url_for('static', filename='js/script.js', v=ASSET_VER) }}" defer></script>
-
-  <!-- Service Worker (يبقى كما هو) -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register("{{ url_for('static', filename='service-worker.js') }}").catch(console.error);
-      });
-    }
-  </script>
-
-  {% block body_extra %}{% endblock %}
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
