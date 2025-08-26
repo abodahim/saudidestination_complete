@@ -1,8 +1,10 @@
 {% extends "base.html" %}
-{% block title %}تفاصيل الحجز #{{ b.id }}{% endblock %}
-{% block content %}
-<h1 class="page-title">تفاصيل الحجز #{{ b.id }}</h1>
+{% block title %}تأكيد الحجز #{{ b.id }}{% endblock %}
 
+{% block content %}
+<h1 class="page-title">تأكيد الحجز #{{ b.id }}</h1>
+
+<!-- بطاقة الحالة والعميل -->
 <div class="card--panel" style="margin-bottom:14px">
   <p>رقم الفاتورة: <strong>{{ b.invoice_number or '—' }}</strong></p>
   <p>الحالة:
@@ -16,6 +18,7 @@
   <p>الاسم: <strong>{{ b.name }}</strong> — البريد: <strong dir="ltr">{{ b.email }}</strong> — الجوال: <strong dir="ltr">{{ b.phone }}</strong></p>
 </div>
 
+<!-- تفاصيل الرحلة والمبلغ -->
 <div class="card--panel">
   <h3>{{ trip.name }}</h3>
   <p class="muted">سعر اليوم: {{ trip.price }} ر.س — عدد الأيام: {{ b.days }}</p>
@@ -27,26 +30,34 @@
   </div>
 </div>
 
+<!-- الدفع أو بيانات التواصل بناءً على الحالة -->
 {% if b.status != 'paid' %}
-<div class="card--panel" style="margin-top:14px">
-  <h3>إتمام الدفع</h3>
-  <p class="muted">عند إتمام الدفع ستظهر لك بيانات التواصل مباشرة.</p>
-  <form method="post" action="{{ url_for('pay', booking_id=b.id) }}">
-    <button class="btn btn--primary" type="submit">ادفع الآن</button>
-  </form>
-</div>
+  <div class="card--panel" style="margin-top:14px">
+    <h3>إتمام الدفع</h3>
+    <p class="muted">عند إتمام الدفع ستظهر لك بيانات التواصل مباشرة.</p>
+    <form method="post" action="{{ url_for('pay', booking_id=b.id) }}">
+      <button class="btn btn--primary" type="submit">ادفع الآن</button>
+    </form>
+  </div>
 {% else %}
-<div class="card--panel" style="margin-top:14px">
-  <h3>بيانات التواصل</h3>
-  <ul>
-    {% if company.whatsapp %}
-      <li>واتساب: <a dir="ltr" href="https://wa.me/{{ company.whatsapp }}" target="_blank">{{ company.whatsapp }}</a></li>
-    {% endif %}
-    {% if company.phone %}
-      <li>اتصال: <a dir="ltr" href="tel:{{ company.phone }}">{{ company.phone }}</a></li>
-    {% endif %}
-    <li>البريد: <a dir="ltr" href="mailto:{{ company.email }}">{{ company.email }}</a></li>
-  </ul>
-</div>
+  <div class="card--panel" style="margin-top:14px">
+    <h3>بيانات التواصل</h3>
+    <ul>
+      {% if company.whatsapp %}
+        <li>واتساب: <a dir="ltr" href="https://wa.me/{{ company.whatsapp }}" target="_blank">{{ company.whatsapp }}</a></li>
+      {% endif %}
+      {% if company.phone %}
+        <li>اتصال: <a dir="ltr" href="tel:{{ company.phone }}">{{ company.phone }}</a></li>
+      {% endif %}
+      <li>البريد: <a dir="ltr" href="mailto:{{
+        company.email }}">{{ company.email }}</a></li>
+    </ul>
+  </div>
 {% endif %}
+
+<!-- روابط مفيدة -->
+<div class="card--panel" style="margin-top:14px">
+  <a class="btn" href="{{ url_for('home') }}">العودة للرئيسية</a>
+  <a class="btn" href="{{ url_for('trips') }}">استكشاف رحلات أخرى</a>
+</div>
 {% endblock %}
