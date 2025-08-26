@@ -1,27 +1,10 @@
-# الأساسيات
 Flask==3.0.3
-gunicorn==22.0.0
-
-# قاعدة البيانات
 Flask-SQLAlchemy==3.1.1
-SQLAlchemy==2.0.32
-
-# البريد الإلكتروني (إرسال بريد تأكيد)
 Flask-Mail==0.9.1
-
-# إنشاء PDF للتقارير والتأكيدات
-reportlab==3.6.13
-
-# معالجة النماذج
-WTForms==3.1.2
-email-validator==2.2.0
-
-# واجهات أمامية إضافية (اختياري)
-Flask-WTF==1.2.1
-
-# أدوات مساعدة
+gunicorn==21.2.0
+reportlab==4.2.2
+openpyxl==3.1.5
 itsdangerous==2.2.0
-click==8.1.7
-Werkzeug==3.0.3
 Jinja2==3.1.4
 MarkupSafe==2.1.5
+Werkzeug==3.0.3
