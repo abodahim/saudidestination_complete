@@ -1,13 +1,15 @@
 {% extends "base.html" %}
-{% block title %}الأسئلة الشائعة{% endblock %}
+{% block title %}أسئلة شائعة — وجهة السعودية{% endblock %}
 {% block content %}
-<h1 class="page-title">الأسئلة الشائعة</h1>
-<div class="faq">
-  {% for f in faqs %}
-  <details class="faq__item">
-    <summary>{{ f.q }}</summary>
-    <p>{{ f.a }}</p>
-  </details>
-  {% endfor %}
-</div>
+<section class="section">
+  <h1 class="section-title">الأسئلة الشائعة</h1>
+  <div class="faq">
+    {% for item in faqs %}
+      <details>
+        <summary>{{ item.q }}</summary>
+        <p>{{ item.a }}</p>
+      </details>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}
