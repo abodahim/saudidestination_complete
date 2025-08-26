@@ -1,64 +1,107 @@
 {% extends "base.html" %}
-{% block title %}الحجز{% endblock %}
+{% block title %}نموذج الحجز{% endblock %}
+
+{% block hero %}{% endblock %}
+
 {% block content %}
-<h1 class="page-title">نموذج الحجز</h1>
+<section class="section">
+  <h1 class="page-title">نموذج الحجز</h1>
 
-<form class="form card--panel" method="post" action="{{ url_for('book') }}">
-  <div class="form__row">
-    <label for="name">الاسم الكامل</label>
-    <input id="name" name="name" type="text" required>
-  </div>
-
-  <div class="form__row">
-    <label for="email">البريد الإلكتروني</label>
-    <input id="email" name="email" type="email" required dir="ltr" placeholder="name@example.com">
-  </div>
-
-  <div class="form__row">
-    <label for="phone">رقم الجوال</label>
-    <input id="phone" name="phone" type="tel" required dir="ltr" placeholder="+9665xxxxxxx">
-  </div>
-
-  <div class="form__row">
-    <label for="trip_id">اختر الرحلة</label>
-    <select id="trip_id" name="trip_id" required>
-      {% for t in trips %}
-      <option value="{{ t.id }}" data-price="{{ t.price }}" {% if preselect==t.id %}selected{% endif %}>
-        {{ t.name }} — {{ t.price }} ر.س / اليوم
-      </option>
+  {% if get_flashed_messages() %}
+    <div class="flash">
+      {% for cat, msg in get_flashed_messages(with_categories=true) %}
+        <p class="flash__msg {{cat}}">{{ msg }}</p>
       {% endfor %}
-    </select>
-  </div>
+    </div>
+  {% endif %}
 
-  <div class="form__row">
-    <label for="days">عدد الأيام</label>
-    <input id="days" name="days" type="number" min="1" max="30" value="1" required>
-  </div>
+  <div class="grid-2">
+    <!-- الفورم -->
+    <form id="bookingForm" class="form card" method="post" action="{{ url_for('booking') }}">
+      <div class="form__group">
+        <label for="fullName">الاسم الكامل</label>
+        <input id="fullName" name="full_name" type="text" placeholder="الاسم" required>
+      </div>
 
-  <div class="form__row">
-    <label>الإجمالي المتوقع (ر.س)</label>
-    <input id="total_amount" name="total_amount" type="number" readonly value="0">
-  </div>
+      <div class="form__group">
+        <label for="email">البريد الإلكتروني</label>
+        <input id="email" name="email" type="email" inputmode="email" placeholder="name@email.com" required>
+      </div>
 
-  <div class="form__actions">
-    <button class="btn btn--primary" type="submit">إرسال الحجز</button>
-    <a class="btn" href="{{ url_for('trips') }}">العودة للرحلات</a>
-  </div>
-</form>
+      <div class="form__group">
+        <label for="phone">رقم الجوال</label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="05xxxxxxxx" required>
+      </div>
 
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const tripSel = document.getElementById('trip_id');
-    const daysInp = document.getElementById('days');
-    const totalInp = document.getElementById('total_amount');
-    function recalc(){
-      const price = parseInt(tripSel.selectedOptions[0].dataset.price || '0', 10);
-      const days  = parseInt(daysInp.value || '1', 10);
-      totalInp.value = (price * days) || 0;
-    }
-    tripSel.addEventListener('change', recalc);
-    daysInp.addEventListener('input', recalc);
-    recalc();
-  });
-</script>
+      <div class="form__group">
+        <label for="tripSelect">اختر الرحلة</label>
+        <select id="tripSelect" name="trip_id" required>
+          {# نتوقع أن يأتي trips من الباك إند: قائمة قواميس/كائنات #}
+          {% for t in trips %}
+            <option value="{{ t.id }}"
+                    data-id="{{ t.id }}"
+                    data-price="{{ t.price_per_day }}"
+                    data-currency="{{ t.currency or 'ر.س' }}"
+                    data-min-days="{{ t.min_days or 1 }}"
+                    data-max-days="{{ t.max_days or 7 }}">
+              {{ t.name }} — {{ t.price_per_day }} {{ t.currency or 'ر.س' }} / اليوم
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form__group form__group--inline">
+        <div>
+          <label for="price">السعر لليوم</label>
+          <div class="input-has-addon">
+            <input id="price" name="price_per_day" type="text" value="" readonly>
+            <span class="addon" id="currencySym">ر.س</span>
+          </div>
+        </div>
+
+        <div>
+          <label for="days">عدد الأيام</label>
+          <input id="days" name="days" type="number" min="1" max="7" value="1" required>
+          <small class="hint">الحد الأدنى 1 والحد الأقصى 7 أيام</small>
+        </div>
+      </div>
+
+      <div class="summary">
+        <div class="summary__row">
+          <span>الإجمالي المتوقع</span>
+          <strong id="totalPrice">0 ر.س</strong>
+        </div>
+        <small class="muted">يتم تأكيد السعر النهائي في صفحة الدفع.</small>
+      </div>
+
+      <div class="form__group">
+        <label class="checkbox">
+          <input type="checkbox" name="agree" required>
+          <span>أوافق على <a href="{{ url_for('cancellation_policy') }}">سياسة الإلغاء</a></span>
+        </label>
+      </div>
+
+      <button class="btn btn--primary btn--block" type="submit">إرسال الحجز</button>
+
+      <p class="muted small">
+        بعد الإرسال ستنتقل لصفحة التأكيد لإتمام الدفع، ثم ستصلك رسالة تأكيد بالبريد وفيها زر تحميل PDF لبيانات الحجز والتواصل.
+      </p>
+    </form>
+
+    <!-- تلميحات و أسئلة مختصرة -->
+    <aside class="card card--soft">
+      <h3 class="section-title">معلومات مهمة</h3>
+      <ul class="list">
+        <li>يمكنك تعديل عدد الأيام قبل الدفع وسيتم تحديث الإجمالي تلقائيًا.</li>
+        <li>بيانات التواصل مع المرشد تظهر بعد إتمام الدفع وتأكيد الحجز.</li>
+        <li>للاستفسار السريع تفضل بزيارة <a href="{{ url_for('faq') }}">الأسئلة الشائعة</a>.</li>
+      </ul>
+
+      <div class="divider"></div>
+
+      <h3 class="section-title">لديك قسيمة خصم؟</h3>
+      <p class="muted small">يمكن إدخالها في صفحة الدفع قبل التأكيد.</p>
+    </aside>
+  </div>
+</section>
 {% endblock %}
