@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}سياسة الإلغاء — وجهة السعودية{% endblock %}
+{% block content %}
+<h1 class="page-title">سياسة الإلغاء</h1>
+
+<div class="card--panel">
+  <h3>بنود عامة</h3>
+  <ul>
+    <li>إلغاء قبل 7 أيام من موعد الرحلة: استرداد <strong>100%</strong>.</li>
+    <li>إلغاء بين 72 ساعة و7 أيام: استرداد <strong>50%</strong>.</li>
+    <li>أقل من 72 ساعة: <strong>لا يوجد</strong> استرداد.</li>
+  </ul>
+  <p class="muted">قد تختلف بعض الرحلات ذات الطابع الخاص، وسيُذكر ذلك في تفاصيل الرحلة.</p>
+
+  <h3>تعديل الموعد</h3>
+  <p>يمكن تعديل الموعد مرة واحدة على الأقل قبل 48 ساعة حسب التوفّر.</p>
+
+  <h3>طريقة الاسترداد</h3>
+  <p>يتم الاسترداد عبر نفس وسيلة الدفع خلال 5–10 أيام عمل.</p>
+
+  <div class="card__actions" style="margin-top:10px">
+    <a class="btn" href="{{ url_for('home') }}">العودة للرئيسية</a>
+    <a class="btn btn--primary" href="{{ url_for('book') }}">متابعة الحجز</a>
+  </div>
+</div>
+{% endblock %}
