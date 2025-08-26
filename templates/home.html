@@ -1,94 +1,66 @@
 {% extends "base.html" %}
-{% block title %}وجهة السعودية - الرئيسية{% endblock %}
+{% block title %}الرئيسية{% endblock %}
 
-{% block hero %}
-<section class="hero" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
-  <div class="hero__overlay">
-    <div class="container hero__content">
-      <h1 class="hero__title">وجهة السعودية</h1>
-      <p class="hero__lead">استكشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
-        <a class="btn btn--outline" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+{% block content %}
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <h1>وجهة السعودية</h1>
+      <p>اكتشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
+      <div class="hero-actions">
+        <a href="{{ url_for('book') }}" class="btn btn--primary">احجز الآن</a>
+        <a href="{{ url_for('trips') }}" class="btn btn--ghost">تصفّح الرحلات</a>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img src="{{ url_for('static', filename='images/hero.png') }}" alt="وجهة السعودية">
+    </div>
+  </div>
+</section>
+
+<section class="section stats">
+  <div class="container grid grid--cards">
+    <div class="card">
+      <div class="card__body">
+        <h2 class="card__title">{{ stats.booked_count }}</h2>
+        <p class="card__meta">رحلات محجوزة</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card__body">
+        <h2 class="card__title">{{ stats.packages_count }}</h2>
+        <p class="card__meta">باقات متاحة</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card__body">
+        <h2 class="card__title">{{ stats.guides_count }}</h2>
+        <p class="card__meta">مرشدون</p>
       </div>
     </div>
   </div>
 </section>
-{% endblock %}
 
-{% block content %}
-  <!-- إحصاءات -->
-  <section class="stats">
-    <div class="stats__item"><strong>{{ booked_count }}</strong><span>رحلات محجوزة</span></div>
-    <div class="stats__item"><strong>{{ trips_count }}</strong><span>باقات متاحة</span></div>
-    <div class="stats__item"><strong>{{ guides_count }}</strong><span>مرشدون</span></div>
-  </section>
-
-  <!-- نبذة -->
-  <section>
-    <h2 class="section-title">نبذة</h2>
-    <p>وجهة السعودية تسهّل لك استكشاف أجمل الوجهات داخل المملكة 
-      مع باقات متنوعة تناسب العائلات، المدارس، والشركات.</p>
-  </section>
-
-  <!-- باقات مختارة -->
-  <section>
-    <h2 class="section-title">باقات مختارة</h2>
-    <div class="cards">
+<section class="section">
+  <div class="container">
+    <h2 class="page-title">باقات مختارة</h2>
+    <div class="grid grid--cards">
+      {% for t in trips %}
       <div class="card">
-        <img src="{{ url_for('static', filename='images/jeddah_1.JPG') }}" alt="رحلة جدة" loading="lazy">
+        <img src="{{ url_for('static', filename=t.image) }}" class="card__img" alt="{{ t.name }}">
         <div class="card__body">
-          <h3>رحلة جدة</h3>
-          <p>جولة مميزة على كورنيش جدة ومعالمها الحديثة.</p>
+          <h3 class="card__title">{{ t.name }}</h3>
+          <p class="card__meta">{{ t.city }}</p>
+          <p class="card__price">{{ t.price }} {{ currency }} / اليوم</p>
+          <p>{{ t.summary }}</p>
           <div class="card__actions">
-            <a href="{{ url_for('trip_details', trip_id=1) }}" class="btn btn--primary">عرض التفاصيل</a>
-            <a href="{{ url_for('booking', trip_id=1) }}" class="btn btn--outline">احجز الآن</a>
+            <a class="btn btn--ghost" href="{{ url_for('trip_details', trip_id=t.id) }}">التفاصيل</a>
+            <a class="btn btn--primary" href="{{ url_for('book', trip_id=t.id) }}">احجز</a>
           </div>
         </div>
       </div>
-
-      <div class="card">
-        <img src="{{ url_for('static', filename='images/riyadh_1.JPG') }}" alt="رحلة الرياض" loading="lazy">
-        <div class="card__body">
-          <h3>رحلة الرياض</h3>
-          <p>اكتشف تاريخ العاصمة ومعالمها التراثية.</p>
-          <div class="card__actions">
-            <a href="{{ url_for('trip_details', trip_id=2) }}" class="btn btn--primary">عرض التفاصيل</a>
-            <a href="{{ url_for('booking', trip_id=2) }}" class="btn btn--outline">احجز الآن</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="{{ url_for('static', filename='images/yanbu_1.JPG') }}" alt="رحلة ينبع" loading="lazy">
-        <div class="card__body">
-          <h3>رحلة ينبع</h3>
-          <p>استمتع بجمال الشواطئ والأنشطة البحرية.</p>
-          <div class="card__actions">
-            <a href="{{ url_for('trip_details', trip_id=3) }}" class="btn btn--primary">عرض التفاصيل</a>
-            <a href="{{ url_for('booking', trip_id=3) }}" class="btn btn--outline">احجز الآن</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- مرشدون (مقتطف على الرئيسية) -->
-  <section>
-    <div class="section-header">
-      <h2 class="section-title">مرشدونا</h2>
-      <a class="section-link" href="{{ url_for('guides') }}">كل المرشدين →</a>
-    </div>
-    <div class="guides">
-      {% for g in guides_preview %}
-      <article class="guide">
-        <img src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}" loading="lazy">
-        <div>
-          <h3>{{ g.name }}</h3>
-          <p>{{ g.city }} • {{ g.years }} سنوات خبرة</p>
-        </div>
-      </article>
       {% endfor %}
     </div>
-  </section>
+  </div>
+</section>
 {% endblock %}
