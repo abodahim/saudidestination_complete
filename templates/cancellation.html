@@ -1,26 +1,51 @@
 {% extends "base.html" %}
-{% block title %}سياسة الإلغاء — وجهة السعودية{% endblock %}
+{% block title %}سياسة الإلغاء - وجهة السعودية{% endblock %}
+
 {% block content %}
-<h1 class="page-title">سياسة الإلغاء</h1>
+<section class="section">
+  <h1 class="page-title">سياسة الإلغاء</h1>
 
-<div class="card--panel">
-  <h3>بنود عامة</h3>
-  <ul>
-    <li>إلغاء قبل 7 أيام من موعد الرحلة: استرداد <strong>100%</strong>.</li>
-    <li>إلغاء بين 72 ساعة و7 أيام: استرداد <strong>50%</strong>.</li>
-    <li>أقل من 72 ساعة: <strong>لا يوجد</strong> استرداد.</li>
-  </ul>
-  <p class="muted">قد تختلف بعض الرحلات ذات الطابع الخاص، وسيُذكر ذلك في تفاصيل الرحلة.</p>
-
-  <h3>تعديل الموعد</h3>
-  <p>يمكن تعديل الموعد مرة واحدة على الأقل قبل 48 ساعة حسب التوفّر.</p>
-
-  <h3>طريقة الاسترداد</h3>
-  <p>يتم الاسترداد عبر نفس وسيلة الدفع خلال 5–10 أيام عمل.</p>
-
-  <div class="card__actions" style="margin-top:10px">
-    <a class="btn" href="{{ url_for('home') }}">العودة للرئيسية</a>
-    <a class="btn btn--primary" href="{{ url_for('book') }}">متابعة الحجز</a>
+  <div class="card card--soft">
+    <h2 class="section-title">قبل موعد الرحلة</h2>
+    <ul class="list">
+      <li>الإلغاء قبل <strong>7 أيام</strong> من موعد الرحلة: استرداد كامل للمبلغ.</li>
+      <li>الإلغاء بين <strong>7–3 أيام</strong>: استرداد <strong>50%</strong> من قيمة الحجز.</li>
+      <li>الإلغاء خلال أقل من <strong>72 ساعة</strong>: لا يحقّ استرداد المبلغ.</li>
+    </ul>
   </div>
-</div>
+
+  <div class="card card--soft">
+    <h2 class="section-title">التعديلات على الحجز</h2>
+    <p>
+      يمكن تعديل التاريخ/عدد الأيام لمرة واحدة مجانًا إذا تم الطلب قبل 72 ساعة من الموعد.
+      أي تعديلات إضافية قد تُحتسب عليها رسوم إدارية بسيطة.
+    </p>
+  </div>
+
+  <div class="card card--soft">
+    <h2 class="section-title">الإلغاء من طرف المنظّم</h2>
+    <p>
+      في الحالات القهرية (الطقس/إغلاقات رسمية) سيتم إبلاغك وخياراتك هي:
+      استرداد كامل للمبلغ أو إعادة جدولة الرحلة في تاريخ مناسب.
+    </p>
+  </div>
+
+  <div class="card card--soft">
+    <h2 class="section-title">طريقة طلب الإلغاء</h2>
+    <ol class="list">
+      <li>افتح صفحة <a href="{{ url_for('booking') }}">الحجز</a> أو رسالة التأكيد.</li>
+      <li>أرسل رقم الحجز والاسم ورقم الجوال.</li>
+      <li>سيتم تأكيد الإلغاء خلال 24 ساعة عمل حسب البنود أعلاه.</li>
+    </ol>
+    <p class="muted">تاريخ آخر تحديث للسياسة: {{ 2025 }}.</p>
+  </div>
+
+  <div class="card card--soft">
+    <h2 class="section-title">تواصل</h2>
+    <p>
+      لأي استفسارات حول الإلغاء يُرجى التواصل معنا عبر صفحة
+      <a href="{{ url_for('contact') }}">تواصل معنا</a>.
+    </p>
+  </div>
+</section>
 {% endblock %}
