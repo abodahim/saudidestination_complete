@@ -1,17 +1,18 @@
 {% extends "base.html" %}
-{% block title %}التقييمات{% endblock %}
+{% block title %}التقييمات — وجهة السعودية{% endblock %}
 {% block content %}
-<h1 class="page-title">آراء العملاء</h1>
-<div class="reviews">
-  {% for r in reviews %}
-  <div class="review">
-    <div class="review__head">
-      <strong>{{ r.name }}</strong>
-      <span class="muted">{{ r.city }}</span>
-      <span class="stars">{% for i in range(r.rating) %}★{% endfor %}</span>
-    </div>
-    <p>{{ r.text }}</p>
+<section class="section">
+  <h1 class="section-title">آراء العملاء</h1>
+  <div class="cards">
+    {% for r in reviews %}
+      <div class="card">
+        <div class="card__body">
+          <strong>{{ r.name }}</strong>
+          <div>⭐️{{ r.rating }}/5</div>
+          <p>{{ r.text }}</p>
+        </div>
+      </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
+</section>
 {% endblock %}
