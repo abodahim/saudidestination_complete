@@ -4,72 +4,62 @@
 {% block content %}
 <section class="section">
   <div class="container">
-    <div class="page-header">
-      <h1 class="page-title">كل الرحلات</h1>
-      <p class="page-subtitle">اختر من بين باقاتنا المتنوعة عبر مدن المملكة</p>
-    </div>
+    <h1 class="mt-0">كل الرحلات</h1>
+    <p class="mb-3">اختر من بين باقاتنا المتنوعة عبر مدن المملكة</p>
 
-    <!-- Filters / Search -->
-    <form class="filters" method="get" action="{{ url_for('trips') }}">
-      <div class="filters__row">
-        <div class="field">
+    <!-- فلاتر واجهة (تعمل على الواجهة ويمكن لاحقًا تفعيلها سيرفر سايد) -->
+    <form id="tripsFilters" class="form" style="margin-bottom:16px;">
+      <div class="row">
+        <div>
           <label class="label">المدينة</label>
-          <select class="input" name="city">
+          <select class="input" name="city" id="filterCity">
             <option value="">كل المدن</option>
-            {% set current_city = request.args.get('city', '') %}
-            {% for c in cities %}
-            <option value="{{ c }}" {% if c==current_city %}selected{% endif %}>{{ c }}</option>
+            {% set _cities = trips | map(attribute='city') | list | unique %}
+            {% for c in _cities %}
+              <option value="{{ c }}">{{ c }}</option>
             {% endfor %}
           </select>
         </div>
-
-        <div class="field">
-          <label class="label">السعر الأقصى (ر.س / اليوم)</label>
-          {% set maxp = request.args.get('max_price', '') %}
-          <input class="input" type="number" min="0" step="1" name="max_price" placeholder="مثال: 400" value="{{ maxp }}">
+        <div>
+          <label class="label">السعر الأقصى ({{ currency }} / اليوم)</label>
+          <input class="input" type="number" min="0" step="1" id="filterMaxPrice" placeholder="مثال: 400">
         </div>
-
-        <div class="field">
+      </div>
+      <div class="row">
+        <div>
           <label class="label">بحث بالاسم</label>
-          <input class="input" type="text" name="q" placeholder="ابحث عن رحلة…" value="{{ request.args.get('q','') }}">
+          <input class="input" type="text" id="filterQuery" placeholder="ابحث عن رحلة…">
         </div>
-
-        <div class="field field--actions">
-          <button class="btn btn--primary" type="submit">تطبيق</button>
-          <a class="btn btn--ghost" href="{{ url_for('trips') }}">إزالة الفلاتر</a>
+        <div style="display:flex;align-items:flex-end;gap:8px;">
+          <button type="button" id="applyFilters" class="btn btn-primary">تطبيق</button>
+          <button type="button" id="resetFilters" class="btn btn-ghost">إزالة الفلاتر</button>
         </div>
       </div>
     </form>
 
-    <!-- Trips Grid -->
-    {% if trips and trips|length > 0 %}
-    <div class="grid grid--cards">
+    {% if trips and trips|length %}
+    <div id="tripsGrid" class="grid grid-3">
       {% for t in trips %}
-      <article class="card">
-        <img src="{{ url_for('static', filename=t.image) }}" class="card__img" alt="{{ t.name }}">
-        <div class="card__body">
-          <h3 class="card__title">{{ t.name }}</h3>
-          <p class="card__meta">{{ t.city }} • يوم {{ t.duration or 1 }}</p>
-          <p class="card__price">{{ t.price }} {{ currency }} / اليوم</p>
-          <p class="card__desc">{{ t.summary }}</p>
-          <div class="card__chips">
-            {% for tag in t.tags or [] %}
-            <span class="chip">{{ tag }}</span>
-            {% endfor %}
-          </div>
-          <div class="card__actions">
-            <a class="btn btn--ghost" href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
-            <a class="btn btn--primary" href="{{ url_for('book', trip_id=t.id) }}">احجز الآن</a>
+      <article class="card trip-card"
+               data-city="{{ t.city }}"
+               data-price="{{ t.price }}"
+               data-name="{{ t.name }}">
+        <img src="{{ url_for('static', filename=t.image) }}" alt="{{ t.name }}">
+        <div class="card-body">
+          <h3 class="card-title">{{ t.name }}</h3>
+          <p class="card-sub">{{ t.city }} • {{ t.days }} يوم</p>
+          <p class="mb-2"><strong>{{ t.price }}</strong> {{ currency }} / اليوم</p>
+          <p class="mb-3">{{ t.summary }}</p>
+          <div class="card-actions">
+            <a class="btn btn-ghost" href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
+            <a class="btn btn-primary" href="{{ url_for('book', trip_id=t.id) }}">احجز الآن</a>
           </div>
         </div>
       </article>
       {% endfor %}
     </div>
     {% else %}
-      <div class="empty">
-        <h3>لا توجد رحلات مطابقة للبحث</h3>
-        <p>جرّب تعديل الفلاتر أو <a href="{{ url_for('trips') }}">عرض جميع الرحلات</a>.</p>
-      </div>
+      <div class="stat-card center">لا توجد رحلات متاحة حاليًا.</div>
     {% endif %}
   </div>
 </section>
