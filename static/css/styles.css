@@ -199,3 +199,15 @@ footer{
 /* حقول الفلاتر أعلى الرحلات */
 #tripsFilters .row > div { display:flex; flex-direction:column }
 #tripsFilters .btn { height:44px }
+
+/* تحسين نموذج الحجز */
+.form-card { background:#fff; border-radius:16px; box-shadow:0 6px 24px rgba(0,0,0,.06); padding:24px; }
+.form-card .form-label { font-weight:600; margin-bottom:6px; }
+.form-inline { display:flex; gap:12px; flex-wrap:wrap; }
+.form-inline > * { flex:1 1 220px; }
+
+/* أزرار كبيرة */
+.btn-lg { height:52px; font-size:18px; border-radius:12px; }
+
+/* تنبيه الإجمالي */
+.total-box{background:#f8faf8;border:1px solid #e4efe4;border-radius:12px;padding:14px 16px;font-weight:700}
