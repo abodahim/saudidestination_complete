@@ -12,6 +12,6 @@
 <div class="card--panel" style="margin-top:16px">
   <p>{{ trip.desc }}</p>
   <p class="muted">السعر لليوم: <strong>{{ trip.price }} ر.س</strong> — عدد الأيام المقترح: {{ trip.days }}</p>
-  <a class="btn btn--primary" href="{{ url_for('book', trip_id=trip.id) }}">احجز الآن</a>
+  <a class="btn btn--primary" href="{{ url_for('booking', trip_id=trip.id) }}">احجز الآن</a>
 </div>
 {% endblock %}
