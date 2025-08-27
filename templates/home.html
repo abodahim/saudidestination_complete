@@ -10,7 +10,7 @@
       <h1>وجهة السعودية</h1>
       <p>اكتشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
       <div class="actions">
-        <a href="{{ url_for('book') }}" class="btn btn-primary">احجز الآن</a>
+        <a href="{{ url_for('booking') }}" class="btn btn-primary">احجز الآن</a>
         <a href="{{ url_for('trips') }}" class="btn btn-ghost">تصفّح الرحلات</a>
       </div>
     </div>
@@ -86,7 +86,7 @@
           <p class="mb-3">{{ t.summary }}</p>
           <div class="card-actions">
             <a class="btn btn-ghost" href="{{ url_for('trip_details', trip_id=t.id) }}">التفاصيل</a>
-            <a class="btn btn-primary" href="{{ url_for('book', trip_id=t.id) }}">احجز الآن</a>
+            <a class="btn btn-primary" href="{{ url_for('booking', trip_id=t.id) }}">احجز الآن</a>
           </div>
         </div>
       </article>
