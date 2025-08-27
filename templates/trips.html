@@ -1,26 +1,65 @@
 {% extends "base.html" %}
 {% block title %}الرحلات{% endblock %}
+
 {% block content %}
 <section class="section">
   <div class="container">
-    <h1 class="page-title">الرحلات</h1>
+    <div class="page-header">
+      <h1 class="page-title">كل الرحلات</h1>
+      <p class="page-subtitle">اختر من بين باقاتنا المتنوعة عبر مدن المملكة</p>
+    </div>
 
-    {% if trips and trips|length %}
+    <!-- Filters / Search -->
+    <form class="filters" method="get" action="{{ url_for('trips') }}">
+      <div class="filters__row">
+        <div class="field">
+          <label class="label">المدينة</label>
+          <select class="input" name="city">
+            <option value="">كل المدن</option>
+            {% set current_city = request.args.get('city', '') %}
+            {% for c in cities %}
+            <option value="{{ c }}" {% if c==current_city %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="label">السعر الأقصى (ر.س / اليوم)</label>
+          {% set maxp = request.args.get('max_price', '') %}
+          <input class="input" type="number" min="0" step="1" name="max_price" placeholder="مثال: 400" value="{{ maxp }}">
+        </div>
+
+        <div class="field">
+          <label class="label">بحث بالاسم</label>
+          <input class="input" type="text" name="q" placeholder="ابحث عن رحلة…" value="{{ request.args.get('q','') }}">
+        </div>
+
+        <div class="field field--actions">
+          <button class="btn btn--primary" type="submit">تطبيق</button>
+          <a class="btn btn--ghost" href="{{ url_for('trips') }}">إزالة الفلاتر</a>
+        </div>
+      </div>
+    </form>
+
+    <!-- Trips Grid -->
+    {% if trips and trips|length > 0 %}
     <div class="grid grid--cards">
       {% for t in trips %}
-      <article class="card trip-card">
-        <img class="card__img" src="{{ url_for('static', filename=t.image) }}" alt="{{ t.name }}">
+      <article class="card">
+        <img src="{{ url_for('static', filename=t.image) }}" class="card__img" alt="{{ t.name }}">
         <div class="card__body">
-          <h2 class="card__title">{{ t.name }}</h2>
-          <p class="card__meta">{{ t.city }} • {{ t.days }} يوم</p>
-          <p class="card__price">
-            <span>{{ t.price }}</span> {{ currency }}
-            <small>/ اليوم</small>
-          </p>
+          <h3 class="card__title">{{ t.name }}</h3>
+          <p class="card__meta">{{ t.city }} • يوم {{ t.duration or 1 }}</p>
+          <p class="card__price">{{ t.price }} {{ currency }} / اليوم</p>
+          <p class="card__desc">{{ t.summary }}</p>
+          <div class="card__chips">
+            {% for tag in t.tags or [] %}
+            <span class="chip">{{ tag }}</span>
+            {% endfor %}
+          </div>
           <div class="card__actions">
             <a class="btn btn--ghost" href="{{ url_for('trip_details', trip_id=t.id) }}">عرض التفاصيل</a>
-            <a class="btn btn--primary"
-               href="{{ url_for('book', trip_id=t.id) }}">احجز الآن</a>
+            <a class="btn btn--primary" href="{{ url_for('book', trip_id=t.id) }}">احجز الآن</a>
           </div>
         </div>
       </article>
@@ -28,7 +67,8 @@
     </div>
     {% else %}
       <div class="empty">
-        لا توجد رحلات متاحة حاليًا.
+        <h3>لا توجد رحلات مطابقة للبحث</h3>
+        <p>جرّب تعديل الفلاتر أو <a href="{{ url_for('trips') }}">عرض جميع الرحلات</a>.</p>
       </div>
     {% endif %}
   </div>
