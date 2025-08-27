@@ -1,61 +1,48 @@
-<!doctype html>
-<html lang="ar" dir="rtl" data-currency="{{ currency|default('ر.س') }}">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{% block title %}{% endblock %} {% if self.title() %}-{% endif %} وجهة السعودية</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>وجهة السعودية</title>
+
+    <!-- أيقونة الموقع (favicon) -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+
+    <!-- ملفات CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="شعار وجهة السعودية">
+                <span>وجهة السعودية</span>
+            </div>
+            <button class="menu-toggle" id="menu-toggle">☰</button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('home') }}">الرئيسية</a></li>
+                <li><a href="{{ url_for('trips') }}">الرحلات</a></li>
+                <li><a href="{{ url_for('guides') }}">مرشدونا</a></li>
+                <li><a href="{{ url_for('reviews') }}">التقييمات</a></li>
+                <li><a href="{{ url_for('faq') }}">أسئلة شائعة</a></li>
+                <li><a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a></li>
+                <li><a href="{{ url_for('booking') }}" class="btn-book">احجز الآن</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<header class="site-header">
-  <div class="container header-bar">
-    <button id="menuToggle" class="hamburger" aria-label="قائمة"><span></span><span></span><span></span></button>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
-    <a href="{{ url_for('home') }}" class="brand">
-      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="وجهة السعودية" />
-      <span>وجهة السعودية</span>
-    </a>
+    <footer>
+        <p>© 2025 وجهة السعودية - جميع الحقوق محفوظة</p>
+    </footer>
 
-    <nav class="nav-desktop">
-      <a class="nav__link {% if active=='home' %}is-active{% endif %}" href="{{ url_for('home') }}">الرئيسية</a>
-      <a class="nav__link {% if active=='trips' %}is-active{% endif %}" href="{{ url_for('trips') }}">الرحلات</a>
-      <a class="nav__link {% if active=='guides' %}is-active{% endif %}" href="{{ url_for('trips') }}#guides">مرشدونا</a>
-      <a class="nav__link {% if active=='faq' %}is-active{% endif %}" href="{{ url_for('faq') }}">أسئلة شائعة</a>
-      <a class="nav__link {% if active=='cancellation' %}is-active{% endif %}" href="{{ url_for('cancellation') }}">سياسة الإلغاء</a>
-      <a class="btn btn--primary nav__cta" href="{{ url_for('book') }}">احجز الآن</a>
-    </nav>
-  </div>
-
-  <!-- قائمة الموبايل -->
-  <aside id="mobileMenu" class="offcanvas">
-    <div class="offcanvas__head">
-      <span>القائمة</span>
-      <button id="menuClose" class="icon-btn" aria-label="إغلاق">✕</button>
-    </div>
-    <a class="nav__link" href="{{ url_for('home') }}">الرئيسية</a>
-    <a class="nav__link" href="{{ url_for('trips') }}">الرحلات</a>
-    <a class="nav__link" href="{{ url_for('trips') }}#guides">مرشدونا</a>
-    <a class="nav__link" href="{{ url_for('faq') }}">أسئلة شائعة</a>
-    <a class="nav__link" href="{{ url_for('cancellation') }}">سياسة الإلغاء</a>
-    <a class="btn btn--primary nav__cta" href="{{ url_for('book') }}">احجز الآن</a>
-  </aside>
-  <div id="menuBackdrop" class="backdrop"></div>
-</header>
-
-<main>
-  {% block content %}{% endblock %}
-</main>
-
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
-  </div>
-</footer>
-
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- ملفات JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
