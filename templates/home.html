@@ -41,6 +41,36 @@
   </div>
 </section>
 
+<!-- سلايدر المرشدين -->
+<section class="section" id="guides">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+      <h2 class="mt-0 mb-0">مرشدونا</h2>
+      <div class="slider-controls">
+        <button class="btn btn-ghost slider-prev" data-target="#guidesSlider" aria-label="سابق">‹</button>
+        <button class="btn btn-ghost slider-next" data-target="#guidesSlider" aria-label="لاحق">›</button>
+      </div>
+    </div>
+
+    <!-- حاوية السلايدر -->
+    <div id="guidesSlider" class="slider">
+      {% for g in guides or [] %}
+      <div class="slide">
+        <div class="card" style="display:flex;gap:14px;align-items:center;padding:10px;">
+          <img src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}"
+               style="width:84px;height:84px;border-radius:14px;object-fit:cover;">
+          <div class="card-body">
+            <h3 class="card-title mb-2">{{ g.name }}</h3>
+            <p class="card-sub mb-2">{{ g.city }}</p>
+            <p class="mb-0">خبرة {{ g.years }} سنوات</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
 <!-- باقات مختارة -->
 <section class="section">
   <div class="container">
