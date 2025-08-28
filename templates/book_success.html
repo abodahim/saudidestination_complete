@@ -1,35 +1,21 @@
 {% extends "base.html" %}
-{% block title %}تأكيد الحجز - وجهة السعودية{% endblock %}
-
+{% block title %}تم إرسال الحجز{% endblock %}
 {% block content %}
-<div class="container">
-  <div class="alert alert-success rounded-4 p-4 mb-4">
-    <h1 class="h4 mb-2">شكراً لك!</h1>
-    <p class="mb-0">تم استلام طلب الحجز بنجاح.</p>
-  </div>
+<h1 class="page-title">شكرًا لك!</h1>
+<div class="alert success">تم استلام طلب الحجز. رقم الطلب: <strong>#{{ data.id }}</strong></div>
 
-  <div class="card shadow-sm rounded-4">
-    <div class="card-body">
-      <h2 class="h5">تفاصيل الحجز</h2>
-      <div class="row g-3 mt-1">
-        <div class="col-md-4"><div class="text-muted small">الاسم</div><div class="fw-bold">{{ data.name }}</div></div>
-        <div class="col-md-4"><div class="text-muted small">البريد</div><div class="fw-bold">{{ data.email }}</div></div>
-        <div class="col-md-4"><div class="text-muted small">الجوال</div><div class="fw-bold">{{ data.phone }}</div></div>
+<div class="card--panel" id="receiptArea">
+  <h3>تفاصيل الحجز</h3>
+  <p><strong>العميل:</strong> {{ data.name }} — {{ data.phone }}</p>
+  <p><strong>الرحلة:</strong> {{ data.trip.title }} ({{ data.trip.city }})</p>
+  <p><strong>الأيام:</strong> {{ data.days }}</p>
+  <p><strong>السعر/اليوم:</strong> {{ data.trip.price_per_day }} ر.س</p>
+  <p><strong>الإجمالي:</strong> {{ data.total_price }} ر.س</p>
+  <p class="muted">{{ data.created_at }}</p>
+</div>
 
-        <div class="col-md-4"><div class="text-muted small">الرحلة</div><div class="fw-bold">{{ data.trip.title }}</div></div>
-        <div class="col-md-4"><div class="text-muted small">الأيام</div><div class="fw-bold">{{ data.days }}</div></div>
-        <div class="col-md-4"><div class="text-muted small">الإجمالي</div><div class="fw-bold">{{ data.total_price }} رس.</div></div>
-
-        <div class="col-md-4"><div class="text-muted small">تاريخ الإنشاء</div><div class="fw-bold">{{ data.created_at }}</div></div>
-      </div>
-
-      <hr class="my-4">
-
-      <div class="d-flex flex-wrap gap-2">
-        <a class="btn btn-outline-success" href="{{ url_for('trips') }}">استعراض رحلات أخرى</a>
-        <a class="btn btn-secondary" href="{{ url_for('home') }}">العودة للرئيسية</a>
-      </div>
-    </div>
-  </div>
+<div class="actions">
+  <button class="btn btn--secondary" id="btnPdf">تحميل الإيصال PDF</button>
+  <a class="btn btn--primary" href="{{ url_for('trips') }}">العودة للرحلات</a>
 </div>
 {% endblock %}
