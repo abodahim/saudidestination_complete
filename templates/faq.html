@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block title %}الأسئلة الشائعة - وجهة السعودية{% endblock %}
-
 {% block content %}
 <div class="container">
   <h1 class="h3 mb-4">الأسئلة الشائعة</h1>
@@ -15,13 +14,9 @@
       </h2>
       <div id="c{{ loop.index }}" class="accordion-collapse collapse {{ 'show' if loop.first }}"
            data-bs-parent="#faqAcc">
-        <div class="accordion-body">
-          {{ f.a }}
-        </div>
+        <div class="accordion-body">{{ f.a }}</div>
       </div>
     </div>
-    {% else %}
-      <div class="alert alert-light border">لا توجد أسئلة بعد.</div>
     {% endfor %}
   </div>
 </div>
