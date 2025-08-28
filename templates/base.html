@@ -2,71 +2,65 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
-  <meta name="description" content="{% block meta_description %}اكتشف أجمل الوجهات داخل المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية.{% endblock %}">
-  <link rel="canonical" href="{{ request.url }}">
+  <meta name="description" content="اكتشف المملكة مع باقات سياحية ومرشدين محليين.">
 
-  <!-- OG / Twitter -->
-  <meta property="og:title" content="{% block og_title %}وجهة السعودية{% endblock %}">
-  <meta property="og:description" content="{% block og_desc %}رحلات وباقات سياحية داخل السعودية.{% endblock %}">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="{{ url_for('static', filename='images/homepage_sample.png', _external=True) }}">
-  <meta name="twitter:card" content="summary_large_image">
+  <!-- أيقونات -->
+  <link rel="icon" type="image/png" sizes="32x32"
+        href="{{ url_for('static', filename='images/favicon.png') }}">
+  <link rel="apple-touch-icon" sizes="180x180"
+        href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
 
-  <!-- أيقونة -->
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
-  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+  <!-- ملفات الستايل -->
+  <link rel="preload" as="style" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-  <!-- Preload للبانر (تحسين LCP) -->
-  <link rel="preload" as="image" href="{{ url_for('static','images/banner.PNG') }}">
+  <!-- (اختياري) تحسين الأداء: تحميل صورة البانر مسبقًا -->
+  <link rel="preload" as="image" href="{{ url_for('static', filename='images/banner.PNG') }}">
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- أي سكربتات عامة -->
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+  {% block head_extra %}{% endblock %}
 </head>
 <body>
-<header class="sd-header">
-  <nav class="container nav">
-    <a href="{{ url_for('home') }}" class="brand">
-      <img src="{{ url_for('static','images/logo.JPG') }}" alt="شعار وجهة السعودية" width="36" height="36">
-      <span>وجهة السعودية</span>
-    </a>
-    <button class="menu-btn" aria-label="فتح القائمة" id="menuToggle">☰</button>
-    <ul class="menu" id="mainMenu">
-      <li><a class="nav-link {% if request.endpoint=='home' %}active{% endif %}" href="{{ url_for('home') }}">الرئيسية</a></li>
-      <li><a class="nav-link {% if request.endpoint=='trips' %}active{% endif %}" href="{{ url_for('trips') }}">الرحلات</a></li>
-      <li><a class="nav-link {% if request.endpoint=='guides' %}active{% endif %}" href="{{ url_for('guides') }}">مرشدونا</a></li>
-      <li><a class="nav-link {% if request.endpoint=='reviews' %}active{% endif %}" href="{{ url_for('reviews') }}">التقييمات</a></li>
-      <li><a class="nav-link {% if request.endpoint=='faq' %}active{% endif %}" href="{{ url_for('faq') }}">أسئلة شائعة</a></li>
-      <li><a class="nav-link {% if request.endpoint=='cancellation' %}active{% endif %}" href="{{ url_for('cancellation') }}">سياسة الإلغاء</a></li>
-      <li><a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a></li>
-    </ul>
-  </nav>
-</header>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" height="40">
+      </a>
 
-<main class="container">
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <div class="flash-wrap">
-        {% for cat, msg in messages %}
-          <div class="flash {{ cat }}">{{ msg }}</div>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
-  {% block content %}{% endblock %}
-</main>
+      <button class="menu-toggle" aria-label="فتح القائمة" data-menu-btn>☰</button>
+      <ul class="menu" data-menu>
+        <li><a href="{{ url_for('home') }}">الرئيسية</a></li>
+        <li><a href="{{ url_for('trips') }}">الرحلات</a></li>
+        <li><a href="{{ url_for('guides') }}">مرشدونا</a></li>
+        <li><a href="{{ url_for('reviews') }}">التقييمات</a></li>
+        <li><a href="{{ url_for('faq') }}">أسئلة شائعة</a></li>
+        <li><a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a></li>
+        <li><a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<footer class="container footer">
-  <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
-  <nav class="footer-nav">
-    <a href="{{ url_for('home') }}">الرئيسية</a>
-    <a href="{{ url_for('trips') }}">الرحلات</a>
-    <a href="{{ url_for('booking') }}">الحجز</a>
-    <a href="{{ url_for('faq') }}">الأسئلة الشائعة</a>
-  </nav>
-</footer>
+  <main class="container">
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% if msgs %}
+        <div class="flash-wrap">
+          {% for cat, msg in msgs %}
+            <div class="flash flash--{{ cat }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
-<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js" defer></script>
-<script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <p>© {{  now().year if false else 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
+  </footer>
 </body>
 </html>
