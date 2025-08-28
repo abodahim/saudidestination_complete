@@ -1,23 +1,13 @@
 {% extends "base.html" %}
-{% block title %}الأسئلة الشائعة - وجهة السعودية{% endblock %}
+{% block title %}أسئلة شائعة{% endblock %}
 {% block content %}
-<div class="container">
-  <h1 class="h3 mb-4">الأسئلة الشائعة</h1>
-  <div class="accordion" id="faqAcc">
-    {% for f in faqs %}
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="q{{ loop.index }}">
-        <button class="accordion-button {{ 'collapsed' if not loop.first }}" type="button"
-                data-bs-toggle="collapse" data-bs-target="#c{{ loop.index }}">
-          {{ f.q }}
-        </button>
-      </h2>
-      <div id="c{{ loop.index }}" class="accordion-collapse collapse {{ 'show' if loop.first }}"
-           data-bs-parent="#faqAcc">
-        <div class="accordion-body">{{ f.a }}</div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
+<h1 class="page-title">أسئلة شائعة</h1>
+<div class="accordion" id="faq">
+  {% for f in faqs %}
+  <details class="acc-item">
+    <summary>{{ f.q }}</summary>
+    <p>{{ f.a }}</p>
+  </details>
+  {% endfor %}
 </div>
 {% endblock %}
