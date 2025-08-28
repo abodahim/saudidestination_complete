@@ -1,20 +1,17 @@
 # main.py
+import os
+from datetime import datetime
 from flask import (
     Flask, render_template, request, redirect,
     url_for, session, flash, send_from_directory
 )
-from datetime import datetime
-import os
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
-# غيّر المفتاح كما تريد
 app.secret_key = os.environ.get("APP_SECRET_KEY", "change_this_secret_key")
 
-# ----------------------------
-# بيانات الموقع (رحلات/مرشدين/تقييمات/أسئلة شائعة)
-# عدّل الأسماء والأسعار والنصوص كما يلزم
-# ----------------------------
-
+# =========================
+# بيانات تجريبية (عدّل كما يلزم)
+# =========================
 TRIPS = [
     {
         "slug": "jeddah",
@@ -75,11 +72,10 @@ TRIPS = [
 ]
 
 GUIDES = [
-    # مرشدون رجال فقط - دون تكرار
     {"name": "سامي الحربي", "city": "الرياض", "years": 7, "photo": "images/guide1.PNG"},
     {"name": "ماجد المطيري", "city": "جدة",   "years": 5, "photo": "images/guide2.PNG"},
     {"name": "عبدالعزيز الدوسري", "city": "ينبع", "years": 6, "photo": "images/guide3.PNG"},
-    {"name": "فهد الشهري", "city": "العلا", "years": 8, "photo": "images/guide1.PNG"},
+    {"name": "فهد الشهري", "city": "العلا",  "years": 8, "photo": "images/guide1.PNG"},
 ]
 
 REVIEWS = [
@@ -94,37 +90,28 @@ FAQS = [
     {"q": "هل السعر يشمل الوجبات؟", "a": "تختلف باختلاف الرحلة، التفاصيل مذكورة في صفحة كل رحلة."},
 ]
 
-# إحصائية مبدئية: 3 رحلات محجوزة كما طلبت
-BOOKED_COUNT = 3
+BOOKED_COUNT = 3  # إحصائية مبدئية
 
-# ----------------------------
-# أدوات مساعدة
-# ----------------------------
-
+# =========================
+# مساعدات
+# =========================
 def get_trip(slug: str):
-    for t in TRIPS:
-        if t["slug"] == slug:
-            return t
-    return None
+    return next((t for t in TRIPS if t["slug"] == slug), None)
 
-# ----------------------------
-# المسارات العامة
-# ----------------------------
-
+# =========================
+# صفحات عامة
+# =========================
 @app.route("/")
 def home():
-    # بطاقات إحصائية: رحلات محجوزة، باقات متاحة، مرشدون
     stats = {
         "booked": BOOKED_COUNT,
         "trips_available": len(TRIPS),
         "guides_count": len(GUIDES),
     }
-    # يمكنك تمرير رحلات مختارة للواجهة الرئيسية
-    featured = TRIPS
     return render_template(
         "home.html",
         stats=stats,
-        trips=featured,
+        trips=TRIPS,
         guides=GUIDES[:3],
         reviews=REVIEWS[:3],
     )
@@ -155,28 +142,25 @@ def faq():
 
 @app.route("/cancellation")
 def cancellation():
-    # صفحة سياسة الإلغاء (إن لم تكن لديك استخدم faq.html مع قسم خاص)
     return render_template("cancellation.html")
 
-# favicon (اختياري إن كنت تربطه من القالب)
+# favicon (اختياري—مطابق لمكانك الحالي static/images/)
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(
-        os.path.join(app.static_folder, "icons"),
+        os.path.join(app.static_folder, "images"),
         "favicon.png",
         mimetype="image/png",
     )
 
-# ----------------------------
+# =========================
 # الحجز
-# ----------------------------
-
+# =========================
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
     global BOOKED_COUNT
 
     if request.method == "GET":
-        # اختيار رحلة افتراضيًا من باراميتر ?trip=slug أو الأولى في القائمة
         chosen_slug = request.args.get("trip") or (TRIPS[0]["slug"] if TRIPS else "")
         chosen = get_trip(chosen_slug) if chosen_slug else None
         return render_template(
@@ -187,15 +171,14 @@ def booking():
             max_days=7,
         )
 
-    # POST: استلام الطلب
+    # POST
     name = (request.form.get("name") or "").strip()
     email = (request.form.get("email") or "").strip()
     phone = (request.form.get("phone") or "").strip()
     trip_slug = request.form.get("trip")
     days_raw = request.form.get("days") or "1"
-    agree = request.form.get("agree")  # on/None
+    agree = request.form.get("agree")  # "on" إذا تم التأشير
 
-    # تحقق بسيط
     trip = get_trip(trip_slug) if trip_slug else None
     try:
         days = max(1, min(7, int(days_raw)))
@@ -204,12 +187,13 @@ def booking():
 
     if not (name and email and phone and trip and agree):
         flash("يرجى استكمال جميع الحقول والموافقة على سياسة الإلغاء.", "danger")
+        # إعادة عرض النموذج مع اختيار الرحلة السابقة إن وُجدت
         return redirect(url_for("booking", trip=trip_slug or ""))
 
     total_price = days * trip["price_per_day"]
 
-    # خزّن آخر حجز في الجلسة لعرضه في صفحة التأكيد
-    booking_data = {
+    # حفظ ملخص الحجز في الجلسة لعرضه في صفحة التأكيد
+    session["last_booking"] = {
         "name": name,
         "email": email,
         "phone": phone,
@@ -223,12 +207,8 @@ def booking():
         "total_price": total_price,
         "created_at": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
     }
-    session["last_booking"] = booking_data
 
-    # حدث الإحصائية
     BOOKED_COUNT += 1
-
-    # الانتقال لصفحة التأكيد باسم book_success
     return redirect(url_for("book_success"))
 
 @app.route("/book_success")
@@ -239,22 +219,20 @@ def book_success():
         return redirect(url_for("booking"))
     return render_template("book_success.html", data=data)
 
-# ----------------------------
-# معالجات أخطاء بسيطة لعرض صفحات ألطف (اختياري)
-# ----------------------------
-
+# =========================
+# صفحات أخطاء ودّية
+# =========================
 @app.errorhandler(404)
 def not_found(e):
     return render_template("error.html", code=404, message="الصفحة غير موجودة"), 404
 
 @app.errorhandler(500)
 def server_error(e):
-    # ملاحظة: يمكن قراءة الخطأ من السجلات في Render
     return render_template("error.html", code=500, message="حدث خطأ داخلي في الخادم"), 500
 
-# ----------------------------
-# تشغيل محلياً
-# ----------------------------
+# =========================
+# تشغيل محلي
+# =========================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
