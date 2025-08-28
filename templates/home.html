@@ -1,68 +1,78 @@
 {% extends "base.html" %}
-{% block title %}الرئيسية{% endblock %}
+{% block title %}الرئيسية - وجهة السعودية{% endblock %}
 
 {% block content %}
-
-<!-- بانر -->
-<section class="hero" style="background:#f7faf8">
-  <div class="container hero-inner">
-    <div>
-      <h1>وجهة السعودية</h1>
-      <p>اكتشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
-      <div class="actions">
-        <a href="{{ url_for('booking') }}" class="btn btn-primary">احجز الآن</a>
-        <a href="{{ url_for('trips') }}" class="btn btn-ghost">تصفّح الرحلات</a>
+<section class="container">
+  <!-- Hero -->
+  <div class="hero p-4 p-md-5 mb-4">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold mb-3">وجهة السعودية</h1>
+        <p class="lead text-secondary mb-4">
+          اكتشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية.
+        </p>
+        <div class="d-flex">
+          <a href="{{ url_for('book') }}" class="btn btn-success btn-lg ms-2">احجز الآن</a>
+          <a href="{{ url_for('trips') }}" class="btn btn-outline-success btn-lg">تصفّح الرحلات</a>
+        </div>
+      </div>
+      <div class="col-lg-6 d-none d-lg-block">
+        <img src="{{ url_for('static', filename='images/banner.PNG') }}" class="img-fluid rounded-4" alt="وجهة">
       </div>
     </div>
-    <div>
-      <!-- ضع الصورة banner.PNG في static/images -->
-      <img class="hero-illustration"
-           src="{{ url_for('static', filename='images/banner.PNG') }}"
-           alt="وجهة السعودية">
+  </div>
+
+  <!-- إحصائيات -->
+  <div class="row g-3 mb-5">
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div>
+          <div class="num">{{ (stats.booked|default(3)) }}</div>
+          <div class="text-muted">رحلات محجوزة</div>
+        </div>
+        <i class="bi bi-bag-check fs-1 text-success"></i>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div>
+          <div class="num">{{ (stats.packages|default(4)) }}</div>
+          <div class="text-muted">باقات متاحة</div>
+        </div>
+        <i class="bi bi-box-seam fs-1 text-success"></i>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div>
+          <div class="num">{{ (stats.guides|default(4)) }}</div>
+          <div class="text-muted">مرشدون</div>
+        </div>
+        <i class="bi bi-people fs-1 text-success"></i>
+      </div>
     </div>
   </div>
-</section>
 
-<!-- إحصائيات -->
-<section class="section stats">
-  <div class="container grid grid-3">
-    <div class="stat-card center">
-      <h3>{{ stats.booked }}</h3>
-      <p>رحلات محجوزة</p>
-    </div>
-    <div class="stat-card center">
-      <h3>{{ stats.trips_available }}</h3>
-      <p>باقات متاحة</p>
-    </div>
-    <div class="stat-card center">
-      <h3>{{ stats.guides_count }}</h3>
-      <p>مرشدون</p>
-    </div>
-  </div>
-</section>
-
-<!-- باقات مختارة -->
-<section class="section">
-  <div class="container">
-    <h2 class="mt-0">باقات مختارة</h2>
-    <div class="grid grid-3">
-      {% for t in trips %}
-      <article class="card">
-        <img src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
+  <!-- باقات مختارة -->
+  <h2 class="h3 mb-3">باقات مختارة</h2>
+  <div class="row g-4">
+    {% for t in (trips|default([]))[:3] %}
+    <div class="col-md-4">
+      <div class="card trip-card h-100">
+        <img src="{{ url_for('static', filename=t.cover) }}" alt="{{ t.title }}">
         <div class="card-body">
-          <h3 class="card-title">{{ t.title }}</h3>
-          <p class="card-sub">{{ t.city }} • {{ t.days_default }} يوم</p>
-          <p class="mb-2"><strong>{{ t.price_per_day }}</strong> ر.س / اليوم</p>
-          <p class="mb-3">{{ t.summary }}</p>
-          <div class="card-actions">
-            <a class="btn btn-ghost" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
-            <a class="btn btn-primary" href="{{ url_for('booking', trip=t.slug) }}">احجز الآن</a>
+          <h3 class="h5 mb-1">{{ t.title }}</h3>
+          <div class="text-muted small mb-2">{{ t.city }} • {{ t.days|default(1) }} يوم</div>
+          <div class="d-flex justify-content-between align-items-center">
+            <a href="{{ url_for('trips') }}" class="btn btn-outline-success btn-sm">عرض التفاصيل</a>
+            <a href="{{ url_for('book') }}?trip={{ t.id }}" class="btn btn-success btn-sm">احجز الآن</a>
           </div>
         </div>
-      </article>
-      {% endfor %}
+      </div>
     </div>
+    {% else %}
+      <div class="col-12"><div class="alert alert-light border">لم يتم تهيئة الرحلات بعد.</div></div>
+    {% endfor %}
   </div>
 </section>
-
 {% endblock %}
