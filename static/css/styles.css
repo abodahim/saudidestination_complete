@@ -1,46 +1,86 @@
-/* أساسيات */
-body { background:#fafafa; }
-.sd-header .navbar-brand img { object-fit:cover; }
-.page-title { font-weight:800; font-size:clamp(24px, 4vw, 36px); margin-bottom:16px; }
-
-/* بطاقات الإحصاءات */
-.stats-grid {
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+:root{
+  --brand:#0b6b3a; --brand-2:#0d6efd; --txt:#0b1324; --muted:#6b7280; --bg:#fafafa; --card:#fff;
+  --radius:16px;
 }
-@media (max-width: 768px){ .stats-grid{ grid-template-columns:1fr; } }
-.stat-card{
-  background:#fff; border:1px solid #e7e7e7; border-radius:16px;
-  padding:24px; text-align:center;
-  box-shadow:0 2px 8px rgba(0,0,0,.04);
-}
-.stat-card .num{ font-size:40px; font-weight:800; color:#0d6efd; }
+*{box-sizing:border-box} html,body{margin:0; padding:0; font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Noto Kufi Arabic", Tahoma, Arial; color:var(--txt); background:#fff}
+img{max-width:100%; height:auto; display:block}
+a{color:var(--brand-2); text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1100px; margin-inline:auto; padding:0 16px}
 
-/* شبكة الرحلات */
-.trips-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
-@media (max-width: 992px){ .trips-grid{ grid-template-columns:1fr; } }
-.trip-card{
-  background:#fff; border:1px solid #eee; border-radius:16px; overflow:hidden;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
-}
-.trip-card img{ width:100%; height:220px; object-fit:cover; display:block; }
-.trip-card .pad{ padding:16px; }
+.sd-header{position:sticky; top:0; z-index:1000; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.nav{display:flex; align-items:center; gap:12px; min-height:64px}
+.brand{display:flex; align-items:center; gap:8px; color:var(--txt); font-weight:800}
+.menu{display:flex; gap:14px; list-style:none; margin:0; padding:0; align-items:center}
+.menu-btn{display:none}
+.nav-link.active{color:var(--brand); font-weight:800}
+.btn{display:inline-block; padding:.7rem 1rem; border-radius:10px; border:1px solid transparent; font-weight:700}
+.btn--primary{background:var(--brand); color:#fff}
+.btn--secondary{background:#eef6ff; border-color:#dbeafe}
+.btn--ghost{border:1px solid #cbd5e1; color:var(--txt); background:#fff}
+.badge{position:absolute; top:10px; left:10px; background:#ffedd5; color:#b45309; padding:.25rem .5rem; border-radius:999px; font-size:.8rem}
 
-/* معرض 4 صور */
-.gallery-4{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
-@media (max-width:992px){ .gallery-4{ grid-template-columns:repeat(2,1fr); } }
-@media (max-width:576px){ .gallery-4{ grid-template-columns:1fr; } }
-.gallery-4 img{ width:100%; height:220px; object-fit:cover; border-radius:12px; }
+.flash-wrap{margin:12px 0}
+.flash{padding:.8rem 1rem; border-radius:10px; background:#eef; margin-bottom:6px}
+.flash.success{background:#dcfce7} .flash.danger{background:#fee2e2} .flash.warning{background:#fef3c7}
 
-/* نموذج الحجز */
-.form-box{
-  background:#fff; border:1px solid #eee; border-radius:16px; padding:20px;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
-}
-.price-box{
-  background:#f6fff7; border:1px dashed #16a34a; border-radius:12px; padding:12px 16px;
-}
+.hero{display:grid; grid-template-columns:1.2fr .8fr; gap:20px; align-items:center; padding:24px 0}
+.hero-text h1{font-size:2.2rem; margin:0 0 8px}
+.hero-cta{display:flex; gap:10px; margin-top:10px}
+.hero-img{border-radius:16px}
 
-/* الفوتر */
-.sd-footer{ background:#fff; }
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:24px 0}
+.stat{background:var(--bg); border-radius:var(--radius); padding:20px; text-align:center}
+.stat-num{font-size:2rem; font-weight:800}
+.stat-title{color:var(--muted)}
+
+.section{margin:28px 0}
+.section-head{display:flex; align-items:center; justify-content:space-between}
+.cards{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+.card{background:var(--card); border-radius:var(--radius); overflow:hidden; position:relative; border:1px solid #eee}
+.card-body{padding:12px}
+.card-actions{display:flex; justify-content:space-between; align-items:center; margin-top:8px}
+.price{font-weight:800}
+.card.mini img{height:160px; object-fit:cover}
+
+.page-title{margin:22px 0}
+.card--panel{background:var(--bg); border-radius:var(--radius); padding:16px; border:1px solid #eee}
+
+.gallery{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+.gallery img{border-radius:12px; cursor:zoom-in}
+
+.spec{width:100%; border-collapse:collapse; margin-top:10px}
+.spec th,.spec td{padding:8px 10px; border-bottom:1px solid #eee}
+.actions{display:flex; gap:10px; margin-top:12px}
+
+.form .field{margin-bottom:12px}
+.form input, .form select{width:100%; padding:.7rem .8rem; border-radius:10px; border:1px solid #d1d5db}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.hint{color:var(--muted); font-size:.9rem}
+.total{padding:12px 0; font-weight:800}
+.checkbox{display:flex; align-items:center; gap:6px; margin:8px 0}
+.alert.success{background:#dcfce7; border:1px solid #86efac; padding:12px; border-radius:10px}
+
+.footer{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:28px 0; color:var(--muted)}
+.footer-nav{display:flex; gap:12px}
+
+.accordion .acc-item{background:#fafafa; border:1px solid #eee; border-radius:10px; padding:10px; margin-bottom:8px}
+details>summary{cursor:pointer; font-weight:700}
+
+:focus-visible{outline:3px solid var(--brand-2); outline-offset:2px}
+
+/* لايت بوكس بسيط */
+.lightbox img{transition:transform .2s}
+.lightbox:focus-visible img,.lightbox:hover img{transform:scale(1.02)}
+
+@media (max-width: 900px){
+  .hero{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr 1fr}
+  .gallery{grid-template-columns:1fr 1fr}
+}
+@media (max-width: 640px){
+  .menu-btn{display:inline-block; background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:.4rem .7rem}
+  .menu{display:none; position:absolute; inset-inline:0; top:64px; background:#fff; padding:12px 16px; box-shadow:0 8px 20px rgba(0,0,0,.06); flex-direction:column; gap:8px}
+  .menu.show{display:flex}
+  .cards{grid-template-columns:1fr}
+}
