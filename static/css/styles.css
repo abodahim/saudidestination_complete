@@ -211,3 +211,39 @@ footer{
 
 /* تنبيه الإجمالي */
 .total-box{background:#f8faf8;border:1px solid #e4efe4;border-radius:12px;padding:14px 16px;font-weight:700}
+
+/* Reset بسيط للقوائم في الهيدر */
+.navbar-nav, .navbar-nav li { list-style: none; padding: 0; margin: 0; }
+.navbar-nav .nav-link { padding: .5rem .75rem; }
+
+/* الشعار */
+.site-logo { max-width: 140px; height: auto; }
+
+/* Hero */
+.hero {
+  position: relative;
+  background: #faf7f1 url("../images/banner.PNG") center/cover no-repeat;
+  border-radius: 16px;
+}
+.hero .btn { margin-inline-end: .5rem; }
+
+/* بطاقات الإحصائيات */
+.stat-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.06);
+  padding: 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.stat-card .num { font-size: 40px; font-weight: 800; color: #0b5d3b; }
+
+/* بطاقات الرحلات */
+.trip-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 14px 14px 0 0; }
+
+/* نموذج الحجز */
+.book-form .form-control, .book-form .form-select { border-radius: 12px; height: 48px; }
+.book-form .total { font-weight: 800; color: #0b5d3b; font-size: 20px; }
+
+/* Footer */
+footer { background: #fff; }
+footer a { text-decoration: none; }
