@@ -1,30 +1,24 @@
-// حساب السعر الإجمالي وتعبئة سعر اليوم
-(function () {
-  const tripSelect  = document.getElementById('tripSelect');
-  const priceInput  = document.getElementById('pricePerDay');
-  const daysInput   = document.getElementById('days');
-  const totalEl     = document.getElementById('total');
+// حساب السعر في صفحة الحجز (إن وُجدت الحقول)
+(function(){
+  const priceInput = document.querySelector('[data-price-per-day]');
+  const daysInput  = document.querySelector('[name="days"]');
+  const totalEl    = document.querySelector('[data-total]');
 
-  function format(n){ return new Intl.NumberFormat('ar-SA').format(n); }
-
-  function recalc() {
-    const price = Number(priceInput.value || 0);
-    const days  = Number(daysInput?.value || 0);
-    const total = price * days;
-    if (totalEl) totalEl.textContent = `${format(total)} رس.`;
+  function recalc(){
+    if(!priceInput || !daysInput || !totalEl) return;
+    const price = parseInt(priceInput.dataset.pricePerDay || "0", 10);
+    const days  = parseInt(daysInput.value || "1", 10);
+    totalEl.textContent = (price * days).toLocaleString('ar-EG');
   }
 
-  function syncPriceFromTrip() {
-    if (!tripSelect || !priceInput) return;
-    const opt   = tripSelect.options[tripSelect.selectedIndex];
-    const price = opt ? Number(opt.getAttribute('data-price') || 0) : 0;
-    priceInput.value = price ? price : '';
-    recalc();
-  }
+  document.addEventListener('change', (e)=>{
+    if(e.target && (e.target.name === 'days' || e.target.name === 'trip')){
+      // عند تغيير الرحلة قد تغيّر السعر لليوم
+      const chosen = document.querySelector('[data-price-per-day]');
+      if(chosen){ chosen.dataset.pricePerDay = chosen.getAttribute('data-price-per-day'); }
+      recalc();
+    }
+  });
 
-  if (tripSelect) tripSelect.addEventListener('change', syncPriceFromTrip);
-  if (daysInput)  daysInput.addEventListener('input', recalc);
-
-  // تشغيل مبدئي (يدعم حالة قدوم المستخدم بـ ?trip=)
-  syncPriceFromTrip();
+  recalc();
 })();
