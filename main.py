@@ -3,15 +3,22 @@ import os
 from datetime import datetime
 from flask import (
     Flask, render_template, request, redirect,
-    url_for, session, flash, send_from_directory
+    url_for, session, flash, send_from_directory, Response
 )
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.environ.get("APP_SECRET_KEY", "change_this_secret_key")
 
-# =========================
-# بيانات تجريبية (عدّل كما يلزم)
-# =========================
+# ضغط اختياري (لن ينهار لو الحزمة غير مثبتة)
+try:
+    from flask_compress import Compress
+    Compress(app)
+except Exception:
+    pass
+
+# -----------------------------
+# بيانات تجريبية
+# -----------------------------
 TRIPS = [
     {
         "slug": "jeddah",
@@ -26,6 +33,7 @@ TRIPS = [
             "images/jeddah_4.JPG",
         ],
         "summary": "استمتع بسحر الكورنيش والمعالم التاريخية في جدة.",
+        "popular": True,
     },
     {
         "slug": "riyadh",
@@ -40,6 +48,7 @@ TRIPS = [
             "images/riyadh_4.JPG",
         ],
         "summary": "اكتشف معالم العاصمة والتجارب الحديثة في الرياض.",
+        "popular": False,
     },
     {
         "slug": "yanbu",
@@ -54,6 +63,7 @@ TRIPS = [
             "images/yanbu_4.JPG",
         ],
         "summary": "شواطئ خلابة وأنشطة بحرية ممتعة في ينبع.",
+        "popular": False,
     },
     {
         "slug": "alula",
@@ -68,6 +78,7 @@ TRIPS = [
             "images/ala_4.JPG",
         ],
         "summary": "جبال ساحرة ومواقع تراثية وتجارب صحراوية فريدة.",
+        "popular": True,
     },
 ]
 
@@ -90,17 +101,36 @@ FAQS = [
     {"q": "هل السعر يشمل الوجبات؟", "a": "تختلف باختلاف الرحلة، التفاصيل مذكورة في صفحة كل رحلة."},
 ]
 
-BOOKED_COUNT = 3  # إحصائية مبدئية
+BOOKED_COUNT = 3  # إحصائية أولية
 
-# =========================
-# مساعدات
-# =========================
 def get_trip(slug: str):
     return next((t for t in TRIPS if t["slug"] == slug), None)
 
-# =========================
+# -----------------------------
+# رؤوس الأمان البسيطة + CSP
+# -----------------------------
+CDN = "https://cdn.jsdelivr.net"
+@app.after_request
+def security_headers(resp):
+    resp.headers["X-Frame-Options"] = "SAMEORIGIN"
+    resp.headers["X-Content-Type-Options"] = "nosniff"
+    resp.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    resp.headers["Permissions-Policy"] = "geolocation=(), camera=()"
+    csp = (
+        "default-src 'self'; "
+        f"script-src 'self' {CDN}; "
+        "style-src 'self' 'unsafe-inline'; "
+        "img-src 'self' data:; "
+        "font-src 'self'; "
+        "connect-src 'self'; "
+        "frame-ancestors 'self';"
+    )
+    resp.headers["Content-Security-Policy"] = csp
+    return resp
+
+# -----------------------------
 # صفحات عامة
-# =========================
+# -----------------------------
 @app.route("/")
 def home():
     stats = {
@@ -144,7 +174,7 @@ def faq():
 def cancellation():
     return render_template("cancellation.html")
 
-# favicon (اختياري—مطابق لمكانك الحالي static/images/)
+# favicon من static/images/favicon.png
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(
@@ -153,23 +183,16 @@ def favicon():
         mimetype="image/png",
     )
 
-# =========================
+# -----------------------------
 # الحجز
-# =========================
+# -----------------------------
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
     global BOOKED_COUNT
-
     if request.method == "GET":
         chosen_slug = request.args.get("trip") or (TRIPS[0]["slug"] if TRIPS else "")
         chosen = get_trip(chosen_slug) if chosen_slug else None
-        return render_template(
-            "booking.html",
-            trips=TRIPS,
-            chosen=chosen,
-            min_days=1,
-            max_days=7,
-        )
+        return render_template("booking.html", trips=TRIPS, chosen=chosen, min_days=1, max_days=7)
 
     # POST
     name = (request.form.get("name") or "").strip()
@@ -177,7 +200,7 @@ def booking():
     phone = (request.form.get("phone") or "").strip()
     trip_slug = request.form.get("trip")
     days_raw = request.form.get("days") or "1"
-    agree = request.form.get("agree")  # "on" إذا تم التأشير
+    agree = request.form.get("agree")
 
     trip = get_trip(trip_slug) if trip_slug else None
     try:
@@ -187,13 +210,12 @@ def booking():
 
     if not (name and email and phone and trip and agree):
         flash("يرجى استكمال جميع الحقول والموافقة على سياسة الإلغاء.", "danger")
-        # إعادة عرض النموذج مع اختيار الرحلة السابقة إن وُجدت
         return redirect(url_for("booking", trip=trip_slug or ""))
 
     total_price = days * trip["price_per_day"]
 
-    # حفظ ملخص الحجز في الجلسة لعرضه في صفحة التأكيد
     session["last_booking"] = {
+        "id": datetime.utcnow().strftime("%y%m%d%H%M%S"),
         "name": name,
         "email": email,
         "phone": phone,
@@ -219,9 +241,45 @@ def book_success():
         return redirect(url_for("booking"))
     return render_template("book_success.html", data=data)
 
-# =========================
-# صفحات أخطاء ودّية
-# =========================
+# -----------------------------
+# الصحة والـ SEO
+# -----------------------------
+@app.route("/status")
+def status():
+    return {"status": "ok", "time": datetime.utcnow().isoformat()}
+
+@app.route("/robots.txt")
+def robots():
+    body = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        f"Sitemap: {request.url_root.rstrip('/')}/sitemap.xml\n"
+    )
+    return Response(body, mimetype="text/plain")
+
+@app.route("/sitemap.xml")
+def sitemap():
+    pages = [
+        url_for("home", _external=True),
+        url_for("trips", _external=True),
+        url_for("guides", _external=True),
+        url_for("reviews", _external=True),
+        url_for("faq", _external=True),
+        url_for("cancellation", _external=True),
+        url_for("booking", _external=True),
+    ] + [url_for("trip_detail", slug=t["slug"], _external=True) for t in TRIPS]
+    xml = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for p in pages:
+        xml += [f"<url><loc>{p}</loc></url>"]
+    xml += ["</urlset>"]
+    return Response("\n".join(xml), mimetype="application/xml")
+
+# -----------------------------
+# أخطاء ودية
+# -----------------------------
 @app.errorhandler(404)
 def not_found(e):
     return render_template("error.html", code=404, message="الصفحة غير موجودة"), 404
@@ -230,9 +288,10 @@ def not_found(e):
 def server_error(e):
     return render_template("error.html", code=500, message="حدث خطأ داخلي في الخادم"), 500
 
-# =========================
+# -----------------------------
 # تشغيل محلي
-# =========================
+# -----------------------------
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
+    app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax")
     app.run(host="0.0.0.0", port=port, debug=True)
