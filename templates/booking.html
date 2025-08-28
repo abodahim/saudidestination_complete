@@ -5,7 +5,7 @@
 <div class="container">
   <h1 class="display-6 mb-4">نموذج الحجز</h1>
 
-  <form class="book-form" method="post" action="{{ url_for('book') }}">
+  <form class="book-form" method="post" action="{{ url_for('booking') }}">
     <!-- بيانات المستخدم -->
     <div class="row g-3">
       <div class="col-md-4">
@@ -26,13 +26,12 @@
     <div class="row g-3 mt-1">
       <div class="col-md-6">
         <label class="form-label">اختر الرحلة</label>
-        <select class="form-select" id="tripSelect" name="trip_id" required>
+        <select class="form-select" id="tripSelect" name="trip" required>
           <option value="" disabled selected>اختر رحلة</option>
           {% for t in trips %}
-          <option value="{{ t.id }}"
+          <option value="{{ t.slug }}"
                   data-price="{{ t.price_per_day }}"
-                  data-city="{{ t.city }}"
-                  {% if request.args.get('trip') and request.args.get('trip')|int == t.id %}selected{% endif %}>
+                  {% if request.args.get('trip') == t.slug %}selected{% endif %}>
             {{ t.title }} — {{ t.price_per_day }} رس / اليوم
           </option>
           {% endfor %}
@@ -64,7 +63,7 @@
       </div>
       <div class="col-md-6 d-flex align-items-center">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="agree" required>
+          <input class="form-check-input" type="checkbox" id="agree" name="agree" required>
           <label class="form-check-label" for="agree">
             أوافق على <a href="{{ url_for('cancellation') }}" target="_blank">سياسة الإلغاء</a>
           </label>
@@ -80,7 +79,7 @@
 
   <div id="details" class="mt-5">
     <h2 class="h5 mb-3">تفاصيل مختصرة</h2>
-    <p class="text-muted">بعد الإرسال ستظهر لك صفحة تأكيد الحجز مع رقم مرجع الحجز وخيارات المتابعة.</p>
+    <p class="text-muted">بعد الإرسال ستظهر لك صفحة تأكيد الحجز برقم المرجع وخيارات المتابعة.</p>
   </div>
 </div>
 {% endblock %}
