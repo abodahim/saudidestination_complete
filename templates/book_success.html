@@ -12,37 +12,23 @@
     <div class="card-body">
       <h2 class="h5">تفاصيل الحجز</h2>
       <div class="row g-3 mt-1">
-        <div class="col-md-4"><div class="text-muted small">الاسم</div><div class="fw-bold">{{ booking.name }}</div></div>
-        <div class="col-md-4"><div class="text-muted small">البريد</div><div class="fw-bold">{{ booking.email }}</div></div>
-        <div class="col-md-4"><div class="text-muted small">الجوال</div><div class="fw-bold">{{ booking.phone }}</div></div>
+        <div class="col-md-4"><div class="text-muted small">الاسم</div><div class="fw-bold">{{ data.name }}</div></div>
+        <div class="col-md-4"><div class="text-muted small">البريد</div><div class="fw-bold">{{ data.email }}</div></div>
+        <div class="col-md-4"><div class="text-muted small">الجوال</div><div class="fw-bold">{{ data.phone }}</div></div>
 
-        <div class="col-md-4"><div class="text-muted small">الرحلة</div><div class="fw-bold">{{ booking.trip_title }}</div></div>
-        <div class="col-md-4"><div class="text-muted small">الأيام</div><div class="fw-bold">{{ booking.days }}</div></div>
-        <div class="col-md-4"><div class="text-muted small">الإجمالي</div><div class="fw-bold">{{ booking.total }} رس.</div></div>
+        <div class="col-md-4"><div class="text-muted small">الرحلة</div><div class="fw-bold">{{ data.trip.title }}</div></div>
+        <div class="col-md-4"><div class="text-muted small">الأيام</div><div class="fw-bold">{{ data.days }}</div></div>
+        <div class="col-md-4"><div class="text-muted small">الإجمالي</div><div class="fw-bold">{{ data.total_price }} رس.</div></div>
 
-        <div class="col-md-4"><div class="text-muted small">مرجع الحجز</div><div class="fw-bold">{{ booking.ref }}</div></div>
+        <div class="col-md-4"><div class="text-muted small">تاريخ الإنشاء</div><div class="fw-bold">{{ data.created_at }}</div></div>
       </div>
 
       <hr class="my-4">
 
       <div class="d-flex flex-wrap gap-2">
-        {% if pdf_url %}
-          <a class="btn btn-outline-secondary" href="{{ pdf_url }}">تحميل PDF</a>
-        {% endif %}
-        {% if payment_ref %}
-          <a class="btn btn-success" href="{{ payment_url|default('#') }}">إتمام الدفع</a>
-        {% endif %}
         <a class="btn btn-outline-success" href="{{ url_for('trips') }}">استعراض رحلات أخرى</a>
         <a class="btn btn-secondary" href="{{ url_for('home') }}">العودة للرئيسية</a>
       </div>
-
-      {% if show_contacts %}
-      <div class="mt-4 p-3 rounded-3 bg-light">
-        <div class="fw-bold mb-2">بيانات التواصل (تظهر بعد الدفع):</div>
-        <div class="small">الهاتف: 9200-XXXX</div>
-        <div class="small">البريد: support@saudidestination.com</div>
-      </div>
-      {% endif %}
     </div>
   </div>
 </div>
