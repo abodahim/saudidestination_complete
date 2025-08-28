@@ -1,9 +1,32 @@
 {% extends "base.html" %}
-{% block title %}تم استلام الحجز{% endblock %}
+{% block title %}تأكيد الحجز{% endblock %}
+
 {% block content %}
-<div class="card--panel center">
-  <h1>شكرًا لك!</h1>
-  <p>تم استلام طلب الحجز بنجاح. ستصلك رسالة تأكيد على بريدك قريبًا.</p>
-  <a class="btn btn--primary" href="{{ url_for('home') }}">عودة للرئيسية</a>
+<div class="container">
+  <h1 class="page-title">تم تأكيد الحجز 🎉</h1>
+
+  {% if data %}
+  <div class="card">
+    <div class="card-body">
+      <h3>شكراً {{ data.name }}!</h3>
+      <p>لقد استلمنا حجزك بنجاح.</p>
+      <ul>
+        <li><strong>البريد:</strong> {{ data.email }}</li>
+        <li><strong>الهاتف:</strong> {{ data.phone }}</li>
+        <li><strong>الرحلة:</strong> {{ data.trip.title }} ({{ data.trip.city }})</li>
+        <li><strong>عدد الأيام:</strong> {{ data.days }}</li>
+        <li><strong>المجموع:</strong> {{ data.total_price }} ر.س</li>
+        <li><strong>التاريخ:</strong> {{ data.created_at }}</li>
+      </ul>
+    </div>
+  </div>
+  {% else %}
+  <p>لا توجد بيانات حجز للعرض حالياً.</p>
+  {% endif %}
+
+  <div class="mt-3">
+    <a href="{{ url_for('home') }}" class="btn btn-primary">العودة للرئيسية</a>
+    <a href="{{ url_for('trips') }}" class="btn btn-ghost">استكشاف رحلات أخرى</a>
+  </div>
 </div>
 {% endblock %}
