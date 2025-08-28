@@ -1,13 +1,11 @@
 {% extends "base.html" %}
-{% block title %}سياسة الإلغاء - وجهة السعودية{% endblock %}
+{% block title %}سياسة الإلغاء{% endblock %}
 {% block content %}
-<div class="container">
-  <h1 class="h3 mb-3">سياسة الإلغاء</h1>
-  <div class="card p-3">
-    <p class="mb-2">- إلغاء قبل 7 أيام: استرجاع 100%.</p>
-    <p class="mb-2">- إلغاء قبل 48 ساعة: استرجاع 50%.</p>
-    <p class="mb-2">- أقل من 48 ساعة: لا يوجد استرجاع.</p>
-    <p class="text-muted small mb-0">قد تختلف الشروط حسب العروض الموسمية.</p>
-  </div>
-</div>
+<h1 class="page-title">سياسة الإلغاء</h1>
+<ul class="list">
+  <li>إلغاء قبل 72 ساعة: استرجاع 100%.</li>
+  <li>إلغاء قبل 48 ساعة: استرجاع 80%.</li>
+  <li>أقل من 24 ساعة: لا يُسترجع.</li>
+</ul>
+<p class="muted">تُطبق الشروط الخاصة بكل رحلة إذا وُجدت.</p>
 {% endblock %}
