@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block title %}مرشدونا - وجهة السعودية{% endblock %}
-
 {% block content %}
 <div class="container">
   <h1 class="h3 mb-4">مرشدونا</h1>
@@ -13,8 +12,6 @@
         <div class="text-muted small">{{ g.city }}</div>
       </div>
     </div>
-    {% else %}
-      <div class="col-12"><div class="alert alert-light border">لا توجد بيانات مرشدين.</div></div>
     {% endfor %}
   </div>
 </div>
