@@ -9,20 +9,18 @@
     {% for t in trips %}
     <div class="col-md-6">
       <div class="card h-100 trip-card">
-        <img src="{{ url_for('static', filename=t.cover) }}" class="card-img-top" alt="{{ t.title }}">
+        <img src="{{ url_for('static', filename=t.images[0]) }}" class="card-img-top" alt="{{ t.title }}">
         <div class="card-body">
           <h2 class="h5">{{ t.title }}</h2>
-          <div class="small text-muted mb-2">{{ t.city }} • {{ t.days|default(1) }} يوم</div>
-          <p class="mb-3">{{ t.summary|default('رحلة ممتعة ببرنامج متكامل.') }}</p>
+          <div class="small text-muted mb-2">{{ t.city }} • {{ t.days_default }} يوم</div>
+          <p class="mb-3">{{ t.summary }}</p>
           <div class="d-flex justify-content-between">
-            <a href="{{ url_for('book') }}?trip={{ t.id }}" class="btn btn-success">احجز الآن</a>
-            <a href="{{ url_for('book') }}?trip={{ t.id }}#details" class="btn btn-outline-success">عرض التفاصيل</a>
+            <a href="{{ url_for('booking') }}?trip={{ t.slug }}" class="btn btn-success">احجز الآن</a>
+            <a href="{{ url_for('booking') }}?trip={{ t.slug }}#details" class="btn btn-outline-success">عرض التفاصيل</a>
           </div>
         </div>
       </div>
     </div>
-    {% else %}
-      <div class="col-12"><div class="alert alert-light border">لا توجد رحلات متاحة حاليًا.</div></div>
     {% endfor %}
   </div>
 </div>
