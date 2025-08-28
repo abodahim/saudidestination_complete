@@ -1,14 +1,12 @@
 {% extends "base.html" %}
-{% block title %}خطأ{% endblock %}
+{% block title %}خطأ - وجهة السعودية{% endblock %}
 
 {% block content %}
-<div class="container center" style="text-align:center; padding:60px 20px;">
-  <h1 style="font-size:80px; margin-bottom:20px;">⚠️ {{ code }}</h1>
-  <p style="font-size:20px; margin-bottom:20px;">
-    {{ message }}
-  </p>
-  <a href="{{ url_for('home') }}" class="btn btn-primary">
-    العودة إلى الصفحة الرئيسية
-  </a>
+<div class="container">
+  <div class="alert alert-danger rounded-4 p-4">
+    <h1 class="h5 mb-2">حدث خطأ غير متوقع</h1>
+    <p class="mb-3">نرجو المحاولة لاحقًا. إن استمرّت المشكلة تواصل معنا.</p>
+    <a class="btn btn-outline-secondary" href="{{ url_for('home') }}">العودة للرئيسية</a>
+  </div>
 </div>
 {% endblock %}
