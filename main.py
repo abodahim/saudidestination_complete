@@ -131,6 +131,12 @@ def security_headers(resp):
 # -----------------------------
 # صفحات عامة
 # -----------------------------
+from datetime import datetime
+
+@app.context_processor
+def inject_current_year():
+    return {"current_year": datetime.utcnow().year}
+
 @app.route("/")
 def home():
     stats = {
