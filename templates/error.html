@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block title %}خطأ - وجهة السعودية{% endblock %}
-
 {% block content %}
 <div class="container">
   <div class="alert alert-danger rounded-4 p-4">
-    <h1 class="h5 mb-2">حدث خطأ غير متوقع</h1>
-    <p class="mb-3">نرجو المحاولة لاحقًا. إن استمرّت المشكلة تواصل معنا.</p>
-    <a class="btn btn-outline-secondary" href="{{ url_for('home') }}">العودة للرئيسية</a>
+    <h1 class="h5 mb-2">حدث خطأ</h1>
+    <p class="mb-1">{{ message|default('نرجو المحاولة لاحقًا.') }}</p>
+    {% if code %}<div class="small text-muted">رمز الخطأ: {{ code }}</div>{% endif %}
+    <a class="btn btn-outline-secondary mt-3" href="{{ url_for('home') }}">العودة للرئيسية</a>
   </div>
 </div>
 {% endblock %}
