@@ -1,17 +1,27 @@
 {% extends "base.html" %}
-{% block title %}{{ trip.name }}{% endblock %}
+{% block title %}{{ trip.title }}{% endblock %}
+
 {% block content %}
-<h1 class="page-title">{{ trip.name }}</h1>
+<div class="container">
+  <h1 class="page-title mb-4">{{ trip.title }}</h1>
 
-<div class="gallery-4">
-  {% for img in trip.images %}
-  <img src="{{ url_for('static', filename='images/' ~ img) }}" alt="{{ trip.name }}">
-  {% endfor %}
-</div>
+  <!-- معرض صور الرحلة -->
+  <div class="row g-3 mb-4">
+    {% for img in trip.images %}
+    <div class="col-6 col-md-3">
+      <img src="{{ url_for('static', filename=img) }}" class="img-fluid rounded-3 shadow-sm" alt="{{ trip.title }}">
+    </div>
+    {% endfor %}
+  </div>
 
-<div class="card--panel" style="margin-top:16px">
-  <p>{{ trip.desc }}</p>
-  <p class="muted">السعر لليوم: <strong>{{ trip.price }} ر.س</strong> — عدد الأيام المقترح: {{ trip.days }}</p>
-  <a class="btn btn--primary" href="{{ url_for('booking', trip_id=trip.id) }}">احجز الآن</a>
+  <!-- تفاصيل الرحلة -->
+  <div class="card card-body shadow-sm">
+    <p class="mb-3">{{ trip.summary }}</p>
+    <p class="text-muted small">
+      السعر لليوم: <strong>{{ trip.price_per_day }} ر.س</strong> —
+      عدد الأيام المقترح: {{ trip.days_default }}
+    </p>
+    <a class="btn btn-success" href="{{ url_for('booking') }}?trip={{ trip.slug }}">احجز الآن</a>
+  </div>
 </div>
 {% endblock %}
