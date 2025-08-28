@@ -1,49 +1,55 @@
 {% extends "base.html" %}
-{% block title %}الرئيسية - وجهة السعودية{% endblock %}
+{% block title %}وجهة السعودية | الرئيسية{% endblock %}
 
 {% block content %}
-<section class="container">
-  <!-- Hero -->
-  <div class="hero p-4 p-md-5 mb-4">
-    <div class="row align-items-center">
-      <div class="col-lg-6">
-        <h1 class="display-5 fw-bold mb-3">وجهة السعودية</h1>
-        <p class="lead text-secondary mb-4">اكتشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية.</p>
-        <div class="d-flex">
-          <a href="{{ url_for('booking') }}" class="btn btn-success btn-lg ms-2">احجز الآن</a>
-          <a href="{{ url_for('trips') }}" class="btn btn-outline-success btn-lg">تصفّح الرحلات</a>
-        </div>
-      </div>
-      <div class="col-lg-6 d-none d-lg-block">
-        <img src="{{ url_for('static', filename='images/banner.PNG') }}" class="img-fluid rounded-4" alt="وجهة">
-      </div>
+<section class="hero">
+  <div class="hero-text">
+    <h1>وجهة السعودية</h1>
+    <p>اكتشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
+    <div class="hero-cta">
+      <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
+      <a class="btn btn--ghost" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
     </div>
   </div>
+  <img class="hero-img"
+       src="{{ url_for('static','images/banner.PNG') }}"
+       alt="منظر صحراوي سعودي" width="1600" height="650" decoding="async">
+</section>
 
-  <!-- إحصائيات -->
-  <div class="row g-3 mb-5">
-    <div class="col-md-4"><div class="stat-card"><div><div class="num">{{ stats.booked }}</div><div class="text-muted">رحلات محجوزة</div></div><i class="bi bi-bag-check fs-1 text-success"></i></div></div>
-    <div class="col-md-4"><div class="stat-card"><div><div class="num">{{ stats.trips_available }}</div><div class="text-muted">باقات متاحة</div></div><i class="bi bi-box-seam fs-1 text-success"></i></div></div>
-    <div class="col-md-4"><div class="stat-card"><div><div class="num">{{ stats.guides_count }}</div><div class="text-muted">مرشدون</div></div><i class="bi bi-people fs-1 text-success"></i></div></div>
+<section class="stats">
+  <div class="stat">
+    <div class="stat-num">{{ stats.booked }}</div>
+    <div class="stat-title">رحلات محجوزة</div>
   </div>
+  <div class="stat">
+    <div class="stat-num">{{ stats.trips_available }}</div>
+    <div class="stat-title">باقات متاحة</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">{{ stats.guides_count }}</div>
+    <div class="stat-title">مرشدون</div>
+  </div>
+</section>
 
-  <!-- باقات مختارة -->
-  <h2 class="h3 mb-3">باقات مختارة</h2>
-  <div class="row g-4">
-    {% for t in trips[:3] %}
-      <div class="col-md-4">
-        <div class="card trip-card h-100">
-          <img src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
-          <div class="card-body">
-            <h3 class="h5 mb-1">{{ t.title }}</h3>
-            <div class="text-muted small mb-2">{{ t.city }} • {{ t.days_default }} يوم</div>
-            <div class="d-flex justify-content-between align-items-center">
-              <a href="{{ url_for('trips') }}" class="btn btn-outline-success btn-sm">عرض التفاصيل</a>
-              <a href="{{ url_for('booking') }}?trip={{ t.slug }}" class="btn btn-success btn-sm">احجز الآن</a>
-            </div>
-          </div>
+<section class="section">
+  <div class="section-head">
+    <h2>وجهات مميزة</h2>
+    <a href="{{ url_for('trips') }}" class="link">عرض كل الرحلات</a>
+  </div>
+  <div class="cards">
+    {% for t in trips %}
+    <article class="card">
+      <img src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}" loading="lazy" decoding="async">
+      <div class="card-body">
+        <h3>{{ t.title }}</h3>
+        <p class="muted">{{ t.summary }}</p>
+        <div class="card-actions">
+          <span class="price">{{ t.price_per_day }} ر.س / اليوم</span>
+          <a class="btn btn--secondary" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
         </div>
       </div>
+      {% if t.popular %}<span class="badge">الأكثر حجزًا</span>{% endif %}
+    </article>
     {% endfor %}
   </div>
 </section>
