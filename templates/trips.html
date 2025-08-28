@@ -3,20 +3,26 @@
 
 {% block content %}
 <div class="container">
-  <h1 class="h3 mb-4">الرحلات</h1>
+  <h1 class="h3 mb-4">الرحلات المتاحة</h1>
 
   <div class="row g-4">
     {% for t in trips %}
     <div class="col-md-6">
-      <div class="card h-100 trip-card">
+      <div class="card h-100 trip-card shadow-sm">
         <img src="{{ url_for('static', filename=t.images[0]) }}" class="card-img-top" alt="{{ t.title }}">
         <div class="card-body">
           <h2 class="h5">{{ t.title }}</h2>
           <div class="small text-muted mb-2">{{ t.city }} • {{ t.days_default }} يوم</div>
           <p class="mb-3">{{ t.summary }}</p>
           <div class="d-flex justify-content-between">
-            <a href="{{ url_for('booking') }}?trip={{ t.slug }}" class="btn btn-success">احجز الآن</a>
-            <a href="{{ url_for('booking') }}?trip={{ t.slug }}#details" class="btn btn-outline-success">عرض التفاصيل</a>
+            <!-- زر التفاصيل يفتح صفحة trip_details -->
+            <a href="{{ url_for('trip_detail', slug=t.slug) }}" class="btn btn-outline-success">
+              عرض التفاصيل
+            </a>
+            <!-- زر الحجز يرسل المستخدم لصفحة الحجز مباشرة -->
+            <a href="{{ url_for('booking') }}?trip={{ t.slug }}" class="btn btn-success">
+              احجز الآن
+            </a>
           </div>
         </div>
       </div>
