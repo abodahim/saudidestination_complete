@@ -1,27 +1,40 @@
 {% extends "base.html" %}
 {% block title %}{{ trip.title }}{% endblock %}
+{% block meta_description %}{{ trip.summary }} — السعر لليوم {{ trip.price_per_day }} ر.س.{% endblock %}
 
 {% block content %}
-<div class="container">
-  <h1 class="page-title mb-4">{{ trip.title }}</h1>
+<h1 class="page-title">{{ trip.title }}</h1>
 
-  <!-- معرض صور الرحلة -->
-  <div class="row g-3 mb-4">
-    {% for img in trip.images %}
-    <div class="col-6 col-md-3">
-      <img src="{{ url_for('static', filename=img) }}" class="img-fluid rounded-3 shadow-sm" alt="{{ trip.title }}">
-    </div>
-    {% endfor %}
-  </div>
+<div class="gallery">
+  {% for img in trip.images %}
+  <a href="{{ url_for('static', filename=img) }}" class="lightbox">
+    <img src="{{ url_for('static', filename=img) }}" alt="{{ trip.title }} صورة {{ loop.index }}"
+         loading="lazy" decoding="async">
+  </a>
+  {% endfor %}
+</div>
 
-  <!-- تفاصيل الرحلة -->
-  <div class="card card-body shadow-sm">
-    <p class="mb-3">{{ trip.summary }}</p>
-    <p class="text-muted small">
-      السعر لليوم: <strong>{{ trip.price_per_day }} ر.س</strong> —
-      عدد الأيام المقترح: {{ trip.days_default }}
-    </p>
-    <a class="btn btn-success" href="{{ url_for('booking') }}?trip={{ trip.slug }}">احجز الآن</a>
+<div class="card--panel">
+  <p>{{ trip.summary }}</p>
+  <table class="spec">
+    <tr><th>المدينة</th><td>{{ trip.city }}</td></tr>
+    <tr><th>السعر/اليوم</th><td>{{ trip.price_per_day }} ر.س</td></tr>
+    <tr><th>المدة المقترحة</th><td>{{ trip.days_default }} يوم</td></tr>
+  </table>
+  <div class="actions">
+    <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز الآن</a>
+    <a class="btn btn--ghost" href="https://wa.me/" target="_blank" rel="noopener">تواصل واتساب</a>
   </div>
 </div>
+
+<!-- JSON-LD بسيط -->
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"TouristTrip",
+ "name":"{{ trip.title }}",
+ "areaServed":"Saudi Arabia",
+ "offers":{"@type":"Offer","price":"{{ trip.price_per_day }}","priceCurrency":"SAR"}
+}
+</script>
 {% endblock %}
