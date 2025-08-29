@@ -1,14 +1,13 @@
 {% extends "base.html" %}
-{% block title %}حدث خطأ ({{ code }}){% endblock %}
+{% block title %}خطأ {{ code }}{% endblock %}
 
 {% block content %}
-<div class="error-box">
+<div class="center">
   <h1>حدث خطأ ({{ code }})</h1>
   <p class="muted">{{ message }}</p>
-
-  <div class="actions">
-    <a class="btn btn--ghost" href="{{ url_for('home') }}">الرجوع للرئيسية</a>
+  <div class="row-gap">
     <a class="btn btn--primary" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+    <a class="btn btn--link" href="{{ url_for('home') }}">الرجوع للرئيسية</a>
   </div>
 </div>
 {% endblock %}
