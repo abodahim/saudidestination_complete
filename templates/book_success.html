@@ -1,22 +1,20 @@
 {% extends "base.html" %}
 {% block title %}تم استلام الحجز{% endblock %}
-
 {% block content %}
-<h1 class="page-title">تم استلام طلبك</h1>
+<h1 class="h3 mb-3">تم استلام الحجز</h1>
 
-<div class="card--panel">
-  <p>شكرًا {{ data.name }}. تم استلام طلب حجزك لرحلة <strong>{{ data.trip.title }}</strong>.</p>
-  <ul class="list">
-    <li>البريد الإلكتروني: {{ data.email }}</li>
+<div class="card p-3">
+  <p class="mb-1">شكرًا <strong>{{ data.name }}</strong>! تم استلام طلبك لرحلة <strong>{{ data.trip.title }}</strong>.</p>
+  <ul class="small text-muted mb-3">
+    <li>البريد: {{ data.email }}</li>
     <li>الجوال: {{ data.phone }}</li>
-    <li>عدد الأيام: {{ data.days }}</li>
-    <li>السعر لليوم: {{ data.trip.price_per_day }} ر.س</li>
+    <li>الأيام: {{ data.days }}</li>
     <li>الإجمالي: {{ data.total_price }} ر.س</li>
-    <li>تاريخ الإنشاء: {{ data.created_at }}</li>
+    <li>التاريخ: {{ data.created_at }}</li>
   </ul>
-  <div class="row-gap">
-    <a class="btn btn--primary" href="{{ url_for('trips') }}">تصفّح رحلات أخرى</a>
-    <a class="btn btn--outline" href="{{ url_for('home') }}">العودة للرئيسية</a>
+  <div class="d-flex gap-2">
+    <a class="btn btn-success" href="{{ url_for('trips') }}">استكشاف رحلات أخرى</a>
+    <a class="btn btn-outline-secondary" href="{{ url_for('home') }}">العودة للرئيسية</a>
   </div>
 </div>
 {% endblock %}
