@@ -1,48 +1,84 @@
 {% extends "base.html" %}
-{% block title %}الرئيسية — وجهة السعودية{% endblock %}
+{% block title %}وجهة السعودية{% endblock %}
 
 {% block content %}
-<section class="hero">
-  <img class="hero__img" src="{{ url_for('static', filename='images/banner.PNG') }}" alt="بانر وجهة السعودية">
-  <div class="hero__overlay">
+
+<!-- ========== Hero ========== -->
+<section class="hero" aria-label="قسم البانر">
+  <div class="hero__wrap">
+    <div class="hero__overlay"></div>
+
+    <!-- صورة البانر: نحافظ على banner.PNG ونوفّر webp اختياريًا -->
+    <picture>
+      <source type="image/webp" srcset="{{ url_for('static', filename='images/banner.webp') }}">
+      <img class="hero__img"
+           src="{{ url_for('static', filename='images/banner.PNG') }}"
+           alt="بانر وجهة السعودية"
+           width="1600" height="560" fetchpriority="high">
+    </picture>
+
     <div class="hero__cta">
       <h1 class="hero__title">اكتشف المملكة مع أفضل التجارب</h1>
-      <p class="hero__lead">باقات سياحية ومرشدون محليون بخبرات عالية</p>
+      <p class="hero__subtitle">باقات سياحية ومرشدون محليون بخبرات عالية</p>
+
       <div class="hero__actions">
         <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
-        <a class="btn btn--outline" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+        <a class="btn btn--ghost"   href="{{ url_for('trips') }}">تصفّح الرحلات</a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="stats">
+<!-- ========== إحصائيات سريعة ========== -->
+<section class="stats container" aria-label="إحصائيات">
   <div class="stat">
-    <div class="num">{{ stats.booked }}</div>
-    <div class="label">رحلات محجوزة</div>
+    <div class="stat__num">{{ stats.guides_count }}</div>
+    <div class="stat__label">مرشدون</div>
   </div>
   <div class="stat">
-    <div class="num">{{ stats.trips_available }}</div>
-    <div class="label">باقات متاحة</div>
+    <div class="stat__num">{{ stats.trips_available }}</div>
+    <div class="stat__label">باقات متاحة</div>
   </div>
   <div class="stat">
-    <div class="num">{{ stats.guides_count }}</div>
-    <div class="label">مرشدون</div>
+    <div class="stat__num">{{ stats.booked }}</div>
+    <div class="stat__label">رحلات محجوزة</div>
   </div>
 </section>
 
-<section>
+<!-- ========== باقات مختارة ========== -->
+<section class="container" aria-label="باقات مختارة">
   <h2 class="section-title">باقات مختارة</h2>
-  <div class="grid">
-    {% for t in trips %}
+
+  <div class="cards">
+    {% for trip in trips %}
     <article class="card">
-      <img loading="lazy" width="400" height="250" src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
+      <a class="card__media" href="{{ url_for('trip_detail', slug=trip.slug) }}" aria-label="التفاصيل - {{ trip.title }}">
+        <img
+          src="{{ url_for('static', filename=trip.images[0]) }}"
+          alt="{{ trip.title }}"
+          loading="lazy"
+          width="1200" height="800">
+      </a>
+
       <div class="card__body">
-        <h3>{{ t.title }}</h3>
-        <p class="muted">{{ t.summary }}</p>
-        <div class="row-between">
-          <span class="price">{{ t.price_per_day }} ر.س / اليوم</span>
-          <a class="btn btn--sm" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
+        <h3 class="card__title">
+          <a href="{{ url_for('trip_detail', slug=trip.slug) }}">{{ trip.title }}</a>
+        </h3>
+        <p class="card__text">{{ trip.summary }}</p>
+
+        <div class="card__meta">
+          <span class="price">ابتداءً من
+            <strong>{{ trip.price_per_day }}</strong> ر.س / يوم
+          </span>
+        </div>
+
+        <div class="card__actions">
+          <a class="btn btn--secondary"
+             href="{{ url_for('booking', trip=trip.slug) }}"
+             aria-label="احجز {{ trip.title }}">احجز الآن</a>
+
+          <a class="btn btn--ghost"
+             href="{{ url_for('trip_detail', slug=trip.slug) }}">التفاصيل</a>
         </div>
       </div>
     </article>
@@ -50,37 +86,28 @@
   </div>
 </section>
 
-{% if guides %}
-<section>
-  <h2 class="section-title">مرشدونا</h2>
-  <div class="grid">
-    {% for g in guides %}
-    <article class="card">
-      <img loading="lazy" width="400" height="250" src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}">
-      <div class="card__body">
-        <h3>{{ g.name }}</h3>
-        <p class="muted">المدينة: {{ g.city }} — خبرة: {{ g.years }} سنوات</p>
+<!-- ========== آراء مختصرة (اختياري: من REVIEWS[:3]) ========== -->
+{% if reviews %}
+<section class="container" aria-label="آراء العملاء">
+  <h2 class="section-title">آراء العملاء</h2>
+  <div class="reviews">
+    {% for r in reviews %}
+    <blockquote class="review">
+      <div class="review__stars" aria-label="تقييم {{ r.rating }} من 5">
+        {% for _ in range(r.rating) %}★{% endfor %}
       </div>
-    </article>
+      <p class="review__text">{{ r.text }}</p>
+      <footer class="review__author">— {{ r.name }}</footer>
+    </blockquote>
     {% endfor %}
   </div>
 </section>
 {% endif %}
 
-{% if reviews %}
-<section>
-  <h2 class="section-title">آراء عملائنا</h2>
-  <div class="grid grid-3">
-    {% for r in reviews %}
-    <div class="card">
-      <div class="card__body">
-        <strong>{{ r.name }}</strong>
-        <div class="stars">{{ "★" * r.rating }}{{ "☆" * (5-r.rating) }}</div>
-        <p class="muted">{{ r.text }}</p>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</section>
-{% endif %}
+<!-- ========== شريط إجراءات عائم للجوال ========== -->
+<div class="cta-bar" role="region" aria-label="روابط سريعة">
+  <a class="btn btn--ghost"   href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+  <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
+</div>
+
 {% endblock %}
