@@ -3,88 +3,87 @@
 
 {% block content %}
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hero__bg">
-    <img src="{{ url_for('static', filename='images/banner.PNG') }}" alt="بانر">
-  </div>
-  <div class="hero__overlay"></div>
-  <div class="hero__content container">
-    <h1>اكتشف المملكة مع أفضل التجارب</h1>
-    <p>باقات سياحية ومرشدون محليون بخبرات عالية</p>
-    <div class="hero__cta">
-      <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
-      <a class="btn btn--ghost" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+<!-- بطل الصفحة مع خلفية واضحة ونص مُقروء -->
+<section class="hero container">
+  <div class="hero__card">
+    <div class="hero__bg" style="
+      background-image:url('{{ url_for('static', filename='images/banner_saudidest.png') }}');
+    "></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <h1 class="hero__title">اكتشف المملكة مع أفضل التجارب</h1>
+      <p class="hero__subtitle">باقات سياحية ومرشدون محليون بخبرات عالية</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
+        <a class="btn btn--ghost" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- إحصائيات -->
-<section class="container m-t-32">
-  <div class="stats">
-    <div class="stat">
-      <div class="stat__num">{{ stats.guides_count|int }}</div>
-      <div class="stat__label">مرشدون</div>
-    </div>
-    <div class="stat">
-      <div class="stat__num">{{ stats.trips_available|int }}</div>
-      <div class="stat__label">باقات متاحة</div>
-    </div>
-    <div class="stat">
-      <div class="stat__num">{{ stats.booked|int }}</div>
-      <div class="stat__label">رحلات محجوزة</div>
-    </div>
+<!-- بطاقات الإحصائيات -->
+<section class="container stats">
+  <div class="stat">
+    <div class="stat__num">{{ stats.guides_count }}</div>
+    <div class="stat__label">مرشدون</div>
+  </div>
+  <div class="stat">
+    <div class="stat__num">{{ stats.trips_available }}</div>
+    <div class="stat__label">باقات متاحة</div>
+  </div>
+  <div class="stat">
+    <div class="stat__num">{{ stats.booked }}</div>
+    <div class="stat__label">رحلات محجوزة</div>
   </div>
 </section>
 
 <!-- باقات مختارة -->
-<section class="container m-t-32">
+<section class="container">
   <h2 class="section-title">باقات مختارة</h2>
-
-  {% for trip in trips %}
-  <article class="trip-card">
-    <div class="trip-card__media">
-      <img src="{{ url_for('static', filename=trip.images[0]) }}" alt="{{ trip.title }}">
-    </div>
-    <div class="trip-card__body">
-      <h3 class="trip-card__title">{{ trip.title }}</h3>
-      <p class="trip-card__text">{{ trip.summary }}</p>
-      <div class="trip-card__meta">
-        <span class="badge">السعر لليوم: {{ trip.price_per_day|int }} ر.س</span>
-        <span class="badge">المدينة: {{ trip.city }}</span>
+  <div class="cards">
+    {% for trip in trips %}
+    <article class="card">
+      <a class="card__imglink" href="{{ url_for('trip_detail', slug=trip.slug) }}">
+        <img class="card__img" src="{{ url_for('static', filename=trip.images[0]) }}" alt="{{ trip.title }}">
+      </a>
+      <div class="card__body">
+        <h3 class="card__title">{{ trip.title }}</h3>
+        <p class="card__text">{{ trip.summary }}</p>
+        <div class="card__actions">
+          <a class="btn btn--ghost" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+          <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز الآن</a>
+        </div>
       </div>
-      <div class="trip-card__actions">
-        <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز الآن</a>
-        <a class="btn btn--ghost" href="{{ url_for('trip_detail', slug=trip.slug) }}">التفاصيل</a>
-      </div>
-    </div>
-  </article>
-  {% endfor %}
+    </article>
+    {% endfor %}
+  </div>
 </section>
 
-<!-- مرشدونا -->
-<section class="container m-t-32">
-  <h2 class="section-title">مرشدونا</h2>
+<!-- مرشدون مختارون -->
+<section class="container">
+  <h2 class="section-title">مرشدون مختارون</h2>
   <div class="guides">
     {% for g in guides %}
     <div class="guide">
       <img class="guide__img" src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}">
-      <div class="guide__name">{{ g.name }}</div>
-      <div class="guide__meta">{{ g.city }} • خبرة {{ g.years|int }} سنوات</div>
+      <div class="guide__meta">
+        <strong>{{ g.name }}</strong>
+        <span class="muted">{{ g.city }} — خبرة {{ g.years }} سنوات</span>
+      </div>
     </div>
     {% endfor %}
   </div>
 </section>
 
-<!-- آراء العملاء -->
-<section class="container m-t-32">
+<!-- آراء العملاء (مختصرة وآمنة) -->
+<section class="container">
   <h2 class="section-title">آراء العملاء</h2>
   <div class="reviews">
     {% for r in reviews %}
     <div class="review">
-      <div class="review__name">{{ r.name }}</div>
-      <div class="review__rating">
-        {% for _ in range(r.rating|int) %}★{% endfor %}
+      <div class="review__head">
+        <strong>{{ r.name }}</strong>
+        <span class="badge">تقييم: {{ r.rating }}/5</span>
       </div>
       <p class="review__text">{{ r.text }}</p>
     </div>
