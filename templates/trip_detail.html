@@ -1,17 +1,45 @@
 {% extends "base.html" %}
 {% block title %}{{ trip.title }} — وجهة السعودية{% endblock %}
+
 {% block content %}
-<h1 class="page-title">{{ trip.title }}</h1>
-<p class="muted">المدينة: {{ trip.city }} — السعر لليوم: {{ trip.price_per_day }} ر.س — الأيام المقترحة: {{ trip.days_default }}</p>
+<section class="container">
 
-<div class="gallery-4">
-  {% for img in trip.images %}
-  <img loading="lazy" width="400" height="250" src="{{ url_for('static', filename=img) }}" alt="{{ trip.title }}">
-  {% endfor %}
-</div>
+  <!-- مسار تنقّل -->
+  <nav class="breadcrumbs" style="display:flex;gap:6px;align-items:center;margin:8px 0 12px;">
+    <a href="{{ url_for('home') }}">الرئيسية</a>
+    <span>›</span>
+    <a href="{{ url_for('trips') }}">الرحلات</a>
+    <span>›</span>
+    <span class="muted">{{ trip.title }}</span>
+  </nav>
 
-<div class="card--panel" style="margin-top:16px">
-  <p>{{ trip.summary }}</p>
-  <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز هذه الرحلة</a>
-</div>
+  <!-- عنوان الرحلة -->
+  <header class="page-head" style="margin:6px 0 12px;">
+    <h1 class="page-title" style="margin:0 0 4px;">{{ trip.title }}</h1>
+    <p class="muted" style="margin:0;">المدينة: {{ trip.city }}</p>
+  </header>
+
+  <!-- معرض الصور (يستخدم نفس نمط البطاقات لديك حتى لا نضيف CSS جديد) -->
+  <div class="cards" style="margin-top:10px;">
+    {% for img in trip.images %}
+    <article class="card">
+      <img class="card__img" src="{{ url_for('static', filename=img) }}" alt="{{ trip.title }}">
+    </article>
+    {% endfor %}
+  </div>
+
+  <!-- تفاصيل مختصرة + أزرار -->
+  <div class="card" style="padding:16px; margin-top:16px;">
+    <p style="margin:0 0 8px;">{{ trip.summary }}</p>
+    <p class="muted" style="margin:0 0 12px;">
+      السعر لليوم: <strong>{{ trip.price_per_day }} ر.س</strong>
+      — الأيام المقترحة: <strong>{{ trip.days_default }}</strong>
+    </p>
+    <div class="card__actions" style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a class="btn btn--ghost" href="{{ url_for('trips') }}">عودة للرحلات</a>
+      <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز هذه الرحلة</a>
+    </div>
+  </div>
+
+</section>
 {% endblock %}
