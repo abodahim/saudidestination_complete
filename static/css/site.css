@@ -1,0 +1,28 @@
+/* استخدم خط Cairo واتجاه RTL */
+:root { --brand:#0f5132; --brand-2:#198754; }
+*{box-sizing:border-box}
+html,body{font-family:"Cairo",system-ui,-apple-system,Segoe UI,Roboto,Arial; background:#fafafa; color:#111}
+
+.sd-header .logo{width:42px;height:42px;object-fit:cover;border-radius:8px}
+.mobile-nav{background:#fff;border-top:1px solid #eee;padding:10px 16px}
+.mobile-nav a{display:block;padding:10px 0;text-decoration:none;color:#333}
+.nav-link{color:#333}
+.nav-link:hover{color:var(--brand-2)}
+
+.hero{background:url("../images/banner.PNG") center/cover no-repeat}
+.hero::after{content:"";display:block}
+.stat-card{background:#fff;border:1px solid #eee;border-radius:14px;padding:18px;text-align:center}
+.stat-num{font-size:2rem;font-weight:700;color:var(--brand-2)}
+.stat-label{color:#666}
+
+.trip-card img{height:150px;object-fit:cover}
+.trip-row img{height:100%; min-height:180px; object-fit:cover}
+.object-cover{object-fit:cover}
+.ratio-4x3{aspect-ratio:4/3}
+
+.price-box{background:#f6fbf7;border:1px dashed #bfe3c8;border-radius:10px;padding:10px;text-align:center}
+
+.booking-form .alert strong{color:var(--brand)}
+.btn-success{background:var(--brand-2);border-color:var(--brand-2)}
+
+footer{background:#fff}
