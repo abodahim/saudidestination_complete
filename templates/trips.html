@@ -1,36 +1,20 @@
 {% extends "base.html" %}
-{% block title %}كل الرحلات{% endblock %}
+{% block title %}الرحلات{% endblock %}
 
 {% block content %}
-<h1 class="page-title">الرحلات</h1>
-
-<div class="filters">
-  <select id="fCity">
-    <option value="">كل المدن</option>
-    {% for t in trips|map(attribute='city')|list|unique %}
-    <option value="{{ t }}">{{ t }}</option>
-    {% endfor %}
-  </select>
-  <select id="fSort">
-    <option value="">الترتيب</option>
-    <option value="price_asc">الأقل سعرًا</option>
-    <option value="price_desc">الأعلى سعرًا</option>
-  </select>
-</div>
-
-<div class="cards" id="tripsGrid" data-trips='{{ trips|tojson }}'>
+<h1 class="page-title">الرحلات المتاحة</h1>
+<div class="grid">
   {% for t in trips %}
-  <article class="card trip-card" data-city="{{ t.city }}" data-price="{{ t.price_per_day }}">
-    <img src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}" loading="lazy" decoding="async">
+  <article class="card">
+    <img src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
     <div class="card-body">
       <h3>{{ t.title }}</h3>
       <p class="muted">{{ t.summary }}</p>
-      <div class="card-actions">
+      <div class="row-between">
         <span class="price">{{ t.price_per_day }} ر.س / اليوم</span>
-        <a class="btn btn--secondary" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
+        <a class="btn btn--primary" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
       </div>
     </div>
-    {% if t.popular %}<span class="badge">الأكثر حجزًا</span>{% endif %}
   </article>
   {% endfor %}
 </div>
