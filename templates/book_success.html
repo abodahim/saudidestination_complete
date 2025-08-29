@@ -1,21 +1,22 @@
 {% extends "base.html" %}
-{% block title %}تم إرسال الحجز{% endblock %}
+{% block title %}تم استلام الحجز{% endblock %}
+
 {% block content %}
-<h1 class="page-title">شكرًا لك!</h1>
-<div class="alert success">تم استلام طلب الحجز. رقم الطلب: <strong>#{{ data.id }}</strong></div>
+<h1 class="page-title">تم استلام طلبك</h1>
 
-<div class="card--panel" id="receiptArea">
-  <h3>تفاصيل الحجز</h3>
-  <p><strong>العميل:</strong> {{ data.name }} — {{ data.phone }}</p>
-  <p><strong>الرحلة:</strong> {{ data.trip.title }} ({{ data.trip.city }})</p>
-  <p><strong>الأيام:</strong> {{ data.days }}</p>
-  <p><strong>السعر/اليوم:</strong> {{ data.trip.price_per_day }} ر.س</p>
-  <p><strong>الإجمالي:</strong> {{ data.total_price }} ر.س</p>
-  <p class="muted">{{ data.created_at }}</p>
-</div>
-
-<div class="actions">
-  <button class="btn btn--secondary" id="btnPdf">تحميل الإيصال PDF</button>
-  <a class="btn btn--primary" href="{{ url_for('trips') }}">العودة للرحلات</a>
+<div class="card--panel">
+  <p>شكرًا {{ data.name }}. تم استلام طلب حجزك لرحلة <strong>{{ data.trip.title }}</strong>.</p>
+  <ul class="list">
+    <li>البريد الإلكتروني: {{ data.email }}</li>
+    <li>الجوال: {{ data.phone }}</li>
+    <li>عدد الأيام: {{ data.days }}</li>
+    <li>السعر لليوم: {{ data.trip.price_per_day }} ر.س</li>
+    <li>الإجمالي: {{ data.total_price }} ر.س</li>
+    <li>تاريخ الإنشاء: {{ data.created_at }}</li>
+  </ul>
+  <div class="row-gap">
+    <a class="btn btn--primary" href="{{ url_for('trips') }}">تصفّح رحلات أخرى</a>
+    <a class="btn btn--outline" href="{{ url_for('home') }}">العودة للرئيسية</a>
+  </div>
 </div>
 {% endblock %}
