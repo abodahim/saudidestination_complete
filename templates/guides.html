@@ -2,13 +2,13 @@
 {% block title %}مرشدونا{% endblock %}
 {% block content %}
 <h1 class="page-title">مرشدونا</h1>
-<div class="cards">
+<div class="grid">
   {% for g in guides %}
-  <article class="card mini">
-    <img src="{{ url_for('static', filename=g.photo) }}" alt="مرشد: {{ g.name }}" loading="lazy">
-    <div class="card-body">
+  <article class="card">
+    <img loading="lazy" width="400" height="250" src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}">
+    <div class="card__body">
       <h3>{{ g.name }}</h3>
-      <p class="muted">{{ g.city }} — {{ g.years }} سنوات خبرة</p>
+      <p class="muted">المدينة: {{ g.city }} — الخبرة: {{ g.years }} سنوات</p>
     </div>
   </article>
   {% endfor %}
