@@ -1,22 +1,17 @@
 {% extends "base.html" %}
-{% block title %}{{ trip.title }}{% endblock %}
+{% block title %}{{ trip.title }} — وجهة السعودية{% endblock %}
 {% block content %}
-
 <h1 class="page-title">{{ trip.title }}</h1>
+<p class="muted">المدينة: {{ trip.city }} — السعر لليوم: {{ trip.price_per_day }} ر.س — الأيام المقترحة: {{ trip.days_default }}</p>
 
 <div class="gallery-4">
   {% for img in trip.images %}
-    <img src="{{ url_for('static', filename=img) }}" alt="{{ trip.title }}">
+  <img loading="lazy" width="400" height="250" src="{{ url_for('static', filename=img) }}" alt="{{ trip.title }}">
   {% endfor %}
 </div>
 
 <div class="card--panel" style="margin-top:16px">
   <p>{{ trip.summary }}</p>
-  <p class="muted">
-    السعر/اليوم: <strong>{{ trip.price_per_day }} ر.س</strong>
-    — المقترح: {{ trip.days_default }} يوم
-  </p>
-  <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز الآن</a>
+  <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز هذه الرحلة</a>
 </div>
-
 {% endblock %}
