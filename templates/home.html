@@ -1,51 +1,61 @@
 {% extends "base.html" %}
-{% block title %}الرئيسية — وجهة السعودية{% endblock %}
+{% block title %}الرئيسية - وجهة السعودية{% endblock %}
 
 {% block content %}
 <section class="hero">
-  <img class="hero__img" src="{{ url_for('static', filename='images/banner.PNG') }}" alt="وجهة السعودية">
-  <div class="hero__content">
+  <img class="hero-bg" src="{{ url_for('static', filename='images/banner.PNG') }}" alt="بانر">
+  <div class="hero-text">
     <h1>وجهة السعودية</h1>
     <p>اكتشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
-    <div class="hero__actions">
+    <div class="hero-actions">
       <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
-      <a class="btn btn--ghost" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+      <a class="btn btn--outline" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
     </div>
   </div>
 </section>
 
-<section class="stats grid-3">
-  <div class="stat-card">
-    <div class="stat-card__num">{{ stats.booked }}</div>
-    <div class="stat-card__label">رحلات محجوزة</div>
+<section class="stats">
+  <div class="stat">
+    <div class="stat-number">{{ stats.booked }}</div>
+    <div class="stat-label">رحلات محجوزة</div>
   </div>
-  <div class="stat-card">
-    <div class="stat-card__num">{{ stats.trips_available }}</div>
-    <div class="stat-card__label">باقات متاحة</div>
+  <div class="stat">
+    <div class="stat-number">{{ stats.trips_available }}</div>
+    <div class="stat-label">باقات متاحة</div>
   </div>
-  <div class="stat-card">
-    <div class="stat-card__num">{{ stats.guides_count }}</div>
-    <div class="stat-card__label">مرشدون</div>
+  <div class="stat">
+    <div class="stat-number">{{ stats.guides_count }}</div>
+    <div class="stat-label">مرشدون</div>
   </div>
 </section>
 
-<section class="cards">
+<section>
   <h2 class="section-title">باقات مختارة</h2>
-  <div class="grid-2">
-    {% for t in trips[:4] %}
-      <article class="trip-card">
-        <a href="{{ url_for('trip_detail', slug=t.slug) }}" class="trip-card__img-wrap">
-          <img src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
-        </a>
-        <div class="trip-card__body">
-          <h3 class="trip-card__title">{{ t.title }}</h3>
-          <p class="trip-card__text">{{ t.summary }}</p>
-          <div class="trip-card__meta">
-            <span class="price">{{ t.price_per_day }} ر.س / اليوم</span>
-            <a class="btn btn--sm" href="{{ url_for('booking', trip=t.slug) }}">احجز</a>
-          </div>
+  <div class="grid">
+    {% for t in trips %}
+    <article class="card">
+      <img src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
+      <div class="card-body">
+        <h3>{{ t.title }}</h3>
+        <p class="muted">{{ t.summary }}</p>
+        <a class="btn btn--link" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">آراء العملاء</h2>
+  <div class="grid grid-3">
+    {% for r in reviews %}
+      <div class="card">
+        <div class="card-body">
+          <strong>{{ r.name }}</strong>
+          <div class="stars">{{ "★" * r.rating }}{{ "☆" * (5-r.rating) }}</div>
+          <p class="muted">{{ r.text }}</p>
         </div>
-      </article>
+      </div>
     {% endfor %}
   </div>
 </section>
