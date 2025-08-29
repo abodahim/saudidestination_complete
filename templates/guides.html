@@ -1,16 +1,20 @@
 {% extends "base.html" %}
-{% block title %}مرشدونا{% endblock %}
+{% block title %}مرشدونا — وجهة السعودية{% endblock %}
+
 {% block content %}
-<h1 class="page-title">مرشدونا</h1>
-<div class="grid">
-  {% for g in guides %}
-  <article class="card">
-    <img loading="lazy" width="400" height="250" src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}">
-    <div class="card__body">
-      <h3>{{ g.name }}</h3>
-      <p class="muted">المدينة: {{ g.city }} — الخبرة: {{ g.years }} سنوات</p>
+<section class="container">
+  <h1 class="page-title">مرشدونا</h1>
+
+  <div class="guides">
+    {% for g in guides %}
+    <div class="guide">
+      <img class="guide__img" src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}">
+      <div class="guide__meta">
+        <strong>{{ g.name }}</strong>
+        <div class="muted">{{ g.city }} — خبرة {{ g.years }} سنوات</div>
+      </div>
     </div>
-  </article>
-  {% endfor %}
-</div>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}
