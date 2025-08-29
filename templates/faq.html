@@ -1,13 +1,17 @@
 {% extends "base.html" %}
-{% block title %}أسئلة شائعة{% endblock %}
+{% block title %}الأسئلة الشائعة — وجهة السعودية{% endblock %}
+
 {% block content %}
-<h1 class="page-title">أسئلة شائعة</h1>
-<div class="accordion">
-  {% for item in faqs %}
-  <details>
-    <summary>{{ item.q }}</summary>
-    <p>{{ item.a }}</p>
-  </details>
-  {% endfor %}
-</div>
+<section class="container">
+  <h1 class="page-title">الأسئلة الشائعة</h1>
+
+  <div class="accordion" style="display:grid; gap:10px;">
+    {% for item in faqs %}
+    <details class="card" style="padding:12px;">
+      <summary><strong>{{ item.q }}</strong></summary>
+      <p style="margin-top:8px;">{{ item.a }}</p>
+    </details>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}
