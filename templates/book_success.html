@@ -1,21 +1,27 @@
 {% extends "base.html" %}
-{% block title %}تم استلام الحجز{% endblock %}
-{% block content %}
-<h1 class="page-title">تم استلام الحجز</h1>
+{% block title %}تم استلام الحجز — وجهة السعودية{% endblock %}
 
-<div class="card--panel">
-  <p>شكرًا <strong>{{ data.name }}</strong>! تم استلام طلبك لرحلة <strong>{{ data.trip.title }}</strong>.</p>
-  <ul class="info">
-    <li>البريد: {{ data.email }}</li>
-    <li>الجوال: {{ data.phone }}</li>
-    <li>الأيام: {{ data.days }}</li>
-    <li>السعر/اليوم: {{ data.trip.price_per_day }} ر.س</li>
-    <li>الإجمالي: <strong>{{ data.total_price }}</strong> ر.س</li>
-    <li>التاريخ: {{ data.created_at }}</li>
-  </ul>
-  <div class="row-gap">
-    <a class="btn btn--primary" href="{{ url_for('trips') }}">تصفّح رحلات أخرى</a>
-    <a class="btn" href="{{ url_for('home') }}">الرجوع للرئيسية</a>
+{% block content %}
+<section class="container">
+  <h1 class="page-title">تم استلام الحجز 🎉</h1>
+
+  <div class="card" style="padding:16px;">
+    <p>شكرًا <strong>{{ data.name }}</strong>! استلمنا طلبك لرحلة <strong>{{ data.trip.title }}</strong>.</p>
+
+    <ul class="info" style="list-style:none; padding:0; margin:12px 0;">
+      <li>البريد: {{ data.email }}</li>
+      <li>الجوال: {{ data.phone }}</li>
+      <li>المدينة: {{ data.trip.city }}</li>
+      <li>الأيام: {{ data.days }}</li>
+      <li>السعر/اليوم: {{ data.trip.price_per_day }} ر.س</li>
+      <li>الإجمالي: <strong>{{ data.total_price }}</strong> ر.س</li>
+      <li>التاريخ: {{ data.created_at }}</li>
+    </ul>
+
+    <div class="card__actions">
+      <a class="btn btn--ghost" href="{{ url_for('trips') }}">تصفّح رحلات أخرى</a>
+      <a class="btn btn--primary" href="{{ url_for('home') }}">الرجوع للرئيسية</a>
+    </div>
   </div>
-</div>
+</section>
 {% endblock %}
