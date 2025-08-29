@@ -1,15 +1,17 @@
 {% extends "base.html" %}
-{% block title %}الرئيسية{% endblock %}
-{% block content %}
+{% block title %}الرئيسية — وجهة السعودية{% endblock %}
 
+{% block content %}
 <section class="hero">
-  <img class="hero__img" src="{{ url_for('static', filename='images/banner.PNG') }}" alt="وجهة السعودية">
-  <div class="hero__cta">
-    <h1>وجهة السعودية</h1>
-    <p>اكتشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
-    <div class="hero__actions">
-      <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
-      <a class="btn btn--outline" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+  <img class="hero__img" src="{{ url_for('static', filename='images/banner.PNG') }}" alt="بانر وجهة السعودية">
+  <div class="hero__overlay">
+    <div class="hero__cta">
+      <h1 class="hero__title">اكتشف المملكة مع أفضل التجارب</h1>
+      <p class="hero__lead">باقات سياحية ومرشدون محليون بخبرات عالية</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
+        <a class="btn btn--outline" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+      </div>
     </div>
   </div>
 </section>
@@ -29,30 +31,56 @@
   </div>
 </section>
 
-<section class="grid">
-  {% for t in trips %}
+<section>
+  <h2 class="section-title">باقات مختارة</h2>
+  <div class="grid">
+    {% for t in trips %}
     <article class="card">
-      <img src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
+      <img loading="lazy" width="400" height="250" src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
       <div class="card__body">
         <h3>{{ t.title }}</h3>
         <p class="muted">{{ t.summary }}</p>
-        <a class="link" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
+        <div class="row-between">
+          <span class="price">{{ t.price_per_day }} ر.س / اليوم</span>
+          <a class="btn btn--sm" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
+        </div>
       </div>
     </article>
-  {% endfor %}
-</section>
-
-<section class="reviews">
-  <h2>آراء العملاء</h2>
-  <ul class="reviews__list">
-    {% for r in reviews %}
-      <li>
-        <strong>{{ r.name }}</strong>
-        <span>{% for _ in range(r.rating) %}★{% endfor %}</span>
-        <div class="muted">{{ r.text }}</div>
-      </li>
     {% endfor %}
-  </ul>
+  </div>
 </section>
 
+{% if guides %}
+<section>
+  <h2 class="section-title">مرشدونا</h2>
+  <div class="grid">
+    {% for g in guides %}
+    <article class="card">
+      <img loading="lazy" width="400" height="250" src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}">
+      <div class="card__body">
+        <h3>{{ g.name }}</h3>
+        <p class="muted">المدينة: {{ g.city }} — خبرة: {{ g.years }} سنوات</p>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if reviews %}
+<section>
+  <h2 class="section-title">آراء عملائنا</h2>
+  <div class="grid grid-3">
+    {% for r in reviews %}
+    <div class="card">
+      <div class="card__body">
+        <strong>{{ r.name }}</strong>
+        <div class="stars">{{ "★" * r.rating }}{{ "☆" * (5-r.rating) }}</div>
+        <p class="muted">{{ r.text }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 {% endblock %}
