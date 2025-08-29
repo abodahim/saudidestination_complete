@@ -2,11 +2,11 @@
 {% block title %}أسئلة شائعة{% endblock %}
 {% block content %}
 <h1 class="page-title">أسئلة شائعة</h1>
-<div class="accordion" id="faq">
-  {% for f in faqs %}
-  <details class="acc-item">
-    <summary>{{ f.q }}</summary>
-    <p>{{ f.a }}</p>
+<div class="accordion">
+  {% for item in faqs %}
+  <details>
+    <summary>{{ item.q }}</summary>
+    <p>{{ item.a }}</p>
   </details>
   {% endfor %}
 </div>
