@@ -1,40 +1,20 @@
 {% extends "base.html" %}
-{% block title %}{{ trip.title }}{% endblock %}
-{% block meta_description %}{{ trip.summary }} — السعر لليوم {{ trip.price_per_day }} ر.س.{% endblock %}
+{% block title %}{{ trip.title }} — وجهة السعودية{% endblock %}
 
 {% block content %}
 <h1 class="page-title">{{ trip.title }}</h1>
 
-<div class="gallery">
+<div class="gallery-4">
   {% for img in trip.images %}
-  <a href="{{ url_for('static', filename=img) }}" class="lightbox">
-    <img src="{{ url_for('static', filename=img) }}" alt="{{ trip.title }} صورة {{ loop.index }}"
-         loading="lazy" decoding="async">
-  </a>
+    <img src="{{ url_for('static', filename=img) }}" alt="{{ trip.title }}">
   {% endfor %}
 </div>
 
-<div class="card--panel">
+<div class="card--panel" style="margin-top:16px">
   <p>{{ trip.summary }}</p>
-  <table class="spec">
-    <tr><th>المدينة</th><td>{{ trip.city }}</td></tr>
-    <tr><th>السعر/اليوم</th><td>{{ trip.price_per_day }} ر.س</td></tr>
-    <tr><th>المدة المقترحة</th><td>{{ trip.days_default }} يوم</td></tr>
-  </table>
-  <div class="actions">
-    <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز الآن</a>
-    <a class="btn btn--ghost" href="https://wa.me/" target="_blank" rel="noopener">تواصل واتساب</a>
-  </div>
+  <p class="muted">
+    السعر لليوم: <strong>{{ trip.price_per_day }} ر.س</strong> — عدد الأيام المقترح: {{ trip.days_default }}
+  </p>
+  <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز الآن</a>
 </div>
-
-<!-- JSON-LD بسيط -->
-<script type="application/ld+json">
-{
- "@context":"https://schema.org",
- "@type":"TouristTrip",
- "name":"{{ trip.title }}",
- "areaServed":"Saudi Arabia",
- "offers":{"@type":"Offer","price":"{{ trip.price_per_day }}","priceCurrency":"SAR"}
-}
-</script>
 {% endblock %}
