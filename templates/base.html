@@ -7,7 +7,33 @@
 
   <!-- أيقونات -->
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+    
+    <!-- Meta أساسيات سيو -->
+<meta name="description" content="وجهة السعودية: باقات سياحية ومرشدون محليون بخبرات عالية في جدة والرياض وينبع والعلا.">
+<meta name="theme-color" content="#198754">
 
+<!-- Open Graph -->
+<meta property="og:title" content="وجهة السعودية">
+<meta property="og:description" content="اكتشف المملكة مع أفضل التجارب — باقات سياحية ومرشدون محليون.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.url_root|trim('/') }}">
+<meta property="og:image" content="{{ url_for('static', filename='images/banner.PNG', _external=True) }}">
+
+<!-- Preconnect لتحسين الشبكة قليلاً -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- JSON-LD بسيط -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TouristDestination",
+  "name": "وجهة السعودية",
+  "url": "{{ request.url_root|trim('/') }}",
+  "image": "{{ url_for('static', filename='images/banner.PNG', _external:true) }}",
+  "description": "باقات سياحية ومرشدون محليون بخبرات عالية."
+}
+</script>
+    
   <!-- CSS الرئيسي -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
 
