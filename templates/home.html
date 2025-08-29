@@ -1,65 +1,58 @@
 {% extends "base.html" %}
-{% block title %}الرئيسية — وجهة السعودية{% endblock %}
-
+{% block title %}الرئيسية{% endblock %}
 {% block content %}
-<section class="hero rounded-4 p-5 mb-4 text-center text-white">
-  <h1 class="display-5 fw-bold">وجهة السعودية</h1>
-  <p class="lead mb-4">اكتشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
-  <div class="d-flex gap-2 justify-content-center">
-    <a class="btn btn-success btn-lg" href="{{ url_for('booking') }}">احجز الآن</a>
-    <a class="btn btn-outline-light btn-lg" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
-  </div>
-</section>
 
-<section class="row g-3 mb-5">
-  <div class="col-12 col-md-4">
-    <div class="stat-card">
-      <div class="stat-num">{{ stats.booked }}</div>
-      <div class="stat-label">رحلات محجوزة</div>
-    </div>
-  </div>
-  <div class="col-12 col-md-4">
-    <div class="stat-card">
-      <div class="stat-num">{{ stats.trips_available }}</div>
-      <div class="stat-label">باقات متاحة</div>
-    </div>
-  </div>
-  <div class="col-12 col-md-4">
-    <div class="stat-card">
-      <div class="stat-num">{{ stats.guides_count }}</div>
-      <div class="stat-label">مرشدون</div>
+<section class="hero">
+  <img class="hero__img" src="{{ url_for('static', filename='images/banner.PNG') }}" alt="وجهة السعودية">
+  <div class="hero__cta">
+    <h1>وجهة السعودية</h1>
+    <p>اكتشف المملكة مع باقات سياحية ومرشدين محليين بخبرات عالية</p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
+      <a class="btn btn--outline" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
     </div>
   </div>
 </section>
 
-<h2 class="h4 mb-3">باقات مختارة</h2>
-<div class="row g-4">
+<section class="stats">
+  <div class="stat">
+    <div class="num">{{ stats.booked }}</div>
+    <div class="label">رحلات محجوزة</div>
+  </div>
+  <div class="stat">
+    <div class="num">{{ stats.trips_available }}</div>
+    <div class="label">باقات متاحة</div>
+  </div>
+  <div class="stat">
+    <div class="num">{{ stats.guides_count }}</div>
+    <div class="label">مرشدون</div>
+  </div>
+</section>
+
+<section class="grid">
   {% for t in trips %}
-  <div class="col-12 col-md-6 col-lg-3">
-    <div class="card h-100 trip-card">
-      <img class="card-img-top" src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
-      <div class="card-body d-flex flex-column">
-        <h3 class="h6">{{ t.title }}</h3>
-        <p class="text-muted small mb-3">{{ t.summary }}</p>
-        <a class="btn btn-outline-success mt-auto" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
+    <article class="card">
+      <img src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
+      <div class="card__body">
+        <h3>{{ t.title }}</h3>
+        <p class="muted">{{ t.summary }}</p>
+        <a class="link" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
       </div>
-    </div>
-  </div>
+    </article>
   {% endfor %}
-</div>
+</section>
 
-{% if reviews %}
-<h2 class="h4 mt-5 mb-3">آراء العملاء</h2>
-<div class="list-group">
-  {% for r in reviews %}
-  <div class="list-group-item">
-    <div class="d-flex justify-content-between">
-      <strong>{{ r.name }}</strong>
-      <span class="text-warning">{{ "★" * r.rating }}{{ "☆" * (5 - r.rating) }}</span>
-    </div>
-    <div class="small text-muted mt-1">{{ r.text }}</div>
-  </div>
-  {% endfor %}
-</div>
-{% endif %}
+<section class="reviews">
+  <h2>آراء العملاء</h2>
+  <ul class="reviews__list">
+    {% for r in reviews %}
+      <li>
+        <strong>{{ r.name }}</strong>
+        <span>{% for _ in range(r.rating) %}★{% endfor %}</span>
+        <div class="muted">{{ r.text }}</div>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
 {% endblock %}
