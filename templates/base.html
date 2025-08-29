@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
 
   <!-- النمط العام -->
-  <link href="{{ url_for('static', filename='site.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
 </head>
 <body>
 
@@ -29,7 +29,7 @@
         <a href="{{ url_for('trips') }}">الرحلات</a>
         <a href="{{ url_for('guides') }}">مرشدونا</a>
         <a href="{{ url_for('reviews') }}">التقييمات</a>
-        <a href="{{ url_for('faq') }}">أسئلة شائعة</a>
+        <a href="{{ url_for('faq') }}">الأسئلة الشائعة</a>
         <a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a>
         <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
       </nav>
@@ -37,6 +37,16 @@
   </header>
 
   <main class="site-main">
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% if msgs %}
+        <div class="flash">
+          {% for cat, msg in msgs %}
+            <p class="flash__msg {{cat}}">{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
     {% block content %}{% endblock %}
   </main>
 
@@ -53,6 +63,6 @@
     </div>
   </footer>
 
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
