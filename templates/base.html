@@ -1,63 +1,58 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-    <!-- الأيقونات -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon.png') }}">
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
 
-    <!-- تحسين الأداء: تحميل صورة الهيرو مسبقًا (اختياري) -->
-    <link rel="preload" as="image" href="{{ url_for('static', filename='images/banner.PNG') }}">
+  <!-- Preload hero image (تصحيح استعمال url_for) -->
+  <link rel="preload" as="image" href="{{ url_for('static', filename='images/banner.PNG') }}">
 
-    <!-- الأنماط -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" />
+      </a>
+      <nav class="menu">
+        <a href="{{ url_for('home') }}">الرئيسية</a>
+        <a href="{{ url_for('trips') }}">الرحلات</a>
+        <a href="{{ url_for('guides_page') }}">مرشدونا</a>
+        <a href="{{ url_for('reviews_page') }}">التقييمات</a>
+        <a href="{{ url_for('faq') }}">أسئلة شائعة</a>
+        <a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a>
+        <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
+      </nav>
+    </div>
+  </header>
 
-    <title>{% block title %}وجهة السعودية{% endblock %}</title>
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="container">
-        <a class="brand" href="{{ url_for('home') }}">
-          <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" class="brand__logo">
-          <span class="brand__name">وجهة السعودية</span>
-        </a>
+  <main class="container">
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% if msgs %}
+        <div class="flash-area">
+          {% for cat, msg in msgs %}
+            <div class="alert alert-{{ cat }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
-        <nav class="nav">
-          <a href="{{ url_for('home') }}">الرئيسية</a>
-          <a href="{{ url_for('trips') }}">الرحلات</a>
-          <a href="{{ url_for('guides') }}">مرشدونا</a>
-          <a href="{{ url_for('reviews') }}">التقييمات</a>
-          <a href="{{ url_for('faq') }}">أسئلة شائعة</a>
-          <a href="{{ url_for('booking') }}" class="btn btn--primary">احجز الآن</a>
-        </nav>
-      </div>
-    </header>
+    {% block content %}{% endblock %}
+  </main>
 
-    <main class="site-main">
-      <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <div class="flash-wrap">
-              {% for cat, msg in messages %}
-                <div class="flash flash--{{ cat }}">{{ msg }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
-        {% endwith %}
+  <footer class="site-footer">
+    <div class="container">
+      <p>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
 
-        {% block content %}{% endblock %}
-      </div>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <p>© {{ now().year if now else 2025 }} وجهة السعودية — جميع الحقوق محفوظة</p>
-      </div>
-    </footer>
-
-    <!-- (اختياري) ملف جافاسكربت إن وُجد -->
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-  </body>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
 </html>
