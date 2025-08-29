@@ -1,59 +1,34 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
   <!-- أيقونات -->
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
-    
-    <!-- Meta أساسيات سيو -->
-<meta name="description" content="وجهة السعودية: باقات سياحية ومرشدون محليون بخبرات عالية في جدة والرياض وينبع والعلا.">
-<meta name="theme-color" content="#198754">
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
 
-<!-- Open Graph -->
-<meta property="og:title" content="وجهة السعودية">
-<meta property="og:description" content="اكتشف المملكة مع أفضل التجارب — باقات سياحية ومرشدون محليون.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ request.url_root|trim('/') }}">
-<meta property="og:image" content="{{ url_for('static', filename='images/banner.PNG', _external=True) }}">
-
-<!-- Preconnect لتحسين الشبكة قليلاً -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<!-- JSON-LD بسيط -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TouristDestination",
-  "name": "وجهة السعودية",
-  "url": "{{ request.url_root|trim('/') }}",
-  "image": "{{ url_for('static', filename='images/banner.PNG', _external:true) }}",
-  "description": "باقات سياحية ومرشدون محليون بخبرات عالية."
-}
-</script>
-    
-  <!-- CSS الرئيسي -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
-
-  <!-- تحسين الوضوح: تحميل صورة البانر مسبقًا -->
-  <link rel="preload" as="image" href="{{ url_for('static', filename='images/banner.PNG') }}">
+  <!-- النمط العام -->
+  <link href="{{ url_for('static', filename='site.css') }}" rel="stylesheet">
 </head>
 <body>
+
+  <!-- رأس الموقع -->
   <header class="site-header">
-    <div class="container nav">
+    <div class="container header__bar">
       <a class="brand" href="{{ url_for('home') }}">
-        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" class="brand__logo">
-        <span class="brand__name">وجهة السعودية</span>
+        <img class="brand__img" src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية">
+        <span class="brand__txt">وجهة السعودية</span>
       </a>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">☰</button>
-      <nav class="menu" id="mainMenu">
+      <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة">☰</button>
+
+      <nav class="site-nav" id="siteNav">
         <a href="{{ url_for('home') }}">الرئيسية</a>
         <a href="{{ url_for('trips') }}">الرحلات</a>
-        <a href="{{ url_for('guides_page') }}">مرشدونا</a>
-        <a href="{{ url_for('reviews_page') }}">التقييمات</a>
+        <a href="{{ url_for('guides') }}">مرشدونا</a>
+        <a href="{{ url_for('reviews') }}">التقييمات</a>
         <a href="{{ url_for('faq') }}">أسئلة شائعة</a>
         <a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a>
         <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
@@ -61,22 +36,23 @@
     </div>
   </header>
 
-  <main class="container">
+  <main class="site-main">
     {% block content %}{% endblock %}
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p>© 2025 وجهة السعودية — جميع الحقوق محفوظة</p>
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية" class="footer__logo">
+        <span>© {{ 2025 }} وجهة السعودية — جميع الحقوق محفوظة</span>
+      </div>
+      <div class="footer__links">
+        <a href="{{ url_for('trips') }}">تصفّح الرحلات</a>
+        <a href="{{ url_for('home') }}">الرجوع للرئيسية</a>
+      </div>
     </div>
   </footer>
 
-  <div class="cta-bar">
-    <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
-    <a class="btn" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
-  </div>
-
-  <!-- JS -->
-  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
