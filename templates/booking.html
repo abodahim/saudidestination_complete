@@ -1,48 +1,50 @@
 {% extends "base.html" %}
-{% block title %}نموذج الحجز{% endblock %}
+{% block title %}نموذج الحجز — وجهة السعودية{% endblock %}
+
 {% block content %}
-<h1 class="page-title">نموذج الحجز</h1>
+<section class="container">
+  <h1 class="page-title">نموذج الحجز</h1>
 
-<form method="post" class="form card--panel">
-  <div class="grid-2">
-    <label>الاسم الكامل
-      <input type="text" name="name" required>
+  <form method="post" class="card" style="padding:16px;">
+    <div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin:0;">
+      <label>الاسم الكامل
+        <input type="text" name="name" required>
+      </label>
+
+      <label>البريد الإلكتروني
+        <input type="email" name="email" required>
+      </label>
+
+      <label>رقم الجوال
+        <input type="tel" name="phone" placeholder="05xxxxxxxx" pattern="^05\\d{8}$" required>
+      </label>
+
+      <label>اختر الرحلة
+        <select name="trip" required>
+          {% for t in trips %}
+            <option value="{{ t.slug }}" {% if chosen and chosen.slug==t.slug %}selected{% endif %}>
+              {{ t.title }} — {{ t.city }}
+            </option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <label>عدد الأيام (1–7)
+        <input type="number" name="days" value="{{ chosen.days_default if chosen else 1 }}" min="1" max="7" required>
+      </label>
+    </div>
+
+    <p class="muted" style="margin-top:12px;">سيتم احتساب الإجمالي وفق السعر اليومي لكل رحلة.</p>
+
+    <label class="checkbox" style="margin-top:10px;">
+      <input type="checkbox" name="agree" required>
+      <span>أوافق على <a href="{{ url_for('cancellation') }}" target="_blank">سياسة الإلغاء</a></span>
     </label>
-    <label>البريد الإلكتروني
-      <input type="email" name="email" required>
-    </label>
-  </div>
 
-  <label>رقم الجوال
-    <input type="tel" name="phone" required placeholder="05xxxxxxxx" pattern="^05\\d{8}$">
-  </label>
-
-  <div class="grid-2">
-    <label>اختر الرحلة
-      <select name="trip" id="tripSelect" required>
-        {% for t in trips %}
-          <option value="{{ t.slug }}" data-price="{{ t.price_per_day }}"
-            {% if chosen and chosen.slug==t.slug %}selected{% endif %}>
-            {{ t.title }} — {{ t.price_per_day }} ر.س / اليوم
-          </option>
-        {% endfor %}
-      </select>
-    </label>
-
-    <label>عدد الأيام (1–7)
-      <input type="number" name="days" id="daysInput"
-             min="{{ min_days }}" max="{{ max_days }}"
-             value="{{ chosen.days_default if chosen else 1 }}" required>
-    </label>
-  </div>
-
-  <div class="hint">الإجمالي المتوقع: <strong id="totalVal">0</strong> ر.س</div>
-
-  <label class="checkbox">
-    <input type="checkbox" name="agree" required>
-    <span>أوافق على <a href="{{ url_for('cancellation') }}" target="_blank">سياسة الإلغاء</a></span>
-  </label>
-
-  <button class="btn btn--primary" type="submit">إرسال الحجز</button>
-</form>
+    <div class="card__actions" style="margin-top:12px;">
+      <button class="btn btn--primary" type="submit">إرسال الحجز</button>
+      <a class="btn btn--ghost" href="{{ url_for('trips') }}">العودة للرحلات</a>
+    </div>
+  </form>
+</section>
 {% endblock %}
