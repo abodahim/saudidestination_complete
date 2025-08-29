@@ -1,57 +1,56 @@
 {% extends "base.html" %}
 {% block title %}نموذج الحجز{% endblock %}
+
 {% block content %}
 <h1 class="page-title">نموذج الحجز</h1>
 
-<form class="form" method="post" id="bookingForm" novalidate
-      data-trips='{{ trips|tojson }}'
-      data-chosen="{{ chosen.slug if chosen }}">
-  <div class="field">
-    <label>الاسم الكامل</label>
-    <input type="text" name="name" required placeholder="الاسم">
-  </div>
-  <div class="field">
-    <label>البريد الإلكتروني</label>
-    <input type="email" name="email" required placeholder="name@email.com">
-  </div>
-  <div class="field">
-    <label>رقم الجوال</label>
-    <input type="tel" name="phone" required placeholder="05xxxxxxxx">
-  </div>
-
-  <div class="field">
-    <label>اختر الرحلة</label>
-    <select name="trip" id="tripSelect" required>
-      {% for t in trips %}
-      <option value="{{ t.slug }}" {% if chosen and chosen.slug==t.slug %}selected{% endif %}>
-        {{ t.title }} — {{ t.price_per_day }} ر.س / اليوم
-      </option>
-      {% endfor %}
-    </select>
-  </div>
-
+<form method="post" class="form booking-form">
   <div class="grid-2">
-    <div class="field">
-      <label>السعر لليوم</label>
-      <input type="text" id="pricePerDay" readonly>
-    </div>
-    <div class="field">
-      <label>عدد الأيام</label>
-      <input type="number" name="days" id="days" min="{{ min_days }}" max="{{ max_days }}" value="1" required>
-      <div class="hint">الحد الأدنى {{ min_days }} والحد الأقصى {{ max_days }} أيام</div>
-    </div>
+    <label class="form__field">
+      <span>الاسم الكامل</span>
+      <input type="text" name="name" required placeholder="الاسم">
+    </label>
+
+    <label class="form__field">
+      <span>البريد الإلكتروني</span>
+      <input type="email" name="email" required placeholder="name@email.com">
+    </label>
   </div>
 
-  <div class="total">
-    الإجمالي المتوقع <strong id="total">0</strong> ر.س
-    <div class="muted">يتم تأكيد السعر النهائي في صفحة الدفع.</div>
-  </div>
-
-  <label class="checkbox">
-    <input type="checkbox" id="agree" name="agree"> أوافق على
-    <a href="{{ url_for('cancellation') }}" target="_blank">سياسة الإلغاء</a>
+  <label class="form__field">
+    <span>رقم الجوال</span>
+    <input type="tel" name="phone" required placeholder="05xxxxxxxx">
   </label>
 
-  <button class="btn btn--primary" id="submitBooking" type="submit" disabled>إرسال الحجز</button>
+  <label class="form__field">
+    <span>اختر الرحلة</span>
+    <select name="trip" required>
+      {% for t in trips %}
+        <option value="{{ t.slug }}" {% if chosen and chosen.slug==t.slug %}selected{% endif %}>
+          {{ t.title }} — {{ t.price_per_day }} ر.س / اليوم
+        </option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <div class="grid-2">
+    <label class="form__field">
+      <span>عدد الأيام</span>
+      <input type="number" name="days" min="{{ min_days }}" max="{{ max_days }}" value="{{ chosen.days_default if chosen else 1 }}">
+      <small class="muted">الحد الأدنى {{ min_days }} والحد الأقصى {{ max_days }} أيام</small>
+    </label>
+
+    <div class="form__field">
+      <span>معلومة</span>
+      <div class="muted">سيظهر السعر النهائي في صفحة التأكيد.</div>
+    </div>
+  </div>
+
+  <label class="form__check">
+    <input type="checkbox" name="agree" required>
+    <span>أوافق على <a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a></span>
+  </label>
+
+  <button class="btn btn--primary btn--lg" type="submit">إرسال الحجز</button>
 </form>
 {% endblock %}
