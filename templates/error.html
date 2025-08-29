@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% block title %}خطأ {{ code }}{% endblock %}
-
+{% block title %}حدث خطأ ({{ code }}){% endblock %}
 {% block content %}
-<div class="center">
-  <h1>حدث خطأ ({{ code }})</h1>
-  <p class="muted">{{ message }}</p>
-  <div class="row-gap">
-    <a class="btn btn--primary" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
-    <a class="btn btn--link" href="{{ url_for('home') }}">الرجوع للرئيسية</a>
+<div class="text-center my-5">
+  <img src="{{ url_for('static', filename='images/banner.PNG') }}" class="rounded mb-4 w-100" style="max-height:220px;object-fit:cover" alt="">
+  <h1 class="h3 mb-2">حدث خطأ ({{ code }})</h1>
+  <p class="text-muted mb-4">{{ message }}</p>
+  <div class="d-flex gap-2 justify-content-center">
+    <a class="btn btn-primary" href="{{ url_for('home') }}">الرجوع للرئيسية</a>
+    <a class="btn btn-outline-success" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
   </div>
 </div>
 {% endblock %}
