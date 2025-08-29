@@ -2,18 +2,15 @@
 {% block title %}التقييمات{% endblock %}
 {% block content %}
 <h1 class="page-title">آراء عملائنا</h1>
-<div class="cards">
+<div class="grid grid-3">
   {% for r in reviews %}
-  <article class="card mini">
-    <div class="card-body">
-      <h3>{{ r.name }}</h3>
-      <div class="stars" aria-label="تقييم {{ r.rating }} من 5">
-        {% for _ in range(r.rating) %}★{% endfor %}
-        {% for _ in range(5-r.rating) %}☆{% endfor %}
-      </div>
-      <p>{{ r.text }}</p>
+  <div class="card">
+    <div class="card__body">
+      <strong>{{ r.name }}</strong>
+      <div class="stars">{{ "★" * r.rating }}{{ "☆" * (5-r.rating) }}</div>
+      <p class="muted">{{ r.text }}</p>
     </div>
-  </article>
+  </div>
   {% endfor %}
 </div>
 {% endblock %}
