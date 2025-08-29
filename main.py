@@ -1,4 +1,3 @@
-# main.py
 import os
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory
@@ -6,9 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.environ.get("APP_SECRET_KEY", "change_this_secret_key")
 
-# -------------------------
-# بيانات الموقع
-# -------------------------
+# بيانات الرحلات
 TRIPS = [
     {
         "slug": "jeddah",
@@ -72,9 +69,6 @@ BOOKED_COUNT = 3
 def get_trip(slug: str):
     return next((t for t in TRIPS if t["slug"] == slug), None)
 
-# -------------------------
-# صفحات عامة
-# -------------------------
 @app.route("/")
 def home():
     stats = {"booked": BOOKED_COUNT, "trips_available": len(TRIPS), "guides_count": len(GUIDES)}
@@ -90,14 +84,14 @@ def trip_detail(slug):
     if not trip:
         flash("لم يتم العثور على الرحلة المطلوبة.", "warning")
         return redirect(url_for("trips"))
-    return render_template("trip_detail.html", trip=trip)
+    return render_template("trip_detail.html", trip=trip)  # ← مفرد
 
 @app.route("/guides")
-def guides():
+def guides_page():
     return render_template("guides.html", guides=GUIDES)
 
 @app.route("/reviews")
-def reviews():
+def reviews_page():
     return render_template("reviews.html", reviews=REVIEWS)
 
 @app.route("/faq")
@@ -108,14 +102,10 @@ def faq():
 def cancellation():
     return render_template("cancellation.html")
 
-# favicon من static/images/favicon.png (حسب ما وفّرته أنت)
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(os.path.join(app.static_folder, "images"), "favicon.png", mimetype="image/png")
 
-# -------------------------
-# الحجز
-# -------------------------
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
     global BOOKED_COUNT
@@ -162,9 +152,6 @@ def book_success():
         return redirect(url_for("booking"))
     return render_template("book_success.html", data=data)
 
-# -------------------------
-# صفحات الأخطاء
-# -------------------------
 @app.errorhandler(404)
 def not_found(e):
     return render_template("error.html", code=404, message="الصفحة غير موجودة"), 404
