@@ -85,3 +85,41 @@ html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,
 @media (min-width:768px){ .cta-bar{display:none} }
 
 :focus-visible{outline:2px solid var(--brand-2);outline-offset:2px}
+
+/* تحسين تباين النص فوق البانر */
+.hero__overlay{
+  background: linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,.35));
+  backdrop-filter: blur(2px) saturate(120%);
+}
+.hero__cta{
+  background: rgba(0,0,0,.28);
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+
+/* بطاقات الإحصائيات: ظل خفيف وارتفاع موحّد */
+.stats .stat{
+  box-shadow: 0 6px 20px rgba(0,0,0,.05);
+  min-height: 110px;
+}
+
+/* صور البطاقات بزوايا أنعم */
+.card img{ border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+
+/* دعم الحافة السفلية لآيفون */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .cta-bar { padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+}
+
+/* تحسين حالة التركيز للوصولية */
+a:focus-visible, button:focus-visible, .btn:focus-visible, select:focus-visible, input:focus-visible {
+  outline: 3px solid #16a34a;
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+/* تصغير الحشوات على الشاشات الصغيرة قليلاً */
+@media (max-width: 420px){
+  .hero__cta{ padding: 16px; }
+  .btn{ padding: 9px 12px; }
+  .card img{ height: 160px; }
+}
