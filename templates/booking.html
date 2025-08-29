@@ -1,64 +1,50 @@
 {% extends "base.html" %}
 {% block title %}نموذج الحجز{% endblock %}
 {% block content %}
-<h1 class="h3 mb-3">نموذج الحجز</h1>
 
-<form class="card p-3 booking-form" method="post" action="{{ url_for('booking') }}">
-  <div class="row g-3">
-    <div class="col-12 col-md-4">
-      <label class="form-label">الاسم الكامل</label>
-      <input name="name" class="form-control" required>
-    </div>
-    <div class="col-12 col-md-4">
-      <label class="form-label">البريد الإلكتروني</label>
-      <input name="email" type="email" class="form-control" required>
-    </div>
-    <div class="col-12 col-md-4">
-      <label class="form-label">رقم الجوال</label>
-      <input name="phone" class="form-control" pattern="^05\d{8}$" placeholder="05xxxxxxxx" required>
-    </div>
+<h1 class="page-title">نموذج الحجز</h1>
 
-    <div class="col-12 col-md-6">
-      <label class="form-label">اختر الرحلة</label>
-      <select name="trip" id="tripSelect" class="form-select" required>
-        {% for t in trips %}
-        <option value="{{ t.slug }}" data-price="{{ t.price_per_day }}" {% if chosen and chosen.slug==t.slug %}selected{% endif %}>
-          {{ t.title }} — {{ t.price_per_day }} ر.س / اليوم
+<form class="form" method="post" action="{{ url_for('booking') }}">
+  <div class="grid-2">
+    <label>الاسم الكامل
+      <input type="text" name="name" required>
+    </label>
+    <label>البريد الإلكتروني
+      <input type="email" name="email" required>
+    </label>
+  </div>
+
+  <label>رقم الجوال
+    <input type="tel" name="phone" required>
+  </label>
+
+  <label>اختر الرحلة
+    <select name="trip" required>
+      {% for t in trips %}
+        <option value="{{ t.slug }}" {% if chosen and chosen.slug==t.slug %}selected{% endif %}>
+          {{ t.title }} — {{ t.city }}
         </option>
-        {% endfor %}
-      </select>
-    </div>
+      {% endfor %}
+    </select>
+  </label>
 
-    <div class="col-6 col-md-3">
-      <label class="form-label">السعر لليوم</label>
-      <input id="pricePerDay" class="form-control" value="{{ (chosen.price_per_day if chosen else trips[0].price_per_day) }}" readonly>
-    </div>
-
-    <div class="col-6 col-md-3">
-      <label class="form-label">عدد الأيام</label>
-      <input name="days" id="daysInput" type="number" class="form-control" value="{{ (chosen.days_default if chosen else trips[0].days_default) }}"
-             min="{{ min_days }}" max="{{ max_days }}" required>
-      <div class="form-text">الحد الأدنى 1 والحد الأقصى 7 أيام</div>
-    </div>
-
-    <div class="col-12">
-      <div class="alert alert-secondary d-flex justify-content-between align-items-center">
-        <strong>الإجمالي المتوقع: <span id="totalVal">0</span> ر.س</strong>
-        <small class="text-muted">سيتم تأكيد السعر النهائي في صفحة الدفع (عند تفعيل بوابة الدفع لاحقًا).</small>
-      </div>
-    </div>
-
-    <div class="col-12">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="agree" id="agreeCheck" required>
-        <label class="form-check-label" for="agreeCheck">أوافق على <a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a></label>
-      </div>
-    </div>
+  <div class="grid-2">
+    <label>السعر لليوم (يُملأ تلقائيًا)
+      <input type="number" value="{{ chosen.price_per_day if chosen else '' }}" readonly>
+    </label>
+    <label>عدد الأيام (1 إلى 7)
+      <input type="number" name="days" value="{{ chosen.days_default if chosen else 1 }}" min="1" max="7" required>
+    </label>
   </div>
 
-  <div class="d-flex gap-2 mt-3">
-    <button class="btn btn-success">إرسال الحجز</button>
-    <a class="btn btn-outline-secondary" href="{{ url_for('trips') }}">تصفّح الرحلات</a>
-  </div>
+  <p class="muted">الإجمالي يُؤكّد في صفحة الدفع.</p>
+
+  <label class="checkbox">
+    <input type="checkbox" name="agree" required>
+    <span>أوافق على <a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a></span>
+  </label>
+
+  <button class="btn btn--primary" type="submit">إرسال الحجز</button>
 </form>
+
 {% endblock %}
