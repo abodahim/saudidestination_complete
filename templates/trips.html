@@ -1,20 +1,21 @@
 {% extends "base.html" %}
-{% block title %}الرحلات{% endblock %}
+{% block title %}الرحلات — وجهة السعودية{% endblock %}
 {% block content %}
-
 <h1 class="page-title">الرحلات المتاحة</h1>
 
-<section class="grid">
+<div class="grid">
   {% for t in trips %}
-    <article class="card">
-      <img src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
-      <div class="card__body">
-        <h3>{{ t.title }}</h3>
-        <p class="muted">{{ t.summary }}</p>
+  <article class="card">
+    <img loading="lazy" width="400" height="250" src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
+    <div class="card__body">
+      <h3>{{ t.title }}</h3>
+      <p class="muted">{{ t.summary }}</p>
+      <div class="row-between">
+        <span class="price">{{ t.price_per_day }} ر.س / اليوم</span>
         <a class="btn btn--primary" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
       </div>
-    </article>
+    </div>
+  </article>
   {% endfor %}
-</section>
-
+</div>
 {% endblock %}
