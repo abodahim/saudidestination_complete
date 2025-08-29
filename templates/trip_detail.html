@@ -19,14 +19,24 @@
     <p class="muted" style="margin:0;">المدينة: {{ trip.city }}</p>
   </header>
 
-  <!-- معرض الصور (يستخدم نفس نمط البطاقات لديك حتى لا نضيف CSS جديد) -->
+  <!-- معرض الصور -->
+  {% set imgs = trip.images | default([]) %}
+  {% if imgs and imgs|length > 0 %}
   <div class="cards" style="margin-top:10px;">
-    {% for img in trip.images %}
+    {% for img in imgs %}
     <article class="card">
-      <img class="card__img" src="{{ url_for('static', filename=img) }}" alt="{{ trip.title }}">
+      <img class="card__img"
+           src="{{ url_for('static', filename=img) }}"
+           alt="صورة من {{ trip.title }}"
+           loading="lazy">
     </article>
     {% endfor %}
   </div>
+  {% else %}
+  <div class="card" style="padding:16px; margin-top:10px;">
+    <p class="muted" style="margin:0;">لا تتوفر صور لهذه الرحلة حاليًا.</p>
+  </div>
+  {% endif %}
 
   <!-- تفاصيل مختصرة + أزرار -->
   <div class="card" style="padding:16px; margin-top:16px;">
