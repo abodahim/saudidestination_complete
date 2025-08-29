@@ -4,53 +4,67 @@
 {% block content %}
 <h1 class="page-title">نموذج الحجز</h1>
 
-<form method="post" class="form booking-form">
-  <div class="grid-2">
-    <label class="form__field">
-      <span>الاسم الكامل</span>
-      <input type="text" name="name" required placeholder="الاسم">
-    </label>
-
-    <label class="form__field">
-      <span>البريد الإلكتروني</span>
-      <input type="email" name="email" required placeholder="name@email.com">
-    </label>
-  </div>
-
-  <label class="form__field">
-    <span>رقم الجوال</span>
-    <input type="tel" name="phone" required placeholder="05xxxxxxxx">
-  </label>
-
-  <label class="form__field">
-    <span>اختر الرحلة</span>
-    <select name="trip" required>
-      {% for t in trips %}
-        <option value="{{ t.slug }}" {% if chosen and chosen.slug==t.slug %}selected{% endif %}>
-          {{ t.title }} — {{ t.price_per_day }} ر.س / اليوم
-        </option>
-      {% endfor %}
-    </select>
-  </label>
-
-  <div class="grid-2">
-    <label class="form__field">
-      <span>عدد الأيام</span>
-      <input type="number" name="days" min="{{ min_days }}" max="{{ max_days }}" value="{{ chosen.days_default if chosen else 1 }}">
-      <small class="muted">الحد الأدنى {{ min_days }} والحد الأقصى {{ max_days }} أيام</small>
-    </label>
-
-    <div class="form__field">
-      <span>معلومة</span>
-      <div class="muted">سيظهر السعر النهائي في صفحة التأكيد.</div>
+<form method="post" class="form card--panel">
+  <div class="grid grid-2">
+    <div>
+      <label>الاسم الكامل</label>
+      <input type="text" name="name" required>
+    </div>
+    <div>
+      <label>البريد الإلكتروني</label>
+      <input type="email" name="email" required>
+    </div>
+    <div>
+      <label>رقم الجوال</label>
+      <input type="tel" name="phone" required placeholder="05xxxxxxxx">
+    </div>
+    <div>
+      <label>اختر الرحلة</label>
+      <select id="tripSelect" name="trip" required>
+        {% for t in trips %}
+          <option value="{{ t.slug }}"
+                  data-price="{{ t.price_per_day }}"
+                  {% if chosen and chosen.slug==t.slug %}selected{% endif %}>
+            {{ t.title }} — {{ t.price_per_day }} ر.س / اليوم
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label>السعر لليوم</label>
+      <input id="pricePerDay" type="number" readonly>
+    </div>
+    <div>
+      <label>عدد الأيام (1–7)</label>
+      <input id="days" type="number" min="{{ min_days }}" max="{{ max_days }}" name="days" value="{{ chosen.days_default if chosen else 1 }}">
     </div>
   </div>
 
-  <label class="form__check">
-    <input type="checkbox" name="agree" required>
-    <span>أوافق على <a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a></span>
+  <p class="muted">الإجمالي المتوقع: <strong id="total">0</strong> ر.س — سيتم التأكيد في صفحة الدفع.</p>
+
+  <label class="checkbox">
+    <input type="checkbox" name="agree" required> أوافق على <a href="{{ url_for('cancellation') }}" target="_blank">سياسة الإلغاء</a>
   </label>
 
-  <button class="btn btn--primary btn--lg" type="submit">إرسال الحجز</button>
+  <button class="btn btn--primary" type="submit">إرسال الحجز</button>
 </form>
+
+<script>
+(function(){
+  const sel   = document.getElementById('tripSelect');
+  const price = document.getElementById('pricePerDay');
+  const days  = document.getElementById('days');
+  const total = document.getElementById('total');
+
+  function recalc(){
+    const p = parseInt(sel.selectedOptions[0].dataset.price || '0', 10);
+    const d = parseInt(days.value || '1', 10);
+    price.value = p;
+    total.textContent = (p * d).toLocaleString('ar-SA');
+  }
+  sel.addEventListener('change', recalc);
+  days.addEventListener('input', recalc);
+  recalc();
+})();
+</script>
 {% endblock %}
