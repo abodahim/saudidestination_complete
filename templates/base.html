@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <!-- ✅ المسارات الصحيحة -->
+  <!-- مسارات ثابتة كما اتفقنا -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
@@ -14,7 +14,7 @@
   <header class="site-header">
     <div class="container header__inner">
       <div class="logo"><a href="{{ url_for('home') }}">وجهة السعودية</a></div>
-      <nav class="top-nav">
+      <nav class="top-nav" aria-label="روابط رئيسية">
         <a href="{{ url_for('home') }}">الرئيسية</a>
         <a href="{{ url_for('trips') }}">الرحلات</a>
         <a href="{{ url_for('guides_page') }}">مرشدونا</a>
