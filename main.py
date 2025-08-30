@@ -1,13 +1,22 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, request, url_for
 from datetime import datetime
 
-# يقدّم الملفات من مجلد static بالرابط /static
-app = Flask(__name__, static_folder="static", static_url_path="/static")
+app = Flask(__name__)
 
-# السنة الحالية لكل القوالب
+# ✅ دالة ترجع رابطًا آمنًا؛ إن لم يوجد الراوت تعيد "/trips" (بدلاً من الخطأ 500)
+def safe_url(endpoint, **values):
+    try:
+        return url_for(endpoint, **values)
+    except Exception:
+        return url_for('trips')
+
+# ✅ متغيرات / دوال متاحة لكل القوالب
 @app.context_processor
-def inject_current_year():
-    return {"current_year": datetime.now().year}
+def inject_globals():
+    return {
+        "current_year": datetime.now().year,
+        "safe_url": safe_url
+    }
 
 # ========= بيانات تجريبية ثابتة لعرض الصفحات بدون أخطاء =========
 DEMO_TRIPS = [
