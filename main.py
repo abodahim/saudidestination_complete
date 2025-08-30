@@ -1,20 +1,15 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, abort
 from datetime import datetime
 
-app = Flask(__name__)
+# يقدّم الملفات من مجلد static بالرابط /static
+app = Flask(__name__, static_folder="static", static_url_path="/static")
 
-# تمرير السنة للفوتر
+# السنة الحالية لكل القوالب
 @app.context_processor
 def inject_current_year():
     return {"current_year": datetime.now().year}
 
-# ===== بيانات تجريبية بسيطة لتشغيل الواجهة =====
-DEMO_STATS = {
-    "guides_count": 4,
-    "trips_available": 4,
-    "booked": 3,
-}
-
+# ========= بيانات تجريبية ثابتة لعرض الصفحات بدون أخطاء =========
 DEMO_TRIPS = [
     {
         "title": "رحلة جدة",
@@ -28,7 +23,7 @@ DEMO_TRIPS = [
     {
         "title": "رحلة الرياض",
         "city": "الرياض",
-        "images": ["riyadh_1.JPG"],  # حافظنا على الاسم كما لديك
+        "images": ["images/riyadh_1.JPG"],  # تأكد من تطابق الأحرف
         "summary": "اكتشف العاصمة ومعالمها الحديثة.",
         "price_per_day": 500,
         "days_default": 3,
@@ -55,26 +50,26 @@ DEMO_TRIPS = [
 ]
 
 DEMO_GUIDES = [
-    {"name": "أبو خالد", "city": "جدة", "years": 8, "photo": "images/guide1.jpg"},
-    {"name": "سلمان",   "city": "الرياض", "years": 6, "photo": "images/guide2.jpg"},
-    {"name": "ندى",     "city": "العلا",  "years": 5, "photo": "images/guide3.jpg"},
-    {"name": "خالد",    "city": "ينبع",   "years": 4, "photo": "images/guide4.jpg"},
+    {"name": "أبو خالد", "city": "جدة", "years": 6, "photo": "images/guide1.jpg"},
+    {"name": "سلمان", "city": "الرياض", "years": 8, "photo": "images/guide2.jpg"},
+    {"name": "مشعل", "city": "العلا", "years": 5, "photo": "images/guide3.jpg"},
+    {"name": "تركي", "city": "ينبع", "years": 4, "photo": "images/guide4.jpg"},
 ]
 
 DEMO_REVIEWS = [
     {"name": "أبو خالد", "rating": 5, "text": "تنظيم ممتاز وخدمة رائعة."},
-    {"name": "سلمان",   "rating": 4, "text": "التجربة جميلة والمرافقة مفيدة."},
-    {"name": "ندى",     "rating": 5, "text": "الأماكن مختارة بعناية."},
+    {"name": "سلمان", "rating": 4, "text": "الرحلة كانت جميلة جدًا."},
+    {"name": "موضي", "rating": 5, "text": "التزام واحترافية عالية."},
 ]
 
-# ===== الراوتات =====
+# ========= الصفحات =========
 
 @app.route("/")
 def home():
-    # تمرير كل ما يحتاجه home.html
+    stats = {"guides_count": len(DEMO_GUIDES), "trips_available": len(DEMO_TRIPS), "booked": 3}
     return render_template(
         "home.html",
-        stats=DEMO_STATS,
+        stats=stats,
         trips=DEMO_TRIPS,
         guides=DEMO_GUIDES,
         reviews=DEMO_REVIEWS,
@@ -84,43 +79,38 @@ def home():
 def trips():
     return render_template("trips.html", trips=DEMO_TRIPS)
 
-# تفاصيل الرحلة (اسم القالب ثابت: trip_detail.html)
+# اسم القالب ثابت كما طلبت: trip_detail.html
 @app.route("/trip/<slug>")
 def trip_detail(slug):
     trip = next((t for t in DEMO_TRIPS if t["slug"] == slug), None)
     if not trip:
-        return render_template("error.html", code=404, message="الرحلة غير موجودة"), 404
+        abort(404)
     return render_template("trip_detail.html", trip=trip)
 
-# صفحة الحجز التي يستدعيها القالب (مع بارامتر اختياري)
-@app.route("/booking")
-def booking():
-    trip_slug = request.args.get("trip")
-    chosen = next((t for t in DEMO_TRIPS if t["slug"] == trip_slug), None) if trip_slug else None
-    return render_template("booking.html", trip=chosen)
+@app.route("/guides")
+def guides_page():
+    return render_template("guides.html", guides=DEMO_GUIDES)
 
-# صفحة التقييمات التي يستدعيها القالب
 @app.route("/reviews")
 def reviews():
     return render_template("reviews.html", reviews=DEMO_REVIEWS)
 
-# "مرشدونا" — استخدم اسم endpoint guides ليتطابق مع القوالب
-@app.route("/guides")
-def guides():
-    return render_template("guides.html", guides=DEMO_GUIDES)
+@app.route("/booking")
+def booking():
+    return render_template("booking.html")
 
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
 
-# صفحات أخطاء
-@app.errorhandler(404)
-def not_found(e):
-    return render_template("error.html", code=404, message="الصفحة غير موجودة"), 404
-
+# صفحة خطأ مخصصة
 @app.errorhandler(500)
 def server_error(e):
     return render_template("error.html", code=500, message="حدث خطأ داخلي في الخادم"), 500
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("error.html", code=404, message="الصفحة غير موجودة"), 404
 
 if __name__ == "__main__":
     app.run(debug=True)
