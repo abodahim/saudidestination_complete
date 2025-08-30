@@ -119,6 +119,17 @@ def server_error(e):
 @app.errorhandler(404)
 def not_found(e):
     return render_template("error.html", code=404, message="الصفحة غير موجودة"), 404
+    
+from flask import Flask, render_template, request, url_for
+# ...
+
+@app.route('/booking')
+def booking():
+    # دعم تمرير الرحلة المختارة ?trip=slug (اختياري)
+    trip_slug = request.args.get('trip')
+    return render_template('booking.html', trip_slug=trip_slug)
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+    
