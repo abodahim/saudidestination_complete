@@ -1,22 +1,19 @@
 {% extends "base.html" %}
 {% block title %}الرحلات — وجهة السعودية{% endblock %}
-
 {% block content %}
 <section class="container">
-  <h1 class="page-title">الرحلات المتاحة</h1>
-
+  <h1 class="page-title">الرحلات</h1>
   <div class="cards">
-    {% for t in trips %}
+    {% for trip in trips %}
     <article class="card">
-      <a class="card__imglink" href="{{ url_for('trip_detail', slug=t.slug) }}">
-        <img class="card__img" src="{{ url_for('static', filename=t.images[0]) }}" alt="{{ t.title }}">
+      <a class="card__imglink" href="{{ url_for('trip_detail', slug=trip.slug) }}">
+        <img class="card__img" src="{{ url_for('static', filename=trip.images[0]) }}" alt="{{ trip.title }}">
       </a>
       <div class="card__body">
-        <h3 class="card__title">{{ t.title }}</h3>
-        <p class="card__text">{{ t.summary }}</p>
+        <h3 class="card__title">{{ trip.title }}</h3>
+        <p class="card__text">{{ trip.summary }}</p>
         <div class="card__actions">
-          <a class="btn btn--ghost" href="{{ url_for('trip_detail', slug=t.slug) }}">التفاصيل</a>
-          <a class="btn btn--primary" href="{{ url_for('booking', trip=t.slug) }}">احجز الآن</a>
+          <a class="btn btn--primary" href="{{ url_for('trip_detail', slug=trip.slug) }}">التفاصيل</a>
         </div>
       </div>
     </article>
