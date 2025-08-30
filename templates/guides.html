@@ -1,17 +1,15 @@
 {% extends "base.html" %}
 {% block title %}مرشدونا — وجهة السعودية{% endblock %}
-
 {% block content %}
 <section class="container">
   <h1 class="page-title">مرشدونا</h1>
-
   <div class="guides">
     {% for g in guides %}
     <div class="guide">
       <img class="guide__img" src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}">
       <div class="guide__meta">
         <strong>{{ g.name }}</strong>
-        <div class="muted">{{ g.city }} — خبرة {{ g.years }} سنوات</div>
+        <span class="muted">{{ g.city }} — خبرة {{ g.years }} سنوات</span>
       </div>
     </div>
     {% endfor %}
