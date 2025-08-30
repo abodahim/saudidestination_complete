@@ -1,28 +1,8 @@
 {% extends "base.html" %}
-{% block title %}تواصل معنا - وجهة السعودية{% endblock %}
-
-{% block hero %}
-<section class="hero hero--small" style="background-image:url('{{ url_for('static', filename='images/banner.PNG') }}')">
-  <div class="hero__overlay"><div class="container hero__content">
-    <h1 class="hero__title">تواصل معنا</h1>
-    <p class="hero__lead">يسعدنا خدمتك</p>
-  </div></div>
-</section>
-{% endblock %}
-
+{% block title %}تواصل معنا — وجهة السعودية{% endblock %}
 {% block content %}
-<section class="card">
-  <div class="card__body">
-    <form method="post" class="form" novalidate>
-      <div style="display:grid; gap:.8rem;">
-        <label>الاسم<input name="name" required></label>
-        <label>البريد الإلكتروني<input name="email" type="email" required></label>
-        <label>رسالتك<textarea name="message" rows="5" required></textarea></label>
-      </div>
-      <div style="margin-top:.8rem;">
-        <button class="btn btn--primary" type="submit">إرسال</button>
-      </div>
-    </form>
-  </div>
+<section class="container">
+  <h1 class="page-title">تواصل معنا</h1>
+  <p>يسعدنا استقبال استفساراتكم.</p>
 </section>
 {% endblock %}
