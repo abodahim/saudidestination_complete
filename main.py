@@ -3,21 +3,20 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# ✅ دالة ترجع رابطًا آمنًا؛ إن لم يوجد الراوت تعيد "/trips" (بدلاً من الخطأ 500)
+# رابط آمن: إن لم يوجد الراوت يرجع /trips بدل ما يرمي BuildError
 def safe_url(endpoint, **values):
     try:
         return url_for(endpoint, **values)
     except Exception:
         return url_for('trips')
 
-# ✅ متغيرات / دوال متاحة لكل القوالب
 @app.context_processor
 def inject_globals():
     return {
         "current_year": datetime.now().year,
         "safe_url": safe_url
     }
-
+    
 # ========= بيانات تجريبية ثابتة لعرض الصفحات بدون أخطاء =========
 DEMO_TRIPS = [
     {
