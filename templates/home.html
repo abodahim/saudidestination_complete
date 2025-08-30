@@ -21,16 +21,16 @@
 
 <!-- إحصائيات -->
 <section class="container stats">
-  <div class="stat"><div class="stat__num">{{ (stats.guides_count if stats else 0) }}</div><div class="stat__label">مرشدون</div></div>
-  <div class="stat"><div class="stat__num">{{ (stats.trips_available if stats else 0) }}</div><div class="stat__label">باقات متاحة</div></div>
-  <div class="stat"><div class="stat__num">{{ (stats.booked if stats else 0) }}</div><div class="stat__label">رحلات محجوزة</div></div>
+  <div class="stat"><div class="stat__num">{{ stats.guides_count }}</div><div class="stat__label">مرشدون</div></div>
+  <div class="stat"><div class="stat__num">{{ stats.trips_available }}</div><div class="stat__label">باقات متاحة</div></div>
+  <div class="stat"><div class="stat__num">{{ stats.booked }}</div><div class="stat__label">رحلات محجوزة</div></div>
 </section>
 
 <!-- باقات مختارة -->
 <section class="container">
   <h2 class="section-title">🌍 باقات مختارة</h2>
   <div class="cards">
-    {% for trip in trips or [] %}
+    {% for trip in trips %}
     <article class="card">
       <a class="card__imglink" href="{{ url_for('trip_detail', slug=trip.slug) }}">
         <img class="card__img" src="{{ url_for('static', filename=trip.images[0]) }}" alt="{{ trip.title }}">
@@ -40,7 +40,7 @@
         <p class="card__text">{{ trip.summary }}</p>
         <div class="card__actions">
           <a class="btn btn--ghost" href="{{ url_for('trips') }}">المزيد من الرحلات</a>
-          <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز الآن</a>
+          <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a>
         </div>
       </div>
     </article>
@@ -52,7 +52,7 @@
 <section class="container">
   <h2 class="section-title">🧑‍💼 مرشدونا</h2>
   <div class="guides">
-    {% for g in guides or [] %}
+    {% for g in guides %}
     <div class="guide">
       <img class="guide__img" src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}">
       <div class="guide__meta">
@@ -68,7 +68,7 @@
 <section class="container">
   <h2 class="section-title">💬 آراء عملائنا</h2>
   <div class="reviews">
-    {% for r in reviews or [] %}
+    {% for r in reviews %}
     <div class="review">
       <div class="review__head">
         <strong>{{ r.name }}</strong>
