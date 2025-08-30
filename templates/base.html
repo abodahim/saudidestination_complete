@@ -5,6 +5,7 @@
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
   <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
@@ -16,7 +17,7 @@
     <nav class="top-nav">
       <a href="{{ url_for('home') }}">الرئيسية</a>
       <a href="{{ url_for('trips') }}">الرحلات</a>
-      <a href="{{ url_for('guides_page') }}">مرشدونا</a> <!-- ✅ تعديل هنا -->
+      <a href="{{ url_for('guides') }}">مرشدونا</a>
       <a href="{{ url_for('contact') }}">تواصل معنا</a>
     </nav>
   </header>
@@ -28,7 +29,7 @@
 
   <!-- الفوتر -->
   <footer class="site-footer">
-    <p>© {{ current_year }} وجهة السعودية — جميع الحقوق محفوظة</p> <!-- ✅ استخدمنا current_year -->
+    <p>© {{ current_year }} وجهة السعودية — جميع الحقوق محفوظة</p>
   </footer>
 
 </body>
