@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-{% block title %}خطأ {{ code }} — وجهة السعودية{% endblock %}
+{% block title %}حدث خطأ{% endblock %}
 {% block content %}
-<section class="container">
-  <h1 class="page-title">حدث خطأ ({{ code }})</h1>
-  <p class="muted">{{ message }}</p>
+<section class="container" style="padding:30px 0">
+  <h1>عذراً، حدث خطأ غير متوقع</h1>
+  <p class="muted">الرمز: {{ code|default(500) }}</p>
+  <p>{{ message|default('جرّب تحديث الصفحة أو العودة لاحقاً') }}</p>
   <p><a class="btn btn--ghost" href="{{ url_for('home') }}">العودة للرئيسية</a></p>
 </section>
 {% endblock %}
