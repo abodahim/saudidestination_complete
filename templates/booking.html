@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 {% block title %}الحجز — وجهة السعودية{% endblock %}
+
 {% block content %}
-<section class="container">
+<section class="container" style="padding:20px 0">
   <h1 class="page-title">الحجز</h1>
+
+  {% if trip_slug %}
+    <p class="muted">الرحلة المختارة: <strong>{{ trip_slug }}</strong></p>
+  {% endif %}
+
   <p>نموذج الحجز سيضاف هنا.</p>
+
+  <p style="margin-top:12px">
+    <a class="btn btn--ghost" href="{{ url_for('trips') }}">الرجوع للرحلات</a>
+  </p>
 </section>
 {% endblock %}
