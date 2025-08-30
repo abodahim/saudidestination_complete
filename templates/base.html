@@ -2,39 +2,36 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <!-- الأسماء ثابتة كما اتفقنا -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
-  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+  <!-- ✅ المسارات الصحيحة بحسب هيكلة static/css و static/js -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
 
   <!-- الهيدر -->
   <header class="site-header">
-    <div class="container header__row">
-      <button class="menu-toggle" aria-label="القائمة">☰</button>
-      <div class="logo"><a href="{{ url_for('home') }}">وجهة السعودية</a></div>
-      <nav class="top-nav">
-        <a href="{{ url_for('home') }}">الرئيسية</a>
-        <a href="{{ url_for('trips') }}">الرحلات</a>
-        <a href="{{ url_for('guides_page') }}">مرشدونا</a>
-        <a href="{{ url_for('contact') }}">تواصل معنا</a>
-      </nav>
+    <div class="logo">
+      <a href="{{ url_for('home') }}">وجهة السعودية</a>
     </div>
+    <nav class="top-nav">
+      <a href="{{ url_for('home') }}">الرئيسية</a>
+      <a href="{{ url_for('trips') }}">الرحلات</a>
+      <a href="{{ url_for('guides_page') }}">مرشدونا</a>
+      <a href="{{ url_for('contact') }}">تواصل معنا</a>
+    </nav>
   </header>
 
-  <!-- محتوى الصفحة -->
+  <!-- المحتوى -->
   <main>
     {% block content %}{% endblock %}
   </main>
 
   <!-- الفوتر -->
   <footer class="site-footer">
-    <div class="container">
-      <p>© {{ current_year }} وجهة السعودية — جميع الحقوق محفوظة</p>
-    </div>
+    <p>© {{ current_year }} وجهة السعودية — جميع الحقوق محفوظة</p>
   </footer>
 
 </body>
