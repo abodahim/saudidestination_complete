@@ -10,33 +10,55 @@ def inject_current_year():
     return {"current_year": datetime.now().year}
 
 # بيانات الرحلات (صور داخل static/images/)
+# main.py (المقاطع المهمة فقط)
+
 TRIPS = [
     {
         "slug": "jeddah",
         "title": "رحلة جدة",
+        "city": "جدة",
         "summary": "استمتع بالكورنيش والمعالم التاريخية في جدة.",
-        "images": ["images/jeddah_1.jpg", "images/jeddah_2.jpg"]
+        # 👈 الصور يجب أن تكون تحت static/images/ … لاحظ أننا نخزّن المسار النسبي كما هو
+        "images": ["images/jeddah_1.jpg", "images/jeddah_2.jpg"],
+        "price_per_day": 450,
+        "days_default": 3,
     },
     {
         "slug": "riyadh",
         "title": "رحلة الرياض",
+        "city": "الرياض",
         "summary": "اكتشف معالم العاصمة وتجارب حديثة.",
-        "images": ["images/riyadh_1.jpg", "images/riyadh_2.jpg"]
-    },
-    {
-        "slug": "yanbu",
-        "title": "رحلة ينبع",
-        "summary": "شواطئ خلابة وأنشطة بحرية ممتعة.",
-        "images": ["images/yanbu_1.jpg", "images/yanbu_2.jpg"]
+        "images": ["images/riyadh_1.jpg", "images/riyadh_2.jpg"],
+        "price_per_day": 500,
+        "days_default": 2,
     },
     {
         "slug": "alula",
         "title": "رحلة العلا",
+        "city": "العلا",
         "summary": "جبال ساحرة ومواقع تراثية وتجارب صحراوية فريدة.",
-        "images": ["images/alula_1.jpg", "images/alula_2.jpg"]
+        "images": ["images/alula_1.jpg", "images/alula_2.jpg"],
+        "price_per_day": 650,
+        "days_default": 2,
+    },
+    {
+        "slug": "yanbu",
+        "title": "رحلة ينبع",
+        "city": "ينبع",
+        "summary": "شواطئ خلابة وأنشطة بحرية ممتعة.",
+        "images": ["images/yanbu_1.jpg", "images/yanbu_2.jpg"],
+        "price_per_day": 400,
+        "days_default": 2,
     },
 ]
 
+@app.route("/trip/<slug>")
+def trip_detail(slug):
+    trip = next((t for t in TRIPS if t["slug"] == slug), None)
+    if not trip:
+        abort(404)
+    return render_template("trip_detail.html", trip=trip)
+    
 def get_trip(slug):
     return next((t for t in TRIPS if t["slug"] == slug), None)
 
@@ -53,14 +75,7 @@ def home():
 def trips():
     # ✅ يمرّر المتغير المطلوب إلى trips.html
     return render_template("trips.html", trips=TRIPS)
-
-@app.route("/trip/<slug>")
-def trip_detail(slug):
-    trip = get_trip(slug)
-    if not trip:
-        abort(404)
-    # إن كان لديك قالب trip_detail.html
-    return render_template("trip_detail.html", trip=trip)
+    
 
 @app.route("/booking")
 def booking():
