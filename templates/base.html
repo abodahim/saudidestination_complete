@@ -1,50 +1,35 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
-
-  <!-- الأيقونة -->
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}" />
-
-  <!-- الأنماط -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body>
 
-  <!-- شريط علوي بسيط -->
+  <!-- الهيدر -->
   <header class="site-header">
-    <nav class="container nav">
-      <a class="brand" href="{{ url_for('home') }}">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="وجهة السعودية" />
-      </a>
-      <ul class="menu">
-        <li><a href="{{ url_for('home') }}">الرئيسية</a></li>
-        <li><a href="{{ url_for('trips') }}">الرحلات</a></li>
-        <li><a href="{{ url_for('guides') }}">مرشدونا</a></li>
-        <li><a href="{{ url_for('reviews') }}">التقييمات</a></li>
-        <li><a href="{{ url_for('faq') }}">أسئلة شائعة</a></li>
-        <li><a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a></li>
-        <li><a class="btn btn--primary" href="{{ url_for('booking') }}">احجز الآن</a></li>
-      </ul>
-      <button class="menu-toggle" aria-label="فتح القائمة">☰</button>
+    <div class="logo">
+      <a href="{{ url_for('home') }}">وجهة السعودية</a>
+    </div>
+    <nav class="top-nav">
+      <a href="{{ url_for('home') }}">الرئيسية</a>
+      <a href="{{ url_for('trips') }}">الرحلات</a>
+      <a href="{{ url_for('guides_page') }}">مرشدونا</a> <!-- ✅ تعديل هنا -->
+      <a href="{{ url_for('contact') }}">تواصل معنا</a>
     </nav>
   </header>
 
-  <!-- محتوى الصفحات -->
-  <main class="container">
+  <!-- محتوى الصفحة -->
+  <main>
     {% block content %}{% endblock %}
   </main>
 
-  <!-- ذيل الصفحة -->
+  <!-- الفوتر -->
   <footer class="site-footer">
-    <div class="container">
-      <p>© {{  (now() | default(None)) and ''  }}{{  (2025)  }} وجهة السعودية — جميع الحقوق محفوظة</p>
-    </div>
+    <p>© {{ current_year }} وجهة السعودية — جميع الحقوق محفوظة</p> <!-- ✅ استخدمنا current_year -->
   </footer>
 
-  <!-- السكربت -->
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
