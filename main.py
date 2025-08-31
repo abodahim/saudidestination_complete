@@ -16,7 +16,8 @@ from flask import (
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.environ.get("APP_SECRET_KEY", "change_this_secret_key")
-
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.jinja_env.auto_reload = True
 # ===== مزوّد الدفع واعداداته (Render env) =====
 PAY_PROVIDER = os.getenv("PAY_PROVIDER", "MOYASAR").strip().upper()  # MOYASAR أو STRIPE
 
