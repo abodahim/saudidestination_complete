@@ -287,11 +287,44 @@ checkout_session = stripe.checkout.Session.create(
 
 @app.route("/book_success")
 def book_success():
-    data = session.get("last_booking")
-    if not data:
-        flash("لا يوجد حجز لعرضه.", "warning")
-        return redirect(url_for("booking"))
-    return render_template("book_success.html", data=data, paid=session.get("paid", False))
+    # [استبدل منطق دالة book_success بهذه الكتلة]
+session_id = request.args.get("session_id")
+paid = False
+details = {}
+
+if session_id and STRIPE_SECRET_KEY:
+    try:
+        sess = stripe.checkout.Session.retrieve(session_id)
+        paid = (sess.get("payment_status") == "paid")
+        details = sess.get("metadata", {}) or {}
+    except Exception as exc:
+        print("[stripe retrieve] error:", exc)
+
+# إذا مدفوع — أرسل بريد تأكيد + تيليجرام
+if paid:
+    trip_title = details.get("trip_title", "رحلة")
+    customer_email = details.get("email")
+    customer_name = details.get("name", "")
+
+    confirm_text = (
+        f"✅ تم تأكيد الحجز\n"
+        f"الرحلة: {trip_title}\n"
+        f"الاسم: {customer_name}\n"
+        f"الإيميل: {customer_email}\n"
+        f"Session ID: {session_id}"
+    )
+    send_telegram(confirm_text)
+    if customer_email:
+        send_email(
+            customer_email,
+            "تأكيد الحجز — تم الدفع بنجاح",
+            f"شكرًا لك {customer_name}!\nتم تأكيد حجزك لرحلة: {trip_title}.\nرقم العملية: {session_id}",
+        )
+    if ADMIN_EMAIL:
+        send_email(ADMIN_EMAIL, "تم الدفع — تأكيد الحجز", confirm_text)
+
+# مرّر flags/تفاصيل للقالب book_success.html
+return render_template("book_success.html", paid=paid, details=details)
 
 # =========================
 # إنشاء PDF + إرسال بريد
