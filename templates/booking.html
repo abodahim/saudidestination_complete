@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}الحجز — وجهة السعودية{% endblock %}
+
 {% block content %}
 <section class="container" style="padding:20px 0">
   <h1 class="page-title">الحجز</h1>
@@ -9,39 +10,48 @@
     <p><a class="btn btn--ghost" href="{{ url_for('trips') }}">العودة إلى الرحلات</a></p>
   {% else %}
   <div class="cards" style="margin-top:10px">
+    <!-- النموذج -->
     <article class="card" style="grid-column: span 12; padding:16px;">
       <form id="bookingForm" action="{{ url_for('booking') }}" method="post" novalidate>
+        <!-- اختر الرحلة -->
         <div class="field">
           <label for="trip">اختر الرحلة</label>
           <select id="trip" name="trip" required>
             {% for t in trips %}
               <option value="{{ t.slug }}"
                       data-price="{{ t.price_per_day }}"
-                      {% if selected_slug and selected_slug == t.slug %}selected{% elif not selected_slug and loop.first %}selected{% endif %}>
+                      {% if selected_slug and selected_slug == t.slug %}
+                        selected
+                      {% elif not selected_slug and loop.first %}
+                        selected
+                      {% endif %}>
                 {{ t.title }} — {{ t.city }}
               </option>
             {% endfor %}
           </select>
-          <small class="muted">سيتم حساب السعر التقديري حسب الأيام وعدد الأشخاص والسعر اليومي.</small>
+          <small class="muted">سيتم حساب السعر التقديري حسب الأيام وعدد الأشخاص.</small>
         </div>
 
+        <!-- عدد الأيام -->
         <div class="field">
           <label for="days">عدد الأيام</label>
           <input id="days" name="days" type="number" inputmode="numeric" value="1" min="1" max="7" required>
           <small class="muted">الحد الأدنى 1 والحد الأقصى 7 أيام.</small>
         </div>
 
+        <!-- عدد الأشخاص -->
         <div class="field">
           <label for="persons">عدد الأشخاص</label>
           <input id="persons" name="persons" type="number" inputmode="numeric" value="1" min="1" max="20" required>
-          <small class="muted">يمكن تعديل العدد بحسب المجموعة.</small>
         </div>
 
+        <!-- تاريخ البدء (اختياري) -->
         <div class="field">
           <label for="date">تاريخ البدء (اختياري)</label>
           <input id="date" name="date" type="date">
         </div>
 
+        <!-- بيانات العميل -->
         <div class="field">
           <label for="name">الاسم الكامل</label>
           <input id="name" name="name" type="text" placeholder="اكتب اسمك" required>
@@ -57,13 +67,15 @@
           <input id="phone" name="phone" type="tel" placeholder="05xxxxxxxx" required>
         </div>
 
+        <!-- سياسة الإلغاء -->
         <div class="field" style="display:flex;gap:8px;align-items:flex-start;">
-          <input id="agree" name="agree" type="checkbox" style="margin-top:4px;">
+          <input id="agree" name="agree" type="checkbox" style="margin-top:4px;" required>
           <label for="agree" style="margin:0;">
-            أوافق على <a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a> وشروط الحجز.
+            أوافق على <a href="{{ url_for('faq') }}">سياسة الإلغاء</a> وشروط الحجز.
           </label>
         </div>
 
+        <!-- أزرار -->
         <div class="card__actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
           <button class="btn btn--primary" type="submit">تأكيد البيانات</button>
           <a class="btn btn--ghost" href="{{ url_for('trips') }}">عودة للرحلات</a>
@@ -71,53 +83,48 @@
       </form>
     </article>
 
+    <!-- الملخص التقديري -->
     <article class="card" style="grid-column: span 12; padding:16px;">
       <h3 style="margin:0 0 8px;">الملخص التقديري</h3>
       <p class="muted" style="margin:0 0 6px;">السعر اليومي: <strong id="ppd">—</strong> ر.س</p>
-      <p class="muted" style="margin:0 0 6px;">الأيام: <strong id="daysOut">—</strong> — الأشخاص: <strong id="personsOut">—</strong></p>
       <p class="muted" style="margin:0 0 12px;">الإجمالي (تقديري): <strong id="total">—</strong> ر.س</p>
       <div class="note">
-        <strong>معلومة:</strong> هذه الأرقام تقديرية. بعد التأكيد ستصل إلى صفحة نجاح تتضمن زر “إتمام الدفع”.
+        <strong>معلومة:</strong> هذه الأرقام تقديرية. بعد التأكيد ستصل إلى صفحة النجاح وفيها زر “إتمام الدفع”.
       </div>
     </article>
   </div>
   {% endif %}
 </section>
 
+<!-- سكربت حساب السعر الفوري (محلي داخل الصفحة لضمان العمل) -->
 <script>
 (function(){
-  const sel = document.getElementById('trip');
-  const days = document.getElementById('days');
-  const persons = document.getElementById('persons');
-  const ppdEl = document.getElementById('ppd');
+  const sel     = document.getElementById('trip');
+  const daysEl  = document.getElementById('days');
+  const pplEl   = document.getElementById('persons');
+  const ppdEl   = document.getElementById('ppd');
   const totalEl = document.getElementById('total');
-  const daysOut = document.getElementById('daysOut');
-  const personsOut = document.getElementById('personsOut');
 
   function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
-  function toInt(v, d){ const n = parseInt(v, 10); return isFinite(n) ? n : d; }
 
   function updatePrice(){
-    if(!sel || !days || !persons) return;
+    if(!sel || !daysEl || !pplEl) return;
+    const price = parseInt(sel.options[sel.selectedIndex]?.dataset.price || '0', 10);
+    const dMin = parseInt(daysEl.min||'1',10), dMax = parseInt(daysEl.max||'7',10);
+    const pMin = parseInt(pplEl.min||'1',10), pMax = parseInt(pplEl.max||'20',10);
 
-    const price = toInt(sel.options[sel.selectedIndex]?.dataset?.price, 0);
-    const d = clamp(toInt(days.value, 1), toInt(days.min, 1), toInt(days.max, 7));
-    const p = clamp(toInt(persons.value, 1), toInt(persons.min, 1), toInt(persons.max, 20));
+    const d = clamp(parseInt(daysEl.value || '1', 10), dMin, dMax);
+    const p = clamp(parseInt(pplEl.value  || '1', 10), pMin, pMax);
+    daysEl.value = d; pplEl.value = p;
 
-    days.value = d;
-    persons.value = p;
-
-    const total = price * d * p;
-
-    ppdEl.textContent = price > 0 ? price.toLocaleString('ar-SA') : '—';
-    daysOut.textContent = d;
-    personsOut.textContent = p;
-    totalEl.textContent = total > 0 ? total.toLocaleString('ar-SA') : '—';
+    const total = (isFinite(price)?price:0) * d * p;
+    ppdEl.textContent   = isFinite(price) && price>0 ? price.toLocaleString('ar-SA') : '—';
+    totalEl.textContent = isFinite(total) && total>0 ? total.toLocaleString('ar-SA') : '—';
   }
 
-  if(sel) sel.addEventListener('change', updatePrice);
-  if(days) days.addEventListener('input', updatePrice);
-  if(persons) persons.addEventListener('input', updatePrice);
+  if(sel)    sel.addEventListener('change', updatePrice);
+  if(daysEl) daysEl.addEventListener('input', updatePrice);
+  if(pplEl)  pplEl.addEventListener('input', updatePrice);
 
   updatePrice();
 })();
