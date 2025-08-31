@@ -16,7 +16,7 @@
   <div class="cards" style="margin-top:10px;">
     {% for img in trip.images %}
     <article class="card">
-      <img class="card__img" src="{{ url_for('static', filename=img) }}" alt="{{ trip.title }}">
+      <img class="card__img" src="{{ url_for('static', filename=img) }}" alt="{{ trip.title }}" loading="lazy">
     </article>
     {% endfor %}
   </div>
@@ -29,7 +29,7 @@
     </p>
     <div class="card__actions" style="display:flex;gap:10px;flex-wrap:wrap;">
       <a class="btn btn--ghost" href="{{ url_for('trips') }}">عودة للرحلات</a>
-      <a class="btn btn--primary" href="{{ url_for('booking') }}">احجز هذه الرحلة</a>
+      <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز هذه الرحلة</a>
     </div>
   </div>
 </section>
