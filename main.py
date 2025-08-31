@@ -1,3 +1,8 @@
+# [أضِف في أعلى الملف مع الاستيرادات]
+import stripe
+import smtplib, ssl
+from email.message import EmailMessage
+import requests
 import os
 import requests
 from io import BytesIO
