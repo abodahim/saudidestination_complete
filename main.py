@@ -39,7 +39,7 @@ TRIPS = [
         "title": "رحلة جدة",
         "city": "جدة",
         "summary": "استمتع بالكورنيش والمعالم التاريخية في جدة.",
-        "images": ["images/jeddah_1.jpg", "images/jeddah_2.jpg"],
+        "images": ["images/jeddah_1.JPG", "images/jeddah_2.JPG"],
         "price_per_day": 450,
         "days_default": 3,
     },
@@ -48,7 +48,7 @@ TRIPS = [
         "title": "رحلة الرياض",
         "city": "الرياض",
         "summary": "اكتشف معالم العاصمة وتجارب حديثة.",
-        "images": ["images/riyadh_1.jpg", "images/riyadh_2.jpg"],
+        "images": ["images/riyadh_1.JPG", "images/riyadh_2.JPG"],
         "price_per_day": 500,
         "days_default": 2,
     },
@@ -57,7 +57,7 @@ TRIPS = [
         "title": "رحلة العلا",
         "city": "العلا",
         "summary": "جبال ساحرة ومواقع تراثية وتجارب صحراوية فريدة.",
-        "images": ["images/alula_1.jpg", "images/alula_2.jpg"],
+        "images": ["images/ala_1.JPG", "images/ala_2.JPG"],
         "price_per_day": 650,
         "days_default": 2,
     },
@@ -66,7 +66,7 @@ TRIPS = [
         "title": "رحلة ينبع",
         "city": "ينبع",
         "summary": "شواطئ خلابة وأنشطة بحرية ممتعة.",
-        "images": ["images/yanbu_1.jpg", "images/yanbu_2.jpg"],
+        "images": ["images/yanbu_1.JPG", "images/yanbu_2.JPG"],
         "price_per_day": 400,
         "days_default": 2,
     },
@@ -82,9 +82,9 @@ def get_trip(slug: str):
 def home():
     stats = {"guides_count": 4, "trips_available": len(TRIPS), "booked": 3}
     guides = [
-        {"name": "سامي الحربي", "city": "الرياض", "years": 7, "photo": "images/guide1.png"},
-        {"name": "ماجد المطيري", "city": "جدة",   "years": 5, "photo": "images/guide2.png"},
-        {"name": "عبدالعزيز الدوسري", "city": "ينبع", "years": 6, "photo": "images/guide3.png"},
+        {"name": "سامي الحربي", "city": "الرياض", "years": 7, "photo": "images/guide1.PNG"},
+        {"name": "ماجد المطيري", "city": "جدة",   "years": 5, "photo": "images/guide2.PNG"},
+        {"name": "عبدالعزيز الدوسري", "city": "ينبع", "years": 6, "photo": "images/guide3.PNG"},
     ]
     reviews = [
         {"name": "أبو خالد", "rating": 5, "text": "تنظيم ممتاز وخدمة رائعة."},
@@ -107,10 +107,10 @@ def trip_detail(slug):
 @app.route("/guides")
 def guides_page():
     guides = [
-        {"name": "سامي الحربي", "city": "الرياض", "years": 7, "photo": "images/guide1.png"},
-        {"name": "ماجد المطيري", "city": "جدة",   "years": 5, "photo": "images/guide2.png"},
-        {"name": "عبدالعزيز الدوسري", "city": "ينبع", "years": 6, "photo": "images/guide3.png"},
-        {"name": "فهد الشهري", "city": "العلا",  "years": 8, "photo": "images/guide4.png"},
+        {"name": "سامي الحربي", "city": "الرياض", "years": 7, "photo": "images/guide1.PNG"},
+        {"name": "ماجد المطيري", "city": "جدة",   "years": 5, "photo": "images/guide2.PNG"},
+        {"name": "عبدالعزيز الدوسري", "city": "ينبع", "years": 6, "photo": "images/guide3.PNG"},
+        {"name": "فهد الشهري", "city": "العلا",  "years": 8, "photo": "images/guide4.PNG"},
     ]
     return render_template("guides.html", guides=guides)
 
