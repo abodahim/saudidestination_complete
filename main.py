@@ -80,7 +80,42 @@ TRIPS = [
 def get_trip(slug: str):
     return next((t for t in TRIPS if t["slug"] == slug), None)
 
+
+# [أضِف مرة واحدة في main.py]
+def send_email(to_email: str, subject: str, body: str, reply_to: str | None = None):
+    """يرسل بريدًا عبر SMTP إن كانت بيانات SMTP مضبوطة."""
+    if not (SMTP_HOST and SMTP_USER and SMTP_PASS and (FROM_EMAIL or SMTP_USER) and to_email):
+        return
+    msg = EmailMessage()
+    msg["Subject"] = subject
+    msg["From"] = FROM_EMAIL or SMTP_USER
+    msg["To"] = to_email
+    if reply_to:
+        msg["Reply-To"] = reply_to
+    msg.set_content(body)
+    try:
+        # SSL port 465 (لو تستخدم 587 بدّل إلى SMTP() + starttls)
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
+            server.login(SMTP_USER, SMTP_PASS)
+            server.send_message(msg)
+    except Exception as exc:
+        print(f"[email] failed:", exc)
+
+def send_telegram(text: str):
+    """يرسل رسالة تيليجرام إن كانت متغيرات تيليجرام مضبوطة."""
+    if not (TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID):
+        return
+    try:
+        requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+            data={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "HTML"},
+            timeout=10,
+        )
+    except Exception as exc:
+        print(f"[telegram] failed:", exc)
 # =========================
+
 # صفحات عامة
 # =========================
 @app.route("/")
