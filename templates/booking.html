@@ -22,13 +22,19 @@
               </option>
             {% endfor %}
           </select>
-          <small class="muted">سيتم حساب السعر التقديري حسب الأيام والسعر اليومي.</small>
+          <small class="muted">سيتم حساب السعر التقديري حسب الأيام وعدد الأشخاص والسعر اليومي.</small>
         </div>
 
         <div class="field">
           <label for="days">عدد الأيام</label>
           <input id="days" name="days" type="number" inputmode="numeric" value="1" min="1" max="7" required>
           <small class="muted">الحد الأدنى 1 والحد الأقصى 7 أيام.</small>
+        </div>
+
+        <div class="field">
+          <label for="persons">عدد الأشخاص</label>
+          <input id="persons" name="persons" type="number" inputmode="numeric" value="1" min="1" max="20" required>
+          <small class="muted">يمكن تعديل العدد بحسب المجموعة.</small>
         </div>
 
         <div class="field">
@@ -54,7 +60,7 @@
         <div class="field" style="display:flex;gap:8px;align-items:flex-start;">
           <input id="agree" name="agree" type="checkbox" style="margin-top:4px;">
           <label for="agree" style="margin:0;">
-            أوافق على <a href="{{ url_for('faq') }}">سياسة الإلغاء</a> وشروط الحجز.
+            أوافق على <a href="{{ url_for('cancellation') }}">سياسة الإلغاء</a> وشروط الحجز.
           </label>
         </div>
 
@@ -68,6 +74,7 @@
     <article class="card" style="grid-column: span 12; padding:16px;">
       <h3 style="margin:0 0 8px;">الملخص التقديري</h3>
       <p class="muted" style="margin:0 0 6px;">السعر اليومي: <strong id="ppd">—</strong> ر.س</p>
+      <p class="muted" style="margin:0 0 6px;">الأيام: <strong id="daysOut">—</strong> — الأشخاص: <strong id="personsOut">—</strong></p>
       <p class="muted" style="margin:0 0 12px;">الإجمالي (تقديري): <strong id="total">—</strong> ر.س</p>
       <div class="note">
         <strong>معلومة:</strong> هذه الأرقام تقديرية. بعد التأكيد ستصل إلى صفحة نجاح تتضمن زر “إتمام الدفع”.
@@ -81,21 +88,37 @@
 (function(){
   const sel = document.getElementById('trip');
   const days = document.getElementById('days');
+  const persons = document.getElementById('persons');
   const ppdEl = document.getElementById('ppd');
   const totalEl = document.getElementById('total');
+  const daysOut = document.getElementById('daysOut');
+  const personsOut = document.getElementById('personsOut');
 
   function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+  function toInt(v, d){ const n = parseInt(v, 10); return isFinite(n) ? n : d; }
+
   function updatePrice(){
-    if(!sel || !days) return;
-    const price = parseInt(sel.options[sel.selectedIndex].dataset.price || '0', 10);
-    const d = clamp(parseInt(days.value || '1', 10), parseInt(days.min||'1',10), parseInt(days.max||'7',10));
+    if(!sel || !days || !persons) return;
+
+    const price = toInt(sel.options[sel.selectedIndex]?.dataset?.price, 0);
+    const d = clamp(toInt(days.value, 1), toInt(days.min, 1), toInt(days.max, 7));
+    const p = clamp(toInt(persons.value, 1), toInt(persons.min, 1), toInt(persons.max, 20));
+
     days.value = d;
-    const total = price * d;
-    ppdEl.textContent = isFinite(price) && price>0 ? price.toLocaleString('ar-SA') : '—';
-    totalEl.textContent = isFinite(total) && total>0 ? total.toLocaleString('ar-SA') : '—';
+    persons.value = p;
+
+    const total = price * d * p;
+
+    ppdEl.textContent = price > 0 ? price.toLocaleString('ar-SA') : '—';
+    daysOut.textContent = d;
+    personsOut.textContent = p;
+    totalEl.textContent = total > 0 ? total.toLocaleString('ar-SA') : '—';
   }
+
   if(sel) sel.addEventListener('change', updatePrice);
   if(days) days.addEventListener('input', updatePrice);
+  if(persons) persons.addEventListener('input', updatePrice);
+
   updatePrice();
 })();
 </script>
