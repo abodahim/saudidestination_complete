@@ -5,14 +5,103 @@
 <section class="container" style="padding:20px 0">
   <h1 class="page-title">الحجز</h1>
 
-  {% if trip_slug %}
-    <p class="muted">الرحلة المختارة: <strong>{{ trip_slug }}</strong></p>
+  {% if not trips or trips|length == 0 %}
+    <p class="muted">لا توجد رحلات متاحة حاليًا.</p>
+    <p><a class="btn btn--ghost" href="{{ url_for('trips') }}">العودة إلى الرحلات</a></p>
+  {% else %}
+  <div class="cards" style="margin-top:10px">
+    <article class="card" style="grid-column: span 12; padding:16px;">
+      <form id="bookingForm" action="{{ url_for('booking') }}" method="post" novalidate>
+        <!-- الرحلة -->
+        <div class="field">
+          <label for="trip">اختر الرحلة</label>
+          <select id="trip" name="trip" required>
+            {% for t in trips %}
+              <option value="{{ t.slug }}"
+                      data-price="{{ t.price_per_day }}"
+                      {% if selected_slug and selected_slug == t.slug %}selected{% elif not selected_slug and loop.first %}selected{% endif %}>
+                {{ t.title }} — {{ t.city }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- عدد الأيام -->
+        <div class="field">
+          <label for="days">عدد الأيام</label>
+          <input id="days" name="days" type="number" inputmode="numeric" value="1" min="1" max="7" required>
+          <small class="muted">الحد الأدنى 1 والحد الأقصى 7 أيام.</small>
+        </div>
+
+        <!-- تاريخ البدء (اختياري) -->
+        <div class="field">
+          <label for="date">تاريخ البدء (اختياري)</label>
+          <input id="date" name="date" type="date">
+        </div>
+
+        <!-- بيانات العميل -->
+        <div class="field">
+          <label for="name">الاسم الكامل</label>
+          <input id="name" name="name" type="text" placeholder="اكتب اسمك" required>
+        </div>
+
+        <div class="field">
+          <label for="email">البريد الإلكتروني</label>
+          <input id="email" name="email" type="email" placeholder="example@email.com" required>
+        </div>
+
+        <div class="field">
+          <label for="phone">رقم الجوال</label>
+          <input id="phone" name="phone" type="tel" placeholder="05xxxxxxxx" required>
+        </div>
+
+        <!-- سياسة الإلغاء -->
+        <div class="field" style="display:flex;gap:8px;align-items:flex-start;">
+          <input id="agree" name="agree" type="checkbox" required style="margin-top:4px;">
+          <label for="agree" style="margin:0;">
+            أوافق على <a href="{{ url_for('trips') }}#policy">سياسة الإلغاء</a> وشروط الحجز.
+          </label>
+        </div>
+
+        <!-- أزرار -->
+        <div class="card__actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+          <button class="btn btn--primary" type="submit">تأكيد الحجز</button>
+          <a class="btn btn--ghost" href="{{ url_for('trips') }}">عودة للرحلات</a>
+        </div>
+      </form>
+    </article>
+
+    <!-- ملخص تقديري (عميل) -->
+    <article class="card" style="grid-column: span 12; padding:16px;">
+      <h3 style="margin:0 0 8px;">الملخص التقديري</h3>
+      <p class="muted" style="margin:0 0 6px;">السعر اليومي: <strong id="ppd">—</strong> ر.س</p>
+      <p class="muted" style="margin:0 0 12px;">الإجمالي (تقديري): <strong id="total">—</strong> ر.س</p>
+    </article>
+  </div>
   {% endif %}
-
-  <p>نموذج الحجز سيضاف هنا.</p>
-
-  <p style="margin-top:12px">
-    <a class="btn btn--ghost" href="{{ url_for('trips') }}">الرجوع للرحلات</a>
-  </p>
 </section>
+
+<!-- حساب السعر لحظياً (لا نغيّر اسم ملف script.js) -->
+<script>
+(function(){
+  const sel = document.getElementById('trip');
+  const days = document.getElementById('days');
+  const ppdEl = document.getElementById('ppd');
+  const totalEl = document.getElementById('total');
+
+  function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+  function updatePrice(){
+    if(!sel || !days) return;
+    const price = parseInt(sel.options[sel.selectedIndex].dataset.price || '0', 10);
+    const d = clamp(parseInt(days.value || '1', 10), parseInt(days.min||'1',10), parseInt(days.max||'7',10));
+    days.value = d;
+    const total = price * d;
+    ppdEl.textContent = isFinite(price) && price>0 ? price.toLocaleString('ar-SA') : '—';
+    totalEl.textContent = isFinite(total) && total>0 ? total.toLocaleString('ar-SA') : '—';
+  }
+  if(sel) sel.addEventListener('change', updatePrice);
+  if(days) days.addEventListener('input', updatePrice);
+  updatePrice();
+})();
+</script>
 {% endblock %}
