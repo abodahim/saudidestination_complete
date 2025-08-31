@@ -5,47 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
+  <!-- أيقونة الموقع -->
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
 
+  <!-- الأنماط -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
-    
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
-    
+
+  {% block head_extra %}{% endblock %}
+  <!-- سكربتات في نهاية الـ body، لكن defer هنا لا يسبب تعارض -->
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
 
+  <!-- الهيدر -->
   <header class="site-header">
     <div class="container header__inner">
       <div class="logo">
-         <a href="{{ url_for('home') }}" class="brand" aria-label="وجهة السعودية">
+        <a href="{{ url_for('home') }}" class="brand" aria-label="وجهة السعودية">
           <img
             src="{{ url_for('static', filename='images/logo.JPG') }}"
             alt="وجهة السعودية"
             width="140" height="32"
             loading="eager"
             onerror="this.replaceWith(document.createTextNode('وجهة السعودية'))">
-         </a>
+        </a>
       </div>
-     <nav class="top-nav" aria-label="روابط رئيسية">
-       <a href="{{ url_for('home') }}"        aria-current="{{ 'page' if request.endpoint=='home' else 'false' }}">الرئيسية</a>
-       <a href="{{ url_for('trips') }}"       aria-current="{{ 'page' if request.endpoint=='trips' else 'false' }}">الرحلات</a>
-       <a href="{{ url_for('guides_page') }}" aria-current="{{ 'page' if request.endpoint=='guides_page' else 'false' }}">مرشدونا</a>
-       <a href="{{ url_for('contact') }}"     aria-current="{{ 'page' if request.endpoint=='contact' else 'false' }}">تواصل معنا</a>
-     </nav>
+
+      <nav class="top-nav" aria-label="روابط رئيسية">
+        <a href="{{ url_for('home') }}"
+           aria-current="{{ 'page' if request.endpoint=='home' else 'false' }}">الرئيسية</a>
+        <a href="{{ url_for('trips') }}"
+           aria-current="{{ 'page' if request.endpoint in ['trips','trip_detail'] else 'false' }}">الرحلات</a>
+        <a href="{{ url_for('guides_page') }}"
+           aria-current="{{ 'page' if request.endpoint=='guides_page' else 'false' }}">مرشدونا</a>
+        <a href="{{ url_for('contact') }}"
+           aria-current="{{ 'page' if request.endpoint=='contact' else 'false' }}">تواصل معنا</a>
+      </nav>
+
       <button class="menu-btn" aria-label="القائمة">☰</button>
     </div>
   </header>
 
+  <!-- رسائل فلاش إن وجدت -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container flash">
+        {% for category, message in messages %}
+          <p class="flash__msg {{ category }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- المحتوى -->
   <main>
     {% block content %}{% endblock %}
   </main>
 
+  <!-- الفوتر -->
   <footer class="site-footer">
     <div class="container">
       <p>© {{ current_year }} وجهة السعودية — جميع الحقوق محفوظة</p>
     </div>
   </footer>
 
+  {% block body_extra %}{% endblock %}
 </body>
 </html>
