@@ -1,12 +1,22 @@
 {% extends "base.html" %}
 {% block title %}تم تأكيد الحجز — وجهة السعودية{% endblock %}
-
 {% block content %}
 <section class="container" style="padding:22px 0">
   <h1 class="page-title">تم تأكيد الحجز</h1>
+
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% if msgs %}
+      <div class="flash">
+        {% for cat, msg in msgs %}
+          <p class="flash__msg {{cat}}">{{ msg }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
   {% if data %}
     <div class="card" style="padding:16px;margin-top:10px">
-      <p>شكرًا <strong>{{ data.name }}</strong>، تم استلام طلبك بنجاح.</p>
+      <p>شكرًا <strong>{{ data.name }}</strong>، تم استلام طلبك بنجاح 👌</p>
       <ul style="line-height:1.9">
         <li>الرحلة: <strong>{{ data.trip.title }}</strong> — {{ data.trip.city }}</li>
         <li>عدد الأيام: <strong>{{ data.days }}</strong></li>
@@ -14,16 +24,36 @@
         <li>الإجمالي: <strong>{{ data.total_price }}</strong> ر.س</li>
         <li class="muted">وقت الإنشاء: {{ data.created_at }}</li>
       </ul>
-      <div class="note" style="background:#f4fbf6;border:1px solid #cce9d6;border-radius:10px;padding:10px;margin-top:8px">
-        <strong>معلومة:</strong> سيتم إظهار بيانات التواصل (واتساب/اتصال) بعد تفعيل الدفع في الخطوة القادمة.
-      </div>
+
+      {% if not paid %}
+        <div class="note" style="margin-top:10px">
+          <strong>خطوة أخيرة:</strong> الرجاء إتمام الدفع لتأكيد الحجز نهائيًا.
+        </div>
+        <form action="{{ url_for('pay_start') }}" method="post" style="margin-top:12px">
+          <button class="btn btn--primary" type="submit">إتمام الدفع</button>
+          <a class="btn btn--ghost" href="{{ url_for('trips') }}">الرجوع للرحلات</a>
+        </form>
+      {% else %}
+        <div class="note" style="margin-top:10px">
+          ✅ تم الدفع بنجاح — يمكنك تحميل الفاتورة وظهرت الآن بيانات التواصل.
+        </div>
+        <div class="card__actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+          <a class="btn btn--primary" href="{{ url_for('invoice_pdf') }}">تحميل الفاتورة PDF</a>
+          <a class="btn btn--ghost" href="{{ url_for('trips') }}">حجز رحلة أخرى</a>
+        </div>
+
+        <div class="card" style="padding:12px;margin-top:12px">
+          <h3 style="margin:0 0 8px;">بيانات التواصل مع المرشد</h3>
+          <ul style="margin:0;line-height:1.9">
+            <li>واتساب: <a href="https://wa.me/966500000000" target="_blank" rel="noopener">+966500000000</a></li>
+            <li>اتصال: <a href="tel:+966500000000">+966500000000</a></li>
+          </ul>
+        </div>
+      {% endif %}
     </div>
   {% else %}
     <p class="muted">لا يوجد حجز لعرضه.</p>
+    <p><a class="btn btn--ghost" href="{{ url_for('booking') }}">العودة للحجز</a></p>
   {% endif %}
-
-  <p style="margin-top:14px">
-    <a class="btn btn--ghost" href="{{ url_for('trips') }}">الرجوع للرحلات</a>
-  </p>
 </section>
 {% endblock %}
