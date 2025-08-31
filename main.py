@@ -577,6 +577,10 @@ def not_found(e):
 @app.errorhandler(500)
 def server_error(e):
     return render_template("error.html", code=500, message="حدث خطأ داخلي في الخادم"), 500
+    
+@app.route("/ping")
+def ping():
+    return "ok", 200
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
