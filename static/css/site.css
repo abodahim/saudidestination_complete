@@ -96,3 +96,84 @@ body {
   .top-nav.show { display:flex; }
   .menu-btn { display:block; }
 }
+
+/* =====[ تحسينات واجهة - إضافة في نهاية site.css ]===== */
+:root{
+  --brand:#0f6a3e;
+  --brand-600:#0b5a34;
+  --text:#1b1b1b;
+  --muted:#6b7280;
+  --card:#ffffff;
+  --card-bd:#e5e7eb;
+}
+body{ color:var(--text); }
+
+a{ color:var(--brand); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
+.page-title{ margin:12px 0 8px; font-size:28px; }
+.container{ max-width:1100px; margin-inline:auto; padding:0 16px; }
+
+/* الهيدر والقائمة */
+.site-header{ position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--card-bd); }
+.header__inner{ display:flex; align-items:center; gap:12px; min-height:58px; }
+.logo a{ font-weight:700; color:var(--brand); }
+.top-nav{ display:flex; gap:14px; margin-inline-start:auto; }
+.top-nav a{ padding:8px 10px; border-radius:8px; color:var(--text); }
+.top-nav a[aria-current="page"]{ color:#fff; background:var(--brand); }
+.menu-btn{ display:none; background:transparent; border:0; font-size:22px; }
+
+@media (max-width: 780px){
+  .menu-btn{ display:block; margin-inline-start:auto; }
+  .top-nav{
+    position:fixed; inset:58px 0 auto 0; background:#fff;
+    border-bottom:1px solid var(--card-bd);
+    padding:12px 16px; display:none; flex-direction:column; gap:10px;
+  }
+  .top-nav.is-open{ display:flex; }
+}
+
+/* البانر */
+.hero__bg{ background-size:cover; background-position:center; min-height:56vh; display:flex; align-items:center; }
+.hero__overlay{ background:linear-gradient(0deg, rgba(0,0,0,.35), rgba(0,0,0,.25)); width:100%; }
+.hero__content{ padding:44px 16px; text-align:center; color:#fff; }
+.hero__title{ font-size:40px; margin:0 0 10px; text-shadow:0 2px 10px rgba(0,0,0,.25); }
+.hero__subtitle{ font-size:18px; margin:0 0 18px; }
+
+/* الأزرار */
+.btn{ display:inline-block; padding:12px 18px; border-radius:12px; border:1px solid var(--brand); font-weight:600; }
+.btn--primary{ background:var(--brand); color:#fff; border-color:var(--brand); }
+.btn--primary:hover{ background:var(--brand-600); }
+.btn--ghost{ background:#fff; color:var(--brand); }
+
+/* البطاقات */
+.cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+@media (max-width:980px){ .cards{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:620px){ .cards{ grid-template-columns:1fr; } }
+
+.card{ background:var(--card); border:1px solid var(--card-bd); border-radius:14px; overflow:hidden; }
+.card__imglink{ display:block; }
+.card__img{ display:block; width:100%; aspect-ratio:16/10; object-fit:cover; background:#f6f7f9; }
+.card__body{ padding:14px; }
+.card__title{ margin:0 0 6px; font-size:20px; }
+.card__text{ margin:0 0 10px; color:var(--muted); }
+.card__actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+/* منع لون الروابط الأزرق داخل البطاقات */
+.card a{ color:inherit; }
+.card .btn{ color:initial; }
+
+/* الإحصائيات */
+.stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:18px 0; }
+.stat{ border:1px solid var(--card-bd); border-radius:14px; padding:16px; text-align:center; background:#fff; }
+.stat__num{ font-size:26px; font-weight:700; color:var(--brand); }
+.stat__label{ color:var(--muted); }
+
+/* رسائل فلاش (اختياري) */
+.flash__msg{ padding:10px 12px; border-radius:10px; margin:8px 0; }
+.flash__msg.success{ background:#ecfdf5; border:1px solid #a7f3d0; }
+.flash__msg.warning{ background:#fffbeb; border:1px solid #fde68a; }
+.flash__msg.danger{  background:#fef2f2; border:1px solid #fecaca; }
+
+/* الفوتر */
+.site-footer{ margin-top:22px; border-top:1px solid var(--card-bd); padding:16px 0; color:var(--muted); }
