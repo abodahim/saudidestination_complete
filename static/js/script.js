@@ -1,16 +1,18 @@
-// فتح/إغلاق القائمة على الجوال
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.menu-btn');
-  if (!btn) return;
-  const nav = document.querySelector('.top-nav');
-  if (nav) nav.classList.toggle('is-open');
-});
+document.addEventListener("DOMContentLoaded", () => {
+  const menuBtn = document.querySelector(".menu-btn");
+  const nav = document.querySelector(".top-nav");
 
-// تمرير ناعم لأي مرساة داخلية (إن وُجدت)
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', (e) => {
-    const id = a.getAttribute('href').slice(1);
-    const el = document.getElementById(id);
-    if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
+  if (menuBtn && nav) {
+    menuBtn.addEventListener("click", () => {
+      nav.classList.toggle("show");
+    });
+  }
+
+  // إبراز الرابط النشط (احتياطي بجانب التمييز من Jinja)
+  const currentPath = window.location.pathname;
+  document.querySelectorAll(".top-nav a").forEach(link => {
+    if (link.getAttribute("href") === currentPath) {
+      link.classList.add("active");
+    }
   });
 });
