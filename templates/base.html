@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <!-- مسارات ثابتة كما اتفقنا -->
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
+
   <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
@@ -15,10 +16,10 @@
     <div class="container header__inner">
       <div class="logo"><a href="{{ url_for('home') }}">وجهة السعودية</a></div>
       <nav class="top-nav" aria-label="روابط رئيسية">
-        <a href="{{ url_for('home') }}">الرئيسية</a>
-        <a href="{{ url_for('trips') }}">الرحلات</a>
-        <a href="{{ url_for('guides_page') }}">مرشدونا</a>
-        <a href="{{ url_for('contact') }}">تواصل معنا</a>
+        <a href="{{ url_for('home') }}" class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a>
+        <a href="{{ url_for('trips') }}" class="{% if request.endpoint in ['trips','trip_detail'] %}active{% endif %}">الرحلات</a>
+        <a href="{{ url_for('guides_page') }}" class="{% if request.endpoint=='guides_page' %}active{% endif %}">مرشدونا</a>
+        <a href="{{ url_for('contact') }}" class="{% if request.endpoint=='contact' %}active{% endif %}">تواصل معنا</a>
       </nav>
       <button class="menu-btn" aria-label="القائمة">☰</button>
     </div>
