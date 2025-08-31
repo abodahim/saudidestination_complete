@@ -1,14 +1,13 @@
-# [أضِف في أعلى الملف مع الاستيرادات]
-import stripe
-import smtplib, ssl
-from email.message import EmailMessage
-import requests
+# main.py
 import os
-import requests
 from io import BytesIO
 from datetime import datetime
-from email.message import EmailMessage
+import ssl
 import smtplib
+from email.message import EmailMessage
+
+import requests
+import stripe
 
 from flask import (
     Flask, render_template, request, redirect,
@@ -18,19 +17,31 @@ from flask import (
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.environ.get("APP_SECRET_KEY", "change_this_secret_key")
 
-# ===== إعدادات الدفع (Render env) =====
-PAY_PROVIDER = os.getenv("PAY_PROVIDER", "MOYASAR")
-MOYASAR_SECRET_KEY = os.getenv("MOYASAR_SECRET_KEY", "")
-MOYASAR_PUBLISHABLE_KEY = os.getenv("MOYASAR_PUBLISHABLE_KEY", "")
-SITE_BASE_URL = os.getenv("SITE_BASE_URL", "http://localhost:5000")
+# ===== مزوّد الدفع واعداداته (Render env) =====
+PAY_PROVIDER = os.getenv("PAY_PROVIDER", "MOYASAR").strip().upper()  # MOYASAR أو STRIPE
+
+# MOYASAR
+MOYASAR_SECRET_KEY = os.getenv("MOYASAR_SECRET_KEY", "").strip()
+MOYASAR_PUBLISHABLE_KEY = os.getenv("MOYASAR_PUBLISHABLE_KEY", "").strip()
+SITE_BASE_URL = os.getenv("SITE_BASE_URL", "http://localhost:5000").strip()
+
+# STRIPE
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "").strip()
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "").strip()
+if STRIPE_SECRET_KEY:
+    stripe.api_key = STRIPE_SECRET_KEY
 
 # ===== إعدادات البريد (Render env) =====
-SMTP_HOST = os.getenv("SMTP_HOST", "")
-SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))  # 587 TLS
-SMTP_USER = os.getenv("SMTP_USER", "")
-SMTP_PASS = os.getenv("SMTP_PASS", "")
-MAIL_FROM = os.getenv("MAIL_FROM", "no-reply@example.com")
-MAIL_BCC  = os.getenv("MAIL_BCC", "")  # اختياري (إدارة)
+SMTP_HOST = os.getenv("SMTP_HOST", "").strip()
+SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))  # 587 TLS (starttls)
+SMTP_USER = os.getenv("SMTP_USER", "").strip()
+SMTP_PASS = os.getenv("SMTP_PASS", "").strip()
+MAIL_FROM = os.getenv("MAIL_FROM", "no-reply@example.com").strip()
+MAIL_BCC  = os.getenv("MAIL_BCC", "").strip()  # اختياري (إدارة)
+
+# ===== تيليجرام للإشعارات =====
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID", "").strip()
 
 # ===== السنة في كل القوالب =====
 @app.context_processor
@@ -80,27 +91,25 @@ TRIPS = [
 def get_trip(slug: str):
     return next((t for t in TRIPS if t["slug"] == slug), None)
 
-
-# [أضِف مرة واحدة في main.py]
+# ===== أدوات الإشعارات =====
 def send_email(to_email: str, subject: str, body: str, reply_to: str | None = None):
-    """يرسل بريدًا عبر SMTP إن كانت بيانات SMTP مضبوطة."""
-    if not (SMTP_HOST and SMTP_USER and SMTP_PASS and (FROM_EMAIL or SMTP_USER) and to_email):
+    """يرسل بريدًا عبر SMTP (TLS على 587) إن كانت إعدادات SMTP مضبوطة."""
+    if not (SMTP_HOST and SMTP_USER and SMTP_PASS and MAIL_FROM and to_email):
         return
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = FROM_EMAIL or SMTP_USER
+    msg["From"] = MAIL_FROM
     msg["To"] = to_email
     if reply_to:
         msg["Reply-To"] = reply_to
     msg.set_content(body)
     try:
-        # SSL port 465 (لو تستخدم 587 بدّل إلى SMTP() + starttls)
-        context = ssl.create_default_context()
-        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
+            server.starttls(context=ssl.create_default_context())
             server.login(SMTP_USER, SMTP_PASS)
             server.send_message(msg)
     except Exception as exc:
-        print(f"[email] failed:", exc)
+        print("[email] failed:", exc)
 
 def send_telegram(text: str):
     """يرسل رسالة تيليجرام إن كانت متغيرات تيليجرام مضبوطة."""
@@ -113,9 +122,9 @@ def send_telegram(text: str):
             timeout=10,
         )
     except Exception as exc:
-        print(f"[telegram] failed:", exc)
-# =========================
+        print("[telegram] failed:", exc)
 
+# =========================
 # صفحات عامة
 # =========================
 @app.route("/")
@@ -186,16 +195,17 @@ def cancellation():
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
     if request.method == "GET":
-        
         selected_slug = request.args.get("trip")
         return render_template("booking.html", trips=TRIPS, selected_slug=selected_slug)
 
-    # POST
+    # --- POST ---
     name  = (request.form.get("name") or "").strip()
     email = (request.form.get("email") or "").strip()
     phone = (request.form.get("phone") or "").strip()
     slug  = (request.form.get("trip") or "").strip()
     days_raw = (request.form.get("days") or "1").strip()
+    date = (request.form.get("date") or "").strip()
+    persons_raw = (request.form.get("persons") or "1").strip()
     agree = request.form.get("agree")
 
     trip = get_trip(slug) if slug else None
@@ -203,13 +213,19 @@ def booking():
         days = max(1, min(7, int(days_raw)))
     except ValueError:
         days = 1
+    try:
+        persons = max(1, int(persons_raw))
+    except ValueError:
+        persons = 1
 
     if not (name and email and phone and trip and agree):
         flash("يرجى استكمال جميع الحقول والموافقة على سياسة الإلغاء.", "danger")
         return redirect(url_for("booking", trip=slug or None))
 
-    total_price = days * trip["price_per_day"]
+    # إجمالي السعر: اليوم × الأيام × الأشخاص
+    total_price = days * trip["price_per_day"] * persons
 
+    # تخزين ملخص الحجز في الجلسة
     session["last_booking"] = {
         "name": name,
         "email": email,
@@ -221,117 +237,99 @@ def booking():
             "price_per_day": trip["price_per_day"],
         },
         "days": days,
+        "persons": persons,
+        "date": date,
         "total_price": total_price,
         "created_at": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
     }
-    session["paid"] = False  # لم يُدفع بعد
-    return redirect(url_for("book_success"))
-       # [داخل booking() في الفرع POST بعد التحقق من البيانات]
-# حساب الإجمالي (سعر اليوم × الأيام × الأشخاص)
+    session["paid"] = False
 
-    unit_amount_sar = trip["price_per_day"]
-    days = int(days)
-    persons = max(1, int(persons))
-    quantity = days * persons
-    total_sar = unit_amount_sar * quantity
-
-# إشعار مبدئي (طلب قيد الدفع) — إدارة
+    # إشعار إداري مبدئي (قيد الدفع)
     admin_text = (
-    f"🧾 طلب حجز جديد (قيد الدفع)\n"
-    f"الرحلة: {trip['title']} ({trip['slug']})\n"
-    f"الاسم: {name}\n"
-    f"الإيميل: {email}\n"
-    f"الجوال: {phone}\n"
-    f"التاريخ: {date}\n"
-    f"الأيام: {days} | الأشخاص: {persons}\n"
-    f"الإجمالي: {total_sar} SAR"
-)
-    send_telegram(admin_text)
-    if ADMIN_EMAIL:
-     send_email(ADMIN_EMAIL, "طلب حجز جديد (قيد الدفع)", admin_text, reply_to=email or None)
-
-# تأكد أن مفاتيح Stripe مضبوطة
-if not STRIPE_SECRET_KEY or not STRIPE_PUBLISHABLE_KEY:
-    return render_template("error.html", code=500,
-        message="بوابة الدفع غير مهيأة (Stripe). اضبط STRIPE_SECRET_KEY و STRIPE_PUBLISHABLE_KEY."), 500
-
-# إنشاء جلسة دفع Stripe — لاحظ أن success_url يوجّه إلى صفحتك book_success
-checkout_session = stripe.checkout.Session.create(
-    mode="payment",
-    payment_method_types=["card"],
-    customer_email=email or None,
-    line_items=[{
-        "quantity": quantity,
-        "price_data": {
-            "currency": "sar",
-            "unit_amount": int(unit_amount_sar * 100),  # بالهللة
-            "product_data": {
-                "name": f"حجز {trip['title']} — {days} يوم × {persons} شخص",
-                "description": f"تاريخ الرحلة: {date}",
-            },
-        },
-    }],
-    metadata={
-        "trip_slug": trip["slug"],
-        "trip_title": trip["title"],
-        "name": name, "email": email, "phone": phone,
-        "date": date, "days": str(days), "persons": str(persons),
-        "total_sar": str(total_sar),
-    },
-    success_url=url_for("book_success", _external=True) + "?session_id={CHECKOUT_SESSION_ID}",
-    cancel_url=url_for("booking", _external=True),
-)
-
-# إعادة التوجيه لبوابة الدفع
-    return redirect(checkout_session.url, code=303)
-
-@app.route("/book_success")
-def book_success():
-    # [استبدل منطق دالة book_success بهذه الكتلة]
-session_id = request.args.get("session_id")
-paid = False
-details = {}
-
-if session_id and STRIPE_SECRET_KEY:
-    try:
-        sess = stripe.checkout.Session.retrieve(session_id)
-        paid = (sess.get("payment_status") == "paid")
-        details = sess.get("metadata", {}) or {}
-    except Exception as exc:
-        print("[stripe retrieve] error:", exc)
-
-# إذا مدفوع — أرسل بريد تأكيد + تيليجرام
-if paid:
-    trip_title = details.get("trip_title", "رحلة")
-    customer_email = details.get("email")
-    customer_name = details.get("name", "")
-
-    confirm_text = (
-        f"✅ تم تأكيد الحجز\n"
-        f"الرحلة: {trip_title}\n"
-        f"الاسم: {customer_name}\n"
-        f"الإيميل: {customer_email}\n"
-        f"Session ID: {session_id}"
+        f"🧾 طلب حجز جديد (قيد الدفع)\n"
+        f"الرحلة: {trip['title']} ({trip['slug']})\n"
+        f"الاسم: {name}\n"
+        f"الإيميل: {email}\n"
+        f"الجوال: {phone}\n"
+        f"التاريخ: {date}\n"
+        f"الأيام: {days} | الأشخاص: {persons}\n"
+        f"الإجمالي: {total_price} SAR"
     )
-    send_telegram(confirm_text)
-    if customer_email:
-        send_email(
-            customer_email,
-            "تأكيد الحجز — تم الدفع بنجاح",
-            f"شكرًا لك {customer_name}!\nتم تأكيد حجزك لرحلة: {trip_title}.\nرقم العملية: {session_id}",
-        )
-    if ADMIN_EMAIL:
-        send_email(ADMIN_EMAIL, "تم الدفع — تأكيد الحجز", confirm_text)
+    send_telegram(admin_text)
+    if MAIL_BCC:
+        send_email(MAIL_BCC, "طلب حجز جديد (قيد الدفع)", admin_text, reply_to=email or None)
 
-# مرّر flags/تفاصيل للقالب book_success.html
-return render_template("book_success.html", paid=paid, details=details)
+    # التفرّع حسب مزوّد الدفع
+    if PAY_PROVIDER == "MOYASAR":
+        return redirect(url_for("pay_start"), code=303)
+
+    elif PAY_PROVIDER == "STRIPE":
+        if not STRIPE_SECRET_KEY or not STRIPE_PUBLISHABLE_KEY:
+            return render_template(
+                "error.html", code=500,
+                message="بوابة Stripe غير مهيأة. اضبط STRIPE_SECRET_KEY و STRIPE_PUBLISHABLE_KEY."
+            ), 500
+
+        unit_amount_sar = trip["price_per_day"]
+        quantity = days * persons
+
+        checkout_session = stripe.checkout.Session.create(
+            mode="payment",
+            payment_method_types=["card"],
+            customer_email=email or None,
+            line_items=[{
+                "quantity": quantity,
+                "price_data": {
+                    "currency": "sar",
+                    "unit_amount": int(unit_amount_sar * 100),
+                    "product_data": {
+                        "name": f"حجز {trip['title']} — {days} يوم × {persons} شخص",
+                        "description": f"تاريخ الرحلة: {date}",
+                    },
+                },
+            }],
+            metadata={
+                "trip_slug": trip["slug"],
+                "trip_title": trip["title"],
+                "name": name, "email": email, "phone": phone,
+                "date": date, "days": str(days), "persons": str(persons),
+                "total_sar": str(total_price),
+            },
+            success_url=url_for("book_success", _external=True) + "?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=url_for("booking", _external=True),
+        )
+        return redirect(checkout_session.url, code=303)
+
+    else:
+        flash("بوابة الدفع غير مهيأة.", "danger")
+        return redirect(url_for("book_success"))
 
 # =========================
-# إنشاء PDF + إرسال بريد
+# صفحة النجاح بعد الدفع
+# =========================
+@app.route("/book_success")
+def book_success():
+    # دعم Stripe (session_id) أو Moyasar (session["paid"])
+    paid = bool(session.get("paid"))
+    details = session.get("last_booking", {})
+    session_id = request.args.get("session_id")
+
+    if session_id and STRIPE_SECRET_KEY:
+        try:
+            sess = stripe.checkout.Session.retrieve(session_id)
+            paid = (sess.get("payment_status") == "paid")
+            # في Stripe نستخدم metadata إن وجدت
+            details = sess.get("metadata", {}) or details
+        except Exception as exc:
+            print("[stripe retrieve] error:", exc)
+
+    return render_template("book_success.html", paid=paid, details=details)
+
+# =========================
+# إنشاء PDF + إرسال بريد (لـ Moyasar بعد العودة)
 # =========================
 def build_invoice_pdf(data: dict) -> bytes:
     """ينشئ PDF بسيط للفاتورة من بيانات الحجز."""
-    # استخدام reportlab
     from reportlab.pdfgen import canvas
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.units import mm
@@ -351,7 +349,7 @@ def build_invoice_pdf(data: dict) -> bytes:
         f"البريد: {data['email']}",
         f"الجوال: {data['phone']}",
         f"الرحلة: {data['trip']['title']} — {data['trip']['city']}",
-        f"عدد الأيام: {data['days']}",
+        f"عدد الأيام: {data['days']} | الأشخاص: {data['persons']}",
         f"السعر اليومي: {data['trip']['price_per_day']} ر.س",
         f"الإجمالي: {data['total_price']} ر.س",
         f"وقت الإنشاء: {data['created_at']}",
@@ -368,9 +366,8 @@ def build_invoice_pdf(data: dict) -> bytes:
 
 def send_email_with_optional_attachment(to_email: str, subject: str, body: str, attachment: bytes = None, filename: str = "invoice.pdf"):
     """يرسل بريدًا عبر SMTP مع مرفق اختياري."""
-    if not (SMTP_HOST and SMTP_USER and SMTP_PASS and MAIL_FROM):
-        # إن لم تضبط SMTP، لا نفشل التدفق، فقط نطبع للّوغ
-        print("[Email] SMTP not configured; skipped sending.")
+    if not (SMTP_HOST and SMTP_USER and SMTP_PASS and MAIL_FROM and to_email):
+        print("[Email] SMTP not configured or no recipient; skipped sending.")
         return
 
     msg = EmailMessage()
@@ -385,7 +382,7 @@ def send_email_with_optional_attachment(to_email: str, subject: str, body: str, 
         msg.add_attachment(attachment, maintype="application", subtype="pdf", filename=filename)
 
     with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as smtp:
-        smtp.starttls()
+        smtp.starttls(context=ssl.create_default_context())
         smtp.login(SMTP_USER, SMTP_PASS)
         smtp.send_message(msg)
 
@@ -405,7 +402,7 @@ def invoice_pdf():
 def _amount_halalas(sar_amount: int) -> int:
     return int(sar_amount) * 100
 
-@app.route("/pay/start", methods=["POST"])
+@app.route("/pay/start", methods=["GET", "POST"])
 def pay_start():
     data = session.get("last_booking")
     if not data:
@@ -416,7 +413,7 @@ def pay_start():
         flash("بوابة الدفع غير مهيأة.", "danger")
         return redirect(url_for("book_success"))
 
-    amount = _amount_halalas(data["total_price"])
+    amount = _amount_halalas(int(data["total_price"]))
     callback_success = f"{SITE_BASE_URL}{url_for('pay_return')}?status=paid"
     callback_failed  = f"{SITE_BASE_URL}{url_for('pay_return')}?status=failed"
 
@@ -434,6 +431,7 @@ def pay_start():
             "phone": data["phone"],
             "trip_slug": data["trip"]["slug"],
             "days": data["days"],
+            "persons": data["persons"],
             "created_at": data["created_at"]
         },
         "return_url": callback_failed
@@ -458,7 +456,7 @@ def pay_start():
 
 @app.route("/pay/return")
 def pay_return():
-    status = request.args.get("status", "failed")
+    status = (request.args.get("status") or "failed").lower()
     if status == "paid":
         session["paid"] = True
         flash("تم الدفع بنجاح. شكرًا لك!", "success")
@@ -470,7 +468,7 @@ def pay_return():
                 pdf = build_invoice_pdf(data)
                 body = (
                     f"عميلنا العزيز {data['name']},\n\n"
-                    f"تم استلام دفعك لحجز {data['trip']['title']} ({data['days']} يوم).\n"
+                    f"تم استلام دفعك لحجز {data['trip']['title']} ({data['days']} يوم، {data['persons']} أشخاص).\n"
                     f"الإجمالي: {data['total_price']} ر.س.\n\n"
                     f"مرفق فاتورة PDF.\n"
                     f"شكرًا لاختيارك وجهة السعودية."
@@ -484,9 +482,9 @@ def pay_return():
                 )
             except Exception as e:
                 print("[Email] error:", e)
-
     else:
         flash("لم يكتمل الدفع. يمكنك المحاولة مرة أخرى.", "warning")
+
     return redirect(url_for("book_success"))
 
 @app.route("/pay/webhook", methods=["POST"])
