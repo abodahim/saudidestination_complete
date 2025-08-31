@@ -17,7 +17,16 @@
 
   <header class="site-header">
     <div class="container header__inner">
-      <div class="logo"><a href="{{ url_for('home') }}">وجهة السعودية</a></div>
+      <div class="logo">
+         <a href="{{ url_for('home') }}" class="brand" aria-label="وجهة السعودية">
+          <img
+            src="{{ url_for('static', filename='images/logo.svg') }}"
+            alt="وجهة السعودية"
+            width="140" height="32"
+            loading="eager"
+            onerror="this.replaceWith(document.createTextNode('وجهة السعودية'))">
+         </a>
+      </div>
      <nav class="top-nav" aria-label="روابط رئيسية">
        <a href="{{ url_for('home') }}"        aria-current="{{ 'page' if request.endpoint=='home' else 'false' }}">الرئيسية</a>
        <a href="{{ url_for('trips') }}"       aria-current="{{ 'page' if request.endpoint=='trips' else 'false' }}">الرحلات</a>
