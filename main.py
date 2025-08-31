@@ -186,6 +186,7 @@ def cancellation():
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
     if request.method == "GET":
+        
         selected_slug = request.args.get("trip")
         return render_template("booking.html", trips=TRIPS, selected_slug=selected_slug)
 
@@ -225,6 +226,64 @@ def booking():
     }
     session["paid"] = False  # لم يُدفع بعد
     return redirect(url_for("book_success"))
+       # [داخل booking() في الفرع POST بعد التحقق من البيانات]
+# حساب الإجمالي (سعر اليوم × الأيام × الأشخاص)
+
+    unit_amount_sar = trip["price_per_day"]
+    days = int(days)
+    persons = max(1, int(persons))
+    quantity = days * persons
+    total_sar = unit_amount_sar * quantity
+
+# إشعار مبدئي (طلب قيد الدفع) — إدارة
+    admin_text = (
+    f"🧾 طلب حجز جديد (قيد الدفع)\n"
+    f"الرحلة: {trip['title']} ({trip['slug']})\n"
+    f"الاسم: {name}\n"
+    f"الإيميل: {email}\n"
+    f"الجوال: {phone}\n"
+    f"التاريخ: {date}\n"
+    f"الأيام: {days} | الأشخاص: {persons}\n"
+    f"الإجمالي: {total_sar} SAR"
+)
+    send_telegram(admin_text)
+    if ADMIN_EMAIL:
+     send_email(ADMIN_EMAIL, "طلب حجز جديد (قيد الدفع)", admin_text, reply_to=email or None)
+
+# تأكد أن مفاتيح Stripe مضبوطة
+if not STRIPE_SECRET_KEY or not STRIPE_PUBLISHABLE_KEY:
+    return render_template("error.html", code=500,
+        message="بوابة الدفع غير مهيأة (Stripe). اضبط STRIPE_SECRET_KEY و STRIPE_PUBLISHABLE_KEY."), 500
+
+# إنشاء جلسة دفع Stripe — لاحظ أن success_url يوجّه إلى صفحتك book_success
+checkout_session = stripe.checkout.Session.create(
+    mode="payment",
+    payment_method_types=["card"],
+    customer_email=email or None,
+    line_items=[{
+        "quantity": quantity,
+        "price_data": {
+            "currency": "sar",
+            "unit_amount": int(unit_amount_sar * 100),  # بالهللة
+            "product_data": {
+                "name": f"حجز {trip['title']} — {days} يوم × {persons} شخص",
+                "description": f"تاريخ الرحلة: {date}",
+            },
+        },
+    }],
+    metadata={
+        "trip_slug": trip["slug"],
+        "trip_title": trip["title"],
+        "name": name, "email": email, "phone": phone,
+        "date": date, "days": str(days), "persons": str(persons),
+        "total_sar": str(total_sar),
+    },
+    success_url=url_for("book_success", _external=True) + "?session_id={CHECKOUT_SESSION_ID}",
+    cancel_url=url_for("booking", _external=True),
+)
+
+# إعادة التوجيه لبوابة الدفع
+    return redirect(checkout_session.url, code=303)
 
 @app.route("/book_success")
 def book_success():
