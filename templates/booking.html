@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block title %}الحجز — وجهة السعودية{% endblock %}
-
 {% block content %}
 <section class="container" style="padding:20px 0">
   <h1 class="page-title">الحجز</h1>
@@ -12,7 +11,6 @@
   <div class="cards" style="margin-top:10px">
     <article class="card" style="grid-column: span 12; padding:16px;">
       <form id="bookingForm" action="{{ url_for('booking') }}" method="post" novalidate>
-        <!-- الرحلة -->
         <div class="field">
           <label for="trip">اختر الرحلة</label>
           <select id="trip" name="trip" required>
@@ -24,22 +22,20 @@
               </option>
             {% endfor %}
           </select>
+          <small class="muted">سيتم حساب السعر التقديري حسب الأيام والسعر اليومي.</small>
         </div>
 
-        <!-- عدد الأيام -->
         <div class="field">
           <label for="days">عدد الأيام</label>
           <input id="days" name="days" type="number" inputmode="numeric" value="1" min="1" max="7" required>
           <small class="muted">الحد الأدنى 1 والحد الأقصى 7 أيام.</small>
         </div>
 
-        <!-- تاريخ البدء (اختياري) -->
         <div class="field">
           <label for="date">تاريخ البدء (اختياري)</label>
           <input id="date" name="date" type="date">
         </div>
 
-        <!-- بيانات العميل -->
         <div class="field">
           <label for="name">الاسم الكامل</label>
           <input id="name" name="name" type="text" placeholder="اكتب اسمك" required>
@@ -55,33 +51,32 @@
           <input id="phone" name="phone" type="tel" placeholder="05xxxxxxxx" required>
         </div>
 
-        <!-- سياسة الإلغاء -->
         <div class="field" style="display:flex;gap:8px;align-items:flex-start;">
-          <input id="agree" name="agree" type="checkbox" required style="margin-top:4px;">
+          <input id="agree" name="agree" type="checkbox" style="margin-top:4px;">
           <label for="agree" style="margin:0;">
-            أوافق على <a href="{{ url_for('trips') }}#policy">سياسة الإلغاء</a> وشروط الحجز.
+            أوافق على <a href="{{ url_for('faq') }}">سياسة الإلغاء</a> وشروط الحجز.
           </label>
         </div>
 
-        <!-- أزرار -->
         <div class="card__actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
-          <button class="btn btn--primary" type="submit">تأكيد الحجز</button>
+          <button class="btn btn--primary" type="submit">تأكيد البيانات</button>
           <a class="btn btn--ghost" href="{{ url_for('trips') }}">عودة للرحلات</a>
         </div>
       </form>
     </article>
 
-    <!-- ملخص تقديري (عميل) -->
     <article class="card" style="grid-column: span 12; padding:16px;">
       <h3 style="margin:0 0 8px;">الملخص التقديري</h3>
       <p class="muted" style="margin:0 0 6px;">السعر اليومي: <strong id="ppd">—</strong> ر.س</p>
       <p class="muted" style="margin:0 0 12px;">الإجمالي (تقديري): <strong id="total">—</strong> ر.س</p>
+      <div class="note">
+        <strong>معلومة:</strong> هذه الأرقام تقديرية. بعد التأكيد ستصل إلى صفحة نجاح تتضمن زر “إتمام الدفع”.
+      </div>
     </article>
   </div>
   {% endif %}
 </section>
 
-<!-- حساب السعر لحظياً (لا نغيّر اسم ملف script.js) -->
 <script>
 (function(){
   const sel = document.getElementById('trip');
