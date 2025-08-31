@@ -2,12 +2,12 @@
 {% block title %}الرحلات — وجهة السعودية{% endblock %}
 {% block content %}
 <section class="container">
-  <h1 class="page-title">الرحلات</h1>
+  <h1 class="page-title">🌍 الرحلات</h1>
   <div class="cards">
     {% for trip in trips %}
     <article class="card">
       <a class="card__imglink" href="{{ url_for('trip_detail', slug=trip.slug) }}">
-        <img class="card__img" src="{{ url_for('static', filename=trip.images[0]) }}" alt="{{ trip.title }}">
+        <img class="card__img" src="{{ url_for('static', filename=trip.images[0]) }}" alt="{{ trip.title }}" loading="lazy" decoding="async">
       </a>
       <div class="card__body">
         <h3 class="card__title">{{ trip.title }}</h3>
