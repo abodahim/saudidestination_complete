@@ -34,4 +34,7 @@
     </div>
   </div>
 </section>
+{% if session.paid %}
+  <a class="btn btn--ghost" href="{{ url_for('invoice_pdf') }}">📄 تحميل الفاتورة</a>
+{% endif %}
 {% endblock %}
