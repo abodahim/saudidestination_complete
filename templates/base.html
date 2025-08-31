@@ -18,12 +18,12 @@
   <header class="site-header">
     <div class="container header__inner">
       <div class="logo"><a href="{{ url_for('home') }}">وجهة السعودية</a></div>
-      <nav class="top-nav" aria-label="روابط رئيسية">
-        <a href="{{ url_for('home') }}" class="{% if request.endpoint=='home' %}active{% endif %}">الرئيسية</a>
-        <a href="{{ url_for('trips') }}" class="{% if request.endpoint in ['trips','trip_detail'] %}active{% endif %}">الرحلات</a>
-        <a href="{{ url_for('guides_page') }}" class="{% if request.endpoint=='guides_page' %}active{% endif %}">مرشدونا</a>
-        <a href="{{ url_for('contact') }}" class="{% if request.endpoint=='contact' %}active{% endif %}">تواصل معنا</a>
-      </nav>
+     <nav class="top-nav" aria-label="روابط رئيسية">
+       <a href="{{ url_for('home') }}"        aria-current="{{ 'page' if request.endpoint=='home' else 'false' }}">الرئيسية</a>
+       <a href="{{ url_for('trips') }}"       aria-current="{{ 'page' if request.endpoint=='trips' else 'false' }}">الرحلات</a>
+       <a href="{{ url_for('guides_page') }}" aria-current="{{ 'page' if request.endpoint=='guides_page' else 'false' }}">مرشدونا</a>
+       <a href="{{ url_for('contact') }}"     aria-current="{{ 'page' if request.endpoint=='contact' else 'false' }}">تواصل معنا</a>
+     </nav>
       <button class="menu-btn" aria-label="القائمة">☰</button>
     </div>
   </header>
