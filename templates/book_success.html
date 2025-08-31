@@ -1,5 +1,31 @@
 {% extends "base.html" %}
 {% block title %}تم تأكيد الحجز — وجهة السعودية{% endblock %}
+{# [أضِف داخل book_success.html في موضع مناسب بعد العنوان] #}
+{% if paid %}
+  <div class="card" style="padding:12px; margin:10px 0;">
+    <p>✅ تم الدفع بنجاح — شكرًا لك!</p>
+    <ul>
+      <li>الرحلة: {{ details.trip_title }}</li>
+      <li>الاسم: {{ details.name }}</li>
+      <li>البريد: {{ details.email }}</li>
+      <li>التاريخ: {{ details.date }}</li>
+      <li>الأيام: {{ details.days }} | الأشخاص: {{ details.persons }}</li>
+      <li>الإجمالي: {{ details.total_sar }} ر.س</li>
+    </ul>
+
+    <!-- (اختياري) إظهار بيانات التواصل بعد الدفع -->
+    <div class="card" style="padding:10px;margin-top:10px">
+      <strong>بيانات التواصل:</strong>
+      <div>واتساب: <a href="https://wa.me/966500000000" target="_blank" rel="noopener">+966500000000</a></div>
+      <div>اتصال: <a href="tel:+966500000000">+966500000000</a></div>
+    </div>
+  </div>
+{% else %}
+  <div class="card" style="padding:12px; margin:10px 0;">
+    <p>💳 لم نرصد عملية دفع مكتملة. إن كنت أتممت الدفع، حدّث الصفحة؛ وإلا ارجع وأعد المحاولة.</p>
+    <a class="btn btn--ghost" href="{{ url_for('booking') }}">العودة لصفحة الحجز</a>
+  </div>
+{% endif %}
 {% block content %}
 <section class="container" style="padding:22px 0">
   <h1 class="page-title">تم تأكيد الحجز</h1>
