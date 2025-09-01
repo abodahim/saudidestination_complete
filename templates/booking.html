@@ -12,7 +12,10 @@
   <div class="cards" style="margin-top:10px">
     <!-- النموذج -->
     <article class="card" style="grid-column: span 12; padding:16px;">
-      <form id="bookingForm" action="{{ url_for('booking') }}" method="post" novalidate>
+      <form id="bookingForm"
+        action="{{ url_for('booking') }}"
+        method="post" novalidate
+        onsubmit="this.querySelector('button[type=submit]').disabled=true">
         <!-- اختر الرحلة -->
         <div class="field">
           <label for="trip">اختر الرحلة</label>
