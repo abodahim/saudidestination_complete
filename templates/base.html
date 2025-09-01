@@ -65,17 +65,18 @@
       <button class="menu-btn" aria-label="القائمة">☰</button>
     </div>
   </header>
-
-  <!-- رسائل فلاش إن وجدت -->
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <div class="container flash">
-        {% for category, message in messages %}
-          <p class="flash__msg {{ category }}">{{ message }}</p>
+  <!--رسائل فلاش إن وجدت -->
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% if msgs %}
+      <div class="flash container" role="status" aria-live="polite">
+        {% for cat, msg in msgs %}
+          <p class="flash__msg {{ cat }}">{{ msg }}</p>
         {% endfor %}
       </div>
     {% endif %}
   {% endwith %}
+
+  
 
   <!-- المحتوى -->
   <main>
