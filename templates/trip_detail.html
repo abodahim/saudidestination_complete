@@ -16,8 +16,10 @@
   <div class="cards" style="margin-top:10px;">
     {% for img in trip.images %}
     <article class="card">
-      <img class="card__img" src="{{ url_for('static', filename=img) }}"
-        alt="{{ trip.title }}" loading="lazy" referrerpolicy="no-referrer">
+      <img class="card__img"
+        src="{{ url_for('static', filename=img) }}"
+        alt="{{ trip.title }}"
+        loading="lazy" decoding="async" width="960" height="640">
     </article>
     {% endfor %}
   </div>
