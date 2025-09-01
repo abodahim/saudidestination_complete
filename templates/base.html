@@ -4,7 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
+  
+  <!-- وصف الصفحة و OG -->
+  <meta name="description" content="وجهة السعودية: باقات سياحية داخل المملكة مع مرشدين محليين بخبرات عالية. احجز رحلتك الآن.">
+  <link rel="canonical" href="{{ request.url_root.rstrip('/') }}{{ request.path }}">
+  <meta property="og:title" content="{% block og_title %}{{ self.title()|striptags }}{% endblock %}">
+  <meta property="og:description" content="باقات سياحية وتجارب محلية في مدن المملكة.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.url }}">
+  <meta property="og:image" content="{{ url_for('static', filename='images/og.jpg', _external=True) }}">
 
+<!-- سكيما منظمة (Organization) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "وجهة السعودية",
+  "url": "{{ request.url_root }}",
+  "logo": "{{ url_for('static', filename='images/logo.JPG', _external:true) }}",
+  "sameAs": ["https://t.me/yourchannel"]
+}
+</script>
   <!-- أيقونة الموقع -->
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
 
