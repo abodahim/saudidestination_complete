@@ -1,5 +1,35 @@
 {% extends "base.html" %}
 {% block title %}{{ trip.title }} — وجهة السعودية{% endblock %}
+{# === ضع هذا بعد extends وقبل block content === #}
+{% block head_extra %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "{{ trip.title|e }}",
+    "description": "{{ trip.summary|e }}",
+    "image": [
+      {% for img in trip.images %}
+        "{{ url_for('static', filename=img, _external=True) }}"{{ "," if not loop.last }}
+      {% endfor %}
+    ],
+    "brand": {
+      "@type": "Organization",
+      "name": "وجهة السعودية"
+    },
+    "url": "{{ url_for('trip_detail', slug=trip.slug, _external=True) }}",
+    "offers": {
+      "@type": "Offer",
+      "price": "{{ trip.price_per_day }}",
+      "priceCurrency": "SAR",
+      "availability": "https://schema.org/InStock",
+      "url": "{{ url_for('trip_detail', slug=trip.slug, _external=True) }}",
+      "eligibleRegion": "{{ trip.city|e }}",
+      "itemCondition": "https://schema.org/NewCondition"
+    }
+  }
+  </script>
+{% endblock %}
 {% block content %}
 <section class="container">
   <nav class="breadcrumbs" style="display:flex;gap:6px;align-items:center;margin:8px 0 12px;">
