@@ -34,6 +34,8 @@
   {% block head_extra %}{% endblock %}
   <!-- سكربتات في نهاية الـ body، لكن defer هنا لا يسبب تعارض -->
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  {# === أضِف هذا البلوك مرة واحدة في base.html داخل <head> قبل إغلاقه === #}
+    {% block head_extra %}{% endblock %}
 </head>
 <body>
 
