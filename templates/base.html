@@ -14,17 +14,18 @@
   <meta property="og:url" content="{{ request.url }}">
   <meta property="og:image" content="{{ url_for('static', filename='images/og.jpg', _external=True) }}">
 
-<!-- سكيما منظمة (Organization) -->
+  <!-- سكيما منظمة (Organization) -->
   <script type="application/ld+json">
-   {
+  {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "وجهة السعودية",
-    "url": "{{ request.url_root }}",
-    <img src="{{ url_for('static', filename='images/logo.JPG') }}" alt="وجهة السعودية">
+    "url": "{{ request.url_root.rstrip('/') }}",
+    "logo": "{{ url_for('static', filename='images/logo.JPG', _external=True) }}",
     "sameAs": ["https://t.me/yourchannel"]
-   }
+  }
   </script>
+
   <!-- أيقونة الموقع -->
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
 
@@ -34,7 +35,6 @@
   {% block head_extra %}{% endblock %}
   <!-- سكربتات في نهاية الـ body، لكن defer هنا لا يسبب تعارض -->
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
-  
 </head>
 <body>
 
@@ -66,7 +66,8 @@
       <button class="menu-btn" aria-label="القائمة">☰</button>
     </div>
   </header>
-  <!--رسائل فلاش إن وجدت -->
+
+  <!-- رسائل فلاش إن وجدت -->
   {% with msgs = get_flashed_messages(with_categories=true) %}
     {% if msgs %}
       <div class="flash container" role="status" aria-live="polite">
@@ -76,8 +77,6 @@
       </div>
     {% endif %}
   {% endwith %}
-
-  
 
   <!-- المحتوى -->
   <main>
