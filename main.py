@@ -16,20 +16,17 @@ from flask import (
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.environ.get("APP_SECRET_KEY", "change_this_secret_key")
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.jinja_env.auto_reload = True
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.jinja_env.auto_reload = True
+
 # ===== مزوّد الدفع واعداداته (Render env) =====
 PAY_PROVIDER = os.getenv("PAY_PROVIDER", "MOYASAR").strip().upper()  # MOYASAR أو STRIPE
 
 # MOYASAR
-MOYASAR_SECRET_KEY      = os.getenv("MOYASAR_SECRET_KEY", "").strip()
+MOYASAR_SECRET_KEY = os.getenv("MOYASAR_SECRET_KEY", "").strip()
 MOYASAR_PUBLISHABLE_KEY = os.getenv("MOYASAR_PUBLISHABLE_KEY", "").strip()
-SITE_BASE_URL           = os.getenv("SITE_BASE_URL", "http://localhost:5000").strip()
+SITE_BASE_URL = os.getenv("SITE_BASE_URL", "http://localhost:5000").strip()
 
 # STRIPE
-STRIPE_SECRET_KEY      = os.getenv("STRIPE_SECRET_KEY", "").strip()
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "").strip()
 STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "").strip()
 if STRIPE_SECRET_KEY:
     stripe.api_key = STRIPE_SECRET_KEY
@@ -61,8 +58,6 @@ TRIPS = [
         "images": ["images/jeddah_1.JPG", "images/jeddah_2.JPG"],
         "price_per_day": 450,
         "days_default": 3,
-        "rating_value": 4.8,   # متوسط التقييم (من 1 إلى 5)
-        "rating_count": 132, # عدد المراجعات
     },
     {
         "slug": "riyadh",
@@ -72,8 +67,6 @@ TRIPS = [
         "images": ["images/riyadh_1.JPG", "images/riyadh_2.JPG"],
         "price_per_day": 500,
         "days_default": 2,
-        "rating_value": 3.8,   # متوسط التقييم (من 1 إلى 5)
-        "rating_count": 89,
     },
     {
         "slug": "alula",
@@ -83,8 +76,6 @@ TRIPS = [
         "images": ["images/ala_1.JPG", "images/ala_2.JPG"],
         "price_per_day": 650,
         "days_default": 2,
-        "rating_value": 4.5,   # متوسط التقييم (من 1 إلى 5)
-        "rating_count": 100,
     },
     {
         "slug": "yanbu",
@@ -94,16 +85,14 @@ TRIPS = [
         "images": ["images/yanbu_1.JPG", "images/yanbu_2.JPG"],
         "price_per_day": 400,
         "days_default": 2,
-        "rating_value": 4.7,   # متوسط التقييم (من 1 إلى 5)
-        "rating_count": 120,
     },
 ]
 
-def get_trip(slug):
+def get_trip(slug: str):
     return next((t for t in TRIPS if t["slug"] == slug), None)
 
 # ===== أدوات الإشعارات =====
-def send_email(to_email, subject, body, reply_to=None):
+def send_email(to_email: str, subject: str, body: str, reply_to: str | None = None):
     """يرسل بريدًا عبر SMTP (TLS على 587) إن كانت إعدادات SMTP مضبوطة."""
     if not (SMTP_HOST and SMTP_USER and SMTP_PASS and MAIL_FROM and to_email):
         return
@@ -113,8 +102,6 @@ def send_email(to_email, subject, body, reply_to=None):
     msg["To"] = to_email
     if reply_to:
         msg["Reply-To"] = reply_to
-    if MAIL_BCC:
-        msg["Bcc"] = MAIL_BCC
     msg.set_content(body)
     try:
         with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
@@ -124,7 +111,7 @@ def send_email(to_email, subject, body, reply_to=None):
     except Exception as exc:
         print("[email] failed:", exc)
 
-def send_telegram(text):
+def send_telegram(text: str):
     """يرسل رسالة تيليجرام إن كانت متغيرات تيليجرام مضبوطة."""
     if not (TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID):
         return
@@ -212,22 +199,22 @@ def booking():
         return render_template("booking.html", trips=TRIPS, selected_slug=selected_slug)
 
     # --- POST ---
-    name   = (request.form.get("name") or "").strip()
-    email  = (request.form.get("email") or "").strip()
-    phone  = (request.form.get("phone") or "").strip()
-    slug   = (request.form.get("trip") or "").strip()
-    days_s = (request.form.get("days") or "1").strip()
-    date   = (request.form.get("date") or "").strip()
-    pers_s = (request.form.get("persons") or "1").strip()
-    agree  = request.form.get("agree")
+    name  = (request.form.get("name") or "").strip()
+    email = (request.form.get("email") or "").strip()
+    phone = (request.form.get("phone") or "").strip()
+    slug  = (request.form.get("trip") or "").strip()
+    days_raw = (request.form.get("days") or "1").strip()
+    date = (request.form.get("date") or "").strip()
+    persons_raw = (request.form.get("persons") or "1").strip()
+    agree = request.form.get("agree")
 
     trip = get_trip(slug) if slug else None
     try:
-        days = max(1, min(7, int(days_s)))
+        days = max(1, min(7, int(days_raw)))
     except ValueError:
         days = 1
     try:
-        persons = max(1, int(pers_s))
+        persons = max(1, int(persons_raw))
     except ValueError:
         persons = 1
 
@@ -264,7 +251,7 @@ def booking():
         f"الاسم: {name}\n"
         f"الإيميل: {email}\n"
         f"الجوال: {phone}\n"
-        f"التاريخ: {date or '—'}\n"
+        f"التاريخ: {date}\n"
         f"الأيام: {days} | الأشخاص: {persons}\n"
         f"الإجمالي: {total_price} SAR"
     )
@@ -283,18 +270,6 @@ def booking():
                 message="بوابة Stripe غير مهيأة. اضبط STRIPE_SECRET_KEY و STRIPE_PUBLISHABLE_KEY."
             ), 500
 
-        # Stripe لا يقبل metadata متداخلة — نفردها كسلاسل:
-        md = {
-            "trip_slug":   trip["slug"],
-            "trip_title":  trip["title"],
-            "trip_city":   trip["city"],
-            "price_per_day": str(trip["price_per_day"]),
-            "name": name, "email": email, "phone": phone,
-            "date": date, "days": str(days), "persons": str(persons),
-            "total_sar": str(total_price),
-            "created_at": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
-        }
-
         unit_amount_sar = trip["price_per_day"]
         quantity = days * persons
 
@@ -309,11 +284,17 @@ def booking():
                     "unit_amount": int(unit_amount_sar * 100),
                     "product_data": {
                         "name": f"حجز {trip['title']} — {days} يوم × {persons} شخص",
-                        "description": f"تاريخ الرحلة: {date or '—'}",
+                        "description": f"تاريخ الرحلة: {date}",
                     },
                 },
             }],
-            metadata=md,
+            metadata={
+                "trip_slug": trip["slug"],
+                "trip_title": trip["title"],
+                "name": name, "email": email, "phone": phone,
+                "date": date, "days": str(days), "persons": str(persons),
+                "total_sar": str(total_price),
+            },
             success_url=url_for("book_success", _external=True) + "?session_id={CHECKOUT_SESSION_ID}",
             cancel_url=url_for("booking", _external=True),
         )
@@ -333,65 +314,12 @@ def book_success():
     details = session.get("last_booking", {})
     session_id = request.args.get("session_id")
 
-    # تحقق Stripe
     if session_id and STRIPE_SECRET_KEY:
         try:
             sess = stripe.checkout.Session.retrieve(session_id)
-            if sess.get("payment_status") == "paid":
-                paid = True
-                # خزّن علم الدفع حتى تظهر مزايا ما بعد الدفع
-                session["paid"] = True
-
-                # تفاصيل من metadata (مسطّحة كسلاسل)
-                md = sess.get("metadata", {}) or {}
-                # حاول تحديث session["last_booking"] من metadata (اختياري)
-                if md:
-                    try:
-                        session["last_booking"] = {
-                            "name": md.get("name") or details.get("name"),
-                            "email": md.get("email") or details.get("email"),
-                            "phone": md.get("phone") or details.get("phone"),
-                            "trip": {
-                                "slug": md.get("trip_slug") or details.get("trip", {}).get("slug"),
-                                "title": md.get("trip_title") or details.get("trip", {}).get("title"),
-                                "city": md.get("trip_city") or details.get("trip", {}).get("city"),
-                                "price_per_day": int(md.get("price_per_day") or details.get("trip", {}).get("price_per_day") or 0),
-                            },
-                            "days": int(md.get("days") or details.get("days") or 1),
-                            "persons": int(md.get("persons") or details.get("persons") or 1),
-                            "date": md.get("date") or details.get("date") or "",
-                            "total_price": int(float(md.get("total_sar") or details.get("total_price") or 0)),
-                            "created_at": md.get("created_at") or details.get("created_at") or "",
-                        }
-                        details = session["last_booking"]
-                    except Exception:
-                        pass
-
-                # أرسل تأكيد (مرة واحدة)
-                try:
-                    data = session.get("last_booking") or details
-                    if data:
-                        confirm_text = (
-                            f"✅ تم تأكيد الحجز\n"
-                            f"الرحلة: {data['trip']['title']}\n"
-                            f"الاسم: {data['name']}\n"
-                            f"الإيميل: {data['email']}\n"
-                            f"الجوال: {data['phone']}\n"
-                            f"الإجمالي: {data['total_price']} ر.س"
-                        )
-                        send_telegram(confirm_text)
-                        send_email(
-                            to_email=data["email"],
-                            subject="تأكيد الحجز — وجهة السعودية",
-                            body=(
-                                f"شكرًا لك {data['name']}!\n"
-                                f"تم تأكيد حجزك لرحلة: {data['trip']['title']}.\n"
-                                f"الإجمالي المدفوع: {data['total_price']} ر.س"
-                            ),
-                        )
-                except Exception as exc:
-                    print("[post-pay notify] error:", exc)
-
+            paid = (sess.get("payment_status") == "paid")
+            # في Stripe نستخدم metadata إن وجدت
+            details = sess.get("metadata", {}) or details
         except Exception as exc:
             print("[stripe retrieve] error:", exc)
 
@@ -400,7 +328,7 @@ def book_success():
 # =========================
 # إنشاء PDF + إرسال بريد (لـ Moyasar بعد العودة)
 # =========================
-def build_invoice_pdf(data):
+def build_invoice_pdf(data: dict) -> bytes:
     """ينشئ PDF بسيط للفاتورة من بيانات الحجز."""
     from reportlab.pdfgen import canvas
     from reportlab.lib.pagesizes import A4
@@ -432,10 +360,11 @@ def build_invoice_pdf(data):
 
     c.showPage()
     c.save()
-    buf.seek(0)
-    return buf.read()
+    pdf = buf.getvalue()
+    buf.close()
+    return pdf
 
-def send_email_with_optional_attachment(to_email, subject, body, attachment=None, filename="invoice.pdf"):
+def send_email_with_optional_attachment(to_email: str, subject: str, body: str, attachment: bytes = None, filename: str = "invoice.pdf"):
     """يرسل بريدًا عبر SMTP مع مرفق اختياري."""
     if not (SMTP_HOST and SMTP_USER and SMTP_PASS and MAIL_FROM and to_email):
         print("[Email] SMTP not configured or no recipient; skipped sending.")
@@ -470,8 +399,8 @@ def invoice_pdf():
 # =========================
 # الدفع (Moyasar Hosted)
 # =========================
-def _amount_halalas(sar_amount):
-    return int(float(sar_amount) * 100)
+def _amount_halalas(sar_amount: int) -> int:
+    return int(sar_amount) * 100
 
 @app.route("/pay/start", methods=["GET", "POST"])
 def pay_start():
@@ -484,7 +413,7 @@ def pay_start():
         flash("بوابة الدفع غير مهيأة.", "danger")
         return redirect(url_for("book_success"))
 
-    amount = _amount_halalas(data["total_price"])
+    amount = _amount_halalas(int(data["total_price"]))
     callback_success = f"{SITE_BASE_URL}{url_for('pay_return')}?status=paid"
     callback_failed  = f"{SITE_BASE_URL}{url_for('pay_return')}?status=failed"
 
@@ -494,7 +423,7 @@ def pay_start():
         "amount": amount,
         "currency": "SAR",
         "description": f"حجز: {data['trip']['title']} - {data['name']} ({data['days']} يوم)",
-        "callback_url": callback_success,   # إشعار سيرفر-إلى-سيرفر (لو مفعّل لديهم)
+        "callback_url": callback_success,
         "expired_at": None,
         "metadata": {
             "name": data["name"],
@@ -505,7 +434,7 @@ def pay_start():
             "persons": data["persons"],
             "created_at": data["created_at"]
         },
-        "return_url": callback_failed       # رجوع المتصفح للفشل
+        "return_url": callback_failed
     }
 
     try:
@@ -551,12 +480,8 @@ def pay_return():
                     attachment=pdf,
                     filename="invoice.pdf"
                 )
-                # إشعار تيليجرام
-                send_telegram(
-                    f"✅ تم الدفع عبر Moyasar\nالاسم: {data['name']}\nالرحلة: {data['trip']['title']}\nالإجمالي: {data['total_price']} SAR"
-                )
             except Exception as e:
-                print("[Email/Telegram] error after Moyasar:", e)
+                print("[Email] error:", e)
     else:
         flash("لم يكتمل الدفع. يمكنك المحاولة مرة أخرى.", "warning")
 
@@ -587,10 +512,6 @@ def not_found(e):
 @app.errorhandler(500)
 def server_error(e):
     return render_template("error.html", code=500, message="حدث خطأ داخلي في الخادم"), 500
-    
-@app.route("/ping")
-def ping():
-    return "ok", 200
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
