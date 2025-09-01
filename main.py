@@ -61,6 +61,8 @@ TRIPS = [
         "images": ["images/jeddah_1.JPG", "images/jeddah_2.JPG"],
         "price_per_day": 450,
         "days_default": 3,
+        "rating_value": 4.8,   # متوسط التقييم (من 1 إلى 5)
+        "rating_count": 132, # عدد المراجعات
     },
     {
         "slug": "riyadh",
@@ -70,6 +72,8 @@ TRIPS = [
         "images": ["images/riyadh_1.JPG", "images/riyadh_2.JPG"],
         "price_per_day": 500,
         "days_default": 2,
+        "rating_value": 3.8,   # متوسط التقييم (من 1 إلى 5)
+        "rating_count": 89,
     },
     {
         "slug": "alula",
@@ -79,6 +83,8 @@ TRIPS = [
         "images": ["images/ala_1.JPG", "images/ala_2.JPG"],
         "price_per_day": 650,
         "days_default": 2,
+        "rating_value": 4.5,   # متوسط التقييم (من 1 إلى 5)
+        "rating_count": 100,
     },
     {
         "slug": "yanbu",
@@ -88,6 +94,8 @@ TRIPS = [
         "images": ["images/yanbu_1.JPG", "images/yanbu_2.JPG"],
         "price_per_day": 400,
         "days_default": 2,
+        "rating_value": 4.7,   # متوسط التقييم (من 1 إلى 5)
+        "rating_count": 120,
     },
 ]
 
