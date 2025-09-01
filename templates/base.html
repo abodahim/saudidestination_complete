@@ -15,16 +15,16 @@
   <meta property="og:image" content="{{ url_for('static', filename='images/og.jpg', _external=True) }}">
 
 <!-- سكيما منظمة (Organization) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "وجهة السعودية",
-  "url": "{{ request.url_root }}",
-  "logo": "{{ url_for('static', filename='images/logo.JPG', _external:true) }}",
-  "sameAs": ["https://t.me/yourchannel"]
-}
-</script>
+  <script type="application/ld+json">
+   {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "وجهة السعودية",
+    "url": "{{ request.url_root }}",
+    "logo": "{{ url_for('static', filename='images/logo.JPG', _external:true) }}",
+    "sameAs": ["https://t.me/yourchannel"]
+   }
+  </script>
   <!-- أيقونة الموقع -->
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
 
