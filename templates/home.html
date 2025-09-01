@@ -33,7 +33,10 @@
     {% for trip in trips %}
     <article class="card">
       <a class="card__imglink" href="{{ url_for('trip_detail', slug=trip.slug) }}">
-         <img class="card__img" src="{{ url_for('static', filename=trip.images[0]) }}"
+         <img class="card__img"
+          src="{{ url_for('static', filename=trip.images[0]) }}"
+          alt="{{ trip.title }}"
+          loading="lazy" decoding="async" width="960" height="640">
           alt="{{ trip.title }}" loading="lazy" referrerpolicy="no-referrer">
       </a>
       <div class="card__body">
@@ -56,7 +59,10 @@
   <div class="guides">
     {% for g in guides %}
     <div class="guide">
-      <img class="guide__img" src="{{ url_for('static', filename=g.photo) }}" alt="{{ g.name }}" loading="lazy">
+      <img class="card__img"
+        src="{{ url_for('static', filename=trip.images[0]) }}"
+        alt="{{ trip.title }}"
+        loading="lazy" decoding="async" width="960" height="640">
       <div class="guide__meta">
         <strong>{{ g.name }}</strong>
         <span class="muted">{{ g.city }} — خبرة {{ g.years }} سنوات</span>
