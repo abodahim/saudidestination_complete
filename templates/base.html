@@ -5,33 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
 
-  <!-- وصف ومحركات بحث -->
+  <!-- وصف و OG -->
   <meta name="description" content="وجهة السعودية: باقات سياحية داخل المملكة مع مرشدين محليين بخبرات عالية. احجز رحلتك الآن.">
-  <link rel="canonical" href="{{ request.base_url }}">
-
-  <!-- OG -->
+  <link rel="canonical" href="{{ request.url_root.rstrip('/') }}{{ request.path }}">
   <meta property="og:title" content="{% block og_title %}{{ self.title()|striptags }}{% endblock %}">
   <meta property="og:description" content="باقات سياحية وتجارب محلية في مدن المملكة.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ request.base_url }}">
-  <meta property="og:image" content="{{ url_for('static', filename='images/og.jpg', _external=True) }}">
+  <meta property="og:url" content="{{ request.url }}">
+  <meta property="og:image" content="{{ url_for('static', filename='images/logo.JPG', _external=True) }}">
 
-  <!-- سكيما JSON-LD (بدون HTML داخل JSON) -->
+  <!-- بيانات منظمة (Organization) — JSON-LD صالح -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "وجهة السعودية",
-    "url": "{{ request.url_root }}",
+    "url": "{{ request.url_root.rstrip('/') }}",
     "logo": "{{ url_for('static', filename='images/logo.JPG', _external=True) }}",
     "sameAs": ["https://t.me/yourchannel"]
   }
   </script>
 
-  <!-- أيقونة ومظهر -->
+  <!-- أيقونة الموقع -->
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
+
+  <!-- الأنماط -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+
   {% block head_extra %}{% endblock %}
+  <!-- سكربتات (لا تغيّر المسارات) -->
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
@@ -51,10 +53,14 @@
       </div>
 
       <nav class="top-nav" aria-label="روابط رئيسية">
-        <a href="{{ url_for('home') }}"        aria-current="{{ 'page' if request.endpoint=='home' else 'false' }}">الرئيسية</a>
-        <a href="{{ url_for('trips') }}"       aria-current="{{ 'page' if request.endpoint in ['trips','trip_detail'] else 'false' }}">الرحلات</a>
-        <a href="{{ url_for('guides_page') }}" aria-current="{{ 'page' if request.endpoint=='guides_page' else 'false' }}">مرشدونا</a>
-        <a href="{{ url_for('contact') }}"     aria-current="{{ 'page' if request.endpoint=='contact' else 'false' }}">تواصل معنا</a>
+        <a href="{{ url_for('home') }}"
+           aria-current="{{ 'page' if request.endpoint=='home' else 'false' }}">الرئيسية</a>
+        <a href="{{ url_for('trips') }}"
+           aria-current="{{ 'page' if request.endpoint in ['trips','trip_detail'] else 'false' }}">الرحلات</a>
+        <a href="{{ url_for('guides_page') }}"
+           aria-current="{{ 'page' if request.endpoint=='guides_page' else 'false' }}">مرشدونا</a>
+        <a href="{{ url_for('contact') }}"
+           aria-current="{{ 'page' if request.endpoint=='contact' else 'false' }}">تواصل معنا</a>
       </nav>
 
       <button class="menu-btn" aria-label="القائمة">☰</button>
