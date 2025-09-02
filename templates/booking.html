@@ -13,9 +13,9 @@
     <!-- النموذج -->
     <article class="card" style="grid-column: span 12; padding:16px;">
       <form id="bookingForm"
-        action="{{ url_for('booking') }}"
-        method="post" novalidate
-        onsubmit="this.querySelector('button[type=submit]').disabled=true">
+            action="{{ url_for('booking') }}"
+            method="post" novalidate
+            onsubmit="this.querySelector('button[type=submit]').disabled=true">
         <!-- اختر الرحلة -->
         <div class="field">
           <label for="trip">اختر الرحلة</label>
@@ -38,40 +38,40 @@
         <!-- عدد الأيام -->
         <div class="field">
           <label for="days">عدد الأيام</label>
-          <input id="days" name="days" type="number" inputmode="numeric" value="1" min="1" max="7" required>
+          <input id="days" name="days" type="number" inputmode="numeric" value="1" min="1" max="7" step="1" required>
           <small class="muted">الحد الأدنى 1 والحد الأقصى 7 أيام.</small>
         </div>
 
         <!-- عدد الأشخاص -->
         <div class="field">
           <label for="persons">عدد الأشخاص</label>
-          <input id="persons" name="persons" type="number" inputmode="numeric" value="1" min="1" max="20" required>
+          <input id="persons" name="persons" type="number" inputmode="numeric" value="1" min="1" max="20" step="1" required>
         </div>
 
         <!-- تاريخ البدء (اختياري) -->
         <div class="field">
           <label for="date">تاريخ البدء (اختياري)</label>
-          <input id="date" name="date" type="date">
+          <input id="date" name="date" type="date" autocomplete="off">
         </div>
 
         <!-- بيانات العميل -->
         <div class="field">
           <label for="name">الاسم الكامل</label>
-          <input id="name"  name="name"  type="text"  placeholder="اكتب اسمك"
-            autocomplete="name" required>
+          <input id="name" name="name" type="text" placeholder="اكتب اسمك"
+                 autocomplete="name" required>
         </div>
 
         <div class="field">
           <label for="email">البريد الإلكتروني</label>
           <input id="email" name="email" type="email" placeholder="example@email.com"
-            autocomplete="email" required>
+                 autocomplete="email" required>
         </div>
 
         <div class="field">
           <label for="phone">رقم الجوال</label>
           <input id="phone" name="phone" type="tel" placeholder="05xxxxxxxx"
-            inputmode="tel" pattern="^0?5\d{8}$" title="رقم سعودي يبدأ بـ 05 ويتكون من 10 أرقام"
-            autocomplete="tel-national" required>
+                 inputmode="tel" pattern="^0?5\d{8}$" title="رقم سعودي يبدأ بـ 05 ويتكون من 10 أرقام"
+                 autocomplete="tel-national" required>
         </div>
 
         <!-- سياسة الإلغاء -->
@@ -93,8 +93,10 @@
     <!-- الملخص التقديري -->
     <article class="card" style="grid-column: span 12; padding:16px;">
       <h3 style="margin:0 0 8px;">الملخص التقديري</h3>
-      <p class="muted" style="margin:0 0 6px;">السعر اليومي: <strong id="ppd">—</strong> ر.س</p>
-      <p class="muted" style="margin:0 0 12px;">الإجمالي (تقديري): <strong id="total">—</strong> ر.س</p>
+      <div aria-live="polite">
+        <p class="muted" style="margin:0 0 6px;">السعر اليومي: <strong id="ppd">—</strong> ر.س</p>
+        <p class="muted" style="margin:0 0 12px;">الإجمالي (تقديري): <strong id="total">—</strong> ر.س</p>
+      </div>
       <div class="note">
         <strong>معلومة:</strong> هذه الأرقام تقديرية. بعد التأكيد ستصل إلى صفحة النجاح وفيها زر “إتمام الدفع”.
       </div>
@@ -125,8 +127,8 @@
     daysEl.value = d; pplEl.value = p;
 
     const total = (isFinite(price)?price:0) * d * p;
-    ppdEl.textContent   = isFinite(price) && price>0 ? price.toLocaleString('ar-SA') : '—';
-    totalEl.textContent = isFinite(total) && total>0 ? total.toLocaleString('ar-SA') : '—';
+    ppdEl.textContent   = (isFinite(price) && price>0) ? price.toLocaleString('ar-SA') : '—';
+    totalEl.textContent = (isFinite(total) && total>0) ? total.toLocaleString('ar-SA') : '—';
   }
 
   if(sel)    sel.addEventListener('change', updatePrice);
