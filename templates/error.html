@@ -1,10 +1,12 @@
 {% extends "base.html" %}
-{% block title %}خطأ {{ code }} — وجهة السعودية{% endblock %}
+{% block title %}حدث خطأ — وجهة السعودية{% endblock %}
 {% block content %}
-<section class="container" style="padding:20px 0">
+<section class="container" style="padding:22px 0">
   <h1 class="page-title">حدث خطأ</h1>
-  <p class="muted">الكود: {{ code }}</p>
-  <p>{{ message }}</p>
-  <p><a class="btn btn--ghost" href="{{ url_for('home') }}">العودة للرئيسية</a></p>
+  <p>الـكود: <strong>{{ code }}</strong></p>
+  <p class="muted">{{ message }}</p>
+  <div class="card__actions" style="margin-top:12px">
+    <a class="btn btn--primary" href="{{ url_for('home') }}">العودة للرئيسية</a>
+  </div>
 </section>
 {% endblock %}
