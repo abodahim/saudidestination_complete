@@ -283,3 +283,24 @@ form .note {
   color: #333;
 }
 }
+
+/* === Hero === */
+.hero { position: relative; overflow: clip; }
+.hero__bg { display:block; line-height:0; }
+.hero__img { width: 100%; height: auto; display:block; }
+.hero__overlay {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  padding: clamp(16px, 3vw, 48px);
+  background: linear-gradient(to bottom, rgba(0,0,0,.20), rgba(0,0,0,.35));
+}
+
+/* تثبيت نسبة صور البطاقات لتقليل CLS */
+.card__img { aspect-ratio: 3 / 2; object-fit: cover; width:100%; height:auto; }
+
+/* تحسين رسائل الفلاش */
+.flash { margin:10px 0; }
+.flash__msg { padding:.75rem 1rem; border-radius:8px; }
+.flash__msg.success { background:#e9f7ef; color:#0b7a3b; }
+.flash__msg.warning { background:#fff8e1; color:#9a6b00; }
+.flash__msg.danger  { background:#fdecea; color:#a8071a; }
