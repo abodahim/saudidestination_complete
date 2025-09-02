@@ -1,53 +1,15 @@
 {% extends "base.html" %}
 {% block title %}{{ trip.title }} — وجهة السعودية{% endblock %}
 
-{#--- سكيما منظمة: Product + Offer (+ AggregateRating اختياري) ---#}
-{% block head_extra %}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "{{ trip.title|e }}",
-    "description": "{{ trip.summary|e }}",
-    "image": [
-      {% for img in trip.images %}
-        "{{ url_for('static', filename=img, _external=True) }}"{{ "," if not loop.last }}
-      {% endfor %}
-    ],
-    "brand": {
-      "@type": "Organization",
-      "name": "وجهة السعودية"
-    },
-    "url": "{{ url_for('trip_detail', slug=trip.slug, _external=True) }}",
-    "offers": {
-      "@type": "Offer",
-      "price": "{{ trip.price_per_day }}",
-      "priceCurrency": "SAR",
-      "availability": "https://schema.org/InStock",
-      "url": "{{ url_for('trip_detail', slug=trip.slug, _external=True) }}",
-      "eligibleRegion": "{{ trip.city|e }}",
-      "itemCondition": "https://schema.org/NewCondition"
-    }
-    {% if trip.rating_value is defined and trip.rating_count is defined and trip.rating_value and trip.rating_count %}
-    ,"aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "{{ '%.1f'|format(trip.rating_value) }}",
-      "reviewCount": "{{ trip.rating_count }}"
-    }
-    {% endif %}
-  }
-  </script>
-{% endblock %}
-
 {% block content %}
 <section class="container">
 
   <!-- مسار تنقّل -->
   <nav class="breadcrumbs" style="display:flex;gap:6px;align-items:center;margin:8px 0 12px;">
     <a href="{{ url_for('home') }}">الرئيسية</a>
-    <span>›</span>
+    <span aria-hidden="true">›</span>
     <a href="{{ url_for('trips') }}">الرحلات</a>
-    <span>›</span>
+    <span aria-hidden="true">›</span>
     <span class="muted">{{ trip.title }}</span>
   </nav>
 
@@ -58,30 +20,35 @@
   </header>
 
   <!-- معرض الصور -->
+  {% if trip.images and trip.images|length > 0 %}
   <div class="cards" style="margin-top:10px;">
     {% for img in trip.images %}
     <article class="card">
-      <img class="card__img"
-           src="{{ url_for('static', filename=img) }}"
-           alt="{{ trip.title }}"
-           loading="lazy" decoding="async" width="960" height="640">
+      <img
+        class="card__img"
+        src="{{ url_for('static', filename=img) }}"
+        alt="{{ trip.title }} — صورة {{ loop.index }}"
+        loading="lazy" decoding="async" width="960" height="640"
+        onerror="this.alt=''; this.style.opacity=0.5;">
     </article>
     {% endfor %}
   </div>
+  {% endif %}
 
-  <!-- تفاصيل مختصرة + أزرار -->
+  <!-- نبذة وسعر وأزرار -->
   <div class="card" style="padding:16px; margin-top:16px;">
-    <p style="margin:0 0 8px;">{{ trip.summary }}</p>
+    {% if trip.summary %}
+      <p style="margin:0 0 8px;">{{ trip.summary }}</p>
+    {% endif %}
+
     <p class="muted" style="margin:0 0 12px;">
       السعر لليوم: <strong>{{ trip.price_per_day }} ر.س</strong>
-      — الأيام المقترحة: <strong>{{ trip.days_default }}</strong>
-      {% if trip.rating_value and trip.rating_count %}
-        — التقييم: ⭐ {{ '%.1f'|format(trip.rating_value) }}/5 ({{ trip.rating_count }} تقييم)
-      {% endif %}
+      {% if trip.days_default %} — الأيام المقترحة: <strong>{{ trip.days_default }}</strong>{% endif %}
     </p>
+
     <div class="card__actions" style="display:flex;gap:10px;flex-wrap:wrap;">
       <a class="btn btn--ghost" href="{{ url_for('trips') }}">عودة للرحلات</a>
-      <a class="btn btn--primary" href="{{ url_for('booking', _anchor='form', trip=trip.slug) }}">احجز هذه الرحلة</a>
+      <a class="btn btn--primary" href="{{ url_for('booking', trip=trip.slug) }}">احجز هذه الرحلة</a>
     </div>
   </div>
 
