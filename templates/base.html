@@ -4,36 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}وجهة السعودية{% endblock %}</title>
-  
-  <!-- وصف الصفحة و OG -->
+
+  <!-- وصف ومحركات بحث -->
   <meta name="description" content="وجهة السعودية: باقات سياحية داخل المملكة مع مرشدين محليين بخبرات عالية. احجز رحلتك الآن.">
-  <link rel="canonical" href="{{ request.url_root.rstrip('/') }}{{ request.path }}">
+  <link rel="canonical" href="{{ request.base_url }}">
+
+  <!-- OG -->
   <meta property="og:title" content="{% block og_title %}{{ self.title()|striptags }}{% endblock %}">
   <meta property="og:description" content="باقات سياحية وتجارب محلية في مدن المملكة.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ request.url }}">
+  <meta property="og:url" content="{{ request.base_url }}">
   <meta property="og:image" content="{{ url_for('static', filename='images/og.jpg', _external=True) }}">
 
-  <!-- سكيما منظمة (Organization) -->
+  <!-- سكيما JSON-LD (بدون HTML داخل JSON) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "وجهة السعودية",
-    "url": "{{ request.url_root.rstrip('/') }}",
+    "url": "{{ request.url_root }}",
     "logo": "{{ url_for('static', filename='images/logo.JPG', _external=True) }}",
     "sameAs": ["https://t.me/yourchannel"]
   }
   </script>
 
-  <!-- أيقونة الموقع -->
+  <!-- أيقونة ومظهر -->
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
-
-  <!-- الأنماط -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
-
   {% block head_extra %}{% endblock %}
-  <!-- سكربتات في نهاية الـ body، لكن defer هنا لا يسبب تعارض -->
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
@@ -53,21 +51,17 @@
       </div>
 
       <nav class="top-nav" aria-label="روابط رئيسية">
-        <a href="{{ url_for('home') }}"
-           aria-current="{{ 'page' if request.endpoint=='home' else 'false' }}">الرئيسية</a>
-        <a href="{{ url_for('trips') }}"
-           aria-current="{{ 'page' if request.endpoint in ['trips','trip_detail'] else 'false' }}">الرحلات</a>
-        <a href="{{ url_for('guides_page') }}"
-           aria-current="{{ 'page' if request.endpoint=='guides_page' else 'false' }}">مرشدونا</a>
-        <a href="{{ url_for('contact') }}"
-           aria-current="{{ 'page' if request.endpoint=='contact' else 'false' }}">تواصل معنا</a>
+        <a href="{{ url_for('home') }}"        aria-current="{{ 'page' if request.endpoint=='home' else 'false' }}">الرئيسية</a>
+        <a href="{{ url_for('trips') }}"       aria-current="{{ 'page' if request.endpoint in ['trips','trip_detail'] else 'false' }}">الرحلات</a>
+        <a href="{{ url_for('guides_page') }}" aria-current="{{ 'page' if request.endpoint=='guides_page' else 'false' }}">مرشدونا</a>
+        <a href="{{ url_for('contact') }}"     aria-current="{{ 'page' if request.endpoint=='contact' else 'false' }}">تواصل معنا</a>
       </nav>
 
       <button class="menu-btn" aria-label="القائمة">☰</button>
     </div>
   </header>
 
-  <!-- رسائل فلاش إن وجدت -->
+  <!-- رسائل فلاش -->
   {% with msgs = get_flashed_messages(with_categories=true) %}
     {% if msgs %}
       <div class="flash container" role="status" aria-live="polite">
