@@ -12,9 +12,9 @@
   <meta property="og:description" content="باقات سياحية وتجارب محلية في مدن المملكة.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ request.url }}">
-  <meta property="og:image" content="{{ url_for('static', filename='images/logo.JPG', _external=True) }}">
+  <meta property="og:image" content="{{ url_for('static', filename='images/og.jpg', _external=True) }}">
 
-  <!-- بيانات منظمة (Organization) — JSON-LD صالح -->
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -26,19 +26,13 @@
   }
   </script>
 
-  <!-- أيقونة الموقع -->
   <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
-
-  <!-- الأنماط -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
-
   {% block head_extra %}{% endblock %}
-  <!-- سكربتات (لا تغيّر المسارات) -->
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
 
-  <!-- الهيدر -->
   <header class="site-header">
     <div class="container header__inner">
       <div class="logo">
@@ -53,21 +47,17 @@
       </div>
 
       <nav class="top-nav" aria-label="روابط رئيسية">
-        <a href="{{ url_for('home') }}"
-           aria-current="{{ 'page' if request.endpoint=='home' else 'false' }}">الرئيسية</a>
-        <a href="{{ url_for('trips') }}"
-           aria-current="{{ 'page' if request.endpoint in ['trips','trip_detail'] else 'false' }}">الرحلات</a>
-        <a href="{{ url_for('guides_page') }}"
-           aria-current="{{ 'page' if request.endpoint=='guides_page' else 'false' }}">مرشدونا</a>
-        <a href="{{ url_for('contact') }}"
-           aria-current="{{ 'page' if request.endpoint=='contact' else 'false' }}">تواصل معنا</a>
+        <a href="{{ url_for('home') }}"        aria-current="{{ 'page' if request.endpoint=='home' else 'false' }}">الرئيسية</a>
+        <a href="{{ url_for('trips') }}"       aria-current="{{ 'page' if request.endpoint in ['trips','trip_detail'] else 'false' }}">الرحلات</a>
+        <a href="{{ url_for('guides_page') }}" aria-current="{{ 'page' if request.endpoint=='guides_page' else 'false' }}">مرشدونا</a>
+        <a href="{{ url_for('my_trips') }}"    aria-current="{{ 'page' if request.endpoint=='my_trips' else 'false' }}">رحلاتي</a>
+        <a href="{{ url_for('contact') }}"     aria-current="{{ 'page' if request.endpoint=='contact' else 'false' }}">تواصل معنا</a>
       </nav>
 
       <button class="menu-btn" aria-label="القائمة">☰</button>
     </div>
   </header>
 
-  <!-- رسائل فلاش -->
   {% with msgs = get_flashed_messages(with_categories=true) %}
     {% if msgs %}
       <div class="flash container" role="status" aria-live="polite">
@@ -78,12 +68,10 @@
     {% endif %}
   {% endwith %}
 
-  <!-- المحتوى -->
   <main>
     {% block content %}{% endblock %}
   </main>
 
-  <!-- الفوتر -->
   <footer class="site-footer">
     <div class="container">
       <p>© {{ current_year }} وجهة السعودية — جميع الحقوق محفوظة</p>
