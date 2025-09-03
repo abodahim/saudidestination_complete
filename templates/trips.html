@@ -1,39 +1,23 @@
 {% extends "base.html" %}
 {% block title %}الرحلات — وجهة السعودية{% endblock %}
-
 {% block content %}
 <section class="container">
   <h1 class="page-title">الرحلات</h1>
-
-  {% if trips and trips|length > 0 %}
-    <div class="cards">
-      {% for trip in trips %}
-      <article class="card">
-        <a class="card__imglink"
-           href="{{ url_for('trip_detail', slug=trip.slug) }}"
-           aria-label="تفاصيل {{ trip.title }}">
-          <img
-            class="card__img"
-            src="{{ url_for('static', filename=trip.images[0]) }}"
-            alt="{{ trip.title }}"
-            loading="lazy" decoding="async" width="960" height="640"
-            onerror="this.alt=''; this.style.opacity=0.5;">
-        </a>
-        <div class="card__body">
-          <h3 class="card__title">{{ trip.title }}</h3>
-          <p class="card__text">{{ trip.summary }}</p>
-          <div class="card__actions">
-            <a class="btn btn--primary"
-               href="{{ url_for('trip_detail', slug=trip.slug) }}">
-              التفاصيل
-            </a>
-          </div>
+  <div class="cards">
+    {% for trip in trips %}
+    <article class="card">
+      <a class="card__imglink" href="{{ url_for('trip_detail', slug=trip.slug) }}">
+        <img class="card__img" src="{{ url_for('static', filename=trip.images[0]) }}" alt="{{ trip.title }}">
+      </a>
+      <div class="card__body">
+        <h3 class="card__title">{{ trip.title }}</h3>
+        <p class="card__text">{{ trip.summary }}</p>
+        <div class="card__actions">
+          <a class="btn btn--primary" href="{{ url_for('trip_detail', slug=trip.slug) }}">التفاصيل</a>
         </div>
-      </article>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p class="muted">لا توجد رحلات متاحة حاليًا.</p>
-  {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
 </section>
 {% endblock %}
