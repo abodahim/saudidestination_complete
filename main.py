@@ -235,6 +235,7 @@ def booking():
             "title": trip["title"],
             "city": trip["city"],
             "price_per_day": trip["price_per_day"],
+            "images": trip["images"],
         },
         "days": days,
         "persons": persons,
@@ -318,15 +319,14 @@ def book_success():
         try:
             sess = stripe.checkout.Session.retrieve(session_id)
             paid = (sess.get("payment_status") == "paid")
-            # في Stripe نستخدم metadata إن وجدت
             details = sess.get("metadata", {}) or details
         except Exception as exc:
             print("[stripe retrieve] error:", exc)
 
-    return render_template("book_success.html", paid=paid, details=details)
+    return render_template("book_success.html", paid=paid, details=details, data=session.get("last_booking"))
 
 # =========================
-# إنشاء PDF + إرسال بريد (لـ Moyasar بعد العودة)
+# إنشاء PDF + إرسال بريد (لمويصر بعد العودة)
 # =========================
 def build_invoice_pdf(data: dict) -> bytes:
     """ينشئ PDF بسيط للفاتورة من بيانات الحجز."""
@@ -499,6 +499,64 @@ def pay_webhook():
     invoice_id = obj.get("id") or obj.get("invoice_id")
     print(f"[Webhook] kind={kind} status={status} invoice={invoice_id}")
     return jsonify({"ok": True})
+
+# =========================
+# رحلاتي (محجوزة/منتهية) - بيانات تجريبية
+# =========================
+@app.route("/my-trips")
+def my_trips():
+    last = session.get("last_booking")
+
+    active_trips = []
+    if last:
+        active_trips.append({
+            "title": last["trip"]["title"],
+            "city":  last["trip"]["city"],
+            "date":  last.get("date") or "—",
+            "days":  last["days"],
+            "persons": last.get("persons", 1),
+            "cover": last["trip"].get("images", ["images/jeddah_1.JPG"])[0],
+            "people": ["images/guide1.PNG", "images/guide2.PNG"],
+            "gallery": last["trip"].get("images", ["images/jeddah_1.JPG", "images/riyadh_1.JPG", "images/yanbu_1.JPG"])[:3],
+            "status": "upcoming",
+        })
+
+    past_trips = [
+        {
+            "title": "جولة جدة التاريخية",
+            "city":  "جدة",
+            "date":  "2024-11-10",
+            "days":  2,
+            "persons": 3,
+            "cover": "images/jeddah_2.JPG",
+            "people": ["images/guide2.PNG", "images/guide3.PNG"],
+            "gallery": ["images/jeddah_1.JPG", "images/jeddah_3.JPG", "images/jeddah_4.JPG"],
+            "status": "past",
+        },
+        {
+            "title": "تجربة العلا الصحراوية",
+            "city":  "العلا",
+            "date":  "2024-12-22",
+            "days":  1,
+            "persons": 2,
+            "cover": "images/ala_2.JPG",
+            "people": ["images/guide1.PNG"],
+            "gallery": ["images/ala_1.JPG", "images/ala_3.JPG", "images/ala_4.JPG"],
+            "status": "past",
+        },
+        {
+            "title": "إطلالة الرياض",
+            "city":  "الرياض",
+            "date":  "2025-01-15",
+            "days":  1,
+            "persons": 4,
+            "cover": "images/riyadh_2.JPG",
+            "people": ["images/guide3.PNG"],
+            "gallery": ["images/riyadh_1.JPG", "images/riyadh_3.JPG", "images/riyadh_2.JPG"],
+            "status": "past",
+        },
+    ]
+    return render_template("my_trips.html", active_trips=active_trips, past_trips=past_trips)
 
 # ===== فافيكون + أخطاء =====
 @app.route("/favicon.ico")
