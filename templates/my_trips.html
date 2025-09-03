@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}رحلاتي — وجهة السعودية{% endblock %}
+
+{% block content %}
+<section class="container" style="padding:20px 0">
+  <h1 class="page-title">رحلاتي</h1>
+
+  <h2 class="section-title" style="margin-top:8px;">الرحلات المحجوزة (القادمة)</h2>
+  {% if active_trips and active_trips|length > 0 %}
+    <div class="cards">
+      {% for t in active_trips %}
+      <article class="card">
+        <div class="card__imgwrap" style="position:relative;">
+          <img class="card__img" src="{{ url_for('static', filename=t.cover) }}" alt="{{ t.title }}">
+          <span class="badge" style="position:absolute;top:8px;left:8px;">قادم</span>
+        </div>
+        <div class="card__body">
+          <h3 class="card__title" style="margin-bottom:4px;">{{ t.title }}</h3>
+          <p class="muted" style="margin:0 0 8px;">{{ t.city }} • {{ t.date }} • {{ t.days }} يوم • {{ t.persons }} أشخاص</p>
+
+          {% if t.people %}
+          <div class="avatars" style="display:flex;gap:6px;margin:8px 0;">
+            {% for p in t.people %}
+              <img src="{{ url_for('static', filename=p) }}" alt="شخص" width="36" height="36"
+                   style="border-radius:50%;object-fit:cover;border:1px solid #eee;">
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% if t.gallery %}
+          <div class="thumbs" style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;">
+            {% for g in t.gallery %}
+              <a href="{{ url_for('static', filename=g) }}" target="_blank" rel="noopener">
+                <img src="{{ url_for('static', filename=g) }}" alt="صورة" width="96" height="72"
+                     style="object-fit:cover;border-radius:6px;border:1px solid #eee;">
+              </a>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <div class="card__actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+            <a class="btn btn--primary" href="{{ url_for('booking', trip='') }}">حجز رحلة أخرى</a>
+            <a class="btn btn--ghost" href="{{ url_for('trips') }}">استكشاف الرحلات</a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="muted">لا توجد رحلات قادمة حاليًا.</p>
+  {% endif %}
+
+  <h2 class="section-title" style="margin-top:18px;">الرحلات المنتهية</h2>
+  {% if past_trips and past_trips|length > 0 %}
+    <div class="cards">
+      {% for t in past_trips %}
+      <article class="card">
+        <div class="card__imgwrap" style="position:relative;">
+          <img class="card__img" src="{{ url_for('static', filename=t.cover) }}" alt="{{ t.title }}">
+          <span class="badge" style="position:absolute;top:8px;left:8px;background:#777;">منتهية</span>
+        </div>
+        <div class="card__body">
+          <h3 class="card__title" style="margin-bottom:4px;">{{ t.title }}</h3>
+          <p class="muted" style="margin:0 0 8px;">{{ t.city }} • {{ t.date }} • {{ t.days }} يوم • {{ t.persons }} أشخاص</p>
+
+          {% if t.people %}
+          <div class="avatars" style="display:flex;gap:6px;margin:8px 0;">
+            {% for p in t.people %}
+              <img src="{{ url_for('static', filename=p) }}" alt="شخص" width="36" height="36"
+                   style="border-radius:50%;object-fit:cover;border:1px solid #eee;">
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% if t.gallery %}
+          <div class="thumbs" style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;">
+            {% for g in t.gallery %}
+              <a href="{{ url_for('static', filename=g) }}" target="_blank" rel="noopener">
+                <img src="{{ url_for('static', filename=g) }}" alt="صورة" width="96" height="72"
+                     style="object-fit:cover;border-radius:6px;border:1px solid #eee;">
+              </a>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <div class="card__actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+            <a class="btn btn--ghost" href="{{ url_for('trips') }}">استكشاف الرحلات</a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="muted">لا توجد رحلات منتهية للعرض.</p>
+  {% endif %}
+</section>
+{% endblock %}
